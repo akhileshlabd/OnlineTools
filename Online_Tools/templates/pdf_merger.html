@@ -1,53 +1,152 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PDF Merger - YourTools</title>
-  
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- Your custom CSS -->
-  <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PDF Merger</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f4f4f9;
+    }
+    .file-list {
+      list-style: none;
+      padding: 0;
+    }
+    .file-item {
+      background: #fff;
+      padding: 10px 15px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      cursor: move;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .file-name {
+      flex-grow: 1;
+    }
+    .delete-btn {
+      border: none;
+      background: none;
+      color: red;
+      font-size: 1.2em;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <div class="container mt-5 p-4 bg-dark rounded shadow-lg" style="max-width: 600px;">
-    <h1 class="mb-4 text-primary glow-text text-center">PDF Merger</h1>
+<div class="container py-5">
+  <h2 class="mb-4 text-center">📄 PDF Merger Tool</h2>
+  <form id="pdfForm">
+    <div class="mb-3">
+      <label for="pdfs" class="form-label">Select PDF Files (you can reorder them):</label>
+      <input class="form-control" type="file" id="pdfs" name="pdfs" multiple accept="application/pdf">
+    </div>
+    <ul class="file-list" id="fileList"></ul>
+    <button type="submit" class="btn btn-primary mt-3">Merge PDFs</button>
+  </form>
+</div>
 
-    <!-- Flash messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
+<script>
+const pdfInput = document.getElementById('pdfs');
+const fileList = document.getElementById('fileList');
+const form = document.getElementById('pdfForm');
+let selectedFiles = [];
 
-    <form method="POST" enctype="multipart/form-data" novalidate>
-      <div class="mb-4">
-        <label for="pdfs" class="form-label text-white fw-semibold">Select PDFs to merge (select multiple):</label>
-        <input
-          type="file"
-          class="form-control form-control-lg"
-          id="pdfs"
-          name="pdfs"
-          accept=".pdf"
-          multiple
-          required
-        />
-      </div>
-      <button type="submit" class="btn btn-primary w-100 glow-button fw-semibold fs-5">Merge PDFs</button>
-    </form>
+pdfInput.addEventListener('change', () => {
+  const newFiles = Array.from(pdfInput.files);
 
-    <a href="{{ url_for('index') }}" class="btn btn-secondary mt-4 d-block mx-auto px-4 py-2 glow-button" style="width: fit-content;">
-      ← Back to Home
-    </a>
-  </div>
+  // Merge existing and new files while avoiding duplicates
+  for (const file of newFiles) {
+    if (!selectedFiles.some(f => f.name === file.name && f.size === file.size)) {
+      selectedFiles.push(file);
+    }
+  }
 
-  <!-- Bootstrap JS Bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  renderFileList();
+
+  // Reset the file input so same file can be added again later
+  pdfInput.value = '';
+});
+
+function renderFileList() {
+  fileList.innerHTML = '';
+  selectedFiles.forEach((file, index) => {
+    const li = document.createElement('li');
+    li.className = 'file-item';
+    li.draggable = true;
+    li.dataset.index = index;
+
+    const span = document.createElement('span');
+    span.className = 'file-name';
+    span.textContent = file.name;
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'delete-btn';
+    delBtn.innerHTML = '❌';
+    delBtn.onclick = () => {
+      selectedFiles.splice(index, 1);
+      renderFileList();
+    };
+
+    li.appendChild(span);
+    li.appendChild(delBtn);
+    fileList.appendChild(li);
+  });
+}
+
+fileList.addEventListener('dragstart', e => {
+  if (e.target.classList.contains('file-item')) {
+    e.dataTransfer.setData('text/plain', e.target.dataset.index);
+  }
+});
+
+fileList.addEventListener('dragover', e => e.preventDefault());
+
+fileList.addEventListener('drop', e => {
+  e.preventDefault();
+  const draggedIndex = parseInt(e.dataTransfer.getData('text/plain'));
+  const target = e.target.closest('.file-item');
+  if (!target) return;
+  const targetIndex = parseInt(target.dataset.index);
+
+  if (draggedIndex !== targetIndex) {
+    const draggedFile = selectedFiles.splice(draggedIndex, 1)[0];
+    selectedFiles.splice(targetIndex, 0, draggedFile);
+    renderFileList();
+  }
+});
+
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  if (selectedFiles.length < 2) {
+    alert('Please select at least two PDF files.');
+    return;
+  }
+
+  const formData = new FormData();
+  selectedFiles.forEach((file, index) => {
+    formData.append('pdfs[]', file);
+    formData.append('order[]', index);
+  });
+
+  const response = await fetch('/pdf-merger/merge', {
+    method: 'POST',
+    body: formData
+  });
+
+  if (response.ok) {
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'merged.pdf';
+    link.click();
+  } else {
+    alert('Failed to merge PDF files.');
+  }
+});
+</script>
 </body>
 </html>
