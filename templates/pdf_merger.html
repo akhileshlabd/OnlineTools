@@ -33,6 +33,11 @@
       font-size: 1.2em;
       cursor: pointer;
     }
+    .spinner-container {
+      display: none;
+      justify-content: center;
+      margin-top: 15px;
+    }
   </style>
 </head>
 <body>
@@ -45,6 +50,13 @@
     </div>
     <ul class="file-list" id="fileList"></ul>
     <button type="submit" class="btn btn-primary mt-3">Merge PDFs</button>
+
+    <div class="spinner-container" id="spinnerContainer">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Merging...</span>
+      </div>
+      <span class="ms-2">Merging PDFs, please wait...</span>
+    </div>
   </form>
 </div>
 
@@ -52,21 +64,17 @@
 const pdfInput = document.getElementById('pdfs');
 const fileList = document.getElementById('fileList');
 const form = document.getElementById('pdfForm');
+const spinnerContainer = document.getElementById('spinnerContainer');
 let selectedFiles = [];
 
 pdfInput.addEventListener('change', () => {
   const newFiles = Array.from(pdfInput.files);
-
-  // Merge existing and new files while avoiding duplicates
   for (const file of newFiles) {
     if (!selectedFiles.some(f => f.name === file.name && f.size === file.size)) {
       selectedFiles.push(file);
     }
   }
-
   renderFileList();
-
-  // Reset the file input so same file can be added again later
   pdfInput.value = '';
 });
 
@@ -110,7 +118,6 @@ fileList.addEventListener('drop', e => {
   const target = e.target.closest('.file-item');
   if (!target) return;
   const targetIndex = parseInt(target.dataset.index);
-
   if (draggedIndex !== targetIndex) {
     const draggedFile = selectedFiles.splice(draggedIndex, 1)[0];
     selectedFiles.splice(targetIndex, 0, draggedFile);
@@ -120,10 +127,13 @@ fileList.addEventListener('drop', e => {
 
 form.addEventListener('submit', async e => {
   e.preventDefault();
+
   if (selectedFiles.length < 2) {
     alert('Please select at least two PDF files.');
     return;
   }
+
+  spinnerContainer.style.display = 'flex';
 
   const formData = new FormData();
   selectedFiles.forEach((file, index) => {
@@ -131,23 +141,31 @@ form.addEventListener('submit', async e => {
     formData.append('order[]', index);
   });
 
-  const response = await fetch('/pdf-merger/merge', {
-    method: 'POST',
-    body: formData
-  });
+  try {
+    const response = await fetch('/pdf-merger/merge', {
+      method: 'POST',
+      body: formData
+    });
 
-  if (response.ok) {
-    const blob = await response.blob();
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'merged.pdf';
-    link.click();
-  } else {
-    alert('Failed to merge PDF files.');
+    spinnerContainer.style.display = 'none';
+
+    if (response.ok) {
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'merged.pdf';
+      link.click();
+    } else {
+      alert('Failed to merge PDF files.');
+    }
+  } catch (error) {
+    spinnerContainer.style.display = 'none';
+    alert('Error: ' + error.message);
   }
 });
 </script>
+
 <a href="{{ url_for('home') }}" class="btn btn-back mt-3 d-block mx-auto px-4 py-1 fw-semibold">
   ← Back to Home
 </a>
