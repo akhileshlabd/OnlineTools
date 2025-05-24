@@ -1,13 +1,16 @@
 from flask import Flask, request, render_template, send_file, jsonify
 from PIL import Image
+from PyPDF2 import PdfMerger
 import io
 
 app = Flask(__name__)
 
+# ---------------- Home ----------------
 @app.route('/')
 def home():
     return render_template('index.html')
 
+# ---------------- Image Resizer ----------------
 @app.route('/resizer')
 def resizer():
     return render_template('resizer.html')
@@ -42,9 +45,7 @@ def resize():
         resized_img = img.resize((width, height), Image.LANCZOS)
 
         buf = io.BytesIO()
-
-        orig_filename = file.filename
-        name, ext = orig_filename.rsplit('.', 1)
+        name, ext = file.filename.rsplit('.', 1)
         ext = ext.lower()
 
         if ext in ['jpg', 'jpeg']:
@@ -73,45 +74,38 @@ def resize():
         return jsonify({'error': str(e)}), 500
 
 # ---------------- PDF Merger ----------------
-@app.route('/pdf-merger', methods=['GET', 'POST'])
-def pdf_merger():
-    if request.method == 'POST':
-        files = request.files.getlist('pdfs')
-        if not files or all(f.filename == '' for f in files):
-            flash('No files selected. Please upload at least two PDFs.', 'danger')
-            return redirect(request.url)
+@app.route('/pdf-merger')
+def pdf_merger_page():
+    return render_template('pdf_merger.html')
 
-        pdfs = []
-        for file in files:
-            if file and allowed_file(file.filename, ALLOWED_PDF_EXTENSIONS):
-                pdfs.append(file)
-            else:
-                flash(f"File {file.filename} is not a valid PDF.", 'danger')
-                return redirect(request.url)
+@app.route('/pdf-merger/merge', methods=['POST'])
+def pdf_merge():
+    try:
+        files = request.files.getlist('pdfs[]')
+        order = request.form.getlist('order[]')
 
-        if len(pdfs) < 2:
-            flash('Please upload at least two PDF files to merge.', 'warning')
-            return redirect(request.url)
+        if not files or len(files) < 2:
+            return jsonify({'error': 'Please upload at least two PDF files'}), 400
+
+        sorted_files = sorted(zip(order, files), key=lambda x: int(x[0]))
 
         merger = PdfMerger()
-        try:
-            for pdf in pdfs:
-                merger.append(pdf.stream)
-            output_stream = io.BytesIO()
-            merger.write(output_stream)
-            merger.close()
-            output_stream.seek(0)
-            return send_file(
-                output_stream,
-                download_name='merged.pdf',
-                as_attachment=True,
-                mimetype='application/pdf'
-            )
-        except Exception as e:
-            flash(f'Error merging PDFs: {str(e)}', 'danger')
-            return redirect(request.url)
+        for _, file in sorted_files:
+            merger.append(file.stream)
 
-    return render_template('pdf_merger.html')
+        output = io.BytesIO()
+        merger.write(output)
+        merger.close()
+        output.seek(0)
+
+        return send_file(
+            output,
+            as_attachment=True,
+            download_name='merged.pdf',
+            mimetype='application/pdf'
+        )
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
