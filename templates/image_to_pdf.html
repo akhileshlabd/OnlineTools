@@ -1,22 +1,381 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Image to PDF Converter</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #0a182e, #1f2c56);
+      color: #eee;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background: #14253dcc;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 0 25px #00d8ff88;
+    }
+    h2 {
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      color: #00d8ff;
+      user-select: none;
+    }
+    input[type="file"] {
+      background: #0f1b38;
+      border-radius: 6px;
+      border: 1px solid #00d8ff66;
+      color: #ccc;
+      font-weight: 600;
+      padding: 0.4rem 0.75rem;
+      transition: border-color 0.3s;
+      width: 100%;
+    }
+    input[type="file"]:focus {
+      outline: none;
+      border-color: #00d8ff;
+      box-shadow: 0 0 8px #00d8ffaa;
+    }
+    .preview-container {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      cursor: grab;
+      user-select: none;
+    }
+    .preview-item {
+      position: relative;
+      width: 110px;
+      height: 110px;
+      border: 2px solid #00d8ff;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #0f1b38;
+      box-shadow: 0 0 8px #00d8ff99;
+      transition: transform 0.2s ease;
+    }
+    .preview-item.dragging {
+      opacity: 0.6;
+      transform: scale(1.1);
+      z-index: 10;
+    }
+    .preview-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+      user-select: none;
+    }
+    .remove-btn {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background: #ff4e42dd;
+      border: none;
+      color: white;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 22px;
+      cursor: pointer;
+      box-shadow: 0 0 6px #ff4e42cc;
+      transition: background-color 0.25s;
+    }
+    .remove-btn:hover {
+      background: #ff1a0aee;
+      box-shadow: 0 0 10px #ff1a0aaa;
+    }
+    .progress {
+      height: 22px;
+      margin-top: 20px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #223355;
+      box-shadow: inset 0 0 6px #00d8ff66;
+    }
+    .progress-bar {
+      font-weight: 600;
+      color: #004466dd;
+      line-height: 22px;
+      text-align: center;
+      white-space: nowrap;
+      user-select: none;
+    }
+    button#convertBtn {
+      margin-top: 25px;
+      width: 100%;
+      font-weight: 700;
+      font-size: 1.1rem;
+      background: #00d8ff;
+      border: none;
+      color: #001d29;
+      padding: 0.75rem 0;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #00d8ffbb;
+      transition: background-color 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    button#convertBtn:disabled {
+      background: #00557799;
+      box-shadow: none;
+      cursor: not-allowed;
+      color: #004466cc;
+    }
+  </style>
 </head>
-<body class="bg-dark text-white">
-  <div class="container py-5">
-    <h2 class="text-center mb-4">🖼️➡️📄 Image to PDF Converter</h2>
-    <form action="{{ url_for('image_to_pdf') }}" method="POST" enctype="multipart/form-data" class="text-center">
-      <input type="file" name="images" accept="image/*" multiple required class="form-control mb-3">
-      <button type="submit" class="btn btn-info">Convert to PDF</button>
-    </form>
-    {% if download_link %}
-      <div class="text-center mt-4">
-        <a href="{{ download_link }}" class="btn btn-success">Download PDF</a>
+<body>
+  <div class="container" role="main">
+    <h2>🖼️➡️📄 Image to PDF Converter</h2>
+    <form id="imageToPdfForm" action="{{ url_for('image_to_pdf') }}" method="POST" enctype="multipart/form-data" novalidate>
+      <input
+        type="file"
+        id="imageInput"
+        name="images"
+        accept="image/*"
+        multiple
+        aria-describedby="instructions"
+        aria-label="Select images to convert to PDF"
+      />
+      <small id="instructions" class="d-block mt-2 text-info text-center">
+        Select one or more images. Drag to reorder previews. Remove unwanted images.
+      </small>
+
+      <div id="previewContainer" class="preview-container" aria-live="polite" aria-relevant="additions removals"></div>
+
+      <!-- Upload Progress Bar -->
+      <div id="uploadProgressWrapper" class="progress" style="display:none;" aria-hidden="true" aria-live="assertive">
+        <div
+          id="uploadProgressBar"
+          class="progress-bar progress-bar-striped progress-bar-animated bg-info"
+          role="progressbar"
+          style="width: 0%"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+        >Uploading...</div>
       </div>
-    {% endif %}
+
+      <!-- Converting Progress Bar -->
+      <div id="convertProgressWrapper" class="progress" style="display:none;" aria-hidden="true" aria-live="assertive">
+        <div
+          id="convertProgressBar"
+          class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+          role="progressbar"
+          style="width: 0%"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+        >Converting...</div>
+      </div>
+
+      <button type="submit" id="convertBtn" disabled>Convert to PDF</button>
+    </form>
   </div>
+
+<script>
+  const imageInput = document.getElementById('imageInput');
+  const previewContainer = document.getElementById('previewContainer');
+  const form = document.getElementById('imageToPdfForm');
+  const convertBtn = document.getElementById('convertBtn');
+
+  const uploadProgressWrapper = document.getElementById('uploadProgressWrapper');
+  const uploadProgressBar = document.getElementById('uploadProgressBar');
+  const convertProgressWrapper = document.getElementById('convertProgressWrapper');
+  const convertProgressBar = document.getElementById('convertProgressBar');
+
+  // Manage files separately since input.files is readonly
+  let filesArray = [];
+
+  // Update submit button state
+  function updateConvertButton() {
+    convertBtn.disabled = filesArray.length === 0;
+  }
+
+  // Render image previews
+  function renderPreviews() {
+    previewContainer.innerHTML = '';
+    filesArray.forEach((file, index) => {
+      const previewItem = document.createElement('div');
+      previewItem.className = 'preview-item';
+      previewItem.setAttribute('draggable', 'true');
+      previewItem.setAttribute('data-index', index);
+      previewItem.setAttribute('aria-label', `Image ${index + 1}: ${file.name}`);
+
+      // Remove button
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'remove-btn';
+      removeBtn.type = 'button';
+      removeBtn.title = 'Remove image';
+      removeBtn.innerHTML = '&times;';
+      removeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        filesArray.splice(index, 1);
+        renderPreviews();
+        updateConvertButton();
+        imageInput.value = ''; // reset input to allow re-upload same file if needed
+      });
+
+      // Image preview
+      const img = document.createElement('img');
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+
+      previewItem.appendChild(removeBtn);
+      previewItem.appendChild(img);
+      previewContainer.appendChild(previewItem);
+    });
+    initDragAndDrop();
+  }
+
+  // Drag and drop reorder logic
+  function initDragAndDrop() {
+    let dragSrcEl = null;
+
+    function handleDragStart(e) {
+      dragSrcEl = this;
+      this.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    }
+
+    function handleDragOver(e) {
+      if (e.preventDefault) e.preventDefault();
+      return false;
+    }
+
+    function handleDrop(e) {
+      if (e.stopPropagation) e.stopPropagation();
+
+      if (dragSrcEl !== this) {
+        const srcIndex = Number(dragSrcEl.dataset.index);
+        const destIndex = Number(this.dataset.index);
+
+        // Move dragged file in filesArray to new position
+        const draggedFile = filesArray.splice(srcIndex, 1)[0];
+        filesArray.splice(destIndex, 0, draggedFile);
+
+        renderPreviews();
+      }
+      return false;
+    }
+
+    function handleDragEnd() {
+      previewContainer.querySelectorAll('.preview-item').forEach(item => {
+        item.classList.remove('dragging');
+      });
+    }
+
+    previewContainer.querySelectorAll('.preview-item').forEach(item => {
+      item.addEventListener('dragstart', handleDragStart);
+      item.addEventListener('dragover', handleDragOver);
+      item.addEventListener('drop', handleDrop);
+      item.addEventListener('dragend', handleDragEnd);
+    });
+  }
+
+  // Add new files from input
+  imageInput.addEventListener('change', (e) => {
+    const selectedFiles = Array.from(e.target.files);
+    for (const file of selectedFiles) {
+      // Avoid duplicates by name+size
+      if (!filesArray.some(f => f.name === file.name && f.size === file.size)) {
+        filesArray.push(file);
+      }
+    }
+    renderPreviews();
+    updateConvertButton();
+  });
+
+  // Handle form submission with progress bars
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    if (filesArray.length === 0) {
+      alert('Please select at least one image to convert.');
+      return;
+    }
+
+    const formData = new FormData();
+    filesArray.forEach(f => formData.append('images', f));
+
+    // Reset and show upload progress
+    uploadProgressBar.style.width = '0%';
+    uploadProgressBar.textContent = 'Uploading...';
+    uploadProgressWrapper.style.display = 'block';
+
+    // Hide converting bar initially
+    convertProgressWrapper.style.display = 'none';
+
+    convertBtn.disabled = true;
+
+    fetch(form.action, {
+      method: 'POST',
+      body: formData,
+    }).then(response => {
+      uploadProgressWrapper.style.display = 'none';
+      if (!response.ok) throw new Error(`Server error: ${response.statusText}`);
+
+      // Show converting progress bar for demo
+      convertProgressWrapper.style.display = 'block';
+
+      // Fake progress update (since no direct way to track conversion)
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += 10;
+        convertProgressBar.style.width = progress + '%';
+        convertProgressBar.textContent = `Converting... ${progress}%`;
+        convertProgressBar.setAttribute('aria-valuenow', progress);
+
+        if (progress >= 100) {
+          clearInterval(interval);
+          convertProgressBar.textContent = 'Done!';
+          return;
+        }
+      }, 200);
+
+      return response.blob();
+    }).then(blob => {
+      if (!blob) return;
+
+      // Download PDF file
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'converted.pdf';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+
+      // Reset everything after download
+      filesArray = [];
+      renderPreviews();
+      updateConvertButton();
+      convertProgressWrapper.style.display = 'none';
+      convertBtn.disabled = true;
+      imageInput.value = '';
+    }).catch(err => {
+      uploadProgressWrapper.style.display = 'none';
+      convertProgressWrapper.style.display = 'none';
+      convertBtn.disabled = false;
+      alert('Error: ' + err.message);
+    });
+  });
+</script>
 </body>
 </html>
