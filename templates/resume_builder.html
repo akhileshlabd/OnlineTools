@@ -123,8 +123,34 @@
         <label for="education">Education</label>
         <textarea id="education" name="education" rows="3" class="form-control"></textarea>
       </div>
+       <!-- New dynamic sections container -->
+      <div id="dynamic-sections-container">
+        <h5>Additional Sections</h5>
+        <div class="dynamic-section mb-3">
+          <label>Section Title</label>
+          <input type="text" name="section_title[]" class="form-control mb-1" placeholder="Section Title" />
+          <label>Section Content</label>
+          <textarea name="section_content[]" rows="3" class="form-control mb-2" placeholder="Section Content"></textarea>
+        </div>
+      </div>
+      <button type="button" class="btn btn-secondary mb-3" id="add-section-btn">Add Section</button>
+
       <button type="submit" class="btn btn-primary">Generate PDF</button>
     </form>
   </div>
+  <script>
+    document.getElementById('add-section-btn').addEventListener('click', () => {
+      const container = document.getElementById('dynamic-sections-container');
+      const section = document.createElement('div');
+      section.classList.add('dynamic-section', 'mb-3');
+      section.innerHTML = `
+        <label>Section Title</label>
+        <input type="text" name="section_title[]" class="form-control mb-1" placeholder="Section Title" />
+        <label>Section Content</label>
+        <textarea name="section_content[]" rows="3" class="form-control mb-2" placeholder="Section Content"></textarea>
+      `;
+      container.appendChild(section);
+    });
+  </script>
 </body>
 </html>
