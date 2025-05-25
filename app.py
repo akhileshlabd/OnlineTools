@@ -3,7 +3,7 @@ from PIL import Image
 from PyPDF2 import PdfMerger
 from weasyprint import HTML
 import io
-# from rembg import remove
+from rembg import remove
 
 app = Flask(__name__)
 
@@ -154,59 +154,34 @@ def pdf_merge():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 # ---------------- Background Remover ----------------
-# @app.route('/background_remover')
-# def background_remover():
-#     return render_template('background_remover.html')
+# ---------------- Background Remover ----------------
+@app.route('/background_remover')
+def background_remover():
+    return render_template('background_remover.html')
+   
 
-# @app.route('/background_remover/remove', methods=['POST'])
-# def remove_background():
-#     try:
-#         if 'image' not in request.files:
-#             return jsonify({'error': 'No image uploaded'}), 400
+@app.route('/remove-bg', methods=['POST'])
+def remove_bg():
+    try:
+        file = request.files['image']
+        hex_color = request.form.get('bgcolor', '#FFFFFF')
 
-#         file = request.files['image']
-#         if file.filename == '':
-#             return jsonify({'error': 'No selected file'}), 400
+        input_data = file.read()
+        result_data = remove(input_data)
 
-#         input_image = Image.open(file.stream).convert("RGBA")
-#         output_image = remove(input_image)
+        # Open output with alpha channel
+        img = Image.open(io.BytesIO(result_data)).convert("RGBA")
+        background = Image.new("RGBA", img.size, hex_color)
+        composited = Image.alpha_composite(background, img).convert("RGB")
 
-#         buf = io.BytesIO()
-#         output_image.save(buf, format='PNG')
-#         buf.seek(0)
+        output = io.BytesIO()
+        composited.save(output, format='PNG')
+        output.seek(0)
 
-#         return send_file(
-#             buf,
-#             mimetype='image/png',
-#             as_attachment=True,
-#             download_name='no_background.png'
-#         )
-#     except Exception as e:
-#         return jsonify({'error': str(e)}), 500
-    
-    
-# @app.route('/remove-bg', methods=['POST'])
-# def remove_bg():
-#     try:
-#         file = request.files['image']
-#         hex_color = request.form.get('bgcolor', '#FFFFFF')
+        return send_file(output, mimetype='image/png')
 
-#         input_data = file.read()
-#         result_data = remove(input_data)
-
-#         # Open output with alpha channel
-#         img = Image.open(io.BytesIO(result_data)).convert("RGBA")
-#         background = Image.new("RGBA", img.size, hex_color)
-#         composited = Image.alpha_composite(background, img).convert("RGB")
-
-#         output = io.BytesIO()
-#         composited.save(output, format='PNG')
-#         output.seek(0)
-
-#         return send_file(output, mimetype='image/png')
-
-#     except Exception as e:
-#         return jsonify({'error': str(e)}), 500   
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500 
 
 
 if __name__ == '__main__':
