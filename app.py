@@ -1,7 +1,5 @@
 from flask import Flask, request, render_template, send_file, jsonify,make_response
 from PIL import Image
-from PyPDF2 import PdfMerger
-from weasyprint import HTML
 import io
 # from rembg import remove
 
@@ -90,6 +88,7 @@ def resume_builder():
 #     return response
 @app.route('/generate_resume', methods=['POST'])
 def generate_resume():
+    from weasyprint import HTML
     data = request.form.to_dict()
     section_titles = request.form.getlist('section_title[]')
     section_contents = request.form.getlist('section_content[]')
@@ -127,6 +126,7 @@ def pdf_merger_page():
 
 @app.route('/pdf-merger/merge', methods=['POST'])
 def pdf_merge():
+    from PyPDF2 import PdfMerger
     try:
         files = request.files.getlist('pdfs[]')
         order = request.form.getlist('order[]')
