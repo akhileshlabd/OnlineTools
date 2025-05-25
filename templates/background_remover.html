@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Background Remover</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    .preview-img {
+      max-width: 100%;
+      border-radius: 8px;
+      border: 2px solid #ccc;
+    }
+    .progress-wrapper {
+      display: none;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body class="bg-dark text-light">
+  <div class="container py-5 text-center">
+    <h1 class="mb-4">🧼 Background Remover</h1>
+    <form id="uploadForm">
+      <input type="file" name="image" accept="image/*" class="form-control mb-3" required>
+      <div class="d-flex align-items-center gap-3 justify-content-center mb-3">
+            <label for="bgcolor" class="form-label mb-0">Select Background Color:</label>
+            <input type="color" name="bgcolor" id="bgcolor" value="#ffffff" class="form-control form-control-color" style="width: 50px; height: 50px; padding: 0; border: none;" />
+      </div>
+
+      <button type="submit" class="btn btn-primary">Upload Image</button>
+    </form>
+
+    <div class="progress-wrapper">
+      <div class="spinner-border text-info" role="status"></div>
+      <p id="progress-text" class="mt-2">Uploading...</p>
+      <div class="progress mt-2" style="height: 20px;">
+        <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%">0%</div>
+      </div>
+    </div>
+
+    <div class="row mt-5" id="result" style="display: none;">
+      <h3><a id="download-link" class="btn btn-success mb-2" download="background_removed.png">⬇️ Download</a></h3>
+      <div class="col-md-6">
+        <p>Original</p>
+        <img id="original-image" class="preview-img">
+      </div>
+      <div class="col-md-6">
+        <p>Processed</p>
+        <img id="processed-image" class="preview-img">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    const progressWrapper = document.querySelector('.progress-wrapper');
+    const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('progress-text');
+    const result = document.getElementById('result');
+
+    form.onsubmit = async function (e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const fileInput = form.querySelector('input[type="file"]');
+      const file = fileInput.files[0];
+      const originalURL = URL.createObjectURL(file);
+      document.getElementById('original-image').src = originalURL;
+      result.style.display = "none";
+      progressWrapper.style.display = "block";
+
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "/remove-bg", true);
+
+      xhr.upload.onprogress = function (e) {
+        if (e.lengthComputable) {
+          const percent = Math.round((e.loaded / e.total) * 100);
+          progressBar.style.width = percent + "%";
+          progressBar.innerText = percent + "%";
+          progressText.innerText = "Uploading...";
+        }
+      };
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          progressBar.style.width = "100%";
+          progressBar.innerText = "100%";
+          progressText.innerText = "Processing...";
+
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const blob = new Blob([xhr.response], { type: "image/png" });
+            const objectURL = URL.createObjectURL(blob);
+            document.getElementById("processed-image").src = objectURL;
+            document.getElementById("download-link").href = objectURL;
+            progressWrapper.style.display = "none";
+            result.style.display = "flex";
+          };
+          reader.readAsArrayBuffer(xhr.response);
+        }
+      };
+
+      xhr.responseType = "blob";
+      xhr.send(formData);
+    };
+  </script>
+</body>
+</html>
