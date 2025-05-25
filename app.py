@@ -1,6 +1,7 @@
-from flask import Flask, request, render_template, send_file, jsonify
+from flask import Flask, request, render_template, send_file, jsonify,make_response
 from PIL import Image
 from PyPDF2 import PdfMerger
+from weasyprint import HTML
 import io
 
 app = Flask(__name__)
