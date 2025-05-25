@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Futuristic Resume Builder</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+    body {
+      background: #0f111a;
+      color: #c7d2fe;
+      font-family: 'Orbitron', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 600px;
+      background: linear-gradient(145deg, #1a1c29, #11131f);
+      border-radius: 16px;
+      box-shadow: 0 0 25px 2px #7f9cf5, 0 0 40px 6px #3740ff44;
+      padding: 30px 40px;
+      border: 1px solid #3740ff88;
+      backdrop-filter: blur(8px);
+      animation: pulseShadow 3s ease-in-out infinite alternate;
+    }
+    @keyframes pulseShadow {
+      0% {
+        box-shadow: 0 0 25px 2px #7f9cf5, 0 0 40px 6px #3740ff44;
+      }
+      100% {
+        box-shadow: 0 0 30px 4px #a7b1ff, 0 0 50px 10px #4a54ff88;
+      }
+    }
+    h1 {
+      text-align: center;
+      color: #82aaff;
+      text-shadow: 0 0 8px #82aaffaa;
+      letter-spacing: 2px;
+      margin-bottom: 30px;
+      font-weight: 700;
+    }
+    label {
+      color: #9ba9ff;
+      letter-spacing: 1px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: block;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+    input.form-control,
+    textarea.form-control {
+      background: #12142a;
+      border: 1.8px solid #3340ffbb;
+      border-radius: 8px;
+      color: #d6e0ff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1rem;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: inset 0 0 10px #20235f;
+    }
+    input.form-control:focus,
+    textarea.form-control:focus {
+      border-color: #86aaff;
+      box-shadow: 0 0 12px #7f9cff;
+      outline: none;
+      background: #171936;
+      color: #c3d0ff;
+    }
+    .btn-primary {
+      background: linear-gradient(90deg, #3949ff, #1a1aff);
+      border: none;
+      border-radius: 10px;
+      padding: 12px 25px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 1.4px;
+      box-shadow: 0 0 15px #6e78ffaa;
+      transition: background 0.4s ease, box-shadow 0.4s ease;
+      width: 100%;
+      margin-top: 20px;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(90deg, #586dff, #2222ff);
+      box-shadow: 0 0 20px #8a95ffdd;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Resume Builder</h1>
+    <form method="POST" action="/generate_resume" target="_blank" autocomplete="off">
+      <div class="mb-3">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" class="form-control" required />
+      </div>
+      <div class="mb-3">
+        <label for="job_title">Job Title</label>
+        <input type="text" id="job_title" name="job_title" class="form-control" required />
+      </div>
+      <div class="mb-3">
+        <label for="contact">Contact Info (email, phone, etc.)</label>
+        <textarea id="contact" name="contact" rows="2" class="form-control"></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="skills">Skills (comma separated)</label>
+        <input type="text" id="skills" name="skills" class="form-control" />
+      </div>
+      <div class="mb-3">
+        <label for="profile">Profile Summary</label>
+        <textarea id="profile" name="profile" rows="3" class="form-control"></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="experience">Work Experience</label>
+        <textarea id="experience" name="experience" rows="4" class="form-control"></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="education">Education</label>
+        <textarea id="education" name="education" rows="3" class="form-control"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Generate PDF</button>
+    </form>
+  </div>
+</body>
+</html>
