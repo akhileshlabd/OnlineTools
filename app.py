@@ -182,7 +182,35 @@ def remove_bg():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500 
+#--------image to PDF-----------------------------
+ # ✅ Define this function before it's used
+app.config['UPLOAD_FOLDER'] = 'uploads'
+app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg'}
 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']    
+@app.route('/image-to-pdf', methods=['GET', 'POST'])
+def image_to_pdf():  
+   
+
+    if request.method == 'POST':
+        images = request.files.getlist('images')
+        image_list = []
+
+        for image_file in images:
+            if image_file and allowed_file(image_file.filename):
+                img = Image.open(image_file).convert('RGB')
+                image_list.append(img)
+
+        if image_list:
+            pdf_io = io.BytesIO()
+            image_list[0].save(pdf_io, format='PDF', save_all=True, append_images=image_list[1:])
+            pdf_io.seek(0)
+            return send_file(pdf_io, mimetype='application/pdf', as_attachment=True, download_name='converted.pdf')
+        else:
+            return "No valid images uploaded.", 400
+
+    return render_template('image_to_pdf.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
