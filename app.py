@@ -3,7 +3,7 @@ from PIL import Image
 from PyPDF2 import PdfMerger
 from weasyprint import HTML
 import io
-from rembg import remove
+# from rembg import remove
 
 app = Flask(__name__)
 
