@@ -72,7 +72,33 @@ def resize():
         )
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+# --------------- Resume Builder -------------
+@app.route('/resume_builder')
+def resume_builder():
+    return render_template('resume_builder.html')
 
+@app.route('/generate_resume', methods=['POST'])
+def generate_resume():
+    data = request.form.to_dict()
+    rendered = render_template('resume_template.html', **data)
+    pdf = HTML(string=rendered).write_pdf()
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline; filename=resume.pdf'
+    return response
+
+@app.route('/preview_resume', methods=['POST'])
+def preview_resume():
+    data = {
+        "name": request.form['name'],
+        "job_title": request.form['job_title'],
+        "contact": request.form['contact'],
+        "profile": request.form['profile'],
+        "experience": request.form['experience'],
+        "education": request.form['education'],
+        "skills": request.form['skills'],
+    }
+    return render_template('resume_template.html', **data)
 # ---------------- PDF Merger ----------------
 @app.route('/pdf-merger')
 def pdf_merger_page():
