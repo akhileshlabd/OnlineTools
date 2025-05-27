@@ -3,67 +3,167 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Home - YourTools</title>
+  <title>Free Qube - All Tools in One Place</title>
+
+  <!-- Meta for SEO -->
+  <meta name="description" content="Free Qube: Free online PDF, image, and resume tools with no login or watermark." />
+  <meta name="keywords" content="PDF tools, Image tools, Resume builder, merge PDF, resize image, no watermark" />
+
+  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
   <style>
     body {
-      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-      color: #fff;
+      background: #f9fbff;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #333;
     }
-    .glow-text {
-      font-size: 3rem;
-      text-shadow: 0 0 10px #f0f0f0, 0 0 20px #00f7ff;
+
+    .navbar {
+      background: white;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    .glow-button {
-      background: #00f7ff;
-      color: #000;
+
+    .logo {
+      height: 40px;
+    }
+
+    .nav-tabs {
+      border-bottom: none;
+    }
+
+    .tab-button {
+      background: transparent;
       border: none;
-      font-weight: bold;
-      transition: transform 0.2s, box-shadow 0.2s;
+      color: #010810;
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0 1rem;
+      padding: 0.5rem 0;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
     }
-    .glow-button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px #00f7ff;
+
+    .tab-button.active {
+      border-color: #000409;
     }
+
+    .hero {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #555;
+    }
+
+    .tool-section {
+      display: none;
+    }
+
+    .tool-section.active {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
     .tool-card {
-      background: rgba(255, 255, 255, 0.05);
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
       border-radius: 1rem;
-      padding: 2rem;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      padding: 2rem 1.5rem;
+      width: 220px;
+      text-align: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .tool-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 15px rgba(0, 123, 255, 0.15);
+    }
+
+    .tool-card i {
+      font-size: 2rem;
+      color: #000307;
+      margin-bottom: 0.6rem;
+    }
+
+    .tool-card a {
+      text-decoration: none;
+      color: #000102;
+      font-weight: 500;
+      display: block;
     }
   </style>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7852131472234228"
-     crossorigin="anonymous">    
-  </script>
 </head>
 <body>
-  <div class="container py-5 text-center">
-    <div class="tool-card">
-      <h1 class="mb-4  glow-text">Welcome to Your Daily Tools</h1>
-      <p class="lead mb-5">Choose a tool below to get started.</p>
 
-      <div class="d-flex justify-content-center flex-wrap gap-3">
-        <a href="{{ url_for('resizer') }}" class="btn glow-button btn-lg px-5 py-3">
-          🖼️ Image Resizer
-        </a>
-        <a href="{{ url_for('pdf_merger_page') }}" class="btn glow-button btn-lg px-5 py-3">
-          📄 PDF Merger
-        </a>
-        <a href="{{ url_for('resume_builder') }}" class="btn glow-button btn-lg px-5 py-3">
-          📄 Resume Builder
-        </a>
-<!--         <a href="{{ url_for('background_remover') }}" class="btn glow-button btn-lg px-5 py-3">
-          🧼 Background Remover
-        </a> -->
-        <a href="{{ url_for('image_to_pdf') }}" class="btn glow-button btn-lg px-5 py-3">
-          📄 Image to PDF
-        </a>
+  <!-- Header/Navbar -->
+  <div class="navbar">
+    <div class="d-flex align-items-center">
+    <img src="{{ url_for('static', filename='logo2.png') }}" alt="Logo" class="logo me-3" />
+      <div>
+        <button class="tab-button active" onclick="showCategory('pdf')">📄 PDF</button>
+        <button class="tab-button" onclick="showCategory('image')">🖼️ Image</button>
+        <button class="tab-button" onclick="showCategory('resume')">📑 Resume</button>
       </div>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Main Heading -->
+  <div class="hero">
+    <h1>Free Online Tools for Everyone</h1>
+    <p>No Login Required. No Watermarks. Just Free, High-Quality Tools.</p>
+  </div>
+
+  <!-- Tool Sections -->
+  <div id="pdf" class="tool-section active">
+    <div class="tool-card">
+      <a href="/pdf-merger"><i class="fas fa-file-pdf"></i> Merge PDFs</a>
+    </div>
+    <div class="tool-card">
+      <a href="/image-to-pdf"><i class="fas fa-file-image"></i> Image to PDF</a>
+    </div>
+  </div>
+
+  <div id="image" class="tool-section">
+    <div class="tool-card">
+      <a href="/resizer"><i class="fas fa-expand-arrows-alt"></i> Resize Image</a>
+    </div>
+    <div class="tool-card">
+      <a href="/background-remover"><i class="fas fa-eraser"></i> Remove Background</a>
+    </div>
+  </div>
+
+  <div id="resume" class="tool-section">
+    <div class="tool-card">
+      <a href="/resume_builder"><i class="fas fa-file-alt"></i> Resume Builder</a>
+    </div>
+  </div>
+
+  <script>
+    function showCategory(category) {
+      document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tool-section').forEach(section => section.classList.remove('active'));
+      document.getElementById(category).classList.add('active');
+      document.querySelector(`.tab-button[onclick="showCategory('${category}')"]`).classList.add('active');
+    }
+  </script>
+
 </body>
 </html>
