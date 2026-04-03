@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, send_file, jsonify,make_response
+from flask import Flask, request, render_template, send_file, jsonify,make_response,send_from_directory
 from PIL import Image
 import io
 # from rembg import remove
@@ -9,7 +9,10 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     return render_template('index.html')
-
+@app.route('/ads.txt')
+#-------adsense--------------------
+def static_from_root():
+    return send_from_directory(app.static_folder,'ads.txt')
 # ---------------- Image Resizer ----------------
 @app.route('/resizer')
 def resizer():
