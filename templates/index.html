@@ -13,68 +13,56 @@
 <div class="row g-4 justify-content-center mb-5">
     
     <!-- PDF -->
-    <div class="col-md-6 col-lg-4">
-        <a href="{{ url_for('pdf.pdf_hub') }}" class="text-decoration-none">
-            <div class="card h-100 border-0 shadow-sm tool-card text-center p-4">
-                <div class="icon-wrapper mx-auto mb-3 text-danger" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-file-pdf"></i></div>
-                <h3 class="fw-bold text-dark fs-4">PDF Tools</h3>
-                <p class="text-muted mb-0">Merge, split, edit, and compress PDF files easily and securely.</p>
-            </div>
+    <div class="col-md-6 col-lg-4 d-flex">
+        <a href="{{ url_for('pdf.pdf_hub') }}" class="tool-card w-100 p-4 shadow-sm">
+            <div class="icon-wrapper mx-auto mb-3 text-danger" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-file-pdf"></i></div>
+            <h3 class="fw-bold text-dark fs-4">PDF Tools</h3>
+            <p class="text-muted mb-0">Merge, split, edit, and compress PDF files easily and securely.</p>
         </a>
     </div>
 
     <!-- Image -->
-    <div class="col-md-6 col-lg-4">
-        <a href="{{ url_for('image.image_hub') }}" class="text-decoration-none">
-            <div class="card h-100 border-0 shadow-sm tool-card text-center p-4">
-                <div class="icon-wrapper mx-auto mb-3 text-success" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-image"></i></div>
-                <h3 class="fw-bold text-dark fs-4">Image Tools</h3>
-                <p class="text-muted mb-0">Resize, convert, compress images and generate custom QR codes.</p>
-            </div>
+    <div class="col-md-6 col-lg-4 d-flex">
+        <a href="{{ url_for('image.image_hub') }}" class="tool-card w-100 p-4 shadow-sm">
+            <div class="icon-wrapper mx-auto mb-3 text-success" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-image"></i></div>
+            <h3 class="fw-bold text-dark fs-4">Image Tools</h3>
+            <p class="text-muted mb-0">Resize, convert, compress images and generate custom QR codes.</p>
         </a>
     </div>
 
     <!-- Finance -->
-    <div class="col-md-6 col-lg-4">
-        <a href="{{ url_for('finance.finance_hub') }}" class="text-decoration-none">
-            <div class="card h-100 border-0 shadow-sm tool-card text-center p-4">
-                <div class="icon-wrapper mx-auto mb-3 text-primary" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-calculator"></i></div>
-                <h3 class="fw-bold text-dark fs-4">Finance Tools</h3>
-                <p class="text-muted mb-0">Calculate SIP, EMI, Lumpsum, and Fixed Deposit returns instantly.</p>
-            </div>
+    <div class="col-md-6 col-lg-4 d-flex">
+        <a href="{{ url_for('finance.finance_hub') }}" class="tool-card w-100 p-4 shadow-sm">
+            <div class="icon-wrapper mx-auto mb-3 text-primary" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-calculator"></i></div>
+            <h3 class="fw-bold text-dark fs-4">Finance Tools</h3>
+            <p class="text-muted mb-0">Calculate SIP, EMI, Lumpsum, and Fixed Deposit returns instantly.</p>
         </a>
     </div>
 
     <!-- Text & SEO -->
-    <div class="col-md-6 col-lg-4">
-        <a href="{{ url_for('text.text_hub') }}" class="text-decoration-none">
-            <div class="card h-100 border-0 shadow-sm tool-card text-center p-4">
-                <div class="icon-wrapper mx-auto mb-3 text-info" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-font"></i></div>
-                <h3 class="fw-bold text-dark fs-4">Text & SEO</h3>
-                <p class="text-muted mb-0">Count words, convert case, and generate Lorem Ipsum placeholders.</p>
-            </div>
+    <div class="col-md-6 col-lg-4 d-flex">
+        <a href="{{ url_for('text.text_hub') }}" class="tool-card w-100 p-4 shadow-sm">
+            <div class="icon-wrapper mx-auto mb-3 text-info" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-font"></i></div>
+            <h3 class="fw-bold text-dark fs-4">Text & SEO</h3>
+            <p class="text-muted mb-0">Count words, convert case, and generate Lorem Ipsum placeholders.</p>
         </a>
     </div>
 
     <!-- Health -->
-    <div class="col-md-6 col-lg-4">
-        <a href="{{ url_for('health.health_hub') }}" class="text-decoration-none">
-            <div class="card h-100 border-0 shadow-sm tool-card text-center p-4">
-                <div class="icon-wrapper mx-auto mb-3 text-danger" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-heartbeat"></i></div>
-                <h3 class="fw-bold text-dark fs-4">Health Calculators</h3>
-                <p class="text-muted mb-0">Calculate BMI, daily calories, TDEE, and pregnancy due dates.</p>
-            </div>
+    <div class="col-md-6 col-lg-4 d-flex">
+        <a href="{{ url_for('health.health_hub') }}" class="tool-card w-100 p-4 shadow-sm">
+            <div class="icon-wrapper mx-auto mb-3 text-danger" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-heartbeat"></i></div>
+            <h3 class="fw-bold text-dark fs-4">Health Calculators</h3>
+            <p class="text-muted mb-0">Calculate BMI, daily calories, TDEE, and pregnancy due dates.</p>
         </a>
     </div>
 
     <!-- Code / Dev -->
-    <div class="col-md-6 col-lg-4">
-        <a href="{{ url_for('code.code_hub') }}" class="text-decoration-none">
-            <div class="card h-100 border-0 shadow-sm tool-card text-center p-4">
-                <div class="icon-wrapper mx-auto mb-3 text-dark" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-code"></i></div>
-                <h3 class="fw-bold text-dark fs-4">Developer Tools</h3>
-                <p class="text-muted mb-0">Format JSON, check code diffs, encode Base64, and generate hashes.</p>
-            </div>
+    <div class="col-md-6 col-lg-4 d-flex">
+        <a href="{{ url_for('code.code_hub') }}" class="tool-card w-100 p-4 shadow-sm">
+            <div class="icon-wrapper mx-auto mb-3 text-dark" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-code"></i></div>
+            <h3 class="fw-bold text-dark fs-4">Developer Tools</h3>
+            <p class="text-muted mb-0">Format JSON, check code diffs, encode Base64, and generate hashes.</p>
         </a>
     </div>
 
