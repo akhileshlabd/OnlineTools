@@ -7,9 +7,10 @@ from routes.resume import resume_bp
 
 app = Flask(__name__)
 
-# Global configs
+# Global configs & Best Practices
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg'}
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 # 50 MB max file size limit to protect the server
 
 # Register Blueprints
 app.register_blueprint(pdf_bp)

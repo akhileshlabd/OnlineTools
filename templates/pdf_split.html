@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block title %}Split PDF - Free Qube{% endblock %}
+
+{% block content %}
+<div class="tool-interface">
+    <div class="text-center mb-4">
+        <h2 class="fw-bold">Split PDF</h2>
+        <p class="text-muted">Extract specific pages from your PDF file quickly and securely.</p>
+    </div>
+
+    <form id="splitForm">
+        <div class="drag-drop-area mb-4" id="dropArea" onclick="document.getElementById('pdfInput').click()">
+            <i class="fas fa-file-export text-danger"></i>
+            <h4>Select PDF file</h4>
+            <p class="text-muted mb-0">or drop PDF here</p>
+            <input class="d-none" type="file" id="pdfInput" name="pdf" accept="application/pdf" required>
+        </div>
+
+        <div id="fileInfoContainer" class="text-center mb-4 p-3 bg-light rounded shadow-sm border" style="display:none;">
+            <i class="fas fa-file-pdf text-danger fs-4 mb-2"></i>
+            <h5 id="fileName" class="mb-1 text-truncate"></h5>
+            <small class="text-muted" id="fileSize"></small>
+        </div>
+
+        <div class="row g-3 justify-content-center mb-4" id="pageRangeContainer" style="display:none;">
+            <div class="col-md-5">
+                <label for="start_page" class="form-label fw-bold">Start Page</label>
+                <input type="number" class="form-control" id="start_page" name="start_page" min="1" value="1" required>
+            </div>
+            <div class="col-md-5">
+                <label for="end_page" class="form-label fw-bold">End Page</label>
+                <input type="number" class="form-control" id="end_page" name="end_page" min="1" placeholder="Leave empty for last page">
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-danger btn-lg rounded-pill px-5 fw-bold shadow-sm" id="splitBtn" style="display:none;">
+                <i class="fas fa-cut me-2"></i>Split PDF
+            </button>
+        </div>
+        
+        <div class="text-center mt-3" id="spinnerContainer" style="display: none;">
+            <div class="spinner-border text-danger" role="status">
+                <span class="visually-hidden">Splitting...</span>
+            </div>
+            <p class="mt-2 text-muted">Extracting pages, please wait...</p>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const form = document.getElementById('splitForm');
+const pdfInput = document.getElementById('pdfInput');
+const dropArea = document.getElementById('dropArea');
+const splitBtn = document.getElementById('splitBtn');
+const fileInfoContainer = document.getElementById('fileInfoContainer');
+const pageRangeContainer = document.getElementById('pageRangeContainer');
+const fileName = document.getElementById('fileName');
+const fileSize = document.getElementById('fileSize');
+const spinnerContainer = document.getElementById('spinnerContainer');
+
+dropArea.addEventListener('dragover', (e) => { e.preventDefault(); dropArea.classList.add('dragover'); });
+dropArea.addEventListener('dragleave', () => { dropArea.classList.remove('dragover'); });
+dropArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropArea.classList.remove('dragover');
+    if (e.dataTransfer.files.length > 0) {
+        pdfInput.files = e.dataTransfer.files;
+        handleFileLoad();
+    }
+});
+
+pdfInput.addEventListener('change', handleFileLoad);
+
+function handleFileLoad() {
+    if (pdfInput.files && pdfInput.files[0]) {
+        const file = pdfInput.files[0];
+        
+        if (file.type !== 'application/pdf') {
+            alert('Please select a valid PDF file.');
+            pdfInput.value = '';
+            return;
+        }
+
+        fileName.textContent = file.name;
+        fileSize.textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
+        
+        fileInfoContainer.style.display = 'block';
+        pageRangeContainer.style.display = 'flex';
+        splitBtn.style.display = 'inline-block';
+    }
+}
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    spinnerContainer.style.display = 'block';
+    splitBtn.disabled = true;
+    
+    const formData = new FormData(form);
+    
+    try {
+        const response = await fetch('/pdf-splitter/split', {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (response.ok) {
+            const blob = await response.blob();
+            
+            // Get filename from Content-Disposition header if available
+            let downloadFilename = 'split.pdf';
+            const disposition = response.headers.get('Content-Disposition');
+            if (disposition && disposition.indexOf('attachment') !== -1) {
+                const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                const matches = filenameRegex.exec(disposition);
+                if (matches != null && matches[1]) { 
+                    downloadFilename = matches[1].replace(/['"]/g, '');
+                }
+            }
+
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = downloadFilename;
+            
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        } else {
+            const data = await response.json();
+            alert('Error: ' + (data.error || 'Failed to split PDF'));
+        }
+    } catch (error) {
+        alert('An error occurred while splitting the document.');
+    } finally {
+        spinnerContainer.style.display = 'none';
+        splitBtn.disabled = false;
+    }
+});
+</script>
+{% endblock %}
+

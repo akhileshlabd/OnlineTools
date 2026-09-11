@@ -27,6 +27,11 @@
             <h3>Merge PDF</h3>
             <p>Combine multiple PDFs into one unified document easily.</p>
         </a>
+        <a href="{{ url_for('pdf.pdf_splitter_page') }}" class="tool-card">
+            <div class="icon-wrapper pdf-icon"><i class="fas fa-file-export"></i></div>
+            <h3>Split PDF</h3>
+            <p>Extract specific pages from your PDF file securely.</p>
+        </a>
         <a href="{{ url_for('pdf.image_to_pdf') }}" class="tool-card">
             <div class="icon-wrapper pdf-icon"><i class="fas fa-file-image"></i></div>
             <h3>Image to PDF</h3>
@@ -41,6 +46,11 @@
             <div class="icon-wrapper img-icon"><i class="fas fa-expand-arrows-alt"></i></div>
             <h3>Resize Image</h3>
             <p>Change the dimensions of any image while maintaining aspect ratio.</p>
+        </a>
+        <a href="{{ url_for('image.image_converter_page') }}" class="tool-card">
+            <div class="icon-wrapper img-icon"><i class="fas fa-exchange-alt"></i></div>
+            <h3>Convert Image</h3>
+            <p>Convert and compress images to JPG, PNG, or WEBP.</p>
         </a>
         <a href="{{ url_for('image.background_remover') }}" class="tool-card">
             <div class="icon-wrapper img-icon"><i class="fas fa-eraser"></i></div>
