@@ -59,6 +59,16 @@
     {% block schema %}{% endblock %}
 
     {% block head %}{% endblock %}
+    <!-- Prevent Dark Mode FOUC -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if(savedTheme === 'dark' || (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+                document.documentElement.setAttribute('data-bs-theme', 'dark');
+            }
+        })();
+    </script>
+
 </head>
 <body class="bg-light d-flex flex-column min-vh-100">
 
@@ -82,6 +92,12 @@
 
                     <li class="nav-item"><a class="nav-link fw-semibold px-3" href="{{ url_for('code.code_hub') }}"><i class="fas fa-code text-dark me-1"></i> Dev</a></li>
                 </ul>
+                <div class="d-flex align-items-center ms-lg-3 mt-3 mt-lg-0">
+                    <button id="darkModeToggle" class="btn btn-outline-secondary rounded-circle" style="width:40px; height:40px;" aria-label="Toggle Dark Mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+
             </div>
         </div>
     </nav>
@@ -113,6 +129,38 @@
     <!-- SweetAlert2 for modern notifications -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     {% block scripts %}{% endblock %}
+    <!-- Dark Mode Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const toggleBtn = document.getElementById('darkModeToggle');
+            const icon = toggleBtn.querySelector('i');
+            
+            function setTheme(isDark) {
+                if(isDark) {
+                    document.documentElement.setAttribute('data-bs-theme', 'dark');
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    document.documentElement.removeAttribute('data-bs-theme');
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                    localStorage.setItem('theme', 'light');
+                }
+            }
+
+            const savedTheme = localStorage.getItem('theme');
+            if(savedTheme === 'dark' || (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+                setTheme(true);
+            }
+
+            toggleBtn.addEventListener('click', () => {
+                const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+                setTheme(!isDark);
+            });
+        });
+    </script>
+
 </body>
 </html>
 

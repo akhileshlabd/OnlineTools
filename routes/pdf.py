@@ -304,6 +304,6 @@ def process_dynamic_pdf(tool_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@pdf_bp.route('/')
+@pdf_bp.route('/pdf')
 def pdf_hub():
     return render_template('hub_pdf.html', pdf_tools=PDF_TOOLS)
