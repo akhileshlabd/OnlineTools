@@ -3,8 +3,15 @@
 {% block title %}Remove Background - Free Qube{% endblock %}
 
 {% block head %}
-<!-- Load imgly background removal locally via CDN -->
-<script src="https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.4.5/dist/imgly-background-removal.umd.js"></script>
+<!-- Load imgly background removal locally via ESM module -->
+<script type="module">
+    import imglyRemoveBackground from 'https://unpkg.com/@imgly/background-removal@1.4.5/dist/imgly-background-removal.esm.js';
+    window.imglyRemoveBackground = imglyRemoveBackground;
+    // Enable the button once loaded
+    document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById('loadingText').innerText = "AI Module Ready";
+    });
+</script>
 {% endblock %}
 
 {% block content %}
@@ -100,6 +107,10 @@ transparentBg.addEventListener('change', () => {
 
 removeBtn.addEventListener('click', async () => {
     if (!imageInput.files || !imageInput.files[0]) return;
+    if (typeof window.imglyRemoveBackground === 'undefined') {
+        alert("Please wait a moment for the AI engine to finish loading...");
+        return;
+    }
     
     spinnerContainer.style.display = 'block';
     removeBtn.disabled = true;
