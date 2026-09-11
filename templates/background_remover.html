@@ -2,11 +2,16 @@
 
 {% block title %}Remove Background - Free Qube{% endblock %}
 
+{% block head %}
+<!-- Load imgly background removal locally via CDN -->
+<script src="https://unpkg.com/@imgly/background-removal@1.4.5/dist/imgly-background-removal.umd.js"></script>
+{% endblock %}
+
 {% block content %}
 <div class="tool-interface">
     <div class="text-center mb-4">
         <h2 class="fw-bold">Background Remover</h2>
-        <p class="text-muted">Remove the background from any image and replace it with a solid color automatically.</p>
+        <p class="text-muted">Remove the background from any image instantly. Processed completely <b>on your device</b> for maximum privacy and speed.</p>
     </div>
 
     <form id="bgForm">
@@ -24,13 +29,16 @@
         <div class="row justify-content-center mb-4" id="colorPickerContainer" style="display: none;">
             <div class="col-md-6 text-center">
                 <label for="bgcolor" class="form-label fw-bold">Select New Background Color (Optional)</label>
-                <input type="color" class="form-control form-control-color w-100" id="bgcolor" name="bgcolor" value="#FFFFFF" title="Choose your color">
-                <small class="text-muted">By default, a white background is applied.</small>
+                <input type="color" class="form-control form-control-color w-100" id="bgcolor" name="bgcolor" value="#000000" title="Choose your color">
+                <div class="form-check mt-2 text-start d-inline-block">
+                    <input class="form-check-input" type="checkbox" id="transparentBg" checked>
+                    <label class="form-check-label text-muted" for="transparentBg">Keep Transparent</label>
+                </div>
             </div>
         </div>
 
         <div class="text-center">
-            <button type="submit" class="btn btn-info btn-lg rounded-pill px-5 fw-bold text-white shadow-sm" id="removeBtn" style="display:none;">
+            <button type="button" class="btn btn-info btn-lg rounded-pill px-5 fw-bold text-white shadow-sm" id="removeBtn" style="display:none;">
                 <i class="fas fa-magic me-2"></i>Remove Background
             </button>
         </div>
@@ -39,7 +47,7 @@
             <div class="spinner-border text-info" role="status">
                 <span class="visually-hidden">Processing...</span>
             </div>
-            <p class="mt-2 text-muted">Removing background, this may take a few seconds...</p>
+            <p class="mt-2 text-muted" id="loadingText">Downloading AI model... (only happens once)</p>
         </div>
     </form>
 </div>
@@ -47,7 +55,6 @@
 
 {% block scripts %}
 <script>
-const form = document.getElementById('bgForm');
 const imageInput = document.getElementById('imageInput');
 const dropArea = document.getElementById('dropArea');
 const removeBtn = document.getElementById('removeBtn');
@@ -55,6 +62,9 @@ const imagePreview = document.getElementById('imagePreview');
 const previewContainer = document.getElementById('imagePreviewContainer');
 const colorPickerContainer = document.getElementById('colorPickerContainer');
 const spinnerContainer = document.getElementById('spinnerContainer');
+const loadingText = document.getElementById('loadingText');
+const transparentBg = document.getElementById('transparentBg');
+const bgColor = document.getElementById('bgcolor');
 
 dropArea.addEventListener('dragover', (e) => { e.preventDefault(); dropArea.classList.add('dragover'); });
 dropArea.addEventListener('dragleave', () => { dropArea.classList.remove('dragover'); });
@@ -84,43 +94,82 @@ function handleImageLoad() {
     }
 }
 
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+transparentBg.addEventListener('change', () => {
+    bgColor.disabled = transparentBg.checked;
+});
+
+removeBtn.addEventListener('click', async () => {
+    if (!imageInput.files || !imageInput.files[0]) return;
     
     spinnerContainer.style.display = 'block';
     removeBtn.disabled = true;
     
-    const formData = new FormData(form);
-    
     try {
-        const response = await fetch('/remove-bg', {
-            method: 'POST',
-            body: formData
-        });
+        const imageFile = imageInput.files[0];
         
-        if (response.ok) {
-            const blob = await response.blob();
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            
-            const originalName = imageInput.files[0].name.split('.')[0];
-            a.download = `${originalName}_bg_removed.png`;
-            
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        } else {
-            const data = await response.json();
-            alert('Error: ' + (data.error || 'Failed to remove background'));
+        // Use client side background removal
+        loadingText.innerText = "Processing image locally using AI...";
+        const blob = await imglyRemoveBackground(imageFile, {
+            progress: (key, current, total) => {
+                if(key.includes("fetch")) {
+                    loadingText.innerText = `Downloading AI model: ${Math.round((current/total)*100)}%`;
+                }
+            }
+        });
+
+        let finalBlob = blob;
+        
+        // If they want a solid background color instead of transparent
+        if (!transparentBg.checked) {
+            finalBlob = await applyBackgroundColor(blob, bgColor.value);
         }
+        
+        const url = URL.createObjectURL(finalBlob);
+        const a = document.createElement('a');
+        a.href = url;
+        
+        const originalName = imageFile.name.split('.')[0];
+        a.download = `${originalName}_bg_removed.png`;
+        
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
     } catch (error) {
-        alert('An error occurred during processing.');
+        console.error(error);
+        alert('An error occurred during processing. Your browser might not support this feature or the image is too large.');
     } finally {
         spinnerContainer.style.display = 'none';
         removeBtn.disabled = false;
+        loadingText.innerText = "Processing...";
     }
 });
+
+// Helper to draw the blob onto a canvas with a background color
+function applyBackgroundColor(blob, hexColor) {
+    return new Promise((resolve) => {
+        const url = URL.createObjectURL(blob);
+        const img = new Image();
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            
+            // Draw background
+            ctx.fillStyle = hexColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw image on top
+            ctx.drawImage(img, 0, 0);
+            
+            canvas.toBlob((newBlob) => {
+                URL.revokeObjectURL(url);
+                resolve(newBlob);
+            }, 'image/png');
+        };
+        img.src = url;
+    });
+}
 </script>
 {% endblock %}

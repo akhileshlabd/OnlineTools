@@ -2,44 +2,81 @@
 
 {% block content %}
 <div class="text-center mb-4">
-    <h2 class="fw-bold text-dark mb-2">Every tool you need to work with PDFs and Images</h2>
-    <p class="text-muted mb-0">100% Free. No watermarks. No installation required.</p>
+    <h2 class="fw-bold text-dark mb-2">Every tool you need</h2>
+    <p class="text-muted mb-4">100% Free. No watermarks. No installation required.</p>
+
+    <!-- Tab Buttons -->
+    <div class="d-inline-flex bg-white rounded-pill p-1 shadow-sm border mb-4">
+        <button class="btn btn-primary rounded-pill px-4 fw-semibold tab-btn active" onclick="showCategory('pdf', this)">
+            <i class="fas fa-file-pdf me-2"></i>PDF
+        </button>
+        <button class="btn btn-light rounded-pill px-4 fw-semibold tab-btn text-secondary" onclick="showCategory('image', this)">
+            <i class="fas fa-image me-2"></i>Image
+        </button>
+        <button class="btn btn-light rounded-pill px-4 fw-semibold tab-btn text-secondary" onclick="showCategory('resume', this)">
+            <i class="fas fa-file-alt me-2"></i>Resume
+        </button>
+    </div>
 </div>
 
-<h4 class="mb-3 text-secondary border-bottom pb-1" id="pdf">PDF Tools</h4>
-<div class="tool-grid mb-4">
-    <a href="{{ url_for('pdf.pdf_merger_page') }}" class="tool-card">
-        <div class="icon-wrapper pdf-icon"><i class="fas fa-object-group"></i></div>
-        <h3>Merge PDF</h3>
-        <p>Combine multiple PDFs into one unified document easily.</p>
-    </a>
-    <a href="{{ url_for('pdf.image_to_pdf') }}" class="tool-card">
-        <div class="icon-wrapper pdf-icon"><i class="fas fa-file-image"></i></div>
-        <h3>Image to PDF</h3>
-        <p>Convert JPG, PNG, or GIF images to PDF in seconds.</p>
-    </a>
+<!-- Tab Sections -->
+<div id="pdf" class="tool-category">
+    <div class="tool-grid mb-4">
+        <a href="{{ url_for('pdf.pdf_merger_page') }}" class="tool-card">
+            <div class="icon-wrapper pdf-icon"><i class="fas fa-object-group"></i></div>
+            <h3>Merge PDF</h3>
+            <p>Combine multiple PDFs into one unified document easily.</p>
+        </a>
+        <a href="{{ url_for('pdf.image_to_pdf') }}" class="tool-card">
+            <div class="icon-wrapper pdf-icon"><i class="fas fa-file-image"></i></div>
+            <h3>Image to PDF</h3>
+            <p>Convert JPG, PNG, or GIF images to PDF in seconds.</p>
+        </a>
+    </div>
 </div>
 
-<h4 class="mb-3 text-secondary border-bottom pb-1" id="image">Image Tools</h4>
-<div class="tool-grid mb-4">
-    <a href="{{ url_for('image.resizer') }}" class="tool-card">
-        <div class="icon-wrapper img-icon"><i class="fas fa-expand-arrows-alt"></i></div>
-        <h3>Resize Image</h3>
-        <p>Change the dimensions of any image while maintaining aspect ratio.</p>
-    </a>
-    <a href="{{ url_for('image.background_remover') }}" class="tool-card">
-        <div class="icon-wrapper img-icon"><i class="fas fa-eraser"></i></div>
-        <h3>Remove Background</h3>
-        <p>Instantly remove backgrounds from images automatically.</p>
-    </a>
+<div id="image" class="tool-category" style="display: none;">
+    <div class="tool-grid mb-4">
+        <a href="{{ url_for('image.resizer') }}" class="tool-card">
+            <div class="icon-wrapper img-icon"><i class="fas fa-expand-arrows-alt"></i></div>
+            <h3>Resize Image</h3>
+            <p>Change the dimensions of any image while maintaining aspect ratio.</p>
+        </a>
+        <a href="{{ url_for('image.background_remover') }}" class="tool-card">
+            <div class="icon-wrapper img-icon"><i class="fas fa-eraser"></i></div>
+            <h3>Remove Background</h3>
+            <p>Instantly remove backgrounds from images automatically using local processing.</p>
+        </a>
+    </div>
 </div>
 
-<h4 class="mb-3 text-secondary border-bottom pb-1" id="resume">Resume Tools</h4>
-<div class="tool-grid mb-4">
-    <a href="{{ url_for('resume.resume_builder') }}" class="tool-card">
-        <div class="icon-wrapper doc-icon"><i class="fas fa-file-alt"></i></div>
-        <h3>Resume Builder</h3>
-        <p>Create professional resumes easily with dynamic sections.</p>
-    </a>
+<div id="resume" class="tool-category" style="display: none;">
+    <div class="tool-grid mb-4">
+        <a href="{{ url_for('resume.resume_builder') }}" class="tool-card">
+            <div class="icon-wrapper doc-icon"><i class="fas fa-file-alt"></i></div>
+            <h3>Resume Builder</h3>
+            <p>Create professional resumes easily with dynamic sections.</p>
+        </a>
+    </div>
 </div>
+
+<script>
+function showCategory(categoryId, btn) {
+    // Hide all categories
+    document.querySelectorAll('.tool-category').forEach(el => el.style.display = 'none');
+    
+    // Remove active styles from all buttons
+    document.querySelectorAll('.tab-btn').forEach(el => {
+        el.classList.remove('btn-primary', 'active', 'text-white');
+        el.classList.add('btn-light', 'text-secondary');
+    });
+
+    // Show target category
+    document.getElementById(categoryId).style.display = 'block';
+
+    // Add active styles to clicked button
+    btn.classList.remove('btn-light', 'text-secondary');
+    btn.classList.add('btn-primary', 'active', 'text-white');
+}
+</script>
 {% endblock %}
