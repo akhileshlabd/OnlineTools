@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block title %}{{ tool.seo_title }} - Free Qube{% endblock %}
+{% block meta_desc %}{{ tool.seo_desc }}{% endblock %}
+
+{% block schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "{{ tool.name }}",
+  "operatingSystem": "All",
+  "applicationCategory": "UtilitiesApplication",
+  "description": "{{ tool.seo_desc }}",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="tool-interface" style="max-width: 900px;">
+    <div class="text-center mb-5">
+        <div class="icon-wrapper mx-auto mb-3 text-secondary"><i class="fas {{ tool.icon }} fa-2x"></i></div>
+        <h2 class="fw-bold">{{ tool.name }}</h2>
+        <p class="text-muted">{{ tool.desc }}</p>
+    </div>
+
+    {% if tool.id == 'what-is-my-ip' %}
+    <div class="card shadow border-0 overflow-hidden mb-4">
+        <!-- Banner -->
+        <div class="bg-primary text-white p-5 text-center">
+            <p class="text-uppercase fw-bold mb-2 text-white-50">Your Public IP Address</p>
+            <h1 class="display-3 fw-bold mb-0" id="main-ip" style="word-break: break-all;">
+                {{ client_ip if client_ip else "Loading..." }}
+            </h1>
+            <button class="btn btn-light btn-sm mt-4 fw-bold rounded-pill px-4 shadow-sm text-primary" onclick="copyIp()">
+                <i class="fas fa-copy me-2"></i>Copy IP Address
+            </button>
+        </div>
+        
+        <!-- Details Grid -->
+        <div class="card-body p-4 p-md-5 bg-light position-relative">
+            <div id="loading-details" class="text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="text-muted mt-3">Fetching ISP & Location Data...</p>
+            </div>
+            
+            <div id="ip-details" class="row g-4" style="display: none;">
+                <!-- Left Col -->
+                <div class="col-md-6">
+                    <ul class="list-group list-group-flush bg-transparent">
+                        <li class="list-group-item bg-transparent border-bottom-0 py-3 d-flex align-items-center">
+                            <div class="icon-wrapper text-primary me-3 bg-white shadow-sm rounded-circle d-flex align-items-center justify-content-center" style="width:45px; height:45px;">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <p class="text-muted small fw-bold mb-0">LOCATION</p>
+                                <h5 class="fw-bold mb-0" id="loc-city">-</h5>
+                            </div>
+                        </li>
+                        <li class="list-group-item bg-transparent border-bottom-0 py-3 d-flex align-items-center">
+                            <div class="icon-wrapper text-primary me-3 bg-white shadow-sm rounded-circle d-flex align-items-center justify-content-center" style="width:45px; height:45px;">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div>
+                                <p class="text-muted small fw-bold mb-0">COUNTRY</p>
+                                <h5 class="fw-bold mb-0" id="loc-country">-</h5>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Right Col -->
+                <div class="col-md-6">
+                    <ul class="list-group list-group-flush bg-transparent">
+                        <li class="list-group-item bg-transparent border-bottom-0 py-3 d-flex align-items-center">
+                            <div class="icon-wrapper text-primary me-3 bg-white shadow-sm rounded-circle d-flex align-items-center justify-content-center" style="width:45px; height:45px;">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <div>
+                                <p class="text-muted small fw-bold mb-0">ISP / PROVIDER</p>
+                                <h5 class="fw-bold mb-0" id="loc-isp">-</h5>
+                            </div>
+                        </li>
+                        <li class="list-group-item bg-transparent border-bottom-0 py-3 d-flex align-items-center">
+                            <div class="icon-wrapper text-primary me-3 bg-white shadow-sm rounded-circle d-flex align-items-center justify-content-center" style="width:45px; height:45px;">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <div>
+                                <p class="text-muted small fw-bold mb-0">ASN</p>
+                                <h5 class="fw-bold mb-0" id="loc-asn">-</h5>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- SEO Content -->
+<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
+    <h2 class="fw-bold mb-3">About the {{ tool.name }} Tool</h2>
+    <p>Every time you connect to the internet, your device is assigned a public IP address. This address acts like a digital return address, allowing websites and servers to send information back to your computer. Our completely free <strong>{{ tool.name }}</strong> utility helps you securely verify exactly what address you are broadcasting to the world.</p>
+    
+    <h3 class="h5 fw-bold mt-4">Why check your IP address?</h3>
+    <ul>
+        <li><strong>VPN Verification:</strong> If you use a VPN for privacy, checking your IP address is the best way to ensure your VPN is actively masking your real location.</li>
+        <li><strong>Network Troubleshooting:</strong> IT administrators and tech support often need your public IP to whitelist your device or troubleshoot connection issues.</li>
+        <li><strong>Security Audits:</strong> Find out what location data your Internet Service Provider (ISP) is publicly sharing.</li>
+    </ul>
+    
+    <p class="mb-0">This tool provides instant results without storing any of your network data on our servers, ensuring your absolute privacy.</p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const toolId = "{{ tool.id }}";
+
+    function copyIp() {
+        const ip = document.getElementById('main-ip').innerText.trim();
+        navigator.clipboard.writeText(ip).then(() => {
+            Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'IP Copied to Clipboard', showConfirmButton: false, timer: 1500 });
+        });
+    }
+
+    if (toolId === 'what-is-my-ip') {
+        fetch('https://ipapi.co/json/')
+            .then(res => res.json())
+            .then(data => {
+                if(data.error) throw new Error(data.reason);
+                
+                // If python failed to get the IP, use the JS one
+                const currentIp = document.getElementById('main-ip').innerText.trim();
+                if(!currentIp || currentIp === "Loading...") {
+                    document.getElementById('main-ip').innerText = data.ip;
+                }
+                
+                document.getElementById('loc-city').innerText = data.city + ', ' + data.region;
+                document.getElementById('loc-country').innerText = data.country_name;
+                document.getElementById('loc-isp').innerText = data.org || "-";
+                document.getElementById('loc-asn').innerText = data.asn || "-";
+                
+                document.getElementById('loading-details').style.display = 'none';
+                document.getElementById('ip-details').style.display = 'flex';
+            })
+            .catch(err => {
+                document.getElementById('loading-details').innerHTML = '<p class="text-danger fw-bold"><i class="fas fa-exclamation-triangle me-2"></i> Failed to fetch location details.</p>';
+            });
+    }
+</script>
+{% endblock %}

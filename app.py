@@ -8,6 +8,7 @@ from routes.code import code_bp, CODE_TOOLS
 from routes.text import text_bp, TEXT_TOOLS
 from routes.health import health_bp, HEALTH_TOOLS
 from routes.math import math_bp, MATH_TOOLS
+from routes.network import network_bp, NETWORK_TOOLS
 
 app = Flask(__name__)
 
@@ -24,11 +25,12 @@ app.register_blueprint(code_bp)
 app.register_blueprint(text_bp)
 app.register_blueprint(health_bp)
 app.register_blueprint(math_bp)
+app.register_blueprint(network_bp)
 
 # ---------------- Home ----------------
 @app.route('/')
 def home():
-    return render_template('index.html', image_tools=IMAGE_TOOLS, pdf_tools=PDF_TOOLS, finance_tools=FINANCE_TOOLS, code_tools=CODE_TOOLS, text_tools=TEXT_TOOLS, health_tools=HEALTH_TOOLS, math_tools=MATH_TOOLS)
+    return render_template('index.html', image_tools=IMAGE_TOOLS, pdf_tools=PDF_TOOLS, finance_tools=FINANCE_TOOLS, code_tools=CODE_TOOLS, text_tools=TEXT_TOOLS, health_tools=HEALTH_TOOLS, math_tools=MATH_TOOLS, network_tools=NETWORK_TOOLS)
 
 # ---------------- Legal / Policies (AdSense Compliance) ----------------
 @app.route('/contact')
@@ -45,7 +47,8 @@ def sitemap():
                                code_tools=CODE_TOOLS, 
                                text_tools=TEXT_TOOLS, 
                                health_tools=HEALTH_TOOLS, 
-                               math_tools=MATH_TOOLS)
+                               math_tools=MATH_TOOLS,
+                               network_tools=NETWORK_TOOLS)
     response = make_response(template)
     response.headers["Content-Type"] = "application/xml"
     return response
