@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Free Online Image Tools - Free Qube{% endblock %}
+{% block meta_desc %}Free online image tools. Resize, convert, compress images and generate QR codes in your browser.{% endblock %}
+
+{% block content %}
+<div class="text-center mb-4">
+    <div class="icon-wrapper mx-auto mb-3 text-success"><i class="fas fa-image fa-2x"></i></div>
+    <h2 class="fw-bold text-dark mb-2">Image Tools</h2>
+    <p class="text-muted mb-4">Fast, client-side image processing. No server uploads required.</p>
+</div>
+
+<div class="tool-grid mb-4">
+    <a href="{{ url_for('image.resizer') }}" class="tool-card">
+        <div class="icon-wrapper img-icon"><i class="fas fa-expand-arrows-alt"></i></div>
+        <h3>Resize Image</h3>
+        <p>Change image dimensions with aspect ratio lock. 100% browser-side.</p>
+    </a>
+    <a href="{{ url_for('image.image_converter_page') }}" class="tool-card">
+        <div class="icon-wrapper img-icon"><i class="fas fa-exchange-alt"></i></div>
+        <h3>Convert Image</h3>
+        <p>Convert and compress images to JPG, PNG, or WEBP. 100% browser-side.</p>
+    </a>
+    <a href="{{ url_for('image.qr_generator') }}" class="tool-card">
+        <div class="icon-wrapper img-icon"><i class="fas fa-qrcode"></i></div>
+        <h3>QR Generator</h3>
+        <p>Create custom QR codes for URLs, Text, WiFi and more. 100% browser-side.</p>
+    </a>
+    {% for key, t in image_tools.items() %}
+    <a href="{{ url_for('image.dynamic_image_tool', tool_id=t.id) }}" class="tool-card">
+        <div class="icon-wrapper img-icon"><i class="fas {{ t.icon }}"></i></div>
+        <h3>{{ t.name }}</h3>
+        <p>{{ t.desc }}</p>
+    </a>
+    {% endfor %}
+</div>
+
+<!-- SEO Block -->
+<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
+    <h2 class="fw-bold mb-3">High-Quality Image Converters</h2>
+    <p>In addition to our document utilities, Free Qube features a powerful set of image tools. From resizing photographs without stretching or distorting the aspect ratio, to converting pictures into web-friendly formats like WEBP, PNG, and JPG, our image processing tools are built for speed. Many of our image tools run entirely in your web browser utilizing modern HTML5 and JavaScript technologies. This guarantees your photos remain completely private and process instantly without needing to wait for server uploads.</p>
+</div>
+{% endblock %}

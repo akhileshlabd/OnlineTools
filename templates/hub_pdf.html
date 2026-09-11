@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Free Online PDF Tools - Free Qube{% endblock %}
+{% block meta_desc %}Free online PDF tools. Merge, split, compress, and edit PDF files easily and securely.{% endblock %}
+
+{% block content %}
+<div class="text-center mb-4">
+    <div class="icon-wrapper mx-auto mb-3 text-danger"><i class="fas fa-file-pdf fa-2x"></i></div>
+    <h2 class="fw-bold text-dark mb-2">PDF Tools</h2>
+    <p class="text-muted mb-4">Everything you need to work with PDFs online.</p>
+</div>
+
+<div class="tool-grid mb-4">
+    <a href="{{ url_for('pdf.pdf_merger_page') }}" class="tool-card">
+        <div class="icon-wrapper pdf-icon"><i class="fas fa-object-group"></i></div>
+        <h3>Merge PDF</h3>
+        <p>Combine multiple PDFs into one unified document easily.</p>
+    </a>
+    <a href="{{ url_for('pdf.pdf_splitter_page') }}" class="tool-card">
+        <div class="icon-wrapper pdf-icon"><i class="fas fa-file-export"></i></div>
+        <h3>Split PDF</h3>
+        <p>Extract specific pages from your PDF file securely.</p>
+    </a>
+    <a href="{{ url_for('pdf.image_to_pdf') }}" class="tool-card">
+        <div class="icon-wrapper pdf-icon"><i class="fas fa-file-image"></i></div>
+        <h3>Image to PDF</h3>
+        <p>Convert JPG, PNG, or GIF images to PDF in seconds.</p>
+    </a>
+    {% for key, t in pdf_tools.items() %}
+    <a href="{{ url_for('pdf.dynamic_pdf_tool', tool_id=t.id) }}" class="tool-card">
+        <div class="icon-wrapper pdf-icon"><i class="fas {{ t.icon }}"></i></div>
+        <h3>{{ t.name }}</h3>
+        <p>{{ t.desc }}</p>
+    </a>
+    {% endfor %}
+</div>
+
+<!-- SEO Block -->
+<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
+    <h2 class="fw-bold mb-3">Comprehensive PDF Tools</h2>
+    <p>Working with PDF documents has never been easier. Whether you are a student compiling assignments, a professional managing contracts, or simply someone looking to organize their digital paperwork, Free Qube offers a suite of PDF tools to meet your needs. Our platform allows you to seamlessly merge multiple PDF files into a single, cohesive document. Need to extract specific pages? Our PDF splitter helps you divide large documents in seconds. You can also securely unlock password-protected files, rotate pages, or even convert a collection of images directly into a standard PDF file. Best of all, we never add watermarks to your finished documents.</p>
+</div>
+{% endblock %}

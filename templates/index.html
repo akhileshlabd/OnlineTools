@@ -1,194 +1,69 @@
 {% extends "base.html" %}
 
-{% block title %}Free Qube | Online PDF tools for PDF lovers & Image Utilities{% endblock %}
-{% block meta_desc %}Free Qube is an online service to work with PDF files completely free and easy to use. Merge PDF, split PDF, compress PDF, office to PDF, PDF to JPG and more.{% endblock %}
-
-{% block schema %}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  "itemListElement": [
-    {% for id, tool in pdf_tools.items() %}
-    {
-      "@type": "ListItem",
-      "position": {{ loop.index }},
-      "url": "{{ url_for('pdf.dynamic_pdf_tool', tool_id=id, _external=True) }}",
-      "name": "{{ tool.name }}",
-      "description": "{{ tool.desc }}"
-    }{% if not loop.last %},{% endif %}
-    {% endfor %}
-  ]
-}
-</script>
-{% endblock %}
+{% block title %}Free Qube | Online PDF tools for PDF lovers & Utilities{% endblock %}
+{% block meta_desc %}Free Qube is an online service providing 100% free PDF tools, Image converters, Financial Calculators, and Developer Utilities. No watermarks, easy to use.{% endblock %}
 
 {% block content %}
-<div class="text-center mb-4">
-    <h2 class="fw-bold text-dark mb-2">Every tool you need</h2>
-    <p class="text-muted mb-4">100% Free. No watermarks. No installation required. Most tools work entirely in your browser.</p>
-
-    <!-- Tab Buttons -->
-    <div class="d-inline-flex bg-white rounded-pill p-1 shadow-sm border mb-4">
-        <button class="btn btn-primary rounded-pill px-4 fw-semibold tab-btn active" onclick="showCategory('pdf', this)">
-            <i class="fas fa-file-pdf me-2"></i>PDF Tools
-        </button>
-        <button class="btn btn-light rounded-pill px-4 fw-semibold tab-btn text-secondary" onclick="showCategory('image', this)">
-            <i class="fas fa-image me-2"></i>Image Tools
-        </button>
-        <button class="btn btn-light rounded-pill px-4 fw-semibold tab-btn text-secondary" onclick="showCategory('finance', this)">
-        <button class="btn btn-light rounded-pill px-4 fw-semibold tab-btn text-secondary" onclick="showCategory('code', this)">
-            <i class="fas fa-code me-2"></i>Developer Tools
-        </button>
-            <i class="fas fa-calculator me-2"></i>Finance Tools
-        </button>
-    </div>
+<div class="text-center mb-5">
+    <h1 class="fw-bold text-dark mb-3">Every tool you need, completely free.</h1>
+    <p class="text-muted fs-5">No watermarks. No installation required. Most tools work entirely in your browser.</p>
 </div>
 
-<!-- PDF Tools -->
-<div id="pdf" class="tool-category">
-    <div class="tool-grid mb-4">
-        <a href="{{ url_for('pdf.pdf_merger_page') }}" class="tool-card">
-            <div class="icon-wrapper pdf-icon"><i class="fas fa-object-group"></i></div>
-            <h3>Merge PDF</h3>
-            <p>Combine multiple PDFs into one unified document easily.</p>
+<!-- Main Categories Grid -->
+<div class="row g-4 justify-content-center mb-5">
+    
+    <!-- PDF -->
+    <div class="col-md-6 col-lg-3">
+        <a href="{{ url_for('pdf.pdf_hub') }}" class="text-decoration-none">
+            <div class="card h-100 border-0 shadow-sm tool-card text-center p-4">
+                <div class="icon-wrapper mx-auto mb-3 text-danger" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-file-pdf"></i></div>
+                <h3 class="fw-bold text-dark fs-4">PDF Tools</h3>
+                <p class="text-muted mb-0">Merge, split, edit, and compress PDF files easily and securely.</p>
+            </div>
         </a>
-        <a href="{{ url_for('pdf.pdf_splitter_page') }}" class="tool-card">
-            <div class="icon-wrapper pdf-icon"><i class="fas fa-file-export"></i></div>
-            <h3>Split PDF</h3>
-            <p>Extract specific pages from your PDF file securely.</p>
-        </a>
-        <a href="{{ url_for('pdf.image_to_pdf') }}" class="tool-card">
-            <div class="icon-wrapper pdf-icon"><i class="fas fa-file-image"></i></div>
-            <h3>Image to PDF</h3>
-            <p>Convert JPG, PNG, or GIF images to PDF in seconds.</p>
-        </a>
-        {% for key, t in pdf_tools.items() %}
-        <a href="{{ url_for('pdf.dynamic_pdf_tool', tool_id=t.id) }}" class="tool-card">
-            <div class="icon-wrapper pdf-icon"><i class="fas {{ t.icon }}"></i></div>
-            <h3>{{ t.name }}</h3>
-            <p>{{ t.desc }}</p>
-        </a>
-        {% endfor %}
     </div>
-</div>
 
-<!-- Image Tools -->
-<div id="image" class="tool-category" style="display: none;">
-    <div class="tool-grid mb-4">
-        <a href="{{ url_for('image.resizer') }}" class="tool-card">
-            <div class="icon-wrapper img-icon"><i class="fas fa-expand-arrows-alt"></i></div>
-            <h3>Resize Image</h3>
-            <p>Change image dimensions with aspect ratio lock. 100% browser-side.</p>
+    <!-- Image -->
+    <div class="col-md-6 col-lg-3">
+        <a href="{{ url_for('image.image_hub') }}" class="text-decoration-none">
+            <div class="card h-100 border-0 shadow-sm tool-card text-center p-4">
+                <div class="icon-wrapper mx-auto mb-3 text-success" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-image"></i></div>
+                <h3 class="fw-bold text-dark fs-4">Image Tools</h3>
+                <p class="text-muted mb-0">Resize, convert, compress images and generate custom QR codes.</p>
+            </div>
         </a>
-        <a href="{{ url_for('image.image_converter_page') }}" class="tool-card">
-            <div class="icon-wrapper img-icon"><i class="fas fa-exchange-alt"></i></div>
-            <h3>Convert Image</h3>
-            <p>Convert and compress images to JPG, PNG, or WEBP. 100% browser-side.</p>
-        </a>
-        <a href="{{ url_for('image.qr_generator') }}" class="tool-card">
-            <div class="icon-wrapper img-icon"><i class="fas fa-qrcode"></i></div>
-            <h3>QR Generator</h3>
-            <p>Create custom QR codes for URLs, Text, WiFi and more. 100% browser-side.</p>
-        </a>
-
-        {% for key, t in image_tools.items() %}
-        <a href="{{ url_for('image.dynamic_image_tool', tool_id=t.id) }}" class="tool-card">
-            <div class="icon-wrapper img-icon"><i class="fas {{ t.icon }}"></i></div>
-            <h3>{{ t.name }}</h3>
-            <p>{{ t.desc }}</p>
-        </a>
-        {% endfor %}
     </div>
-</div>
 
-<!-- Finance Tools -->
-<div id="finance" class="tool-category" style="display: none;">
-    <div class="tool-grid mb-4">
-        {% for key, t in finance_tools.items() %}
-        <a href="{{ url_for('finance.calculator_page', tool_id=t.id) }}" class="tool-card">
-            <div class="icon-wrapper img-icon text-primary"><i class="fas {{ t.icon }}"></i></div>
-            <h3>{{ t.name }}</h3>
-            <p>{{ t.desc }}</p>
+    <!-- Finance -->
+    <div class="col-md-6 col-lg-3">
+        <a href="{{ url_for('finance.finance_hub') }}" class="text-decoration-none">
+            <div class="card h-100 border-0 shadow-sm tool-card text-center p-4">
+                <div class="icon-wrapper mx-auto mb-3 text-primary" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-calculator"></i></div>
+                <h3 class="fw-bold text-dark fs-4">Finance Tools</h3>
+                <p class="text-muted mb-0">Calculate SIP, EMI, Lumpsum, and Fixed Deposit returns instantly.</p>
+            </div>
         </a>
-        {% endfor %}
     </div>
-</div>
 
-
-<!-- Code Tools -->
-<div id="code" class="tool-category" style="display: none;">
-    <div class="tool-grid mb-4">
-        {% for key, t in code_tools.items() %}
-        <a href="{{ url_for('code.code_tool_page', tool_id=t.id) }}" class="tool-card">
-            <div class="icon-wrapper img-icon text-dark"><i class="fas {{ t.icon }}"></i></div>
-            <h3>{{ t.name }}</h3>
-            <p>{{ t.desc }}</p>
+    <!-- Code / Dev -->
+    <div class="col-md-6 col-lg-3">
+        <a href="{{ url_for('code.code_hub') }}" class="text-decoration-none">
+            <div class="card h-100 border-0 shadow-sm tool-card text-center p-4">
+                <div class="icon-wrapper mx-auto mb-3 text-dark" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-code"></i></div>
+                <h3 class="fw-bold text-dark fs-4">Developer Tools</h3>
+                <p class="text-muted mb-0">Format JSON, check code diffs, encode Base64, and generate hashes.</p>
+            </div>
         </a>
-        {% endfor %}
     </div>
-</div>
 
+</div>
 
 <!-- SEO Content for AdSense Compliance -->
 <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
     <h2 class="fw-bold mb-3">Welcome to Free Qube: Your All-in-One Online Utility Hub</h2>
-    <p>Finding a reliable, free, and secure online platform for your digital tasks can be a challenge. That’s why we built <strong>Free Qube</strong>. Our goal is to provide you with the most essential web-based utilities—ranging from advanced PDF manipulation to high-quality image conversion and professional resume building—all completely free of charge. You won't find any hidden paywalls, strict usage limits, or mandatory account registrations here. Just fast, simple, and effective tools designed to make your workflow smoother.</p>
+    <p>Finding a reliable, free, and secure online platform for your digital tasks can be a challenge. That’s why we built <strong>Free Qube</strong>. Our goal is to provide you with the most essential web-based utilities—ranging from advanced PDF manipulation to high-quality image conversion, financial planning, and developer coding tools—all completely free of charge. You won't find any hidden paywalls, strict usage limits, or mandatory account registrations here. Just fast, simple, and effective tools designed to make your workflow smoother.</p>
     
-    <h3 class="h5 fw-bold mt-4">Comprehensive PDF Tools</h3>
-    <p>Working with PDF documents has never been easier. Whether you are a student compiling assignments, a professional managing contracts, or simply someone looking to organize their digital paperwork, Free Qube offers a suite of PDF tools to meet your needs. Our platform allows you to seamlessly merge multiple PDF files into a single, cohesive document. Need to extract specific pages? Our PDF splitter helps you divide large documents in seconds. You can also securely unlock password-protected files, rotate pages, or even convert a collection of images directly into a standard PDF file. Best of all, we never add watermarks to your finished documents.</p>
-
-    <h3 class="h5 fw-bold mt-4">High-Quality Image Converters</h3>
-    <p>In addition to our document utilities, Free Qube features a powerful set of image tools. From resizing photographs without stretching or distorting the aspect ratio, to converting pictures into web-friendly formats like WEBP, PNG, and JPG, our image processing tools are built for speed. Many of our image tools run entirely in your web browser utilizing modern HTML5 and JavaScript technologies. This guarantees your photos remain completely private and process instantly without needing to wait for server uploads.</p>
-
     <h3 class="h5 fw-bold mt-4">Security and Privacy First</h3>
-    <p>We understand that the documents and images you process can contain sensitive information. We prioritize your privacy above everything else. Any file that must be uploaded to our server for processing is transmitted over a secure, encrypted HTTPS connection. Once your task is completed and your file is generated, our automated systems instantly delete your original and processed files from our servers. We do not keep backups, track your data, or analyze your files. You have complete peace of mind knowing your data is safe and secure.</p>
+    <p>We understand that the documents and images you process can contain sensitive information. We prioritize your privacy above everything else. Most of our tools, including our entire Image, Finance, and Developer suites, are designed to process your files locally inside your own web browser. This means your data is never even sent to our servers! For complex PDF tools that require server processing, we transmit your files over a secure, encrypted HTTPS connection, and automatically delete them immediately after your task is completed. You have complete peace of mind knowing your data is safe and secure.</p>
 </div>
-
-<script>
-function showCategory(categoryId, btn) {
-    document.querySelectorAll('.tool-category').forEach(el => el.style.display = 'none');
-    document.querySelectorAll('.tab-btn').forEach(el => {
-        el.classList.remove('btn-primary', 'active', 'text-white');
-        el.classList.add('btn-light', 'text-secondary');
-    });
-    
-    const categoryEl = document.getElementById(categoryId);
-    if (categoryEl) {
-        categoryEl.style.display = 'block';
-    }
-    
-    if (btn) {
-        btn.classList.remove('btn-light', 'text-secondary');
-        btn.classList.add('btn-primary', 'active', 'text-white');
-    } else {
-        const targetBtn = document.querySelector(`button[onclick*="'${categoryId}'"]`);
-        if (targetBtn) {
-            targetBtn.classList.remove('btn-light', 'text-secondary');
-            targetBtn.classList.add('btn-primary', 'active', 'text-white');
-        }
-    }
-}
-
-function handleHash() {
-    const hash = window.location.hash;
-    if (hash === '#image') {
-        showCategory('image');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (hash === '#pdf') {
-        showCategory('pdf');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (hash === '#code') {
-        showCategory('code');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    } else if (hash === '#finance') {
-        showCategory('finance');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-}
-
-window.addEventListener('DOMContentLoaded', handleHash);
-window.addEventListener('hashchange', handleHash);
-</script>
 {% endblock %}

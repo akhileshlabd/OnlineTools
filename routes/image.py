@@ -195,3 +195,7 @@ def process_dynamic_image(tool_id):
 @image_bp.route('/qr-generator')
 def qr_generator():
     return render_template('qr_generator.html')
+
+@image_bp.route('/')
+def image_hub():
+    return render_template('hub_image.html', image_tools=IMAGE_TOOLS)

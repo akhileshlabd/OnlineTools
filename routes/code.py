@@ -43,3 +43,7 @@ def code_tool_page(tool_id):
     if not tool:
         return "Developer Tool not found", 404
     return render_template('code_tool.html', tool=tool)
+
+@code_bp.route('/')
+def code_hub():
+    return render_template('hub_code.html', code_tools=CODE_TOOLS)

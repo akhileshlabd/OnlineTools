@@ -67,3 +67,7 @@ def calculator_page(tool_id):
     if not tool:
         return "Calculator not found", 404
     return render_template('finance_calculator.html', tool=tool)
+
+@finance_bp.route('/')
+def finance_hub():
+    return render_template('hub_finance.html', finance_tools=FINANCE_TOOLS)

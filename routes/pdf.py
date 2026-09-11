@@ -303,3 +303,7 @@ def process_dynamic_pdf(tool_id):
         return send_file(buf, as_attachment=True, download_name=f"processed_{tool_id}.pdf", mimetype='application/pdf')
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@pdf_bp.route('/')
+def pdf_hub():
+    return render_template('hub_pdf.html', pdf_tools=PDF_TOOLS)
