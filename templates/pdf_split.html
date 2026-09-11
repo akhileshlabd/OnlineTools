@@ -112,7 +112,7 @@ function handleFileLoad() {
         const file = pdfInput.files[0];
         
         if (file.type !== 'application/pdf') {
-            alert('Please select a valid PDF file.');
+            Swal.fire("Wait!", "Please select a valid PDF file.", "warning");
             pdfInput.value = '';
             return;
         }
@@ -140,13 +140,33 @@ form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
     if (!pdfInput.files || pdfInput.files.length === 0) {
-        alert("Please select or drag-and-drop a PDF file first!");
+        Swal.fire("Wait!", "Please select or drag-and-drop a PDF file first!", "warning");
         return;
     }
     
     spinnerContainer.style.display = 'block';
+    spinnerContainer.style.display = 'block';
     splitBtn.disabled = true;
     
+    const spinnerText = spinnerContainer.querySelector('p');
+    let progressStages = [
+        "Uploading PDF...",
+        "Uploading PDF (100%)...",
+        "Splitting pages securely on server...",
+        "Finalizing document..."
+    ];
+    let stageIdx = 0;
+    spinnerText.innerText = progressStages[0];
+    const progressInterval = setInterval(() => {
+        stageIdx++;
+        if (stageIdx < progressStages.length) {
+            spinnerText.innerText = progressStages[stageIdx];
+        } else {
+            spinnerText.innerText = "Almost done... large files may take a bit longer.";
+            clearInterval(progressInterval);
+        }
+    }, 1500);
+
     const formData = new FormData(form);
     
     try {
@@ -180,12 +200,12 @@ form.addEventListener('submit', async (e) => {
             URL.revokeObjectURL(url);
         } else {
             const data = await response.json();
-            alert('Error: ' + (data.error || 'Failed to split PDF'));
+            Swal.fire("Error", data.error || "Failed to split PDF", "error");
         }
     } catch (error) {
-        alert('An error occurred while splitting the document.');
+        Swal.fire("Error", "An error occurred while splitting the document.", "error");
     } finally {
-        spinnerContainer.style.display = 'none';
+        if (typeof progressInterval !== 'undefined') clearInterval(progressInterval); spinnerContainer.style.display = 'none';
         splitBtn.disabled = false;
     }
 });

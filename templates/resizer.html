@@ -140,7 +140,7 @@ function handleImageLoad() {
     if (imageInput.files && imageInput.files[0]) {
         const file = imageInput.files[0];
         if (!file.type.startsWith('image/')) {
-            alert('Please select a valid image file.');
+            Swal.fire("Wait!", "Please select a valid image file.", "warning");
             imageInput.value = '';
             return;
         }
@@ -180,13 +180,13 @@ heightInput.addEventListener('input', () => {
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     if (!imageInput.files || imageInput.files.length === 0) {
-        alert("Please select or drag-and-drop an image file first!");
+        Swal.fire("Wait!", "Please select or drag-and-drop an image file first!", "warning");
         return;
     }
     const w = parseInt(widthInput.value);
     const h = parseInt(heightInput.value);
     if (!w || !h || w <= 0 || h <= 0) {
-        alert('Width and height must be positive numbers.');
+        Swal.fire("Invalid Input", "Width and height must be positive numbers.", "warning");
         return;
     }
     
@@ -224,7 +224,7 @@ form.addEventListener('submit', (e) => {
     };
     img.onerror = () => {
         URL.revokeObjectURL(url);
-        alert('Failed to load image.');
+        Swal.fire("Error", "Failed to load image.", "error");
         spinnerContainer.style.display = 'none';
         resizeBtn.disabled = false;
     };
@@ -232,7 +232,7 @@ form.addEventListener('submit', (e) => {
     
     function downloadBlob(blob) {
         if (!blob) {
-            alert('Resize failed.');
+            Swal.fire("Error", "Resize failed.", "error");
             spinnerContainer.style.display = 'none';
             resizeBtn.disabled = false;
             return;

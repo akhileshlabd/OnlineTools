@@ -169,12 +169,32 @@ form.addEventListener('submit', async e => {
     e.preventDefault();
 
     if (selectedFiles.length < 2) {
-        alert('Please select at least two PDF files.');
+        Swal.fire("Wait!", "Please select at least two PDF files.", "warning");
         return;
     }
 
     spinnerContainer.style.display = 'block';
+    spinnerContainer.style.display = 'block';
     mergeBtn.disabled = true;
+    
+    const spinnerText = spinnerContainer.querySelector('p');
+    let progressStages = [
+        "Uploading PDFs...",
+        "Uploading PDFs (100%)...",
+        "Merging files securely on server...",
+        "Finalizing document..."
+    ];
+    let stageIdx = 0;
+    spinnerText.innerText = progressStages[0];
+    const progressInterval = setInterval(() => {
+        stageIdx++;
+        if (stageIdx < progressStages.length) {
+            spinnerText.innerText = progressStages[stageIdx];
+        } else {
+            spinnerText.innerText = "Almost done... large files may take a bit longer.";
+            clearInterval(progressInterval);
+        }
+    }, 1500);
 
     const formData = new FormData();
     selectedFiles.forEach((file, index) => {
@@ -196,12 +216,12 @@ form.addEventListener('submit', async e => {
             link.download = 'merged.pdf';
             link.click();
         } else {
-            alert('Failed to merge PDF files.');
+            Swal.fire("Error", "Failed to merge PDF files.", "error");
         }
     } catch (error) {
-        alert('Error: ' + error.message);
+        Swal.fire("Error", error.message, "error");
     } finally {
-        spinnerContainer.style.display = 'none';
+        if (typeof progressInterval !== 'undefined') clearInterval(progressInterval); spinnerContainer.style.display = 'none';
         mergeBtn.disabled = false;
     }
 });

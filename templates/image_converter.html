@@ -159,7 +159,7 @@ function handleFileLoad() {
     if (imageInput.files && imageInput.files[0]) {
         const file = imageInput.files[0];
         if (!file.type.startsWith('image/')) {
-            alert('Please select a valid image file.');
+            Swal.fire("Wait!", "Please select a valid image file.", "warning");
             imageInput.value = '';
             return;
         }
@@ -188,7 +188,7 @@ qualityInput.addEventListener('input', () => { qualityVal.textContent = qualityI
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     if (!imageInput.files || imageInput.files.length === 0) {
-        alert("Please select or drag-and-drop an image file first!");
+        Swal.fire("Wait!", "Please select or drag-and-drop an image file first!", "warning");
         return;
     }
     spinnerContainer.style.display = 'block';
@@ -212,7 +212,7 @@ form.addEventListener('submit', (e) => {
         ctx.drawImage(img, 0, 0);
         canvas.toBlob((blob) => {
             if (!blob) {
-                alert('Conversion failed. Your browser may not support this format.');
+                Swal.fire("Error", "Conversion failed. Your browser may not support this format.", "error");
                 spinnerContainer.style.display = 'none';
                 convertBtn.disabled = false;
                 URL.revokeObjectURL(url);
@@ -236,7 +236,7 @@ form.addEventListener('submit', (e) => {
     };
     img.onerror = () => {
         URL.revokeObjectURL(url);
-        alert('Failed to load image.');
+        Swal.fire("Error", "Failed to load image.", "error");
         spinnerContainer.style.display = 'none';
         convertBtn.disabled = false;
     };

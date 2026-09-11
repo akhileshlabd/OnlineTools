@@ -270,7 +270,7 @@ form.addEventListener('submit', async (e) => {
     // Explicit manual validation (HTML5 native validation fails on hidden inputs)
     if (['image', 'pdf'].includes(toolType)) {
         if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
-            alert("Please select or drag-and-drop a file first!");
+            Swal.fire("Wait!", "Please select or drag-and-drop a file first!", "warning");
             return;
         }
     }
@@ -297,7 +297,7 @@ form.addEventListener('submit', async (e) => {
             return; // EXIT EARLY, NO SERVER CALL
         } catch (error) {
             console.error(error);
-            alert("Local browser processing failed. Please try again.");
+            Swal.fire("Error", "Local browser processing failed. Please try again.", "error");
             spinnerContainer.style.display = 'none';
             submitBtn.disabled = false;
             return;
@@ -305,7 +305,25 @@ form.addEventListener('submit', async (e) => {
     }
     
     // Server-Side Processing for PDF / Career Tools
-    spinnerText.innerText = "Processing securely on server...";
+    let progressStages = [
+        "Uploading document...",
+        "Uploading document (100%)...",
+        "Processing securely on server...",
+        "Applying tool operations...",
+        "Finalizing document..."
+    ];
+    let stageIdx = 0;
+    spinnerText.innerText = progressStages[0];
+    const progressInterval = setInterval(() => {
+        stageIdx++;
+        if (stageIdx < progressStages.length) {
+            spinnerText.innerText = progressStages[stageIdx];
+        } else {
+            spinnerText.innerText = "Almost done... large files may take a bit longer.";
+            clearInterval(progressInterval);
+        }
+    }, 1500);
+
     const formData = new FormData(form);
     try {
         const response = await fetch("{{ tool.endpoint }}", {
@@ -324,7 +342,7 @@ form.addEventListener('submit', async (e) => {
             if (blob.type === 'application/json') {
                 const text = await blob.text();
                 const json = JSON.parse(text);
-                alert('Error: ' + json.error);
+                Swal.fire("Error", json.error, "error");
                 return;
             }
 
@@ -338,11 +356,12 @@ form.addEventListener('submit', async (e) => {
             URL.revokeObjectURL(url);
         } else {
             const data = await response.json();
-            alert('Error: ' + (data.error || 'Processing failed'));
+            Swal.fire("Error", data.error || "Processing failed", "error");
         }
     } catch (error) {
-        alert('An error occurred. Please check your internet connection.');
+        Swal.fire("Error", "An error occurred. Please check your internet connection.", "error");
     } finally {
+        if (typeof progressInterval !== 'undefined') clearInterval(progressInterval);
         spinnerContainer.style.display = 'none';
         submitBtn.disabled = false;
     }
