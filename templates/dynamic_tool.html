@@ -14,7 +14,7 @@
             <i class="fas {{ tool.icon }} text-primary"></i>
             <h4>Select File</h4>
             <p class="text-muted mb-0">or drop file here</p>
-            <input class="d-none" type="file" id="fileInput" name="file" accept="{% if tool.type == 'image' %}image/*{% else %}application/pdf{% endif %}" required>
+            <input class="d-none" type="file" id="fileInput" name="file" accept="{% if tool.type == 'image' %}image/*{% else %}application/pdf{% endif %}" >
         </div>
         
         <!-- Enhanced Preview & Remove Section -->
@@ -198,11 +198,20 @@ function processImageClientSide(file, toolId) {
 
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    spinnerContainer.style.display = 'block';
-    submitBtn.disabled = true;
     
     const toolType = "{{ tool.type }}";
     const toolId = "{{ tool.id }}";
+    
+    // Explicit manual validation (HTML5 native validation fails on hidden inputs)
+    if (['image', 'pdf'].includes(toolType)) {
+        if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+            alert("Please select or drag-and-drop a file first!");
+            return;
+        }
+    }
+    
+    spinnerContainer.style.display = 'block';
+    submitBtn.disabled = true;
     
     // JS-Side Processing for Images
     if (toolType === 'image' && fileInput && fileInput.files.length > 0) {
