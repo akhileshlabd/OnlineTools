@@ -1,4 +1,9 @@
-{% extends "base.html" %}
+import os
+
+TEMPLATES_DIR = '/Users/darsana/Online-Tools/OnlineTools/templates'
+dynamic_tool_path = os.path.join(TEMPLATES_DIR, 'dynamic_tool.html')
+
+new_content = """{% extends "base.html" %}
 {% block title %}{{ tool.name }} - Free Qube{% endblock %}
 
 {% block content %}
@@ -243,9 +248,7 @@ form.addEventListener('submit', async (e) => {
             let downloadFilename = 'processed_document.pdf';
             const disposition = response.headers.get('Content-Disposition');
             if (disposition && disposition.indexOf('attachment') !== -1) {
-                const matches = /filename[^;=
-]*=((['"]).*?|[^;
-]*)/.exec(disposition);
+                const matches = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(disposition);
                 if (matches != null && matches[1]) downloadFilename = matches[1].replace(/['"]/g, '');
             }
             
@@ -277,3 +280,8 @@ form.addEventListener('submit', async (e) => {
 });
 </script>
 {% endblock %}
+"""
+with open(dynamic_tool_path, 'w') as f:
+    f.write(new_content)
+
+print("dynamic_tool.html updated successfully!")

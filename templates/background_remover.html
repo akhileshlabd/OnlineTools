@@ -29,8 +29,15 @@
             <input class="d-none" type="file" id="imageInput" name="image" accept="image/*" required>
         </div>
 
-        <div id="imagePreviewContainer" class="text-center mb-4" style="display:none;">
-            <img id="imagePreview" class="img-fluid rounded shadow-sm" style="max-height: 250px; object-fit: contain;">
+        <div id="imagePreviewContainer" class="text-center mb-4 p-3 bg-light rounded shadow-sm border position-relative" style="display:none;">
+            <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 rounded-circle shadow" onclick="removeFile()" title="Remove File" style="z-index: 10;">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="d-flex justify-content-center align-items-center flex-column">
+                <img id="imagePreview" class="img-fluid rounded shadow-sm mb-3" style="max-height: 250px; object-fit: contain;">
+                <h5 id="previewFileName" class="mb-1 text-truncate w-100 px-3"></h5>
+                <small id="previewFileSize" class="text-muted"></small>
+            </div>
         </div>
 
         <div class="row justify-content-center mb-4" id="colorPickerContainer" style="display: none;">
@@ -72,6 +79,17 @@ const spinnerContainer = document.getElementById('spinnerContainer');
 const loadingText = document.getElementById('loadingText');
 const transparentBg = document.getElementById('transparentBg');
 const bgColor = document.getElementById('bgcolor');
+const previewFileName = document.getElementById('previewFileName');
+const previewFileSize = document.getElementById('previewFileSize');
+
+function removeFile() {
+    imageInput.value = '';
+    previewContainer.style.display = 'none';
+    colorPickerContainer.style.display = 'none';
+    removeBtn.style.display = 'none';
+    dropArea.style.display = 'block';
+    imagePreview.src = '';
+}
 
 dropArea.addEventListener('dragover', (e) => { e.preventDefault(); dropArea.classList.add('dragover'); });
 dropArea.addEventListener('dragleave', () => { dropArea.classList.remove('dragover'); });
@@ -89,10 +107,15 @@ imageInput.addEventListener('change', handleImageLoad);
 function handleImageLoad() {
     if (imageInput.files && imageInput.files[0]) {
         const file = imageInput.files[0];
+        
+        previewFileName.textContent = file.name;
+        previewFileSize.textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
+        
         const reader = new FileReader();
         
         reader.onload = function(e) {
             imagePreview.src = e.target.result;
+            dropArea.style.display = 'none';
             previewContainer.style.display = 'block';
             colorPickerContainer.style.display = 'flex';
             removeBtn.style.display = 'inline-block';
