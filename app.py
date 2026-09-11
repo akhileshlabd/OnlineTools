@@ -3,6 +3,7 @@ import os
 
 from routes.pdf import pdf_bp, PDF_TOOLS
 from routes.image import image_bp, IMAGE_TOOLS
+from routes.finance import finance_bp, FINANCE_TOOLS
 
 app = Flask(__name__)
 
@@ -14,11 +15,12 @@ app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 # 50 MB max file size limit 
 # Register Blueprints
 app.register_blueprint(pdf_bp)
 app.register_blueprint(image_bp)
+app.register_blueprint(finance_bp)
 
 # ---------------- Home ----------------
 @app.route('/')
 def home():
-    return render_template('index.html', image_tools=IMAGE_TOOLS, pdf_tools=PDF_TOOLS)
+    return render_template('index.html', image_tools=IMAGE_TOOLS, pdf_tools=PDF_TOOLS, finance_tools=FINANCE_TOOLS)
 
 # ---------------- Legal / Policies (AdSense Compliance) ----------------
 @app.route('/about')

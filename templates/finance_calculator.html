@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+
+{% block title %}{{ tool.seo_title }} - Free Qube{% endblock %}
+{% block meta_desc %}{{ tool.seo_desc }}{% endblock %}
+
+{% block schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "{{ tool.name }}",
+  "operatingSystem": "All",
+  "applicationCategory": "FinanceApplication",
+  "description": "{{ tool.seo_desc }}",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="tool-interface" style="max-width: 1000px;">
+    <div class="text-center mb-4">
+        <div class="icon-wrapper mx-auto mb-3 text-primary"><i class="fas {{ tool.icon }} fa-2x"></i></div>
+        <h2 class="fw-bold">{{ tool.name }}</h2>
+        <p class="text-muted">{{ tool.desc }}</p>
+    </div>
+
+    <div class="row g-4 align-items-center">
+        <!-- Input Sliders -->
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    {% for inp in tool.inputs %}
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <label class="form-label fw-bold mb-0 text-secondary">{{ inp.label }}</label>
+                            <div class="input-group" style="width: 130px;">
+                                {% if inp.prefix %}<span class="input-group-text bg-light border-0 fw-bold">{{ inp.prefix }}</span>{% endif %}
+                                <input type="number" class="form-control fw-bold text-end form-control-sm finance-val-input" 
+                                       id="{{ inp.id }}-val" min="{{ inp.min }}" max="{{ inp.max }}" value="{{ inp.default }}" onchange="syncSlider('{{ inp.id }}')">
+                                {% if inp.suffix %}<span class="input-group-text bg-light border-0 fw-bold">{{ inp.suffix }}</span>{% endif %}
+                            </div>
+                        </div>
+                        <input type="range" class="form-range finance-slider" id="{{ inp.id }}" 
+                               min="{{ inp.min }}" max="{{ inp.max }}" step="{{ inp.step }}" value="{{ inp.default }}" 
+                               oninput="syncInput('{{ inp.id }}')">
+                        <div class="d-flex justify-content-between text-muted" style="font-size: 0.75rem;">
+                            <span>{{ inp.min }}</span>
+                            <span>{{ inp.max }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart and Results -->
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4 text-center d-flex flex-column justify-content-center">
+                    
+                    <!-- Values Grid -->
+                    <div class="row mb-4">
+                        <div class="col-6 border-end">
+                            <p class="text-muted mb-1 fw-bold" id="label-principal">Invested Amount</p>
+                            <h4 class="fw-bold mb-0 text-dark" id="res-principal">₹0</h4>
+                        </div>
+                        <div class="col-6">
+                            <p class="text-muted mb-1 fw-bold" id="label-interest">Est. Returns</p>
+                            <h4 class="fw-bold mb-0 text-success" id="res-interest">₹0</h4>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-light p-3 rounded mb-4">
+                        <p class="text-muted mb-1 fw-bold" id="label-total">Total Value</p>
+                        <h3 class="fw-bold mb-0 text-primary" id="res-total">₹0</h3>
+                    </div>
+
+                    <!-- Donut Chart -->
+                    <div class="position-relative mx-auto" style="height: 220px; width: 220px;">
+                        <canvas id="financeChart"></canvas>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SEO / Instructional Content -->
+<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
+    <h2 class="fw-bold mb-3">About the {{ tool.name }}</h2>
+    <p>Our {{ tool.name }} is a powerful, free financial planning tool designed to help you calculate complex mathematical formulas instantly. Whether you are projecting long-term mutual fund returns, analyzing compounding interest on fixed deposits, or figuring out your exact monthly loan payments, this calculator provides 100% accurate results.</p>
+    
+    <h3 class="h5 fw-bold mt-4">How It Works</h3>
+    <p>Simply use the interactive sliders above to adjust your principal amounts, interest rates, and time horizons. As you move the sliders, the interactive Donut Chart updates in real time. This visual breakdown allows you to immediately see the proportion of your principal versus the interest earned (or interest paid in the case of loans). This visual representation is critical for effective financial planning and wealth management.</p>
+
+    <h3 class="h5 fw-bold mt-4">100% Secure & Client-Side</h3>
+    <p>Your financial data is completely private. Unlike other calculators that might track your queries, our tool processes the mathematical algorithms entirely inside your web browser using JavaScript. No data is ever sent to our servers, ensuring lightning-fast performance and zero privacy risks.</p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const toolFormula = "{{ tool.formula }}";
+    let financeChart;
+
+    function formatCurrency(num) {
+        // Indian format: 1,00,000
+        return '₹' + num.toLocaleString('en-IN', { maximumFractionDigits: 0 });
+    }
+
+    function syncInput(id) {
+        document.getElementById(id + '-val').value = document.getElementById(id).value;
+        calculate();
+    }
+
+    function syncSlider(id) {
+        document.getElementById(id).value = document.getElementById(id + '-val').value;
+        calculate();
+    }
+
+    function initChart() {
+        const ctx = document.getElementById('financeChart').getContext('2d');
+        financeChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Principal', 'Interest / Returns'],
+                datasets: [{
+                    data: [50, 50],
+                    backgroundColor: ['#e2e8f0', '#0d6efd'],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '75%',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return ' ' + context.label + ': ' + formatCurrency(context.raw);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function updateChart(principal, interest) {
+        if (!financeChart) initChart();
+        financeChart.data.datasets[0].data = [principal, interest];
+        financeChart.update();
+    }
+
+    function calculate() {
+        const amount = parseFloat(document.getElementById('amount').value);
+        const rate = parseFloat(document.getElementById('rate').value);
+        const years = parseFloat(document.getElementById('years').value);
+        
+        let principal = 0;
+        let interest = 0;
+        let total = 0;
+
+        if (toolFormula === 'sip') {
+            document.getElementById('label-principal').innerText = 'Invested Amount';
+            document.getElementById('label-interest').innerText = 'Est. Returns';
+            document.getElementById('label-total').innerText = 'Total Value';
+            
+            const i = (rate / 12) / 100;
+            const n = years * 12;
+            principal = amount * n;
+            total = amount * ( (Math.pow(1 + i, n) - 1) / i ) * (1 + i);
+            interest = total - principal;
+            
+            financeChart.data.datasets[0].backgroundColor = ['#e2e8f0', '#0d6efd'];
+            document.getElementById('res-interest').className = "fw-bold mb-0 text-primary";
+        } 
+        else if (toolFormula === 'lumpsum' || toolFormula === 'fd') {
+            document.getElementById('label-principal').innerText = 'Invested Amount';
+            document.getElementById('label-interest').innerText = 'Est. Returns';
+            document.getElementById('label-total').innerText = 'Total Value';
+            
+            principal = amount;
+            total = principal * Math.pow(1 + (rate / 100), years);
+            interest = total - principal;
+            
+            financeChart.data.datasets[0].backgroundColor = ['#e2e8f0', '#0d6efd'];
+            document.getElementById('res-interest').className = "fw-bold mb-0 text-primary";
+        } 
+        else if (toolFormula === 'emi') {
+            document.getElementById('label-principal').innerText = 'Principal Amount';
+            document.getElementById('label-interest').innerText = 'Interest Amount';
+            document.getElementById('label-total').innerText = 'Total Payable';
+            
+            const r = (rate / 12) / 100;
+            const n = years * 12;
+            principal = amount;
+            const emi = (principal * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+            total = emi * n;
+            interest = total - principal;
+            
+            // EMI charts often show interest in a warning color since it's money paid
+            financeChart.data.datasets[0].backgroundColor = ['#e2e8f0', '#dc3545'];
+            document.getElementById('res-interest').className = "fw-bold mb-0 text-danger";
+            
+            // For EMI, the "Total" area can actually display the Monthly EMI itself as the primary big number
+            document.getElementById('label-total').innerText = 'Monthly EMI';
+            total = emi; // override display value for big text
+        }
+
+        // Update DOM
+        document.getElementById('res-principal').innerText = formatCurrency(Math.round(principal));
+        document.getElementById('res-interest').innerText = formatCurrency(Math.round(interest));
+        document.getElementById('res-total').innerText = formatCurrency(Math.round(total));
+        
+        // For EMI total is just the monthly, so for chart we need the real total interest
+        if(toolFormula === 'emi'){
+            updateChart(Math.round(principal), Math.round((emi * years * 12) - principal));
+        } else {
+            updateChart(Math.round(principal), Math.round(interest));
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initChart();
+        calculate();
+    });
+</script>
+{% endblock %}

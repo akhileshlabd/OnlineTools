@@ -36,6 +36,9 @@
         <button class="btn btn-light rounded-pill px-4 fw-semibold tab-btn text-secondary" onclick="showCategory('image', this)">
             <i class="fas fa-image me-2"></i>Image Tools
         </button>
+        <button class="btn btn-light rounded-pill px-4 fw-semibold tab-btn text-secondary" onclick="showCategory('finance', this)">
+            <i class="fas fa-calculator me-2"></i>Finance Tools
+        </button>
     </div>
 </div>
 
@@ -96,6 +99,19 @@
     </div>
 </div>
 
+<!-- Finance Tools -->
+<div id="finance" class="tool-category" style="display: none;">
+    <div class="tool-grid mb-4">
+        {% for key, t in finance_tools.items() %}
+        <a href="{{ url_for('finance.calculator_page', tool_id=t.id) }}" class="tool-card">
+            <div class="icon-wrapper img-icon text-primary"><i class="fas {{ t.icon }}"></i></div>
+            <h3>{{ t.name }}</h3>
+            <p>{{ t.desc }}</p>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
 
 <!-- SEO Content for AdSense Compliance -->
 <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
@@ -144,6 +160,9 @@ function handleHash() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (hash === '#pdf') {
         showCategory('pdf');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (hash === '#finance') {
+        showCategory('finance');
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 }
