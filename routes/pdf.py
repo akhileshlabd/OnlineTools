@@ -133,7 +133,6 @@ PDF_TOOLS = {
     'extract_text': {'id': 'extract_text', 'type': 'pdf', 'name': 'Extract Text', 'desc': 'Extract all text from a PDF file into a .txt file.', 'icon': 'fa-file-word', 'endpoint': '/pdf-process/extract_text', 'inputs': []},
     'remove_page': {'id': 'remove_page', 'type': 'pdf', 'name': 'Remove Page', 'desc': 'Delete a specific page from your PDF.', 'icon': 'fa-trash-alt', 'endpoint': '/pdf-process/remove_page', 'inputs': [{'name': 'page_num', 'type': 'number', 'label': 'Page Number to Remove', 'min': 1}]},
     'add_blank': {'id': 'add_blank', 'type': 'pdf', 'name': 'Add Blank Page', 'desc': 'Add a blank page to the end of the document.', 'icon': 'fa-plus-square', 'endpoint': '/pdf-process/add_blank', 'inputs': []},
-    'metadata': {'id': 'metadata', 'type': 'pdf', 'name': 'Read Metadata', 'desc': 'Extract metadata (author, title) as text.', 'icon': 'fa-info-circle', 'endpoint': '/pdf-process/metadata', 'inputs': []},
     # Lightweight tools retained; heavy tools removed per AdSense review
     'compress': {'id': 'compress', 'type': 'pdf', 'name': 'Compress PDF', 'desc': 'Reduce PDF file size.', 'icon': 'fa-compress', 'endpoint': '/pdf-process/compress', 'inputs': []},
     'convert_word': {'id': 'convert_word', 'type': 'pdf', 'name': 'PDF to Word', 'desc': 'Convert PDF to DOCX.', 'icon': 'fa-file-word', 'endpoint': '/pdf-process/convert_word', 'inputs': []},
@@ -166,12 +165,6 @@ def process_dynamic_pdf(tool_id):
                 text += page.extract_text() + "\n"
             buf = io.BytesIO(text.encode('utf-8'))
             return send_file(buf, as_attachment=True, download_name="extracted_text.txt", mimetype='text/plain')
-
-        elif tool_id == 'metadata':
-            meta = reader.metadata
-            text = str(meta) if meta else "No metadata found."
-            buf = io.BytesIO(text.encode('utf-8'))
-            return send_file(buf, as_attachment=True, download_name="metadata.txt", mimetype='text/plain')
 
         elif tool_id == 'protect':
             password = request.form.get('password', '')
