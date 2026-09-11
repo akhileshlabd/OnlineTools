@@ -13,7 +13,7 @@
     {
       "@type": "ListItem",
       "position": {{ loop.index }},
-      "url": "{{ url_for('pdf.pdf_tool', tool_id=id, _external=True) }}",
+      "url": "{{ url_for('pdf.dynamic_pdf_tool', tool_id=id, _external=True) }}",
       "name": "{{ tool.name }}",
       "description": "{{ tool.desc }}"
     }{% if not loop.last %},{% endif %}
