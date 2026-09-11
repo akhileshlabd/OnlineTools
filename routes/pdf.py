@@ -113,3 +113,75 @@ def image_to_pdf():
             return "No valid images uploaded.", 400
 
     return render_template('image_to_pdf.html')
+
+PDF_TOOLS = {
+    'protect': {'id': 'protect', 'type': 'pdf', 'name': 'Protect PDF', 'desc': 'Encrypt your PDF with a password.', 'icon': 'fa-lock', 'endpoint': '/pdf-route/process/protect', 'inputs': [{'name': 'password', 'type': 'password', 'label': 'Password'}]},
+    'unlock': {'id': 'unlock', 'type': 'pdf', 'name': 'Unlock PDF', 'desc': 'Remove password from a PDF.', 'icon': 'fa-unlock', 'endpoint': '/pdf-route/process/unlock', 'inputs': [{'name': 'password', 'type': 'password', 'label': 'Current Password'}]},
+    'rotate_pdf': {'id': 'rotate_pdf', 'type': 'pdf', 'name': 'Rotate PDF', 'desc': 'Rotate all pages by 90, 180, or 270 degrees.', 'icon': 'fa-sync', 'endpoint': '/pdf-route/process/rotate_pdf', 'inputs': [{'name': 'angle', 'type': 'number', 'label': 'Angle (90, 180, 270)', 'min': 90, 'max': 270}]},
+    'extract_text': {'id': 'extract_text', 'type': 'pdf', 'name': 'Extract Text', 'desc': 'Extract all text from a PDF file into a .txt file.', 'icon': 'fa-file-word', 'endpoint': '/pdf-route/process/extract_text', 'inputs': []},
+    'remove_page': {'id': 'remove_page', 'type': 'pdf', 'name': 'Remove Page', 'desc': 'Delete a specific page from your PDF.', 'icon': 'fa-trash-alt', 'endpoint': '/pdf-route/process/remove_page', 'inputs': [{'name': 'page_num', 'type': 'number', 'label': 'Page Number to Remove', 'min': 1}]},
+    'add_blank': {'id': 'add_blank', 'type': 'pdf', 'name': 'Add Blank Page', 'desc': 'Add a blank page to the end of the document.', 'icon': 'fa-plus-square', 'endpoint': '/pdf-route/process/add_blank', 'inputs': []},
+    'metadata': {'id': 'metadata', 'type': 'pdf', 'name': 'Read Metadata', 'desc': 'Extract metadata (author, title) as text.', 'icon': 'fa-info-circle', 'endpoint': '/pdf-route/process/metadata', 'inputs': []}
+}
+
+@pdf_bp.route('/tool/<tool_id>')
+def dynamic_pdf_tool(tool_id):
+    tool = PDF_TOOLS.get(tool_id)
+    if not tool: return "Tool not found", 404
+    return render_template('dynamic_tool.html', tool=tool)
+
+@pdf_bp.route('/process/<tool_id>', methods=['POST'])
+def process_dynamic_pdf(tool_id):
+    if 'file' not in request.files: return jsonify({'error': 'No file uploaded'}), 400
+    file = request.files['file']
+    if file.filename == '': return jsonify({'error': 'No selected file'}), 400
+
+    try:
+        reader = PdfReader(file.stream)
+        writer = PdfWriter()
+        
+        if tool_id == 'extract_text':
+            text = ""
+            for page in reader.pages: text += page.extract_text() + "\n"
+            buf = io.BytesIO(text.encode('utf-8'))
+            return send_file(buf, as_attachment=True, download_name="extracted_text.txt", mimetype='text/plain')
+            
+        elif tool_id == 'metadata':
+            meta = reader.metadata
+            text = str(meta) if meta else "No metadata found."
+            buf = io.BytesIO(text.encode('utf-8'))
+            return send_file(buf, as_attachment=True, download_name="metadata.txt", mimetype='text/plain')
+            
+        elif tool_id == 'protect':
+            password = request.form.get('password', '')
+            for page in reader.pages: writer.add_page(page)
+            writer.encrypt(password)
+            
+        elif tool_id == 'unlock':
+            password = request.form.get('password', '')
+            if reader.is_encrypted:
+                reader.decrypt(password)
+            for page in reader.pages: writer.add_page(page)
+            
+        elif tool_id == 'rotate_pdf':
+            angle = int(request.form.get('angle', 90))
+            for page in reader.pages:
+                page.rotate(angle)
+                writer.add_page(page)
+                
+        elif tool_id == 'remove_page':
+            page_num = int(request.form.get('page_num', 1)) - 1
+            for i, page in enumerate(reader.pages):
+                if i != page_num: writer.add_page(page)
+                
+        elif tool_id == 'add_blank':
+            for page in reader.pages: writer.add_page(page)
+            writer.add_blank_page()
+            
+        buf = io.BytesIO()
+        writer.write(buf)
+        buf.seek(0)
+        
+        return send_file(buf, as_attachment=True, download_name=f"processed_{tool_id}.pdf", mimetype='application/pdf')
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500

@@ -42,3 +42,44 @@ def preview_resume():
 
     return render_template('resume_template.html', **data)
 
+
+CAREER_TOOLS = {
+    'cover_letter': {'id': 'cover_letter', 'type': 'career', 'name': 'Cover Letter Builder', 'desc': 'Generate a professional cover letter.', 'icon': 'fa-envelope-open-text', 'endpoint': '/resume/process/cover_letter', 'inputs': [{'name': 'hiring_manager', 'type': 'text', 'label': 'Hiring Manager Name'}, {'name': 'company', 'type': 'text', 'label': 'Company Name'}, {'name': 'role', 'type': 'text', 'label': 'Target Role'}, {'name': 'skills', 'type': 'textarea', 'label': 'Key Skills & Why you are a fit'}]},
+    'resignation': {'id': 'resignation', 'type': 'career', 'name': 'Resignation Letter', 'desc': 'Generate a standard two-week notice.', 'icon': 'fa-door-open', 'endpoint': '/resume/process/resignation', 'inputs': [{'name': 'manager', 'type': 'text', 'label': 'Manager Name'}, {'name': 'date', 'type': 'date', 'label': 'Last Day of Work'}]},
+    'thank_you': {'id': 'thank_you', 'type': 'career', 'name': 'Interview Thank You', 'desc': 'Follow up professionally after an interview.', 'icon': 'fa-handshake', 'endpoint': '/resume/process/thank_you', 'inputs': [{'name': 'interviewer', 'type': 'text', 'label': 'Interviewer Name'}, {'name': 'role', 'type': 'text', 'label': 'Interviewed Role'}]},
+    'cold_email': {'id': 'cold_email', 'type': 'career', 'name': 'Cold Outreach Email', 'desc': 'Template for networking with recruiters.', 'icon': 'fa-paper-plane', 'endpoint': '/resume/process/cold_email', 'inputs': [{'name': 'recruiter', 'type': 'text', 'label': 'Recruiter Name'}, {'name': 'company', 'type': 'text', 'label': 'Company'}, {'name': 'background', 'type': 'textarea', 'label': 'Brief Background'}]},
+    'recommendation': {'id': 'recommendation', 'type': 'career', 'name': 'Letter of Recommendation', 'desc': 'Template for recommending a colleague.', 'icon': 'fa-star', 'endpoint': '/resume/process/recommendation', 'inputs': [{'name': 'person', 'type': 'text', 'label': 'Person You Are Recommending'}, {'name': 'relationship', 'type': 'text', 'label': 'Your Relationship (e.g. Manager)'}, {'name': 'strengths', 'type': 'textarea', 'label': 'Key Strengths'}]},
+    'offer_negotiation': {'id': 'offer_negotiation', 'type': 'career', 'name': 'Salary Negotiation', 'desc': 'Professional email to negotiate an offer.', 'icon': 'fa-comments-dollar', 'endpoint': '/resume/process/offer_negotiation', 'inputs': [{'name': 'company', 'type': 'text', 'label': 'Company Name'}, {'name': 'current_offer', 'type': 'text', 'label': 'Current Offer'}, {'name': 'target_offer', 'type': 'text', 'label': 'Target Offer'}]},
+    'promotion_request': {'id': 'promotion_request', 'type': 'career', 'name': 'Promotion Request', 'desc': 'Formal request for a promotion/raise.', 'icon': 'fa-arrow-up', 'endpoint': '/resume/process/promotion_request', 'inputs': [{'name': 'manager', 'type': 'text', 'label': 'Manager Name'}, {'name': 'achievements', 'type': 'textarea', 'label': 'Recent Key Achievements'}]},
+    'reference_list': {'id': 'reference_list', 'type': 'career', 'name': 'Reference List Builder', 'desc': 'Generate a professional reference sheet.', 'icon': 'fa-users', 'endpoint': '/resume/process/reference_list', 'inputs': [{'name': 'references', 'type': 'textarea', 'label': 'List References (Name, Title, Email)'}]},
+    'networking': {'id': 'networking', 'type': 'career', 'name': 'Networking Request', 'desc': 'Ask for a coffee chat or informational interview.', 'icon': 'fa-coffee', 'endpoint': '/resume/process/networking', 'inputs': [{'name': 'contact', 'type': 'text', 'label': 'Contact Name'}, {'name': 'topic', 'type': 'text', 'label': 'Topic to Discuss'}]}
+}
+
+@resume_bp.route('/tool/<tool_id>')
+def dynamic_career_tool(tool_id):
+    tool = CAREER_TOOLS.get(tool_id)
+    if not tool: return "Tool not found", 404
+    return render_template('dynamic_tool.html', tool=tool)
+
+@resume_bp.route('/process/<tool_id>', methods=['POST'])
+def process_dynamic_career(tool_id):
+    from weasyprint import HTML
+    import io
+    from flask import send_file
+    
+    form_data = request.form.to_dict()
+    
+    # Generic template rendering
+    html_content = f"<html><body style='font-family: Arial, sans-serif; padding: 40px; line-height: 1.6;'>"
+    html_content += f"<h1 style='color: #333; border-bottom: 2px solid #ccc; padding-bottom: 10px;'>{tool_id.replace('_', ' ').title()}</h1>"
+    
+    for key, value in form_data.items():
+        html_content += f"<h3 style='margin-bottom: 5px; color: #555;'>{key.replace('_', ' ').title()}:</h3>"
+        html_content += f"<p style='margin-top: 0; white-space: pre-wrap;'>{value}</p>"
+        
+    html_content += "</body></html>"
+    
+    pdf_bytes = HTML(string=html_content).write_pdf()
+    buf = io.BytesIO(pdf_bytes)
+    
+    return send_file(buf, as_attachment=True, download_name=f"{tool_id}.pdf", mimetype='application/pdf')

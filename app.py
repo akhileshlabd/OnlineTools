@@ -1,9 +1,9 @@
 from flask import Flask, render_template, send_from_directory
 import os
 
-from routes.pdf import pdf_bp
-from routes.image import image_bp
-from routes.resume import resume_bp
+from routes.pdf import pdf_bp, PDF_TOOLS
+from routes.image import image_bp, IMAGE_TOOLS
+from routes.resume import resume_bp, CAREER_TOOLS
 
 app = Flask(__name__)
 
@@ -20,7 +20,7 @@ app.register_blueprint(resume_bp)
 # ---------------- Home ----------------
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('index.html', image_tools=IMAGE_TOOLS, pdf_tools=PDF_TOOLS, career_tools=CAREER_TOOLS)
 
 # ---------------- AdSense ----------------
 @app.route('/ads.txt')
