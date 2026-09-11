@@ -1,0 +1,235 @@
+{% extends "base.html" %}
+
+{% block title %}Free Advanced QR Code Generator - Free Qube{% endblock %}
+{% block meta_desc %}Create custom QR codes for URLs, text, WiFi, email, and phone numbers instantly. 100% free, fast, and secure client-side processing with live preview.{% endblock %}
+{% block meta_keywords %}QR code generator, free QR code, WiFi QR code, URL to QR, create QR code, barcode generator{% endblock %}
+
+{% block schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Advanced QR Code Generator",
+  "operatingSystem": "All",
+  "applicationCategory": "UtilitiesApplication",
+  "description": "Create custom QR codes for URLs, text, WiFi, email, and phone numbers instantly.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="tool-interface" style="max-width: 900px;">
+    <div class="text-center mb-4">
+        <div class="icon-wrapper img-icon mx-auto mb-3"><i class="fas fa-qrcode"></i></div>
+        <h2 class="fw-bold">Advanced QR Code Generator</h2>
+        <p class="text-muted">Create custom QR codes instantly. Works 100% locally in your browser.</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-7">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-3">QR Content</h5>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Type</label>
+                        <select class="form-select" id="qrType" onchange="updateInputFields()">
+                            <option value="url">Link / URL</option>
+                            <option value="text">Plain Text</option>
+                            <option value="email">Email Address</option>
+                            <option value="phone">Phone Number</option>
+                            <option value="wifi">Wi-Fi Network</option>
+                        </select>
+                    </div>
+
+                    <!-- Dynamic Input Containers -->
+                    <div id="input-url" class="qr-input-group">
+                        <label class="form-label fw-semibold">Website URL</label>
+                        <input type="url" class="form-control qr-data-trigger" id="urlInput" placeholder="https://example.com" value="https://freeqube.com">
+                    </div>
+
+                    <div id="input-text" class="qr-input-group" style="display: none;">
+                        <label class="form-label fw-semibold">Your Text</label>
+                        <textarea class="form-control qr-data-trigger" id="textInput" rows="3" placeholder="Enter your message here..."></textarea>
+                    </div>
+
+                    <div id="input-email" class="qr-input-group" style="display: none;">
+                        <div class="mb-2">
+                            <label class="form-label fw-semibold">Email Address</label>
+                            <input type="email" class="form-control qr-data-trigger" id="emailInput" placeholder="hello@example.com">
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label fw-semibold">Subject</label>
+                            <input type="text" class="form-control qr-data-trigger" id="emailSubject" placeholder="Optional subject">
+                        </div>
+                        <div>
+                            <label class="form-label fw-semibold">Message</label>
+                            <textarea class="form-control qr-data-trigger" id="emailBody" rows="2" placeholder="Optional message body"></textarea>
+                        </div>
+                    </div>
+
+                    <div id="input-phone" class="qr-input-group" style="display: none;">
+                        <label class="form-label fw-semibold">Phone Number</label>
+                        <input type="tel" class="form-control qr-data-trigger" id="phoneInput" placeholder="+1 234 567 8900">
+                    </div>
+
+                    <div id="input-wifi" class="qr-input-group" style="display: none;">
+                        <div class="mb-2">
+                            <label class="form-label fw-semibold">Network Name (SSID)</label>
+                            <input type="text" class="form-control qr-data-trigger" id="wifiSsid" placeholder="MyWiFiNetwork">
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label fw-semibold">Password</label>
+                            <input type="text" class="form-control qr-data-trigger" id="wifiPass" placeholder="Network password">
+                        </div>
+                        <div>
+                            <label class="form-label fw-semibold">Encryption</label>
+                            <select class="form-select qr-data-trigger" id="wifiType">
+                                <option value="WPA">WPA/WPA2</option>
+                                <option value="WEP">WEP</option>
+                                <option value="nopass">None</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+                    
+                    <h5 class="fw-bold mb-3">Customization</h5>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <label class="form-label fw-semibold">Foreground Color</label>
+                            <input type="color" class="form-control form-control-color w-100 qr-data-trigger" id="colorDark" value="#000000">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label fw-semibold">Background Color</label>
+                            <input type="color" class="form-control form-control-color w-100 qr-data-trigger" id="colorLight" value="#ffffff">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="card border-0 shadow-sm text-center sticky-top" style="top: 20px;">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-3">Live Preview</h5>
+                    <div class="bg-light p-3 rounded d-inline-block border mb-3">
+                        <!-- Canvas where QR will be drawn -->
+                        <canvas id="qrCanvas"></canvas>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary btn-lg fw-bold rounded-pill" onclick="downloadQR()">
+                            <i class="fas fa-download me-2"></i>Download PNG
+                        </button>
+                    </div>
+                    <p class="text-muted small mt-3 mb-0"><i class="fas fa-lock me-1"></i> Generated locally. No data sent to servers.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SEO Content for AdSense Compliance -->
+<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
+    <h2 class="fw-bold mb-3">Free Advanced QR Code Generator</h2>
+    <p>Welcome to the most versatile and privacy-focused QR Code Generator on the web. Our tool is designed to help you bridge the gap between the physical and digital worlds instantly. Whether you are a business owner printing menus, a marketer creating promotional flyers, or just someone sharing a Wi-Fi password with guests, our advanced QR Code Generator provides a seamless, zero-cost solution.</p>
+    
+    <h3 class="h5 fw-bold mt-4">Generate Multiple Types of QR Codes</h3>
+    <p>Not all QR codes are just website links. Our best-in-class tool allows you to create specific codes tailored to your exact needs. Choose from standard URL links, plain text messages, direct phone call prompts, or pre-filled email drafts. We even offer a specialized Wi-Fi network QR code—when your friends or customers scan it with their smartphone camera, they will automatically connect to your wireless network without ever needing to type in a complicated password.</p>
+
+    <h3 class="h5 fw-bold mt-4">Customize and Download Instantly</h3>
+    <p>A black-and-white square doesn't always fit your brand aesthetic. That is why our generator includes live customization options. You can easily adjust the foreground and background colors to match your company logo, poster design, or personal preference. As you make changes to the colors or the data, the Live Preview updates instantly. Once you are satisfied with the design, a single click allows you to download a high-resolution PNG image file, perfect for both digital sharing and high-quality print materials.</p>
+
+    <h3 class="h5 fw-bold mt-4">100% Secure and Private Client-Side Processing</h3>
+    <p>Privacy is our top priority. Unlike other QR code generators that send your links, phone numbers, and Wi-Fi passwords to a remote database, Free Qube’s generator runs 100% locally in your web browser. This means your sensitive information never touches our servers. The generation process happens entirely on your own device using advanced JavaScript libraries. This not only guarantees absolute data security but also ensures that the tool works lightning-fast without any loading screens or network delays.</p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- QRious Library for Client-Side QR Generation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<script>
+    let qr;
+
+    function updateInputFields() {
+        const type = document.getElementById('qrType').value;
+        document.querySelectorAll('.qr-input-group').forEach(el => el.style.display = 'none');
+        document.getElementById('input-' + type).style.display = 'block';
+        generateQR(); // Regenerate based on new default values of the shown input
+    }
+
+    function getQRValue() {
+        const type = document.getElementById('qrType').value;
+        
+        if (type === 'url') {
+            return document.getElementById('urlInput').value || 'https://freeqube.com';
+        } else if (type === 'text') {
+            return document.getElementById('textInput').value || 'Hello World!';
+        } else if (type === 'email') {
+            const email = document.getElementById('emailInput').value || 'hello@example.com';
+            const sub = document.getElementById('emailSubject').value;
+            const body = document.getElementById('emailBody').value;
+            return `mailto:${email}?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`;
+        } else if (type === 'phone') {
+            const phone = document.getElementById('phoneInput').value || '+12345678900';
+            return `tel:${phone}`;
+        } else if (type === 'wifi') {
+            const ssid = document.getElementById('wifiSsid').value || 'Network';
+            const pass = document.getElementById('wifiPass').value;
+            const enc = document.getElementById('wifiType').value;
+            return `WIFI:T:${enc};S:${ssid};P:${pass};;`;
+        }
+        return '';
+    }
+
+    function generateQR() {
+        const value = getQRValue();
+        const colorDark = document.getElementById('colorDark').value;
+        const colorLight = document.getElementById('colorLight').value;
+        
+        if (!qr) {
+            qr = new QRious({
+                element: document.getElementById('qrCanvas'),
+                size: 250,
+                padding: 10,
+                level: 'H'
+            });
+        }
+        
+        qr.set({
+            value: value,
+            foreground: colorDark,
+            background: colorLight
+        });
+    }
+
+    function downloadQR() {
+        const canvas = document.getElementById('qrCanvas');
+        const link = document.createElement('a');
+        link.download = 'freeqube_qr.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        
+        Swal.fire({
+            title: 'Success!',
+            text: 'Your QR Code has been downloaded.',
+            icon: 'success',
+            timer: 2000,
+            showConfirmButton: false
+        });
+    }
+
+    // Attach event listeners to all inputs to trigger live preview
+    document.querySelectorAll('.qr-data-trigger').forEach(input => {
+        input.addEventListener('input', generateQR);
+    });
+
+    // Generate initial QR code
+    document.addEventListener('DOMContentLoaded', generateQR);
+</script>
+{% endblock %}

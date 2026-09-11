@@ -191,3 +191,7 @@ def process_dynamic_image(tool_id):
         return send_file(buf, mimetype='image/png', as_attachment=True, download_name=f"processed_{tool_id}.png")
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@image_bp.route('/qr-generator')
+def qr_generator():
+    return render_template('qr_generator.html')
