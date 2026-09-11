@@ -1,9 +1,119 @@
+/* Custom Styles for Free Qube */
+
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-.hover-scale:hover {
-  transform: scale(1.03);
-  transition: transform 0.3s ease-in-out;
-  cursor: pointer;
+/* Tool Grid Layout */
+.tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Tool Cards */
+.tool-card {
+    background: #ffffff;
+    border: 1px solid #eef0f2;
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: inherit;
+}
+
+.tool-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    border-color: #0d6efd;
+    text-decoration: none;
+}
+
+.tool-card .icon-wrapper {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #495057;
+    transition: color 0.3s ease;
+}
+
+.tool-card:hover .icon-wrapper.pdf-icon { color: #dc3545; }
+.tool-card:hover .icon-wrapper.img-icon { color: #198754; }
+.tool-card:hover .icon-wrapper.doc-icon { color: #0d6efd; }
+
+.tool-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #212529;
+}
+
+.tool-card p {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 0;
+}
+
+/* Central Tool Container (for actual tool pages) */
+.tool-interface {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 3rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Drag and Drop Area */
+.drag-drop-area {
+    border: 2px dashed #0d6efd;
+    border-radius: 12px;
+    padding: 3rem;
+    text-align: center;
+    background-color: #f8f9fa;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.drag-drop-area:hover, .drag-drop-area.dragover {
+    background-color: #e9ecef;
+}
+
+.drag-drop-area i {
+    font-size: 3rem;
+    color: #0d6efd;
+    margin-bottom: 1rem;
+}
+
+/* Ads Container */
+.ad-container {
+    min-height: 90px;
+    background-color: #f1f3f5;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #adb5bd;
+    font-size: 0.9rem;
+    position: relative;
+}
+.ad-container::before {
+    content: "Advertisement";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+}
+.adsbygoogle {
+    z-index: 1;
+    position: relative;
 }

@@ -1,106 +1,126 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Background Remover</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <style>
-    .preview-img {
-      max-width: 100%;
-      border-radius: 8px;
-      border: 2px solid #ccc;
-    }
-    .progress-wrapper {
-      display: none;
-      margin-top: 20px;
-    }
-  </style>
-</head>
-<body class="bg-dark text-light">
-  <div class="container py-5 text-center">
-    <h1 class="mb-4">🧼 Background Remover</h1>
-    <form id="uploadForm">
-      <input type="file" name="image" accept="image/*" class="form-control mb-3" required>
-      <div class="d-flex align-items-center gap-3 justify-content-center mb-3">
-            <label for="bgcolor" class="form-label mb-0">Select Background Color:</label>
-            <input type="color" name="bgcolor" id="bgcolor" value="#ffffff" class="form-control form-control-color" style="width: 50px; height: 50px; padding: 0; border: none;" />
-      </div>
+{% extends "base.html" %}
 
-      <button type="submit" class="btn btn-primary">Upload Image</button>
+{% block title %}Remove Background - Free Qube{% endblock %}
+
+{% block content %}
+<div class="tool-interface">
+    <div class="text-center mb-4">
+        <h2 class="fw-bold">Background Remover</h2>
+        <p class="text-muted">Remove the background from any image and replace it with a solid color automatically.</p>
+    </div>
+
+    <form id="bgForm">
+        <div class="drag-drop-area mb-4" id="dropArea" onclick="document.getElementById('imageInput').click()">
+            <i class="fas fa-eraser"></i>
+            <h4>Select Image</h4>
+            <p class="text-muted mb-0">or drop image here</p>
+            <input class="d-none" type="file" id="imageInput" name="image" accept="image/*" required>
+        </div>
+
+        <div id="imagePreviewContainer" class="text-center mb-4" style="display:none;">
+            <img id="imagePreview" class="img-fluid rounded shadow-sm" style="max-height: 250px; object-fit: contain;">
+        </div>
+
+        <div class="row justify-content-center mb-4" id="colorPickerContainer" style="display: none;">
+            <div class="col-md-6 text-center">
+                <label for="bgcolor" class="form-label fw-bold">Select New Background Color (Optional)</label>
+                <input type="color" class="form-control form-control-color w-100" id="bgcolor" name="bgcolor" value="#FFFFFF" title="Choose your color">
+                <small class="text-muted">By default, a white background is applied.</small>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-info btn-lg rounded-pill px-5 fw-bold text-white shadow-sm" id="removeBtn" style="display:none;">
+                <i class="fas fa-magic me-2"></i>Remove Background
+            </button>
+        </div>
+        
+        <div class="text-center mt-3" id="spinnerContainer" style="display: none;">
+            <div class="spinner-border text-info" role="status">
+                <span class="visually-hidden">Processing...</span>
+            </div>
+            <p class="mt-2 text-muted">Removing background, this may take a few seconds...</p>
+        </div>
     </form>
+</div>
+{% endblock %}
 
-    <div class="progress-wrapper">
-      <div class="spinner-border text-info" role="status"></div>
-      <p id="progress-text" class="mt-2">Uploading...</p>
-      <div class="progress mt-2" style="height: 20px;">
-        <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%">0%</div>
-      </div>
-    </div>
+{% block scripts %}
+<script>
+const form = document.getElementById('bgForm');
+const imageInput = document.getElementById('imageInput');
+const dropArea = document.getElementById('dropArea');
+const removeBtn = document.getElementById('removeBtn');
+const imagePreview = document.getElementById('imagePreview');
+const previewContainer = document.getElementById('imagePreviewContainer');
+const colorPickerContainer = document.getElementById('colorPickerContainer');
+const spinnerContainer = document.getElementById('spinnerContainer');
 
-    <div class="row mt-5" id="result" style="display: none;">
-      <h3><a id="download-link" class="btn btn-success mb-2" download="background_removed.png">⬇️ Download</a></h3>
-      <div class="col-md-6">
-        <p>Original</p>
-        <img id="original-image" class="preview-img">
-      </div>
-      <div class="col-md-6">
-        <p>Processed</p>
-        <img id="processed-image" class="preview-img">
-      </div>
-    </div>
-  </div>
+dropArea.addEventListener('dragover', (e) => { e.preventDefault(); dropArea.classList.add('dragover'); });
+dropArea.addEventListener('dragleave', () => { dropArea.classList.remove('dragover'); });
+dropArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropArea.classList.remove('dragover');
+    if (e.dataTransfer.files.length > 0) {
+        imageInput.files = e.dataTransfer.files;
+        handleImageLoad();
+    }
+});
 
-  <script>
-    const form = document.getElementById('uploadForm');
-    const progressWrapper = document.querySelector('.progress-wrapper');
-    const progressBar = document.getElementById('progress-bar');
-    const progressText = document.getElementById('progress-text');
-    const result = document.getElementById('result');
+imageInput.addEventListener('change', handleImageLoad);
 
-    form.onsubmit = async function (e) {
-      e.preventDefault();
-      const formData = new FormData(form);
-      const fileInput = form.querySelector('input[type="file"]');
-      const file = fileInput.files[0];
-      const originalURL = URL.createObjectURL(file);
-      document.getElementById('original-image').src = originalURL;
-      result.style.display = "none";
-      progressWrapper.style.display = "block";
-
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", "/remove-bg", true);
-
-      xhr.upload.onprogress = function (e) {
-        if (e.lengthComputable) {
-          const percent = Math.round((e.loaded / e.total) * 100);
-          progressBar.style.width = percent + "%";
-          progressBar.innerText = percent + "%";
-          progressText.innerText = "Uploading...";
+function handleImageLoad() {
+    if (imageInput.files && imageInput.files[0]) {
+        const file = imageInput.files[0];
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            imagePreview.src = e.target.result;
+            previewContainer.style.display = 'block';
+            colorPickerContainer.style.display = 'flex';
+            removeBtn.style.display = 'inline-block';
         }
-      };
+        reader.readAsDataURL(file);
+    }
+}
 
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-          progressBar.style.width = "100%";
-          progressBar.innerText = "100%";
-          progressText.innerText = "Processing...";
-
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            const blob = new Blob([xhr.response], { type: "image/png" });
-            const objectURL = URL.createObjectURL(blob);
-            document.getElementById("processed-image").src = objectURL;
-            document.getElementById("download-link").href = objectURL;
-            progressWrapper.style.display = "none";
-            result.style.display = "flex";
-          };
-          reader.readAsArrayBuffer(xhr.response);
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    spinnerContainer.style.display = 'block';
+    removeBtn.disabled = true;
+    
+    const formData = new FormData(form);
+    
+    try {
+        const response = await fetch('/remove-bg', {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (response.ok) {
+            const blob = await response.blob();
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            
+            const originalName = imageInput.files[0].name.split('.')[0];
+            a.download = `${originalName}_bg_removed.png`;
+            
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        } else {
+            const data = await response.json();
+            alert('Error: ' + (data.error || 'Failed to remove background'));
         }
-      };
-
-      xhr.responseType = "blob";
-      xhr.send(formData);
-    };
-  </script>
-</body>
-</html>
+    } catch (error) {
+        alert('An error occurred during processing.');
+    } finally {
+        spinnerContainer.style.display = 'none';
+        removeBtn.disabled = false;
+    }
+});
+</script>
+{% endblock %}

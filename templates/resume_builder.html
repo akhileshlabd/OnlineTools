@@ -1,156 +1,88 @@
-<!DOCTYPE html>
-<html lang="en" >
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Futuristic Resume Builder</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+{% extends "base.html" %}
 
-    body {
-      background: #0f111a;
-      color: #c7d2fe;
-      font-family: 'Orbitron', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 40px 20px;
-    }
-    .container {
-      max-width: 600px;
-      background: linear-gradient(145deg, #1a1c29, #11131f);
-      border-radius: 16px;
-      box-shadow: 0 0 25px 2px #7f9cf5, 0 0 40px 6px #3740ff44;
-      padding: 30px 40px;
-      border: 1px solid #3740ff88;
-      backdrop-filter: blur(8px);
-      animation: pulseShadow 3s ease-in-out infinite alternate;
-    }
-    @keyframes pulseShadow {
-      0% {
-        box-shadow: 0 0 25px 2px #7f9cf5, 0 0 40px 6px #3740ff44;
-      }
-      100% {
-        box-shadow: 0 0 30px 4px #a7b1ff, 0 0 50px 10px #4a54ff88;
-      }
-    }
-    h1 {
-      text-align: center;
-      color: #82aaff;
-      text-shadow: 0 0 8px #82aaffaa;
-      letter-spacing: 2px;
-      margin-bottom: 30px;
-      font-weight: 700;
-    }
-    label {
-      color: #9ba9ff;
-      letter-spacing: 1px;
-      font-weight: 600;
-      margin-bottom: 6px;
-      display: block;
-      text-transform: uppercase;
-      font-size: 0.9rem;
-    }
-    input.form-control,
-    textarea.form-control {
-      background: #12142a;
-      border: 1.8px solid #3340ffbb;
-      border-radius: 8px;
-      color: #d6e0ff;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 1rem;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: inset 0 0 10px #20235f;
-    }
-    input.form-control:focus,
-    textarea.form-control:focus {
-      border-color: #86aaff;
-      box-shadow: 0 0 12px #7f9cff;
-      outline: none;
-      background: #171936;
-      color: #c3d0ff;
-    }
-    .btn-primary {
-      background: linear-gradient(90deg, #3949ff, #1a1aff);
-      border: none;
-      border-radius: 10px;
-      padding: 12px 25px;
-      font-weight: 700;
-      font-size: 1.1rem;
-      letter-spacing: 1.4px;
-      box-shadow: 0 0 15px #6e78ffaa;
-      transition: background 0.4s ease, box-shadow 0.4s ease;
-      width: 100%;
-      margin-top: 20px;
-    }
-    .btn-primary:hover {
-      background: linear-gradient(90deg, #586dff, #2222ff);
-      box-shadow: 0 0 20px #8a95ffdd;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Resume Builder</h1>
-    <form method="POST" action="/generate_resume" target="_blank" autocomplete="off">
-      <div class="mb-3">
-        <label for="name">Full Name</label>
-        <input type="text" id="name" name="name" class="form-control" required />
-      </div>
-      <div class="mb-3">
-        <label for="job_title">Job Title</label>
-        <input type="text" id="job_title" name="job_title" class="form-control" required />
-      </div>
-      <div class="mb-3">
-        <label for="contact">Contact Info (email, phone, etc.)</label>
-        <textarea id="contact" name="contact" rows="2" class="form-control"></textarea>
-      </div>
-      <div class="mb-3">
-        <label for="skills">Skills (comma separated)</label>
-        <input type="text" id="skills" name="skills" class="form-control" />
-      </div>
-      <div class="mb-3">
-        <label for="profile">Profile Summary</label>
-        <textarea id="profile" name="profile" rows="3" class="form-control"></textarea>
-      </div>
-      <div class="mb-3">
-        <label for="experience">Work Experience</label>
-        <textarea id="experience" name="experience" rows="4" class="form-control"></textarea>
-      </div>
-      <div class="mb-3">
-        <label for="education">Education</label>
-        <textarea id="education" name="education" rows="3" class="form-control"></textarea>
-      </div>
-       <!-- New dynamic sections container -->
-      <div id="dynamic-sections-container">
-        <h5>Additional Sections</h5>
-        <div class="dynamic-section mb-3">
-          <label>Section Title</label>
-          <input type="text" name="section_title[]" class="form-control mb-1" placeholder="Section Title" />
-          <label>Section Content</label>
-          <textarea name="section_content[]" rows="3" class="form-control mb-2" placeholder="Section Content"></textarea>
+{% block title %}Resume Builder - Free Qube{% endblock %}
+
+{% block content %}
+<div class="tool-interface" style="max-width: 900px;">
+    <div class="text-center mb-4">
+        <h2 class="fw-bold">Resume Builder</h2>
+        <p class="text-muted">Fill out the form below to generate a professional PDF resume instantly.</p>
+    </div>
+
+    <form method="POST" id="resumeForm">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <h4 class="border-bottom pb-2 mb-3"><i class="fas fa-user-circle text-primary me-2"></i>Personal Info</h4>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Full Name</label>
+                    <input type="text" class="form-control" name="name" required placeholder="John Doe">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Job Title</label>
+                    <input type="text" class="form-control" name="job_title" required placeholder="Software Engineer">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Contact Info</label>
+                    <input type="text" class="form-control" name="contact" required placeholder="Email / Phone / LinkedIn">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Professional Summary</label>
+                    <textarea class="form-control" name="profile" rows="4" required placeholder="A brief summary of your skills and career goals..."></textarea>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <h4 class="border-bottom pb-2 mb-3"><i class="fas fa-briefcase text-success me-2"></i>Experience & Skills</h4>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Experience</label>
+                    <textarea class="form-control" name="experience" rows="4" required placeholder="Company Name | Job Title&#10;Dates&#10;Responsibilities..."></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Education</label>
+                    <textarea class="form-control" name="education" rows="2" required placeholder="University Name, Degree, Year"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Skills</label>
+                    <textarea class="form-control" name="skills" rows="2" required placeholder="Python, JavaScript, HTML, CSS..."></textarea>
+                </div>
+            </div>
         </div>
-      </div>
-      <button type="button" class="btn btn-secondary mb-3" id="add-section-btn">Add Section</button>
 
-      <button type="submit" class="btn btn-primary">Generate PDF</button>
+        <!-- Dynamic Sections -->
+        <h4 class="border-bottom pb-2 mt-4 mb-3"><i class="fas fa-plus-circle text-warning me-2"></i>Additional Sections</h4>
+        <div id="dynamicSectionsContainer"></div>
+        <button type="button" class="btn btn-outline-secondary mb-4" onclick="addSection()">+ Add Custom Section</button>
+
+        <div class="text-center border-top pt-4">
+            <button type="submit" formaction="/preview_resume" formtarget="_blank" class="btn btn-outline-primary btn-lg rounded-pill px-4 me-3">
+                <i class="fas fa-eye me-2"></i>Preview
+            </button>
+            <button type="submit" formaction="/generate_resume" class="btn btn-primary btn-lg rounded-pill px-5 fw-bold shadow-sm">
+                <i class="fas fa-download me-2"></i>Download PDF
+            </button>
+        </div>
     </form>
-  </div>
-  <script>
-    document.getElementById('add-section-btn').addEventListener('click', () => {
-      const container = document.getElementById('dynamic-sections-container');
-      const section = document.createElement('div');
-      section.classList.add('dynamic-section', 'mb-3');
-      section.innerHTML = `
-        <label>Section Title</label>
-        <input type="text" name="section_title[]" class="form-control mb-1" placeholder="Section Title" />
-        <label>Section Content</label>
-        <textarea name="section_content[]" rows="3" class="form-control mb-2" placeholder="Section Content"></textarea>
-      `;
-      container.appendChild(section);
-    });
-  </script>
-</body>
-</html>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function addSection() {
+        const container = document.getElementById('dynamicSectionsContainer');
+        const sectionHTML = `
+            <div class="card mb-3 border-0 shadow-sm bg-light">
+                <div class="card-body position-relative">
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="this.parentElement.parentElement.remove()"></button>
+                    <div class="mb-2 mt-2">
+                        <input type="text" class="form-control fw-bold" name="section_title[]" placeholder="Section Title (e.g., Certifications)" required>
+                    </div>
+                    <div>
+                        <textarea class="form-control" name="section_content[]" rows="3" placeholder="Enter contents here..." required></textarea>
+                    </div>
+                </div>
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', sectionHTML);
+    }
+</script>
+{% endblock %}
