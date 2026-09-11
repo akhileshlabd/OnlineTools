@@ -19,6 +19,9 @@
     <!-- Canonical Link Block -->
     {% block canonical %}<link rel="canonical" href="{{ request.url }}">{% endblock %}
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo2.png') }}">
+
     {% block head %}{% endblock %}
 </head>
 <body class="bg-light d-flex flex-column min-vh-100">

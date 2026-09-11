@@ -140,7 +140,6 @@ PDF_TOOLS = {
     'convert_excel': {'id': 'convert_excel', 'type': 'pdf', 'name': 'PDF to Excel', 'desc': 'Convert PDF to XLSX.', 'icon': 'fa-file-excel', 'endpoint': '/pdf-process/convert_excel', 'inputs': []},
     'watermark': {'id': 'watermark', 'type': 'pdf', 'name': 'Add Watermark', 'desc': 'Add text or image watermark.', 'icon': 'fa-water', 'endpoint': '/pdf-process/watermark', 'inputs': [{'name': 'watermark_text', 'type': 'text', 'label': 'Watermark Text'}]},
     'ocr': {'id': 'ocr', 'type': 'pdf', 'name': 'PDF OCR', 'desc': 'Extract text via OCR.', 'icon': 'fa-magnifying-glass', 'endpoint': '/pdf-process/ocr', 'inputs': []},
-    'extract_images': {'id': 'extract_images', 'type': 'pdf', 'name': 'Extract Images', 'desc': 'Extract all images from PDF.', 'icon': 'fa-image', 'endpoint': '/pdf-process/extract_images', 'inputs': []},
     'optimize': {'id': 'optimize', 'type': 'pdf', 'name': 'Optimize PDF', 'desc': 'Remove metadata and compress streams.', 'icon': 'fa-wrench', 'endpoint': '/pdf-process/optimize', 'inputs': []}
 }
 
@@ -291,20 +290,6 @@ def process_dynamic_pdf(tool_id):
                 text += pytesseract.image_to_string(img) + '\n'
             buf = io.BytesIO(text.encode('utf-8'))
             return send_file(buf, as_attachment=True, download_name='ocr_text.txt', mimetype='text/plain')
-
-        elif tool_id == 'extract_images':
-            from pdf2image import convert_from_bytes
-            import zipfile
-            images = convert_from_bytes(file.read())
-            zip_io = io.BytesIO()
-            with zipfile.ZipFile(zip_io, 'w') as zipf:
-                for i, img in enumerate(images, start=1):
-                    img_bytes = io.BytesIO()
-                    img.save(img_bytes, format='PNG')
-                    img_bytes.seek(0)
-                    zipf.writestr(f'page_{i}.png', img_bytes.read())
-            zip_io.seek(0)
-            return send_file(zip_io, as_attachment=True, download_name='extracted_images.zip', mimetype='application/zip')
 
         elif tool_id == 'optimize':
             for page in reader.pages:
