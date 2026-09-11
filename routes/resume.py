@@ -29,14 +29,16 @@ def generate_resume():
 
 @resume_bp.route('/preview_resume', methods=['POST'])
 def preview_resume():
-    data = {
-        "name": request.form.get('name', ''),
-        "job_title": request.form.get('job_title', ''),
-        "contact": request.form.get('contact', ''),
-        "profile": request.form.get('profile', ''),
-        "experience": request.form.get('experience', ''),
-        "education": request.form.get('education', ''),
-        "skills": request.form.get('skills', ''),
-    }
+    data = request.form.to_dict()
+    section_titles = request.form.getlist('section_title[]')
+    section_contents = request.form.getlist('section_content[]')
+
+    dynamic_sections = []
+    for title, content in zip(section_titles, section_contents):
+        if title.strip() and content.strip():
+            dynamic_sections.append({'title': title.strip(), 'content': content.strip()})
+
+    data['dynamic_sections'] = dynamic_sections
+
     return render_template('resume_template.html', **data)
 

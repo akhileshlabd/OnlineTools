@@ -16,66 +16,34 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 
-    <!-- Google AdSense Placeholder (Replace with your actual ca-pub-XXXXXXXXX ID) -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
-     crossorigin="anonymous"></script>
-
     {% block head %}{% endblock %}
 </head>
 <body class="bg-light">
 
     <!-- Header / Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-2">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="/">
-                <img src="{{ url_for('static', filename='logo2.png') }}" alt="Free Qube Logo" height="40" class="me-2">
-                <span class="fw-bold fs-4 text-primary">Free Qube</span>
+                <img src="{{ url_for('static', filename='logo2.png') }}" alt="Free Qube Logo" height="32" class="me-2">
+                <span class="fw-bold fs-5 text-primary">Free Qube</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto fs-5">
-                    <li class="nav-item"><a class="nav-link fw-semibold" href="/#pdf"><i class="fas fa-file-pdf text-danger"></i> PDF Tools</a></li>
-                    <li class="nav-item"><a class="nav-link fw-semibold" href="/#image"><i class="fas fa-image text-success"></i> Image Tools</a></li>
-                    <li class="nav-item"><a class="nav-link fw-semibold" href="/#resume"><i class="fas fa-file-alt text-primary"></i> Resume</a></li>
+                <ul class="navbar-nav ms-auto fs-6">
+                    <li class="nav-item"><a class="nav-link fw-semibold px-3" href="/#pdf"><i class="fas fa-file-pdf text-danger me-1"></i> PDF</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold px-3" href="/#image"><i class="fas fa-image text-success me-1"></i> Image</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold px-3" href="/#resume"><i class="fas fa-file-alt text-primary me-1"></i> Resume</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Top Ad Block -->
-    <div class="container mt-4 text-center ad-container">
-        <!-- AdSense Ad unit placeholder -->
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-             data-ad-slot="XXXXXXXXXX"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    </div>
-
     <!-- Main Content -->
-    <main class="container my-5">
+    <main class="container my-4">
         {% block content %}{% endblock %}
     </main>
-
-    <!-- Bottom Ad Block -->
-    <div class="container mb-5 text-center ad-container">
-        <!-- AdSense Ad unit placeholder -->
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-             data-ad-slot="XXXXXXXXXX"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    </div>
 
     <!-- Footer -->
     <footer class="bg-white py-4 mt-auto shadow-sm border-top">

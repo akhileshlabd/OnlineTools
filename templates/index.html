@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="text-center mb-5">
-    <h1 class="display-4 fw-bold text-dark mb-3">Every tool you need to work with PDFs and Images</h1>
-    <p class="lead text-muted">100% Free. No watermarks. No installation required.</p>
+<div class="text-center mb-4">
+    <h2 class="fw-bold text-dark mb-2">Every tool you need to work with PDFs and Images</h2>
+    <p class="text-muted mb-0">100% Free. No watermarks. No installation required.</p>
 </div>
 
-<h3 class="mb-4 text-secondary border-bottom pb-2" id="pdf">PDF Tools</h3>
-<div class="tool-grid mb-5">
+<h4 class="mb-3 text-secondary border-bottom pb-1" id="pdf">PDF Tools</h4>
+<div class="tool-grid mb-4">
     <a href="{{ url_for('pdf.pdf_merger_page') }}" class="tool-card">
         <div class="icon-wrapper pdf-icon"><i class="fas fa-object-group"></i></div>
         <h3>Merge PDF</h3>
@@ -20,8 +20,8 @@
     </a>
 </div>
 
-<h3 class="mb-4 text-secondary border-bottom pb-2" id="image">Image Tools</h3>
-<div class="tool-grid mb-5">
+<h4 class="mb-3 text-secondary border-bottom pb-1" id="image">Image Tools</h4>
+<div class="tool-grid mb-4">
     <a href="{{ url_for('image.resizer') }}" class="tool-card">
         <div class="icon-wrapper img-icon"><i class="fas fa-expand-arrows-alt"></i></div>
         <h3>Resize Image</h3>
@@ -34,8 +34,8 @@
     </a>
 </div>
 
-<h3 class="mb-4 text-secondary border-bottom pb-2" id="resume">Resume Tools</h3>
-<div class="tool-grid mb-5">
+<h4 class="mb-3 text-secondary border-bottom pb-1" id="resume">Resume Tools</h4>
+<div class="tool-grid mb-4">
     <a href="{{ url_for('resume.resume_builder') }}" class="tool-card">
         <div class="icon-wrapper doc-icon"><i class="fas fa-file-alt"></i></div>
         <h3>Resume Builder</h3>
