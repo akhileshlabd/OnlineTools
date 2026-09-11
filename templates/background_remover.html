@@ -3,7 +3,7 @@
 {% block title %}Remove Background - Free Qube{% endblock %}
 
 {% block head %}
-<!-- Engine loads dynamically in the background -->
+<script src="https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.4.5/dist/imgly-background-removal.umd.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -120,11 +120,14 @@ transparentBg.addEventListener('change', () => {
     bgColor.disabled = transparentBg.checked;
 });
 
-// Pre-fetch the AI engine seamlessly in the background so it's ready when they click
-const imglyEnginePromise = import('https://unpkg.com/@imgly/background-removal@1.4.5/dist/imgly-background-removal.esm.js');
-
 removeBtn.addEventListener('click', async () => {
     if (!imageInput.files || !imageInput.files[0]) return;
+    
+    // Check if the UMD script loaded successfully
+    if (typeof imglyRemoveBackground === 'undefined') {
+        alert('Background removal engine failed to load. Please refresh the page and ensure you have a stable internet connection.');
+        return;
+    }
     
     spinnerContainer.style.display = 'block';
     removeBtn.disabled = true;
@@ -137,16 +140,13 @@ removeBtn.addEventListener('click', async () => {
         
         loadingText.innerText = "Initializing AI model locally...";
         
-        // Wait seamlessly for the engine to finish loading if it hasn't already
-        const module = await imglyEnginePromise;
-        const imglyRemoveBackground = module.default;
         const config = {
-            publicPath: "https://unpkg.com/@imgly/background-removal@1.4.5/dist/",
-            model: "small", // Use small model to prevent heavy load on user's device
+            publicPath: "https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.4.5/dist/",
+            model: "small",
             progress: (key, current, total) => {
                 if(key.includes("fetch") && total > 0) {
                     const percent = Math.round((current/total)*100);
-                    loadingText.innerText = `Downloading AI model: ${percent}% (Only happens once)`;
+                    loadingText.innerText = 'Downloading AI model: ' + percent + '% (Only happens once)';
                 } else if (key.includes("compute")) {
                     loadingText.innerText = "Processing image...";
                 }

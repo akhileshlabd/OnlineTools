@@ -6,7 +6,7 @@
 <div class="tool-interface">
     <div class="text-center mb-4">
         <h2 class="fw-bold">Image Converter & Compressor</h2>
-        <p class="text-muted">Convert images to JPG, PNG, or WEBP and compress them for web use instantly.</p>
+        <p class="text-muted">Convert images to JPG, PNG, or WEBP and compress them for web use instantly. <b>Processed 100% in your browser</b> — your files never leave your device.</p>
     </div>
 
     <form id="converterForm">
@@ -14,7 +14,7 @@
             <i class="fas fa-exchange-alt text-success"></i>
             <h4>Select Image</h4>
             <p class="text-muted mb-0">or drop image here</p>
-            <input class="d-none" type="file" id="imageInput" name="image" accept="image/*" >
+            <input class="d-none" type="file" id="imageInput" name="image" accept="image/*">
         </div>
 
         <div id="filePreviewSection" class="text-center mb-4 p-3 bg-light rounded shadow-sm border position-relative" style="display:none;">
@@ -32,9 +32,9 @@
             <div class="col-md-5">
                 <label for="format" class="form-label fw-bold">Convert to</label>
                 <select class="form-select" id="format" name="format">
-                    <option value="JPEG">JPG (Best for photos)</option>
-                    <option value="PNG">PNG (Best for transparency)</option>
-                    <option value="WEBP">WEBP (Best for websites)</option>
+                    <option value="image/jpeg">JPG (Best for photos)</option>
+                    <option value="image/png">PNG (Best for transparency)</option>
+                    <option value="image/webp">WEBP (Best for websites)</option>
                 </select>
             </div>
             <div class="col-md-5" id="qualityWrapper">
@@ -51,10 +51,8 @@
         </div>
         
         <div class="text-center mt-3" id="spinnerContainer" style="display: none;">
-            <div class="spinner-border text-success" role="status">
-                <span class="visually-hidden">Converting...</span>
-            </div>
-            <p class="mt-2 text-muted">Converting image, please wait...</p>
+            <div class="spinner-border text-success" role="status"></div>
+            <p class="mt-2 text-muted">Converting image locally...</p>
         </div>
     </form>
 </div>
@@ -102,31 +100,23 @@ imageInput.addEventListener('change', handleFileLoad);
 function handleFileLoad() {
     if (imageInput.files && imageInput.files[0]) {
         const file = imageInput.files[0];
-        
         if (!file.type.startsWith('image/')) {
             alert('Please select a valid image file.');
             imageInput.value = '';
             return;
         }
-
         previewFileName.textContent = file.name;
         previewFileSize.textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
-        
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            imagePreview.src = e.target.result;
-            dropArea.style.display = 'none';
-            filePreviewSection.style.display = 'block';
-            optionsContainer.style.display = 'flex';
-            convertBtn.style.display = 'inline-block';
-        }
-        reader.readAsDataURL(file);
+        imagePreview.src = URL.createObjectURL(file);
+        dropArea.style.display = 'none';
+        filePreviewSection.style.display = 'block';
+        optionsContainer.style.display = 'flex';
+        convertBtn.style.display = 'inline-block';
     }
 }
 
 formatSelect.addEventListener('change', () => {
-    // PNG doesn't use the standard quality parameter in Pillow in the same way
-    if (formatSelect.value === 'PNG') {
+    if (formatSelect.value === 'image/png') {
         qualityWrapper.style.opacity = '0.5';
         qualityInput.disabled = true;
     } else {
@@ -135,62 +125,61 @@ formatSelect.addEventListener('change', () => {
     }
 });
 
-qualityInput.addEventListener('input', () => {
-    qualityVal.textContent = qualityInput.value;
-});
+qualityInput.addEventListener('input', () => { qualityVal.textContent = qualityInput.value; });
 
-form.addEventListener('submit', async (e) => {
+form.addEventListener('submit', (e) => {
     e.preventDefault();
-    
     if (!imageInput.files || imageInput.files.length === 0) {
         alert("Please select or drag-and-drop an image file first!");
         return;
     }
-    
     spinnerContainer.style.display = 'block';
     convertBtn.disabled = true;
     
-    const formData = new FormData(form);
+    const file = imageInput.files[0];
+    const targetFormat = formatSelect.value;
+    const quality = parseInt(qualityInput.value) / 100;
+    const img = new Image();
+    const url = URL.createObjectURL(file);
     
-    try {
-        const response = await fetch('/converter/convert', {
-            method: 'POST',
-            body: formData
-        });
-        
-        if (response.ok) {
-            const blob = await response.blob();
-            
-            let downloadFilename = 'converted_image.jpg';
-            const disposition = response.headers.get('Content-Disposition');
-            if (disposition && disposition.indexOf('attachment') !== -1) {
-                const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-                const matches = filenameRegex.exec(disposition);
-                if (matches != null && matches[1]) { 
-                    downloadFilename = matches[1].replace(/['"]/g, '');
-                }
+    img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        if (targetFormat === 'image/jpeg') {
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        ctx.drawImage(img, 0, 0);
+        canvas.toBlob((blob) => {
+            URL.revokeObjectURL(url);
+            if (!blob) {
+                alert('Conversion failed. Your browser may not support this format.');
+                spinnerContainer.style.display = 'none';
+                convertBtn.disabled = false;
+                return;
             }
-
-            const url = URL.createObjectURL(blob);
+            const name = file.name.split('.')[0] || 'image';
+            const extMap = {'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp'};
+            const ext = extMap[targetFormat] || 'png';
             const a = document.createElement('a');
-            a.href = url;
-            a.download = downloadFilename;
-            
+            a.href = URL.createObjectURL(blob);
+            a.download = name + '_converted.' + ext;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        } else {
-            const data = await response.json();
-            alert('Error: ' + (data.error || 'Failed to convert image'));
-        }
-    } catch (error) {
-        alert('An error occurred during conversion.');
-    } finally {
+            spinnerContainer.style.display = 'none';
+            convertBtn.disabled = false;
+        }, targetFormat, quality);
+    };
+    img.onerror = () => {
+        URL.revokeObjectURL(url);
+        alert('Failed to load image.');
         spinnerContainer.style.display = 'none';
         convertBtn.disabled = false;
-    }
+    };
+    img.src = url;
 });
 </script>
 {% endblock %}
-

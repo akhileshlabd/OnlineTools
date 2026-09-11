@@ -264,9 +264,7 @@ form.addEventListener('submit', async (e) => {
             let downloadFilename = 'processed_document.pdf';
             const disposition = response.headers.get('Content-Disposition');
             if (disposition && disposition.indexOf('attachment') !== -1) {
-                const matches = /filename[^;=
-]*=((['"]).*?|[^;
-]*)/.exec(disposition);
+                const matches = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(disposition);
                 if (matches != null && matches[1]) downloadFilename = matches[1].replace(/['"]/g, '');
             }
             

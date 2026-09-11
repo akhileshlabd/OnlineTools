@@ -3,18 +3,15 @@
 {% block content %}
 <div class="text-center mb-4">
     <h2 class="fw-bold text-dark mb-2">Every tool you need</h2>
-    <p class="text-muted mb-4">100% Free. No watermarks. No installation required. Over 30 tools available.</p>
+    <p class="text-muted mb-4">100% Free. No watermarks. No installation required. Most tools work entirely in your browser.</p>
 
     <!-- Tab Buttons -->
     <div class="d-inline-flex bg-white rounded-pill p-1 shadow-sm border mb-4">
         <button class="btn btn-primary rounded-pill px-4 fw-semibold tab-btn active" onclick="showCategory('pdf', this)">
-            <i class="fas fa-file-pdf me-2"></i>PDF (10)
+            <i class="fas fa-file-pdf me-2"></i>PDF Tools
         </button>
         <button class="btn btn-light rounded-pill px-4 fw-semibold tab-btn text-secondary" onclick="showCategory('image', this)">
-            <i class="fas fa-image me-2"></i>Image (10)
-        </button>
-        <button class="btn btn-light rounded-pill px-4 fw-semibold tab-btn text-secondary" onclick="showCategory('resume', this)">
-            <i class="fas fa-file-alt me-2"></i>Career (10)
+            <i class="fas fa-image me-2"></i>Image Tools
         </button>
     </div>
 </div>
@@ -53,17 +50,17 @@
         <a href="{{ url_for('image.resizer') }}" class="tool-card">
             <div class="icon-wrapper img-icon"><i class="fas fa-expand-arrows-alt"></i></div>
             <h3>Resize Image</h3>
-            <p>Change the dimensions of any image while maintaining aspect ratio.</p>
+            <p>Change image dimensions with aspect ratio lock. 100% browser-side.</p>
         </a>
         <a href="{{ url_for('image.image_converter_page') }}" class="tool-card">
             <div class="icon-wrapper img-icon"><i class="fas fa-exchange-alt"></i></div>
             <h3>Convert Image</h3>
-            <p>Convert and compress images to JPG, PNG, or WEBP.</p>
+            <p>Convert and compress images to JPG, PNG, or WEBP. 100% browser-side.</p>
         </a>
         <a href="{{ url_for('image.background_remover') }}" class="tool-card">
             <div class="icon-wrapper img-icon"><i class="fas fa-eraser"></i></div>
             <h3>Remove Background</h3>
-            <p>Instantly remove backgrounds from images automatically using local processing.</p>
+            <p>Instantly remove backgrounds from images using on-device AI.</p>
         </a>
         {% for key, t in image_tools.items() %}
         <a href="{{ url_for('image.dynamic_image_tool', tool_id=t.id) }}" class="tool-card">
@@ -75,22 +72,16 @@
     </div>
 </div>
 
-<!-- Resume & Career Tools -->
-<div id="resume" class="tool-category" style="display: none;">
-    <div class="tool-grid mb-4">
-        <a href="{{ url_for('resume.resume_builder') }}" class="tool-card">
-            <div class="icon-wrapper doc-icon"><i class="fas fa-file-alt"></i></div>
-            <h3>Resume Builder</h3>
-            <p>Create professional resumes easily with dynamic sections.</p>
-        </a>
-        {% for key, t in career_tools.items() %}
-        <a href="{{ url_for('resume.dynamic_career_tool', tool_id=t.id) }}" class="tool-card">
-            <div class="icon-wrapper doc-icon"><i class="fas {{ t.icon }}"></i></div>
-            <h3>{{ t.name }}</h3>
-            <p>{{ t.desc }}</p>
-        </a>
-        {% endfor %}
-    </div>
+<!-- Resume Builder — standalone -->
+<div class="text-center mt-4 mb-3">
+    <h4 class="fw-bold text-dark"><i class="fas fa-file-alt text-primary me-2"></i>Documents</h4>
+</div>
+<div class="tool-grid mb-4">
+    <a href="{{ url_for('resume.resume_builder') }}" class="tool-card">
+        <div class="icon-wrapper doc-icon"><i class="fas fa-file-alt"></i></div>
+        <h3>Resume Builder</h3>
+        <p>Create professional resumes with dynamic sections. Download as PDF.</p>
+    </a>
 </div>
 
 <script>

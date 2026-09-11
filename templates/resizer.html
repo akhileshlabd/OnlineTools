@@ -6,7 +6,7 @@
 <div class="tool-interface">
     <div class="text-center mb-4">
         <h2 class="fw-bold">Resize Image</h2>
-        <p class="text-muted">Resize JPG, PNG, or GIF images by defining new height and width pixels.</p>
+        <p class="text-muted">Resize JPG, PNG, or GIF images by defining new height and width pixels. <b>Processed 100% in your browser.</b></p>
     </div>
 
     <form id="resizerForm">
@@ -14,29 +14,34 @@
             <i class="fas fa-expand-arrows-alt"></i>
             <h4>Select Image</h4>
             <p class="text-muted mb-0">or drop image here</p>
-            <input class="d-none" type="file" id="imageInput" name="image" accept="image/*" >
+            <input class="d-none" type="file" id="imageInput" name="image" accept="image/*">
         </div>
 
-        <div id="imagePreviewContainer" class="text-center mb-4" style="display:none;">
-            <img id="imagePreview" class="img-fluid rounded shadow-sm" style="max-height: 250px; object-fit: contain;">
-            <p class="mt-2 text-muted" id="originalDimensions"></p>
+        <div id="filePreviewSection" class="text-center mb-4 p-3 bg-light rounded shadow-sm border position-relative" style="display:none;">
+            <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 rounded-circle shadow" onclick="removeFile()" title="Remove File" style="z-index: 10;">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="d-flex justify-content-center align-items-center flex-column">
+                <img id="imagePreview" class="img-fluid rounded shadow-sm mb-3" style="max-height: 250px; object-fit: contain;">
+                <h5 id="previewFileName" class="mb-1 text-truncate w-100 px-3"></h5>
+                <small id="previewFileSize" class="text-muted"></small>
+                <small class="text-muted mt-1" id="originalDimensions"></small>
+            </div>
         </div>
 
-        <div class="row g-3 justify-content-center mb-4">
+        <div class="row g-3 justify-content-center mb-4" id="optionsContainer" style="display:none;">
             <div class="col-md-4">
                 <label for="width" class="form-label fw-bold">Width (px)</label>
-                <input type="number" class="form-control" id="width" name="width" required>
+                <input type="number" class="form-control" id="width" name="width" min="1" required>
             </div>
             <div class="col-md-4">
                 <label for="height" class="form-label fw-bold">Height (px)</label>
-                <input type="number" class="form-control" id="height" name="height" required>
+                <input type="number" class="form-control" id="height" name="height" min="1" required>
             </div>
             <div class="col-md-4 d-flex align-items-end">
                 <div class="form-check mb-2">
-                    <input class="form-check-input" type="checkbox" id="keepRatio" name="keep_ratio" value="true" checked>
-                    <label class="form-check-label text-muted" for="keepRatio">
-                        Maintain Aspect Ratio
-                    </label>
+                    <input class="form-check-input" type="checkbox" id="keepRatio" checked>
+                    <label class="form-check-label text-muted" for="keepRatio">Maintain Aspect Ratio</label>
                 </div>
             </div>
         </div>
@@ -48,10 +53,8 @@
         </div>
         
         <div class="text-center mt-3" id="spinnerContainer" style="display: none;">
-            <div class="spinner-border text-success" role="status">
-                <span class="visually-hidden">Resizing...</span>
-            </div>
-            <p class="mt-2 text-muted">Resizing, please wait...</p>
+            <div class="spinner-border text-success" role="status"></div>
+            <p class="mt-2 text-muted">Resizing locally...</p>
         </div>
     </form>
 </div>
@@ -67,13 +70,23 @@ const keepRatioCheckbox = document.getElementById('keepRatio');
 const dropArea = document.getElementById('dropArea');
 const resizeBtn = document.getElementById('resizeBtn');
 const imagePreview = document.getElementById('imagePreview');
-const previewContainer = document.getElementById('imagePreviewContainer');
+const filePreviewSection = document.getElementById('filePreviewSection');
+const previewFileName = document.getElementById('previewFileName');
+const previewFileSize = document.getElementById('previewFileSize');
 const originalDimensions = document.getElementById('originalDimensions');
+const optionsContainer = document.getElementById('optionsContainer');
 const spinnerContainer = document.getElementById('spinnerContainer');
 
-let originalWidth = 0;
-let originalHeight = 0;
-let aspectRatio = 1;
+let originalWidth = 0, originalHeight = 0, aspectRatio = 1;
+
+function removeFile() {
+    imageInput.value = '';
+    filePreviewSection.style.display = 'none';
+    optionsContainer.style.display = 'none';
+    resizeBtn.style.display = 'none';
+    dropArea.style.display = 'block';
+    imagePreview.src = '';
+}
 
 dropArea.addEventListener('dragover', (e) => { e.preventDefault(); dropArea.classList.add('dragover'); });
 dropArea.addEventListener('dragleave', () => { dropArea.classList.remove('dragover'); });
@@ -91,26 +104,30 @@ imageInput.addEventListener('change', handleImageLoad);
 function handleImageLoad() {
     if (imageInput.files && imageInput.files[0]) {
         const file = imageInput.files[0];
-        const reader = new FileReader();
-        
-        reader.onload = function(e) {
-            const img = new Image();
-            img.onload = function() {
-                originalWidth = img.width;
-                originalHeight = img.height;
-                aspectRatio = originalWidth / originalHeight;
-                
-                widthInput.value = originalWidth;
-                heightInput.value = originalHeight;
-                originalDimensions.textContent = `Original size: ${originalWidth} x ${originalHeight} px`;
-                
-                imagePreview.src = img.src;
-                previewContainer.style.display = 'block';
-                resizeBtn.style.display = 'inline-block';
-            }
-            img.src = e.target.result;
+        if (!file.type.startsWith('image/')) {
+            alert('Please select a valid image file.');
+            imageInput.value = '';
+            return;
         }
-        reader.readAsDataURL(file);
+        previewFileName.textContent = file.name;
+        previewFileSize.textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
+        
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = function() {
+            originalWidth = img.width;
+            originalHeight = img.height;
+            aspectRatio = originalWidth / originalHeight;
+            widthInput.value = originalWidth;
+            heightInput.value = originalHeight;
+            originalDimensions.textContent = 'Original: ' + originalWidth + ' × ' + originalHeight + ' px';
+            imagePreview.src = url;
+            dropArea.style.display = 'none';
+            filePreviewSection.style.display = 'block';
+            optionsContainer.style.display = 'flex';
+            resizeBtn.style.display = 'inline-block';
+        };
+        img.src = url;
     }
 }
 
@@ -119,48 +136,80 @@ widthInput.addEventListener('input', () => {
         heightInput.value = Math.round(widthInput.value / aspectRatio);
     }
 });
-
 heightInput.addEventListener('input', () => {
     if (keepRatioCheckbox.checked && heightInput.value) {
         widthInput.value = Math.round(heightInput.value * aspectRatio);
     }
 });
 
-form.addEventListener('submit', async (e) => {
+form.addEventListener('submit', (e) => {
     e.preventDefault();
+    if (!imageInput.files || imageInput.files.length === 0) {
+        alert("Please select or drag-and-drop an image file first!");
+        return;
+    }
+    const w = parseInt(widthInput.value);
+    const h = parseInt(heightInput.value);
+    if (!w || !h || w <= 0 || h <= 0) {
+        alert('Width and height must be positive numbers.');
+        return;
+    }
     
     spinnerContainer.style.display = 'block';
     resizeBtn.disabled = true;
     
-    const formData = new FormData(form);
+    const file = imageInput.files[0];
+    const img = new Image();
+    const url = URL.createObjectURL(file);
     
-    try {
-        const response = await fetch('/resizer/resize', {
-            method: 'POST',
-            body: formData
-        });
+    img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
         
-        if (response.ok) {
-            const blob = await response.blob();
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            
-            const originalName = imageInput.files[0].name;
-            const ext = originalName.split('.').pop();
-            a.download = `resized_${originalName}`;
-            
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+        // Determine output format from original file
+        let mimeType = file.type;
+        if (!['image/jpeg', 'image/png', 'image/webp'].includes(mimeType)) mimeType = 'image/png';
+        if (mimeType === 'image/jpeg') {
+            // Redraw with white bg for JPEG
+            const canvas2 = document.createElement('canvas');
+            canvas2.width = w;
+            canvas2.height = h;
+            const ctx2 = canvas2.getContext('2d');
+            ctx2.fillStyle = '#FFFFFF';
+            ctx2.fillRect(0, 0, w, h);
+            ctx2.drawImage(canvas, 0, 0);
+            canvas2.toBlob(downloadBlob, mimeType, 0.92);
         } else {
-            const data = await response.json();
-            alert('Error: ' + (data.error || 'Failed to resize image'));
+            canvas.toBlob(downloadBlob, mimeType);
         }
-    } catch (error) {
-        alert('An error occurred during resizing.');
-    } finally {
+        URL.revokeObjectURL(url);
+    };
+    img.onerror = () => {
+        URL.revokeObjectURL(url);
+        alert('Failed to load image.');
+        spinnerContainer.style.display = 'none';
+        resizeBtn.disabled = false;
+    };
+    img.src = url;
+    
+    function downloadBlob(blob) {
+        if (!blob) {
+            alert('Resize failed.');
+            spinnerContainer.style.display = 'none';
+            resizeBtn.disabled = false;
+            return;
+        }
+        const ext = file.name.split('.').pop() || 'png';
+        const name = file.name.split('.').slice(0, -1).join('.') || 'image';
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'resized_' + name + '.' + ext;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
         spinnerContainer.style.display = 'none';
         resizeBtn.disabled = false;
     }

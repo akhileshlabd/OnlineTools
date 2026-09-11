@@ -2,19 +2,23 @@
 
 {% block title %}Image to PDF - Free Qube{% endblock %}
 
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+{% endblock %}
+
 {% block content %}
 <div class="tool-interface">
     <div class="text-center mb-4">
         <h2 class="fw-bold">JPG to PDF</h2>
-        <p class="text-muted">Convert JPG, PNG, and GIF images to PDF in seconds. Easily adjust orientation and margins.</p>
+        <p class="text-muted">Convert JPG, PNG, and GIF images to PDF in seconds. <b>Processed 100% in your browser.</b></p>
     </div>
 
-    <form method="POST" action="{{ url_for('pdf.image_to_pdf') }}" enctype="multipart/form-data">
+    <form id="imgToPdfForm">
         <div class="drag-drop-area mb-4" id="dropArea" onclick="document.getElementById('images').click()">
             <i class="fas fa-images"></i>
             <h4>Select Images</h4>
             <p class="text-muted mb-0">or drop images here</p>
-            <input class="d-none" type="file" id="images" name="images" multiple accept="image/png, image/jpeg, image/jpg">
+            <input class="d-none" type="file" id="images" name="images" multiple accept="image/png, image/jpeg, image/jpg, image/gif, image/webp">
         </div>
 
         <div id="previewContainer" class="d-flex flex-wrap gap-3 mb-4 justify-content-center"></div>
@@ -23,6 +27,11 @@
             <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5 fw-bold shadow-sm" id="convertBtn" style="display:none;">
                 <i class="fas fa-file-pdf me-2"></i>Convert to PDF
             </button>
+        </div>
+        
+        <div class="text-center mt-3" id="spinnerContainer" style="display: none;">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="mt-2 text-muted">Creating PDF locally...</p>
         </div>
     </form>
 </div>
@@ -34,48 +43,143 @@ const imageInput = document.getElementById('images');
 const previewContainer = document.getElementById('previewContainer');
 const convertBtn = document.getElementById('convertBtn');
 const dropArea = document.getElementById('dropArea');
+const form = document.getElementById('imgToPdfForm');
+const spinnerContainer = document.getElementById('spinnerContainer');
 
-dropArea.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    dropArea.classList.add('dragover');
-});
-dropArea.addEventListener('dragleave', () => {
-    dropArea.classList.remove('dragover');
-});
+let selectedFiles = [];
+
+dropArea.addEventListener('dragover', (e) => { e.preventDefault(); dropArea.classList.add('dragover'); });
+dropArea.addEventListener('dragleave', () => { dropArea.classList.remove('dragover'); });
 dropArea.addEventListener('drop', (e) => {
     e.preventDefault();
     dropArea.classList.remove('dragover');
-    imageInput.files = e.dataTransfer.files;
-    updatePreview();
+    addFiles(e.dataTransfer.files);
 });
 
-imageInput.addEventListener('change', updatePreview);
+imageInput.addEventListener('change', () => {
+    addFiles(imageInput.files);
+    imageInput.value = '';
+});
 
-function updatePreview() {
+function addFiles(fileList) {
+    const newFiles = Array.from(fileList).filter(f => f.type.startsWith('image/'));
+    for (const file of newFiles) {
+        if (!selectedFiles.some(f => f.name === file.name && f.size === file.size)) {
+            selectedFiles.push(file);
+        }
+    }
+    renderPreviews();
+}
+
+function removeImage(index) {
+    selectedFiles.splice(index, 1);
+    renderPreviews();
+}
+
+function renderPreviews() {
     previewContainer.innerHTML = '';
-    const files = imageInput.files;
-    
-    if (files.length > 0) {
+    if (selectedFiles.length > 0) {
         convertBtn.style.display = 'inline-block';
-        
-        Array.from(files).forEach(file => {
-            if(file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.className = 'img-thumbnail shadow-sm';
-                    img.style.width = '100px';
-                    img.style.height = '100px';
-                    img.style.objectFit = 'cover';
-                    previewContainer.appendChild(img);
-                };
-                reader.readAsDataURL(file);
-            }
-        });
     } else {
         convertBtn.style.display = 'none';
     }
+    
+    selectedFiles.forEach((file, index) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'position-relative';
+        wrapper.style.width = '100px';
+        
+        const img = document.createElement('img');
+        img.className = 'img-thumbnail shadow-sm';
+        img.style.width = '100px';
+        img.style.height = '100px';
+        img.style.objectFit = 'cover';
+        img.src = URL.createObjectURL(file);
+        
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'btn btn-danger btn-sm position-absolute top-0 end-0 rounded-circle shadow';
+        removeBtn.style.cssText = 'width:22px;height:22px;padding:0;font-size:10px;line-height:22px;transform:translate(30%,-30%);z-index:5;';
+        removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+        removeBtn.onclick = (e) => { e.preventDefault(); removeImage(index); };
+        
+        wrapper.appendChild(img);
+        wrapper.appendChild(removeBtn);
+        previewContainer.appendChild(wrapper);
+    });
+}
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (selectedFiles.length === 0) {
+        alert('Please select at least one image.');
+        return;
+    }
+    
+    spinnerContainer.style.display = 'block';
+    convertBtn.disabled = true;
+    
+    try {
+        const { jsPDF } = window.jspdf;
+        
+        // Load all images first
+        const loadedImages = [];
+        for (const file of selectedFiles) {
+            const img = await loadImage(file);
+            loadedImages.push(img);
+        }
+        
+        // Create PDF - first page determines initial orientation
+        const firstImg = loadedImages[0];
+        const orientation = firstImg.width > firstImg.height ? 'landscape' : 'portrait';
+        const pdf = new jsPDF({ orientation: orientation, unit: 'px', format: 'a4' });
+        
+        loadedImages.forEach((img, i) => {
+            if (i > 0) {
+                const pageOrientation = img.width > img.height ? 'l' : 'p';
+                pdf.addPage('a4', pageOrientation);
+            }
+            
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
+            const margin = 20;
+            const maxW = pageWidth - margin * 2;
+            const maxH = pageHeight - margin * 2;
+            
+            let drawW = img.width;
+            let drawH = img.height;
+            const ratio = Math.min(maxW / drawW, maxH / drawH);
+            drawW *= ratio;
+            drawH *= ratio;
+            
+            const x = (pageWidth - drawW) / 2;
+            const y = (pageHeight - drawH) / 2;
+            
+            pdf.addImage(img.src, 'JPEG', x, y, drawW, drawH);
+        });
+        
+        pdf.save('converted_images.pdf');
+    } catch (err) {
+        console.error(err);
+        alert('Failed to create PDF. Please try again.');
+    } finally {
+        spinnerContainer.style.display = 'none';
+        convertBtn.disabled = false;
+    }
+});
+
+function loadImage(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = reject;
+            img.src = e.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
 }
 </script>
 {% endblock %}
