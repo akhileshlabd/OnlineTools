@@ -115,22 +115,22 @@ def image_to_pdf():
     return render_template('image_to_pdf.html')
 
 PDF_TOOLS = {
-    'protect': {'id': 'protect', 'type': 'pdf', 'name': 'Protect PDF', 'desc': 'Encrypt your PDF with a password.', 'icon': 'fa-lock', 'endpoint': '/pdf-route/process/protect', 'inputs': [{'name': 'password', 'type': 'password', 'label': 'Password'}]},
-    'unlock': {'id': 'unlock', 'type': 'pdf', 'name': 'Unlock PDF', 'desc': 'Remove password from a PDF.', 'icon': 'fa-unlock', 'endpoint': '/pdf-route/process/unlock', 'inputs': [{'name': 'password', 'type': 'password', 'label': 'Current Password'}]},
-    'rotate_pdf': {'id': 'rotate_pdf', 'type': 'pdf', 'name': 'Rotate PDF', 'desc': 'Rotate all pages by 90, 180, or 270 degrees.', 'icon': 'fa-sync', 'endpoint': '/pdf-route/process/rotate_pdf', 'inputs': [{'name': 'angle', 'type': 'number', 'label': 'Angle (90, 180, 270)', 'min': 90, 'max': 270}]},
-    'extract_text': {'id': 'extract_text', 'type': 'pdf', 'name': 'Extract Text', 'desc': 'Extract all text from a PDF file into a .txt file.', 'icon': 'fa-file-word', 'endpoint': '/pdf-route/process/extract_text', 'inputs': []},
-    'remove_page': {'id': 'remove_page', 'type': 'pdf', 'name': 'Remove Page', 'desc': 'Delete a specific page from your PDF.', 'icon': 'fa-trash-alt', 'endpoint': '/pdf-route/process/remove_page', 'inputs': [{'name': 'page_num', 'type': 'number', 'label': 'Page Number to Remove', 'min': 1}]},
-    'add_blank': {'id': 'add_blank', 'type': 'pdf', 'name': 'Add Blank Page', 'desc': 'Add a blank page to the end of the document.', 'icon': 'fa-plus-square', 'endpoint': '/pdf-route/process/add_blank', 'inputs': []},
-    'metadata': {'id': 'metadata', 'type': 'pdf', 'name': 'Read Metadata', 'desc': 'Extract metadata (author, title) as text.', 'icon': 'fa-info-circle', 'endpoint': '/pdf-route/process/metadata', 'inputs': []}
+    'protect': {'id': 'protect', 'type': 'pdf', 'name': 'Protect PDF', 'desc': 'Encrypt your PDF with a password.', 'icon': 'fa-lock', 'endpoint': '/pdf-process/protect', 'inputs': [{'name': 'password', 'type': 'password', 'label': 'Password'}]},
+    'unlock': {'id': 'unlock', 'type': 'pdf', 'name': 'Unlock PDF', 'desc': 'Remove password from a PDF.', 'icon': 'fa-unlock', 'endpoint': '/pdf-process/unlock', 'inputs': [{'name': 'password', 'type': 'password', 'label': 'Current Password'}]},
+    'rotate_pdf': {'id': 'rotate_pdf', 'type': 'pdf', 'name': 'Rotate PDF', 'desc': 'Rotate all pages by 90, 180, or 270 degrees.', 'icon': 'fa-sync', 'endpoint': '/pdf-process/rotate_pdf', 'inputs': [{'name': 'angle', 'type': 'number', 'label': 'Angle (90, 180, 270)', 'min': 90, 'max': 270}]},
+    'extract_text': {'id': 'extract_text', 'type': 'pdf', 'name': 'Extract Text', 'desc': 'Extract all text from a PDF file into a .txt file.', 'icon': 'fa-file-word', 'endpoint': '/pdf-process/extract_text', 'inputs': []},
+    'remove_page': {'id': 'remove_page', 'type': 'pdf', 'name': 'Remove Page', 'desc': 'Delete a specific page from your PDF.', 'icon': 'fa-trash-alt', 'endpoint': '/pdf-process/remove_page', 'inputs': [{'name': 'page_num', 'type': 'number', 'label': 'Page Number to Remove', 'min': 1}]},
+    'add_blank': {'id': 'add_blank', 'type': 'pdf', 'name': 'Add Blank Page', 'desc': 'Add a blank page to the end of the document.', 'icon': 'fa-plus-square', 'endpoint': '/pdf-process/add_blank', 'inputs': []},
+    'metadata': {'id': 'metadata', 'type': 'pdf', 'name': 'Read Metadata', 'desc': 'Extract metadata (author, title) as text.', 'icon': 'fa-info-circle', 'endpoint': '/pdf-process/metadata', 'inputs': []}
 }
 
-@pdf_bp.route('/tool/<tool_id>')
+@pdf_bp.route('/pdf-tool/<tool_id>')
 def dynamic_pdf_tool(tool_id):
     tool = PDF_TOOLS.get(tool_id)
     if not tool: return "Tool not found", 404
     return render_template('dynamic_tool.html', tool=tool)
 
-@pdf_bp.route('/process/<tool_id>', methods=['POST'])
+@pdf_bp.route('/pdf-process/<tool_id>', methods=['POST'])
 def process_dynamic_pdf(tool_id):
     if 'file' not in request.files: return jsonify({'error': 'No file uploaded'}), 400
     file = request.files['file']
