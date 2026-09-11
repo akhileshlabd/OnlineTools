@@ -105,14 +105,18 @@ removeBtn.addEventListener('click', async () => {
     removeBtn.disabled = true;
     
     try {
-        const imageFile = imageInput.files[0];
+        let imageFile = imageInput.files[0];
         
-        // Use client side background removal with proper CDN path for assets
+        // --- CRITICAL STABILITY FIX ---
+        // WebAssembly often crashes on high-res images (e.g. 4K phone photos) due to memory limits.
+        // We gracefully downscale the image to a max of 1200px before processing.
+        loadingText.innerText = "Optimizing image for processing...";
+        const optimizedBlob = await optimizeImageSize(imageFile, 1200);
+        
         loadingText.innerText = "Initializing AI model locally...";
-        
         const config = {
-            publicPath: "https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.4.5/dist/",
-            model: "small",
+            publicPath: "https://unpkg.com/@imgly/background-removal@1.4.5/dist/",
+            model: "small", // Use small model to prevent heavy load on user's device
             progress: (key, current, total) => {
                 if(key.includes("fetch") && total > 0) {
                     const percent = Math.round((current/total)*100);
@@ -123,7 +127,7 @@ removeBtn.addEventListener('click', async () => {
             }
         };
 
-        const blob = await imglyRemoveBackground(imageFile, config);
+        const blob = await imglyRemoveBackground(optimizedBlob, config);
 
         let finalBlob = blob;
         
@@ -145,13 +149,47 @@ removeBtn.addEventListener('click', async () => {
         URL.revokeObjectURL(url);
     } catch (error) {
         console.error("Background Removal Error:", error);
-        alert('An error occurred during processing. Please ensure you have a stable internet connection for the initial AI model download.');
+        alert(`Error: ${error.message || 'Browser out of memory or model failed to load.'}. Try using a smaller image or a different browser.`);
     } finally {
         spinnerContainer.style.display = 'none';
         removeBtn.disabled = false;
         loadingText.innerText = "Processing...";
     }
 });
+
+// Helper: Downscales image safely to avoid WASM OOM crashes
+function optimizeImageSize(file, maxSize) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        const url = URL.createObjectURL(file);
+        img.onload = () => {
+            let width = img.width;
+            let height = img.height;
+            
+            if (width > maxSize || height > maxSize) {
+                if (width > height) {
+                    height = Math.round(height * (maxSize / width));
+                    width = maxSize;
+                } else {
+                    width = Math.round(width * (maxSize / height));
+                    height = maxSize;
+                }
+            }
+            
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            canvas.toBlob((blob) => {
+                URL.revokeObjectURL(url);
+                resolve(blob);
+            }, file.type, 0.9);
+        };
+        img.src = url;
+    });
+}
 
 // Helper to draw the blob onto a canvas with a background color
 function applyBackgroundColor(blob, hexColor) {
