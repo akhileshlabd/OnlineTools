@@ -76,10 +76,6 @@ def resize():
     except Exception as e:
         return jsonify({'error': f'Failed to resize: {str(e)}'}), 500
 
-@image_bp.route('/background_remover')
-def background_remover():
-    return render_template('background_remover.html')
-
 @image_bp.route('/converter')
 def image_converter_page():
     return render_template('image_converter.html')
