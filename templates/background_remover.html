@@ -3,15 +3,7 @@
 {% block title %}Remove Background - Free Qube{% endblock %}
 
 {% block head %}
-<!-- Load imgly background removal locally via ESM module -->
-<script type="module">
-    import imglyRemoveBackground from 'https://unpkg.com/@imgly/background-removal@1.4.5/dist/imgly-background-removal.esm.js';
-    window.imglyRemoveBackground = imglyRemoveBackground;
-    // Enable the button once loaded
-    document.addEventListener("DOMContentLoaded", () => {
-        document.getElementById('loadingText').innerText = "AI Module Ready";
-    });
-</script>
+<!-- Engine loads dynamically in the background -->
 {% endblock %}
 
 {% block content %}
@@ -128,12 +120,11 @@ transparentBg.addEventListener('change', () => {
     bgColor.disabled = transparentBg.checked;
 });
 
+// Pre-fetch the AI engine seamlessly in the background so it's ready when they click
+const imglyEnginePromise = import('https://unpkg.com/@imgly/background-removal@1.4.5/dist/imgly-background-removal.esm.js');
+
 removeBtn.addEventListener('click', async () => {
     if (!imageInput.files || !imageInput.files[0]) return;
-    if (typeof window.imglyRemoveBackground === 'undefined') {
-        alert("Please wait a moment for the AI engine to finish loading...");
-        return;
-    }
     
     spinnerContainer.style.display = 'block';
     removeBtn.disabled = true;
@@ -141,13 +132,14 @@ removeBtn.addEventListener('click', async () => {
     try {
         let imageFile = imageInput.files[0];
         
-        // --- CRITICAL STABILITY FIX ---
-        // WebAssembly often crashes on high-res images (e.g. 4K phone photos) due to memory limits.
-        // We gracefully downscale the image to a max of 1200px before processing.
         loadingText.innerText = "Optimizing image for processing...";
         const optimizedBlob = await optimizeImageSize(imageFile, 1200);
         
         loadingText.innerText = "Initializing AI model locally...";
+        
+        // Wait seamlessly for the engine to finish loading if it hasn't already
+        const module = await imglyEnginePromise;
+        const imglyRemoveBackground = module.default;
         const config = {
             publicPath: "https://unpkg.com/@imgly/background-removal@1.4.5/dist/",
             model: "small", // Use small model to prevent heavy load on user's device
