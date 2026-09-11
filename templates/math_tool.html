@@ -1,0 +1,289 @@
+{% extends "base.html" %}
+
+{% block title %}{{ tool.seo_title }} - Free Qube{% endblock %}
+{% block meta_desc %}{{ tool.seo_desc }}{% endblock %}
+
+{% block schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "{{ tool.name }}",
+  "operatingSystem": "All",
+  "applicationCategory": "UtilitiesApplication",
+  "description": "{{ tool.seo_desc }}",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="tool-interface" style="max-width: 800px;">
+    <div class="text-center mb-4">
+        <div class="icon-wrapper mx-auto mb-3 text-warning"><i class="fas {{ tool.icon }} fa-2x"></i></div>
+        <h2 class="fw-bold">{{ tool.name }}</h2>
+        <p class="text-muted">{{ tool.desc }}</p>
+    </div>
+
+    <!-- PERCENTAGE CALCULATOR -->
+    {% if tool.id == 'percentage' %}
+    <div class="row g-4">
+        <!-- Calc 1: What is X% of Y -->
+        <div class="col-md-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 bg-light rounded">
+                    <h5 class="fw-bold mb-3">1. What is X% of Y?</h5>
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <span>What is</span>
+                        <input type="number" id="p1-x" class="form-control" style="width: 100px;" placeholder="20" oninput="calcP1()">
+                        <span>% of</span>
+                        <input type="number" id="p1-y" class="form-control" style="width: 120px;" placeholder="150" oninput="calcP1()">
+                        <span>?</span>
+                        <h4 class="fw-bold text-success mb-0 ms-auto" id="p1-res">30</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calc 2: X is what percent of Y -->
+        <div class="col-md-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 bg-light rounded">
+                    <h5 class="fw-bold mb-3">2. X is what percent of Y?</h5>
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <input type="number" id="p2-x" class="form-control" style="width: 100px;" placeholder="50" oninput="calcP2()">
+                        <span>is what percent of</span>
+                        <input type="number" id="p2-y" class="form-control" style="width: 120px;" placeholder="200" oninput="calcP2()">
+                        <span>?</span>
+                        <h4 class="fw-bold text-primary mb-0 ms-auto" id="p2-res">25%</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calc 3: Percentage Increase/Decrease -->
+        <div class="col-md-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 bg-light rounded">
+                    <h5 class="fw-bold mb-3">3. Percentage Increase / Decrease</h5>
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <span>From</span>
+                        <input type="number" id="p3-x" class="form-control" style="width: 120px;" placeholder="100" oninput="calcP3()">
+                        <span>to</span>
+                        <input type="number" id="p3-y" class="form-control" style="width: 120px;" placeholder="150" oninput="calcP3()">
+                        <h4 class="fw-bold text-danger mb-0 ms-auto" id="p3-res">Up 50%</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AGE CALCULATOR -->
+    {% elif tool.id == 'age' %}
+    <div class="row g-4 align-items-center">
+        <div class="col-md-5">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Date of Birth</label>
+                        <input type="date" id="dob" class="form-control form-control-lg" onchange="calcAge()">
+                    </div>
+                    <div class="mb-0">
+                        <label class="form-label fw-bold">Calculate age at</label>
+                        <input type="date" id="targetDate" class="form-control" onchange="calcAge()">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="card shadow-sm border-0 h-100 bg-light">
+                <div class="card-body p-4 d-flex flex-column justify-content-center text-center">
+                    <h2 class="fw-bold text-dark mb-4" id="age-main">0 Years, 0 Months, 0 Days</h2>
+                    
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="bg-white p-3 rounded shadow-sm">
+                                <h4 class="fw-bold text-primary mb-0" id="age-months">0</h4>
+                                <p class="text-muted small fw-bold mb-0">TOTAL MONTHS</p>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="bg-white p-3 rounded shadow-sm">
+                                <h4 class="fw-bold text-success mb-0" id="age-weeks">0</h4>
+                                <p class="text-muted small fw-bold mb-0">TOTAL WEEKS</p>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="bg-white p-3 rounded shadow-sm">
+                                <h4 class="fw-bold text-info mb-0" id="age-days">0</h4>
+                                <p class="text-muted small fw-bold mb-0">TOTAL DAYS</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DISCOUNT CALCULATOR -->
+    {% elif tool.id == 'discount' %}
+    <div class="row g-4 align-items-center justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Original Price ($)</label>
+                        <input type="number" id="origPrice" class="form-control form-control-lg" placeholder="100.00" oninput="calcDiscount()">
+                    </div>
+                    <div class="mb-0">
+                        <label class="form-label fw-bold">Discount (%)</label>
+                        <div class="d-flex align-items-center gap-2">
+                            <input type="range" class="form-range w-100" id="discRange" min="0" max="100" value="20" oninput="syncDisc('range')">
+                            <input type="number" class="form-control w-25" id="discNum" value="20" min="0" max="100" oninput="syncDisc('num')">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100 bg-light">
+                <div class="card-body p-4 text-center d-flex flex-column justify-content-center">
+                    <p class="text-muted fw-bold mb-1">Final Sale Price</p>
+                    <h1 class="display-4 fw-bold text-success mb-3" id="finalPrice">$80.00</h1>
+                    
+                    <div class="p-3 bg-white rounded shadow-sm border-start border-danger border-4">
+                        <p class="text-muted fw-bold mb-0">You Save: <span class="text-danger fs-5" id="savedAmount">$20.00</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- SEO Content -->
+<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
+    <h2 class="fw-bold mb-3">About the {{ tool.name }}</h2>
+    <p>Welcome to our free online {{ tool.name }}. Designed for fast, everyday use, this utility helps you crunch numbers instantly. You don't need to be a math whiz or remember complex algebraic formulas to get accurate results. We built this calculator to run entirely on the client-side within your browser. That means the math is calculated on your own device with absolute privacy and zero server delays.</p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const toolId = "{{ tool.id }}";
+
+    // --- PERCENTAGE LOGIC ---
+    function calcP1() {
+        const x = parseFloat(document.getElementById('p1-x').value);
+        const y = parseFloat(document.getElementById('p1-y').value);
+        const resEl = document.getElementById('p1-res');
+        if(isNaN(x) || isNaN(y)) { resEl.innerText = '-'; return; }
+        resEl.innerText = parseFloat(((x / 100) * y).toFixed(4));
+    }
+    function calcP2() {
+        const x = parseFloat(document.getElementById('p2-x').value);
+        const y = parseFloat(document.getElementById('p2-y').value);
+        const resEl = document.getElementById('p2-res');
+        if(isNaN(x) || isNaN(y) || y === 0) { resEl.innerText = '-'; return; }
+        resEl.innerText = parseFloat(((x / y) * 100).toFixed(4)) + '%';
+    }
+    function calcP3() {
+        const x = parseFloat(document.getElementById('p3-x').value);
+        const y = parseFloat(document.getElementById('p3-y').value);
+        const resEl = document.getElementById('p3-res');
+        if(isNaN(x) || isNaN(y) || x === 0) { resEl.innerText = '-'; return; }
+        const diff = y - x;
+        const perc = (diff / x) * 100;
+        if(perc > 0) {
+            resEl.innerText = 'Up ' + parseFloat(perc.toFixed(4)) + '%';
+            resEl.className = "fw-bold text-success mb-0 ms-auto";
+        } else if (perc < 0) {
+            resEl.innerText = 'Down ' + parseFloat(Math.abs(perc).toFixed(4)) + '%';
+            resEl.className = "fw-bold text-danger mb-0 ms-auto";
+        } else {
+            resEl.innerText = 'No change';
+            resEl.className = "fw-bold text-muted mb-0 ms-auto";
+        }
+    }
+
+    // --- AGE LOGIC ---
+    function calcAge() {
+        const dobStr = document.getElementById('dob').value;
+        const targetStr = document.getElementById('targetDate').value;
+        if(!dobStr || !targetStr) return;
+
+        const dob = new Date(dobStr);
+        const target = new Date(targetStr);
+        
+        if (target < dob) {
+            document.getElementById('age-main').innerText = "Target date is before birth date";
+            return;
+        }
+
+        // Years, Months, Days calculation (Complex but accurate)
+        let years = target.getFullYear() - dob.getFullYear();
+        let months = target.getMonth() - dob.getMonth();
+        let days = target.getDate() - dob.getDate();
+
+        if (days < 0) {
+            months--;
+            const prevMonth = new Date(target.getFullYear(), target.getMonth(), 0);
+            days += prevMonth.getDate();
+        }
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+
+        document.getElementById('age-main').innerText = `${years} Years, ${months} Months, ${days} Days`;
+
+        // Absolute calculations
+        const diffTime = Math.abs(target - dob);
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        const diffWeeks = Math.floor(diffDays / 7);
+        const totalMonths = (years * 12) + months;
+
+        document.getElementById('age-months').innerText = totalMonths.toLocaleString();
+        document.getElementById('age-weeks').innerText = diffWeeks.toLocaleString();
+        document.getElementById('age-days').innerText = diffDays.toLocaleString();
+    }
+
+    // --- DISCOUNT LOGIC ---
+    function syncDisc(source) {
+        if(source === 'range') document.getElementById('discNum').value = document.getElementById('discRange').value;
+        if(source === 'num') document.getElementById('discRange').value = document.getElementById('discNum').value;
+        calcDiscount();
+    }
+    function calcDiscount() {
+        const orig = parseFloat(document.getElementById('origPrice').value);
+        const disc = parseFloat(document.getElementById('discNum').value);
+        if(isNaN(orig) || isNaN(disc)) return;
+        
+        const saved = (orig * disc) / 100;
+        const final = orig - saved;
+
+        const formatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+        
+        document.getElementById('savedAmount').innerText = formatter.format(saved);
+        document.getElementById('finalPrice').innerText = formatter.format(final);
+    }
+
+    // Init
+    document.addEventListener('DOMContentLoaded', () => {
+        if (toolId === 'percentage') {
+            calcP1(); calcP2(); calcP3();
+        } else if (toolId === 'age') {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('targetDate').value = today;
+            document.getElementById('dob').value = '1990-01-01';
+            calcAge();
+        } else if (toolId === 'discount') {
+            calcDiscount();
+        }
+    });
+</script>
+{% endblock %}

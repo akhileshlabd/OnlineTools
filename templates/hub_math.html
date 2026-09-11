@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Free Everyday Math Calculators - Free Qube{% endblock %}
+{% block meta_desc %}Free online math calculators. Calculate percentages, exact ages, and discount sale prices instantly in your browser.{% endblock %}
+
+{% block content %}
+<div class="text-center mb-4">
+    <div class="icon-wrapper mx-auto mb-3 text-warning"><i class="fas fa-calculator fa-2x"></i></div>
+    <h2 class="fw-bold text-dark mb-2">Everyday Math Calculators</h2>
+    <p class="text-muted mb-4">Simple, fast calculators for everyday life.</p>
+</div>
+
+<div class="tool-grid mb-4">
+    {% for key, t in math_tools.items() %}
+    <a href="{{ url_for('math.math_tool_page', tool_id=t.id) }}" class="tool-card">
+        <div class="icon-wrapper img-icon text-warning"><i class="fas {{ t.icon }}"></i></div>
+        <h3>{{ t.name }}</h3>
+        <p>{{ t.desc }}</p>
+    </a>
+    {% endfor %}
+</div>
+
+<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
+    <h2 class="fw-bold mb-3">Instant Math Solutions</h2>
+    <p>Forget trying to remember complex formulas. Free Qube's Everyday Math Hub provides incredibly fast, precise calculators for the most common math problems you face daily. Whether you are calculating how much you will save during a holiday sale, figuring out exactly what 20% of a bill is for a tip, or calculating your exact chronological age, our tools give you the answer instantly. Because these calculators run purely in your web browser, they require absolutely no loading screens and function even if your internet connection drops.</p>
+</div>
+{% endblock %}

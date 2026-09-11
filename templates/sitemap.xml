@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <!-- Static Pages -->
+    <url>
+        <loc>{{ url_for('home', _external=True) }}</loc>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>{{ url_for('about_page', _external=True) }}</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>{{ url_for('privacy_page', _external=True) }}</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>{{ url_for('terms_page', _external=True) }}</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>{{ url_for('contact_page', _external=True) }}</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+
+    <!-- Category Hubs -->
+    <url><loc>{{ url_for('pdf.pdf_hub', _external=True) }}</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>{{ url_for('image.image_hub', _external=True) }}</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>{{ url_for('finance.finance_hub', _external=True) }}</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>{{ url_for('code.code_hub', _external=True) }}</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>{{ url_for('text.text_hub', _external=True) }}</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>{{ url_for('health.health_hub', _external=True) }}</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>{{ url_for('math.math_hub', _external=True) }}</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+
+    <!-- Hardcoded Tools -->
+    <url><loc>{{ url_for('pdf.pdf_merger_page', _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>{{ url_for('pdf.pdf_splitter_page', _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>{{ url_for('pdf.image_to_pdf', _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>{{ url_for('image.resizer', _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>{{ url_for('image.image_converter_page', _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>{{ url_for('image.qr_generator', _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+    <!-- Dynamic PDF Tools -->
+    {% for id, t in pdf_tools.items() %}
+    <url><loc>{{ url_for('pdf.dynamic_pdf_tool', tool_id=id, _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    {% endfor %}
+
+    <!-- Dynamic Image Tools -->
+    {% for id, t in image_tools.items() %}
+    <url><loc>{{ url_for('image.dynamic_image_tool', tool_id=id, _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    {% endfor %}
+
+    <!-- Dynamic Finance Tools -->
+    {% for id, t in finance_tools.items() %}
+    <url><loc>{{ url_for('finance.calculator_page', tool_id=id, _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    {% endfor %}
+
+    <!-- Dynamic Code Tools -->
+    {% for id, t in code_tools.items() %}
+    <url><loc>{{ url_for('code.code_tool_page', tool_id=id, _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    {% endfor %}
+
+    <!-- Dynamic Text Tools -->
+    {% for id, t in text_tools.items() %}
+    <url><loc>{{ url_for('text.text_tool_page', tool_id=id, _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    {% endfor %}
+
+    <!-- Dynamic Health Tools -->
+    {% for id, t in health_tools.items() %}
+    <url><loc>{{ url_for('health.health_tool_page', tool_id=id, _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    {% endfor %}
+
+    <!-- Dynamic Math Tools -->
+    {% for id, t in math_tools.items() %}
+    <url><loc>{{ url_for('math.math_tool_page', tool_id=id, _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    {% endfor %}
+
+</urlset>
