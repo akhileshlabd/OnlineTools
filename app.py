@@ -22,10 +22,31 @@ app.register_blueprint(resume_bp)
 def home():
     return render_template('index.html', image_tools=IMAGE_TOOLS, pdf_tools=PDF_TOOLS, career_tools=CAREER_TOOLS)
 
-# ---------------- AdSense ----------------
+# ---------------- Legal / Policies (AdSense Compliance) ----------------
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/privacy')
+def privacy():
+    return render_template('privacy.html')
+
+@app.route('/terms')
+def terms():
+    return render_template('terms.html')
+
+# ---------------- AdSense & SEO ----------------
 @app.route('/ads.txt')
-def static_from_root():
+def ads_txt():
     return send_from_directory(app.static_folder, 'ads.txt')
+
+@app.route('/robots.txt')
+def robots_txt():
+    return send_from_directory(app.static_folder, 'robots.txt')
+
+@app.route('/sitemap.xml')
+def sitemap_xml():
+    return send_from_directory(app.static_folder, 'sitemap.xml')
 
 if __name__ == '__main__':
     # Ensure upload folder exists just in case it's used elsewhere
