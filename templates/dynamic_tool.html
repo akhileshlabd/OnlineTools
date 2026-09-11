@@ -1,6 +1,26 @@
 {% extends "base.html" %}
-{% block title %}{{ tool.name }} - Free Qube{% endblock %}
 
+{% block title %}{{ tool.name }} - Free Qube{% endblock %}
+{% block meta_desc %}Use our free {{ tool.name }} tool online. {{ tool.desc }} No watermark, no installation required. Fast and secure processing.{% endblock %}
+{% block meta_keywords %}{{ tool.name | lower }}, free {{ tool.name | lower }}, online {{ tool.name | lower }}, free qube, {{ tool.type }} tools{% endblock %}
+
+{% block schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "{{ tool.name }}",
+  "operatingSystem": "All",
+  "applicationCategory": "UtilitiesApplication",
+  "description": "{{ tool.desc }}",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+{% endblock %}
 {% block content %}
 <div class="tool-interface" style="max-width: 700px;">
     <div class="text-center mb-4">

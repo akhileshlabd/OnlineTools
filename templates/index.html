@@ -1,5 +1,28 @@
 {% extends "base.html" %}
 
+{% block title %}Free Qube | Online PDF tools for PDF lovers & Image Utilities{% endblock %}
+{% block meta_desc %}Free Qube is an online service to work with PDF files completely free and easy to use. Merge PDF, split PDF, compress PDF, office to PDF, PDF to JPG and more.{% endblock %}
+
+{% block schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": [
+    {% for id, tool in pdf_tools.items() %}
+    {
+      "@type": "ListItem",
+      "position": {{ loop.index }},
+      "url": "{{ url_for('pdf.pdf_tool', tool_id=id, _external=True) }}",
+      "name": "{{ tool.name }}",
+      "description": "{{ tool.desc }}"
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endblock %}
+
 {% block content %}
 <div class="text-center mb-4">
     <h2 class="fw-bold text-dark mb-2">Every tool you need</h2>
@@ -91,9 +114,36 @@ function showCategory(categoryId, btn) {
         el.classList.remove('btn-primary', 'active', 'text-white');
         el.classList.add('btn-light', 'text-secondary');
     });
-    document.getElementById(categoryId).style.display = 'block';
-    btn.classList.remove('btn-light', 'text-secondary');
-    btn.classList.add('btn-primary', 'active', 'text-white');
+    
+    const categoryEl = document.getElementById(categoryId);
+    if (categoryEl) {
+        categoryEl.style.display = 'block';
+    }
+    
+    if (btn) {
+        btn.classList.remove('btn-light', 'text-secondary');
+        btn.classList.add('btn-primary', 'active', 'text-white');
+    } else {
+        const targetBtn = document.querySelector(`button[onclick*="'${categoryId}'"]`);
+        if (targetBtn) {
+            targetBtn.classList.remove('btn-light', 'text-secondary');
+            targetBtn.classList.add('btn-primary', 'active', 'text-white');
+        }
+    }
 }
+
+function handleHash() {
+    const hash = window.location.hash;
+    if (hash === '#image') {
+        showCategory('image');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (hash === '#pdf') {
+        showCategory('pdf');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+window.addEventListener('DOMContentLoaded', handleHash);
+window.addEventListener('hashchange', handleHash);
 </script>
 {% endblock %}

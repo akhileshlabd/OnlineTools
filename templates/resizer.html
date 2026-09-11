@@ -1,6 +1,26 @@
 {% extends "base.html" %}
 
-{% block title %}Resize Image - Free Qube{% endblock %}
+{% block title %}Resize Image Online for Free - Free Qube{% endblock %}
+{% block meta_desc %}Resize JPG, PNG, or GIF images easily by defining new height and width pixels. Fast, browser-based, and completely free.{% endblock %}
+{% block meta_keywords %}resize image, online image resizer, change image dimensions, scale image, free image resizer{% endblock %}
+
+{% block schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Image Resizer",
+  "operatingSystem": "All",
+  "applicationCategory": "UtilitiesApplication",
+  "description": "Resize JPG, PNG, or GIF images easily by defining new height and width pixels.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+{% endblock %}
 
 {% block content %}
 <div class="tool-interface">
