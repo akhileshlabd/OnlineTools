@@ -134,15 +134,16 @@ PDF_TOOLS = {
     'remove_page': {'id': 'remove_page', 'type': 'pdf', 'name': 'Remove Page', 'desc': 'Delete a specific page from your PDF.', 'icon': 'fa-trash-alt', 'endpoint': '/pdf-process/remove_page', 'inputs': [{'name': 'page_num', 'type': 'number', 'label': 'Page Number to Remove', 'min': 1}]},
     'add_blank': {'id': 'add_blank', 'type': 'pdf', 'name': 'Add Blank Page', 'desc': 'Add a blank page to the end of the document.', 'icon': 'fa-plus-square', 'endpoint': '/pdf-process/add_blank', 'inputs': []},
     'metadata': {'id': 'metadata', 'type': 'pdf', 'name': 'Read Metadata', 'desc': 'Extract metadata (author, title) as text.', 'icon': 'fa-info-circle', 'endpoint': '/pdf-process/metadata', 'inputs': []},
-    # New PDF tools added to match iLovePDF features
+    # Lightweight tools retained; heavy tools removed per AdSense review
     'compress': {'id': 'compress', 'type': 'pdf', 'name': 'Compress PDF', 'desc': 'Reduce PDF file size.', 'icon': 'fa-compress', 'endpoint': '/pdf-process/compress', 'inputs': []},
     'convert_word': {'id': 'convert_word', 'type': 'pdf', 'name': 'PDF to Word', 'desc': 'Convert PDF to DOCX.', 'icon': 'fa-file-word', 'endpoint': '/pdf-process/convert_word', 'inputs': []},
     'convert_excel': {'id': 'convert_excel', 'type': 'pdf', 'name': 'PDF to Excel', 'desc': 'Convert PDF to XLSX.', 'icon': 'fa-file-excel', 'endpoint': '/pdf-process/convert_excel', 'inputs': []},
     'watermark': {'id': 'watermark', 'type': 'pdf', 'name': 'Add Watermark', 'desc': 'Add text or image watermark.', 'icon': 'fa-water', 'endpoint': '/pdf-process/watermark', 'inputs': [{'name': 'watermark_text', 'type': 'text', 'label': 'Watermark Text'}]},
     'ocr': {'id': 'ocr', 'type': 'pdf', 'name': 'PDF OCR', 'desc': 'Extract text via OCR.', 'icon': 'fa-magnifying-glass', 'endpoint': '/pdf-process/ocr', 'inputs': []},
     'extract_images': {'id': 'extract_images', 'type': 'pdf', 'name': 'Extract Images', 'desc': 'Extract all images from PDF.', 'icon': 'fa-image', 'endpoint': '/pdf-process/extract_images', 'inputs': []},
-    'optimize': {'id': 'optimize', 'type': 'pdf', 'name': 'Optimize PDF', 'desc': 'Remove metadata and compress streams.', 'icon': 'fa-wrench', 'endpoint': '/pdf-process/optimize', 'inputs': []},
+    'optimize': {'id': 'optimize', 'type': 'pdf', 'name': 'Optimize PDF', 'desc': 'Remove metadata and compress streams.', 'icon': 'fa-wrench', 'endpoint': '/pdf-process/optimize', 'inputs': []}
 }
+
 
 @pdf_bp.route('/pdf-tool/<tool_id>')
 def dynamic_pdf_tool(tool_id):
