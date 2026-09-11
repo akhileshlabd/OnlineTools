@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Free Health & Fitness Calculators - Free Qube{% endblock %}
+{% block meta_desc %}Free online health calculators. Calculate your BMI, daily calorie needs, TDEE, and pregnancy due date.{% endblock %}
+
+{% block content %}
+<div class="text-center mb-4">
+    <div class="icon-wrapper mx-auto mb-3 text-danger"><i class="fas fa-heartbeat fa-2x"></i></div>
+    <h2 class="fw-bold text-dark mb-2">Health & Fitness Calculators</h2>
+    <p class="text-muted mb-4">Track your wellness goals with accurate, private calculators.</p>
+</div>
+
+<div class="tool-grid mb-4">
+    {% for key, t in health_tools.items() %}
+    <a href="{{ url_for('health.health_tool_page', tool_id=t.id) }}" class="tool-card">
+        <div class="icon-wrapper img-icon text-danger"><i class="fas {{ t.icon }}"></i></div>
+        <h3>{{ t.name }}</h3>
+        <p>{{ t.desc }}</p>
+    </a>
+    {% endfor %}
+</div>
+
+<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
+    <h2 class="fw-bold mb-3">Accurate Health & Fitness Planning</h2>
+    <p>Staying on top of your health starts with the right numbers. Free Qube provides incredibly fast, precise calculators to help you manage your wellness journey. Whether you are checking your Body Mass Index (BMI), calculating exactly how many calories you should eat to lose or gain weight, or planning for a new arrival with our pregnancy due date tool, we've got you covered. Best of all, because health data is highly personal, we built these calculators to run 100% inside your web browser. Nothing you type is ever sent to our servers.</p>
+</div>
+{% endblock %}

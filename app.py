@@ -5,6 +5,8 @@ from routes.pdf import pdf_bp, PDF_TOOLS
 from routes.image import image_bp, IMAGE_TOOLS
 from routes.finance import finance_bp, FINANCE_TOOLS
 from routes.code import code_bp, CODE_TOOLS
+from routes.text import text_bp, TEXT_TOOLS
+from routes.health import health_bp, HEALTH_TOOLS
 
 app = Flask(__name__)
 
@@ -18,11 +20,13 @@ app.register_blueprint(pdf_bp)
 app.register_blueprint(image_bp)
 app.register_blueprint(finance_bp)
 app.register_blueprint(code_bp)
+app.register_blueprint(text_bp)
+app.register_blueprint(health_bp)
 
 # ---------------- Home ----------------
 @app.route('/')
 def home():
-    return render_template('index.html', image_tools=IMAGE_TOOLS, pdf_tools=PDF_TOOLS, finance_tools=FINANCE_TOOLS, code_tools=CODE_TOOLS)
+    return render_template('index.html', image_tools=IMAGE_TOOLS, pdf_tools=PDF_TOOLS, finance_tools=FINANCE_TOOLS, code_tools=CODE_TOOLS, text_tools=TEXT_TOOLS, health_tools=HEALTH_TOOLS)
 
 # ---------------- Legal / Policies (AdSense Compliance) ----------------
 @app.route('/about')

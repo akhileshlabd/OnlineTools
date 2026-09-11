@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block title %}{{ tool.seo_title }} - Free Qube{% endblock %}
+{% block meta_desc %}{{ tool.seo_desc }}{% endblock %}
+
+{% block schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "{{ tool.name }}",
+  "operatingSystem": "All",
+  "applicationCategory": "UtilitiesApplication",
+  "description": "{{ tool.seo_desc }}",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="tool-interface" style="max-width: 900px;">
+    <div class="text-center mb-4">
+        <div class="icon-wrapper mx-auto mb-3 text-info"><i class="fas {{ tool.icon }} fa-2x"></i></div>
+        <h2 class="fw-bold">{{ tool.name }}</h2>
+        <p class="text-muted">{{ tool.desc }}</p>
+    </div>
+
+    <!-- WORD COUNTER -->
+    {% if tool.id == 'word-counter' %}
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="row text-center mb-3 g-2">
+                <div class="col-6 col-md-3">
+                    <div class="bg-light p-3 rounded shadow-sm border">
+                        <h3 class="fw-bold text-primary mb-0" id="count-words">0</h3>
+                        <p class="text-muted small mb-0 fw-bold">WORDS</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="bg-light p-3 rounded shadow-sm border">
+                        <h3 class="fw-bold text-success mb-0" id="count-chars">0</h3>
+                        <p class="text-muted small mb-0 fw-bold">CHARACTERS</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="bg-light p-3 rounded shadow-sm border">
+                        <h3 class="fw-bold text-info mb-0" id="count-sentences">0</h3>
+                        <p class="text-muted small mb-0 fw-bold">SENTENCES</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="bg-light p-3 rounded shadow-sm border">
+                        <h3 class="fw-bold text-warning mb-0" id="count-time">0m</h3>
+                        <p class="text-muted small mb-0 fw-bold">READ TIME</p>
+                    </div>
+                </div>
+            </div>
+            <textarea id="textInput" class="form-control" rows="12" placeholder="Start typing or paste your text here..." oninput="updateCounts()"></textarea>
+            <div class="mt-2 text-end">
+                <button class="btn btn-sm btn-outline-secondary" onclick="document.getElementById('textInput').value=''; updateCounts();">Clear Text</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CASE CONVERTER -->
+    {% elif tool.id == 'case-converter' %}
+    <div class="row g-3">
+        <div class="col-12 text-center mb-2">
+            <div class="btn-group flex-wrap shadow-sm">
+                <button class="btn btn-outline-primary fw-bold" onclick="convertCase('upper')">UPPERCASE</button>
+                <button class="btn btn-outline-primary fw-bold" onclick="convertCase('lower')">lowercase</button>
+                <button class="btn btn-outline-primary fw-bold" onclick="convertCase('title')">Title Case</button>
+                <button class="btn btn-outline-primary fw-bold" onclick="convertCase('sentence')">Sentence case.</button>
+            </div>
+        </div>
+        <div class="col-12">
+            <textarea id="textInput" class="form-control" rows="12" placeholder="Paste your text here, then click a button above to convert it."></textarea>
+        </div>
+        <div class="col-12 text-center mt-3">
+            <button class="btn btn-success px-4 rounded-pill fw-bold" onclick="copyText()"><i class="fas fa-copy me-2"></i>Copy to Clipboard</button>
+        </div>
+    </div>
+
+    <!-- LOREM IPSUM -->
+    {% elif tool.id == 'lorem-ipsum' %}
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h5 class="fw-bold mb-4">Settings</h5>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-muted">Paragraphs</label>
+                        <input type="number" id="loremCount" class="form-control" value="3" min="1" max="50">
+                    </div>
+                    <button class="btn btn-primary w-100 fw-bold" onclick="generateLorem()">Generate Text</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="position-relative">
+                <textarea id="textOutput" class="form-control" rows="12" readonly></textarea>
+                <button class="btn btn-sm btn-dark position-absolute top-0 end-0 m-2" onclick="copyTextOutput()">Copy</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- SEO Content -->
+<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
+    <h2 class="fw-bold mb-3">About the {{ tool.name }}</h2>
+    <p>Welcome to our free online {{ tool.name }}. Designed for students, professional writers, and SEO marketers, this robust utility helps you process and manipulate your text content lightning fast.</p>
+    
+    <h3 class="h5 fw-bold mt-4">100% Client-Side Processing</h3>
+    <p>We know that your essays, proprietary articles, and marketing copy are highly sensitive. That is why this tool processes all text <strong>entirely in your local web browser</strong> using JavaScript. None of your writing is ever uploaded or saved to our servers. Your data remains completely private, giving you ultimate peace of mind while ensuring the tool responds instantly to every keystroke.</p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const toolId = "{{ tool.id }}";
+
+    function updateCounts() {
+        const text = document.getElementById('textInput').value;
+        const chars = text.length;
+        const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+        const sentences = text.trim() === '' ? 0 : text.split(/[.!?]+/).filter(Boolean).length;
+        const time = Math.ceil(words / 200); // 200 wpm average reading speed
+
+        document.getElementById('count-chars').innerText = chars;
+        document.getElementById('count-words').innerText = words;
+        document.getElementById('count-sentences').innerText = sentences;
+        document.getElementById('count-time').innerText = time + 'm';
+    }
+
+    function convertCase(type) {
+        const el = document.getElementById('textInput');
+        let text = el.value;
+        if (type === 'upper') {
+            el.value = text.toUpperCase();
+        } else if (type === 'lower') {
+            el.value = text.toLowerCase();
+        } else if (type === 'title') {
+            el.value = text.toLowerCase().split(' ').map(w => w.charAt(0).toUpperCase() + w.substring(1)).join(' ');
+        } else if (type === 'sentence') {
+            el.value = text.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase());
+        }
+    }
+
+    function copyText() {
+        const el = document.getElementById('textInput');
+        el.select();
+        document.execCommand('copy');
+        Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Copied!', showConfirmButton: false, timer: 1500 });
+    }
+
+    function copyTextOutput() {
+        const el = document.getElementById('textOutput');
+        el.select();
+        document.execCommand('copy');
+        Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Copied!', showConfirmButton: false, timer: 1500 });
+    }
+
+    function generateLorem() {
+        const count = parseInt(document.getElementById('loremCount').value) || 3;
+        const lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+        let res = [];
+        for (let i = 0; i < count; i++) {
+            res.push(lorem);
+        }
+        document.getElementById('textOutput').value = res.join('\n\n');
+    }
+
+    // Initialize
+    if (toolId === 'lorem-ipsum') generateLorem();
+</script>
+{% endblock %}

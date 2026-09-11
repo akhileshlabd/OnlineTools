@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Free Text & SEO Utilities - Free Qube{% endblock %}
+{% block meta_desc %}Free online text and SEO tools. Count words, convert case, and generate Lorem Ipsum placeholder text instantly.{% endblock %}
+
+{% block content %}
+<div class="text-center mb-4">
+    <div class="icon-wrapper mx-auto mb-3 text-info"><i class="fas fa-font fa-2x"></i></div>
+    <h2 class="fw-bold text-dark mb-2">Text & SEO Tools</h2>
+    <p class="text-muted mb-4">Essential utilities for writers, students, and SEO marketers.</p>
+</div>
+
+<div class="tool-grid mb-4">
+    {% for key, t in text_tools.items() %}
+    <a href="{{ url_for('text.text_tool_page', tool_id=t.id) }}" class="tool-card">
+        <div class="icon-wrapper img-icon text-info"><i class="fas {{ t.icon }}"></i></div>
+        <h3>{{ t.name }}</h3>
+        <p>{{ t.desc }}</p>
+    </a>
+    {% endfor %}
+</div>
+
+<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
+    <h2 class="fw-bold mb-3">Optimize Your Content Instantly</h2>
+    <p>Whether you are a student writing an essay, a web designer needing placeholder text, or an SEO specialist optimizing metadata, our Text and SEO tools are built to make your life easier. From instantly counting characters and estimating reading times to swapping capitalization with a single click, all of these tools run incredibly fast right in your browser. Because they execute purely on the client-side, your essays, articles, and proprietary content are entirely secure and never uploaded to our servers.</p>
+</div>
+{% endblock %}
