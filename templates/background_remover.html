@@ -4,7 +4,7 @@
 
 {% block head %}
 <!-- Load imgly background removal locally via CDN -->
-<script src="https://unpkg.com/@imgly/background-removal@1.4.5/dist/imgly-background-removal.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.4.5/dist/imgly-background-removal.umd.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -107,15 +107,23 @@ removeBtn.addEventListener('click', async () => {
     try {
         const imageFile = imageInput.files[0];
         
-        // Use client side background removal
-        loadingText.innerText = "Processing image locally using AI...";
-        const blob = await imglyRemoveBackground(imageFile, {
+        // Use client side background removal with proper CDN path for assets
+        loadingText.innerText = "Initializing AI model locally...";
+        
+        const config = {
+            publicPath: "https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.4.5/dist/",
+            model: "small",
             progress: (key, current, total) => {
-                if(key.includes("fetch")) {
-                    loadingText.innerText = `Downloading AI model: ${Math.round((current/total)*100)}%`;
+                if(key.includes("fetch") && total > 0) {
+                    const percent = Math.round((current/total)*100);
+                    loadingText.innerText = `Downloading AI model: ${percent}% (Only happens once)`;
+                } else if (key.includes("compute")) {
+                    loadingText.innerText = "Processing image...";
                 }
             }
-        });
+        };
+
+        const blob = await imglyRemoveBackground(imageFile, config);
 
         let finalBlob = blob;
         
@@ -136,8 +144,8 @@ removeBtn.addEventListener('click', async () => {
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
     } catch (error) {
-        console.error(error);
-        alert('An error occurred during processing. Your browser might not support this feature or the image is too large.');
+        console.error("Background Removal Error:", error);
+        alert('An error occurred during processing. Please ensure you have a stable internet connection for the initial AI model download.');
     } finally {
         spinnerContainer.style.display = 'none';
         removeBtn.disabled = false;
