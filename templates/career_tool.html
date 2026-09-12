@@ -8,24 +8,20 @@
 <style>
     /* Resume Builder Layout */
     .resume-builder-container { display: flex; flex-wrap: wrap; gap: 20px; }
-    .resume-editor { flex: 1 1 400px; max-height: 800px; overflow-y: auto; padding-right: 15px; }
+    .resume-editor { flex: 1 1 450px; max-height: 800px; overflow-y: auto; padding-right: 15px; }
     .resume-preview-wrapper { flex: 1 1 600px; position: sticky; top: 20px; display: flex; flex-direction: column; align-items: center; }
     
-    /* The actual ATS-friendly Resume Paper */
+    /* Drag & Drop */
+    .drag-drop-zone { border: 2px dashed #0d6efd; border-radius: 8px; padding: 20px; text-align: center; background: #f8f9fa; cursor: pointer; transition: 0.3s; margin-bottom: 20px; }
+    .drag-drop-zone:hover { background: #e9ecef; }
+    
+    /* Resume Paper */
     .resume-paper {
-        width: 100%;
-        max-width: 210mm; /* A4 width */
-        min-height: 297mm; /* A4 height */
-        background: #fff;
-        padding: 40px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        color: #333;
-        line-height: 1.5;
-        box-sizing: border-box;
+        width: 100%; max-width: 210mm; min-height: 297mm; background: #fff; padding: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333; line-height: 1.5; box-sizing: border-box;
     }
     
-    /* Typography for Resume */
+    /* Typography */
     .res-header { text-align: center; margin-bottom: 25px; border-bottom: 2px solid #333; padding-bottom: 15px; }
     .res-name { font-size: 28px; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 1px; color: #111; }
     .res-title { font-size: 16px; color: #555; margin-bottom: 10px; font-weight: 500; }
@@ -33,9 +29,7 @@
     .res-contact span { margin: 0 8px; }
     
     .res-section-title { font-size: 16px; font-weight: bold; text-transform: uppercase; border-bottom: 1px solid #ccc; margin-top: 20px; margin-bottom: 15px; padding-bottom: 5px; color: #222; }
-    
     .res-summary { font-size: 13px; text-align: justify; margin-bottom: 15px; }
-    
     .res-item { margin-bottom: 15px; }
     .res-item-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 3px; }
     .res-item-title { font-size: 14px; font-weight: bold; color: #222; }
@@ -43,13 +37,15 @@
     .res-item-subtitle { font-size: 13px; font-weight: 500; margin-bottom: 5px; color: #444; }
     .res-item-desc { font-size: 13px; margin: 0; padding-left: 15px; }
     .res-item-desc li { margin-bottom: 3px; }
-    
     .res-skills { font-size: 13px; display: flex; flex-wrap: wrap; gap: 10px; }
     .res-skill-badge { background: #f0f0f0; padding: 4px 10px; border-radius: 4px; border: 1px solid #ddd; }
 
-    /* Custom scrollbar for editor */
     .resume-editor::-webkit-scrollbar { width: 6px; }
     .resume-editor::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 4px; }
+    
+    .editable-header { display: flex; align-items: center; width: 100%; }
+    .editable-header input { font-size: 1.1rem; border: none; background: transparent; outline: none; box-shadow: none; padding: 0; }
+    .editable-header input:focus { border-bottom: 1px dashed #0d6efd; }
 </style>
 {% endblock %}
 
@@ -63,6 +59,18 @@
     <!-- EDITOR PANEL -->
     <div class="resume-editor card shadow-sm border-0">
         <div class="card-body p-4">
+            
+            <div class="drag-drop-zone" id="drop-zone" onclick="document.getElementById('importFile').click()">
+                <i class="fas fa-file-import fa-2x text-primary mb-2"></i>
+                <h6 class="fw-bold m-0">Import Resume Data (.json)</h6>
+                <p class="small text-muted m-0 mt-1">Drag & drop your saved FreeQube resume data here.</p>
+                <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(this.files[0])">
+            </div>
+
+            <div class="alert alert-info py-2 small">
+                <i class="fas fa-info-circle me-1"></i> <strong>Why JSON instead of PDF parsing?</strong> 
+                Client-side PDF parsing is highly inaccurate due to PDF structure loss. Using JSON saves ensures perfect layout mapping and 100% privacy!
+            </div>
             
             <h5 class="fw-bold text-primary mb-3"><i class="fas fa-user-circle me-2"></i>Personal Info</h5>
             <div class="mb-3">
@@ -88,36 +96,78 @@
                 <input type="text" id="inp-location" class="form-control" placeholder="New York, NY | linkedin.com/in/johndoe" oninput="updateResume()">
             </div>
 
-            <h5 class="fw-bold text-primary mb-3 border-top pt-3"><i class="fas fa-align-left me-2"></i>Professional Summary</h5>
-            <div class="mb-4">
+            <!-- SUMMARY -->
+            <div class="d-flex justify-content-between align-items-center mb-2 border-top pt-3">
+                <div class="editable-header">
+                    <i class="fas fa-align-left text-primary me-2"></i>
+                    <input type="text" id="title-summary" class="fw-bold text-primary" value="Professional Summary" oninput="updateResume()">
+                </div>
+                <button class="btn btn-sm btn-outline-secondary border-0" onclick="toggleSection('summary', this)" title="Hide Section"><i class="fas fa-eye-slash"></i></button>
+            </div>
+            <div class="mb-4" id="edit-sec-summary">
                 <textarea id="inp-summary" class="form-control" rows="4" placeholder="Dedicated software engineer with 5+ years of experience..." oninput="updateResume()"></textarea>
             </div>
 
-            <h5 class="fw-bold text-primary mb-3 border-top pt-3 d-flex justify-content-between align-items-center">
-                <span><i class="fas fa-briefcase me-2"></i>Work Experience</span>
-                <button class="btn btn-sm btn-outline-primary" onclick="addExperience()"><i class="fas fa-plus"></i> Add</button>
-            </h5>
-            <div id="exp-container"></div>
+            <!-- EXPERIENCE -->
+            <div class="d-flex justify-content-between align-items-center mb-2 border-top pt-3">
+                <div class="editable-header">
+                    <i class="fas fa-briefcase text-primary me-2"></i>
+                    <input type="text" id="title-exp" class="fw-bold text-primary" value="Work Experience" oninput="updateResume()">
+                </div>
+                <div>
+                    <button class="btn btn-sm btn-outline-primary py-0 px-2 me-1" onclick="addExperience()"><i class="fas fa-plus"></i></button>
+                    <button class="btn btn-sm btn-outline-secondary border-0 py-0 px-2" onclick="toggleSection('exp', this)"><i class="fas fa-eye-slash"></i></button>
+                </div>
+            </div>
+            <div id="edit-sec-exp">
+                <div id="exp-container"></div>
+            </div>
 
-            <h5 class="fw-bold text-primary mb-3 border-top pt-3 d-flex justify-content-between align-items-center">
-                <span><i class="fas fa-graduation-cap me-2"></i>Education</span>
-                <button class="btn btn-sm btn-outline-primary" onclick="addEducation()"><i class="fas fa-plus"></i> Add</button>
-            </h5>
-            <div id="edu-container"></div>
+            <!-- EDUCATION -->
+            <div class="d-flex justify-content-between align-items-center mb-2 border-top pt-3">
+                <div class="editable-header">
+                    <i class="fas fa-graduation-cap text-primary me-2"></i>
+                    <input type="text" id="title-edu" class="fw-bold text-primary" value="Education" oninput="updateResume()">
+                </div>
+                <div>
+                    <button class="btn btn-sm btn-outline-primary py-0 px-2 me-1" onclick="addEducation()"><i class="fas fa-plus"></i></button>
+                    <button class="btn btn-sm btn-outline-secondary border-0 py-0 px-2" onclick="toggleSection('edu', this)"><i class="fas fa-eye-slash"></i></button>
+                </div>
+            </div>
+            <div id="edit-sec-edu">
+                <div id="edu-container"></div>
+            </div>
 
-            <h5 class="fw-bold text-primary mb-3 border-top pt-3"><i class="fas fa-tools me-2"></i>Skills</h5>
-            <div class="mb-4">
+            <!-- SKILLS -->
+            <div class="d-flex justify-content-between align-items-center mb-2 border-top pt-3">
+                <div class="editable-header">
+                    <i class="fas fa-tools text-primary me-2"></i>
+                    <input type="text" id="title-skills" class="fw-bold text-primary" value="Skills" oninput="updateResume()">
+                </div>
+                <button class="btn btn-sm btn-outline-secondary border-0" onclick="toggleSection('skills', this)" title="Hide Section"><i class="fas fa-eye-slash"></i></button>
+            </div>
+            <div class="mb-4" id="edit-sec-skills">
                 <textarea id="inp-skills" class="form-control" rows="2" placeholder="JavaScript, Python, React, SQL (Comma separated)" oninput="updateResume()"></textarea>
             </div>
+            
+            <!-- DYNAMIC SECTIONS -->
+            <div id="custom-sections-container"></div>
+            
+            <button class="btn btn-outline-secondary w-100 border-dashed mt-3" onclick="addCustomSection()"><i class="fas fa-plus-circle me-1"></i> Add Custom Section</button>
 
         </div>
     </div>
 
     <!-- PREVIEW PANEL -->
     <div class="resume-preview-wrapper">
-        <button class="btn btn-success btn-lg shadow fw-bold mb-3 w-100" onclick="downloadResumePDF()">
-            <i class="fas fa-download me-2"></i>Download PDF (ATS-Friendly)
-        </button>
+        <div class="d-flex w-100 gap-2 mb-3">
+            <button class="btn btn-outline-secondary w-50 fw-bold shadow-sm" onclick="exportJSON()">
+                <i class="fas fa-save me-2"></i>Save Data (.json)
+            </button>
+            <button class="btn btn-success w-50 fw-bold shadow-sm" onclick="downloadResumePDF()">
+                <i class="fas fa-file-pdf me-2"></i>Download PDF
+            </button>
+        </div>
         
         <div id="resume-document" class="resume-paper">
             <div class="res-header">
@@ -131,24 +181,26 @@
             </div>
 
             <div id="res-section-summary" style="display: none;">
-                <div class="res-section-title">Professional Summary</div>
+                <div class="res-section-title" id="res-header-summary">Professional Summary</div>
                 <div class="res-summary" id="res-summary"></div>
             </div>
 
             <div id="res-section-exp" style="display: none;">
-                <div class="res-section-title">Work Experience</div>
+                <div class="res-section-title" id="res-header-exp">Work Experience</div>
                 <div id="res-exp-list"></div>
             </div>
 
             <div id="res-section-edu" style="display: none;">
-                <div class="res-section-title">Education</div>
+                <div class="res-section-title" id="res-header-edu">Education</div>
                 <div id="res-edu-list"></div>
             </div>
 
             <div id="res-section-skills" style="display: none;">
-                <div class="res-section-title">Skills</div>
+                <div class="res-section-title" id="res-header-skills">Skills</div>
                 <div class="res-skills" id="res-skills"></div>
             </div>
+            
+            <div id="res-custom-sections-list"></div>
         </div>
     </div>
 </div>
@@ -159,41 +211,113 @@
 <script>
     let expCount = 0;
     let eduCount = 0;
+    let customCount = 0;
+    let hiddenSections = {}; // track hidden section IDs
 
-    function addExperience() {
+    // Drag and Drop Logic
+    const dropZone = document.getElementById('drop-zone');
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.background = '#e9ecef'; });
+    dropZone.addEventListener('dragleave', (e) => { e.preventDefault(); dropZone.style.background = '#f8f9fa'; });
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.style.background = '#f8f9fa';
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+            importJSON(e.dataTransfer.files[0]);
+        }
+    });
+
+    function addExperience(data = null) {
         expCount++;
         const id = expCount;
         const html = `
             <div class="border rounded p-3 mb-3 bg-light position-relative" id="exp-block-${id}">
                 <button type="button" class="btn-close position-absolute top-0 end-0 m-2" onclick="removeBlock('exp-block-${id}')"></button>
-                <input type="text" class="form-control form-control-sm mb-2 fw-bold" id="exp-title-${id}" placeholder="Job Title (e.g. Senior Developer)" oninput="updateResume()">
-                <input type="text" class="form-control form-control-sm mb-2" id="exp-company-${id}" placeholder="Company Name" oninput="updateResume()">
-                <input type="text" class="form-control form-control-sm mb-2" id="exp-date-${id}" placeholder="Jan 2020 - Present" oninput="updateResume()">
-                <textarea class="form-control form-control-sm" id="exp-desc-${id}" rows="3" placeholder="Description/Achievements (Use dashes for bullets)" oninput="updateResume()"></textarea>
+                <input type="text" class="form-control form-control-sm mb-2 fw-bold" id="exp-title-${id}" placeholder="Job Title (e.g. Senior Developer)" oninput="updateResume()" value="${data ? data.title : ''}">
+                <input type="text" class="form-control form-control-sm mb-2" id="exp-company-${id}" placeholder="Company Name" oninput="updateResume()" value="${data ? data.company : ''}">
+                <input type="text" class="form-control form-control-sm mb-2" id="exp-date-${id}" placeholder="Jan 2020 - Present" oninput="updateResume()" value="${data ? data.date : ''}">
+                <textarea class="form-control form-control-sm" id="exp-desc-${id}" rows="3" placeholder="Description/Achievements (Use dashes for bullets)" oninput="updateResume()">${data ? data.desc : ''}</textarea>
             </div>
         `;
         document.getElementById('exp-container').insertAdjacentHTML('beforeend', html);
-        updateResume();
+        if(!data) updateResume();
     }
 
-    function addEducation() {
+    function addEducation(data = null) {
         eduCount++;
         const id = eduCount;
         const html = `
             <div class="border rounded p-3 mb-3 bg-light position-relative" id="edu-block-${id}">
                 <button type="button" class="btn-close position-absolute top-0 end-0 m-2" onclick="removeBlock('edu-block-${id}')"></button>
-                <input type="text" class="form-control form-control-sm mb-2 fw-bold" id="edu-degree-${id}" placeholder="Degree (e.g. B.S. Computer Science)" oninput="updateResume()">
-                <input type="text" class="form-control form-control-sm mb-2" id="edu-school-${id}" placeholder="University Name" oninput="updateResume()">
-                <input type="text" class="form-control form-control-sm mb-2" id="edu-date-${id}" placeholder="Graduated May 2022" oninput="updateResume()">
+                <input type="text" class="form-control form-control-sm mb-2 fw-bold" id="edu-degree-${id}" placeholder="Degree (e.g. B.S. Computer Science)" oninput="updateResume()" value="${data ? data.degree : ''}">
+                <input type="text" class="form-control form-control-sm mb-2" id="edu-school-${id}" placeholder="University Name" oninput="updateResume()" value="${data ? data.school : ''}">
+                <input type="text" class="form-control form-control-sm mb-2" id="edu-date-${id}" placeholder="Graduated May 2022" oninput="updateResume()" value="${data ? data.date : ''}">
             </div>
         `;
         document.getElementById('edu-container').insertAdjacentHTML('beforeend', html);
-        updateResume();
+        if(!data) updateResume();
+    }
+
+    function addCustomSection(data = null) {
+        customCount++;
+        const id = customCount;
+        const html = `
+            <div class="custom-block" id="custom-block-${id}">
+                <div class="d-flex justify-content-between align-items-center mb-2 border-top pt-3">
+                    <div class="editable-header">
+                        <i class="fas fa-star text-primary me-2"></i>
+                        <input type="text" id="title-custom-${id}" class="fw-bold text-primary custom-title" value="${data ? data.title : 'New Custom Section'}" oninput="updateResume()">
+                    </div>
+                    <div>
+                        <button class="btn btn-sm btn-outline-secondary border-0 py-0 px-2" onclick="toggleSection('custom-${id}', this)"><i class="fas fa-eye-slash"></i></button>
+                        <button class="btn btn-sm btn-outline-danger border-0 py-0 px-2" onclick="removeBlock('custom-block-${id}')"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="mb-4" id="edit-sec-custom-${id}">
+                    <textarea id="inp-custom-${id}" class="form-control custom-desc" rows="3" placeholder="Enter details... (Use dashes for bullets)" oninput="updateResume()">${data ? data.desc : ''}</textarea>
+                </div>
+            </div>
+        `;
+        document.getElementById('custom-sections-container').insertAdjacentHTML('beforeend', html);
+        if(!data) updateResume();
     }
 
     function removeBlock(id) {
         document.getElementById(id).remove();
         updateResume();
+    }
+    
+    function toggleSection(secId, btnElement) {
+        const isHidden = hiddenSections[secId];
+        if (isHidden) {
+            delete hiddenSections[secId];
+            btnElement.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            btnElement.classList.replace('text-danger', 'text-secondary');
+            document.getElementById('edit-sec-' + secId).style.display = 'block';
+        } else {
+            hiddenSections[secId] = true;
+            btnElement.innerHTML = '<i class="fas fa-eye"></i>';
+            btnElement.classList.replace('text-secondary', 'text-danger');
+            document.getElementById('edit-sec-' + secId).style.display = 'none';
+        }
+        updateResume();
+    }
+
+    function formatTextToBullets(text) {
+        if (!text) return '';
+        const bullets = text.split('\n').filter(l => l.trim() !== '');
+        let html = '<ul class="res-item-desc">';
+        let hasBullets = false;
+        bullets.forEach(b => {
+            if (b.trim().startsWith('-')) {
+                html += `<li>${b.trim().replace(/^- /, '')}</li>`;
+                hasBullets = true;
+            } else {
+                html += `</ul><p style="margin-bottom:5px; font-size:13px;">${b}</p><ul class="res-item-desc">`;
+            }
+        });
+        html += '</ul>';
+        // Clean up empty tags
+        return html.replace(/<ul class="res-item-desc"><\/ul>/g, '');
     }
 
     function updateResume() {
@@ -204,9 +328,15 @@
         document.getElementById('res-phone').innerText = document.getElementById('inp-phone').value || 'Phone Number';
         document.getElementById('res-location').innerText = document.getElementById('inp-location').value || 'Location / Links';
 
+        // Headers
+        document.getElementById('res-header-summary').innerText = document.getElementById('title-summary').value;
+        document.getElementById('res-header-exp').innerText = document.getElementById('title-exp').value;
+        document.getElementById('res-header-edu').innerText = document.getElementById('title-edu').value;
+        document.getElementById('res-header-skills').innerText = document.getElementById('title-skills').value;
+
         // Summary
         const summary = document.getElementById('inp-summary').value;
-        if (summary.trim()) {
+        if (summary.trim() && !hiddenSections['summary']) {
             document.getElementById('res-section-summary').style.display = 'block';
             document.getElementById('res-summary').innerText = summary;
         } else {
@@ -218,7 +348,7 @@
         const expBlocks = expContainer.children;
         const resExpList = document.getElementById('res-exp-list');
         resExpList.innerHTML = '';
-        if (expBlocks.length > 0) {
+        if (expBlocks.length > 0 && !hiddenSections['exp']) {
             document.getElementById('res-section-exp').style.display = 'block';
             Array.from(expBlocks).forEach(block => {
                 const id = block.id.split('-')[2];
@@ -228,16 +358,6 @@
                 const desc = document.getElementById(`exp-desc-${id}`).value;
                 
                 if(title || company || date || desc) {
-                    let descHtml = '';
-                    if (desc) {
-                        const bullets = desc.split('\n').filter(l => l.trim() !== '');
-                        descHtml = '<ul class="res-item-desc">';
-                        bullets.forEach(b => {
-                            descHtml += `<li>${b.replace(/^- /, '')}</li>`;
-                        });
-                        descHtml += '</ul>';
-                    }
-
                     const html = `
                         <div class="res-item">
                             <div class="res-item-header">
@@ -245,7 +365,7 @@
                                 <span class="res-item-date">${date}</span>
                             </div>
                             <div class="res-item-subtitle">${company}</div>
-                            ${descHtml}
+                            ${formatTextToBullets(desc)}
                         </div>
                     `;
                     resExpList.insertAdjacentHTML('beforeend', html);
@@ -260,7 +380,7 @@
         const eduBlocks = eduContainer.children;
         const resEduList = document.getElementById('res-edu-list');
         resEduList.innerHTML = '';
-        if (eduBlocks.length > 0) {
+        if (eduBlocks.length > 0 && !hiddenSections['edu']) {
             document.getElementById('res-section-edu').style.display = 'block';
             Array.from(eduBlocks).forEach(block => {
                 const id = block.id.split('-')[2];
@@ -289,7 +409,7 @@
         const skills = document.getElementById('inp-skills').value;
         const resSkills = document.getElementById('res-skills');
         resSkills.innerHTML = '';
-        if (skills.trim()) {
+        if (skills.trim() && !hiddenSections['skills']) {
             document.getElementById('res-section-skills').style.display = 'block';
             const skillArray = skills.split(',').map(s => s.trim()).filter(Boolean);
             skillArray.forEach(s => {
@@ -298,6 +418,162 @@
         } else {
             document.getElementById('res-section-skills').style.display = 'none';
         }
+        
+        // Custom Sections
+        const customContainer = document.getElementById('custom-sections-container');
+        const customBlocks = customContainer.children;
+        const resCustomList = document.getElementById('res-custom-sections-list');
+        resCustomList.innerHTML = '';
+        Array.from(customBlocks).forEach(block => {
+            const id = block.id.split('-')[2];
+            if (hiddenSections[`custom-${id}`]) return;
+            
+            const title = document.getElementById(`title-custom-${id}`).value;
+            const desc = document.getElementById(`inp-custom-${id}`).value;
+            
+            if (title || desc) {
+                const html = `
+                    <div class="res-section-custom">
+                        <div class="res-section-title">${title}</div>
+                        <div class="res-summary">${formatTextToBullets(desc)}</div>
+                    </div>
+                `;
+                resCustomList.insertAdjacentHTML('beforeend', html);
+            }
+        });
+    }
+
+    // JSON Import/Export
+    function exportJSON() {
+        const data = {
+            personal: {
+                name: document.getElementById('inp-name').value,
+                title: document.getElementById('inp-title').value,
+                email: document.getElementById('inp-email').value,
+                phone: document.getElementById('inp-phone').value,
+                location: document.getElementById('inp-location').value
+            },
+            titles: {
+                summary: document.getElementById('title-summary').value,
+                exp: document.getElementById('title-exp').value,
+                edu: document.getElementById('title-edu').value,
+                skills: document.getElementById('title-skills').value
+            },
+            summary: document.getElementById('inp-summary').value,
+            skills: document.getElementById('inp-skills').value,
+            exp: [],
+            edu: [],
+            custom: [],
+            hidden: hiddenSections
+        };
+
+        Array.from(document.getElementById('exp-container').children).forEach(b => {
+            const id = b.id.split('-')[2];
+            data.exp.push({
+                title: document.getElementById(`exp-title-${id}`).value,
+                company: document.getElementById(`exp-company-${id}`).value,
+                date: document.getElementById(`exp-date-${id}`).value,
+                desc: document.getElementById(`exp-desc-${id}`).value
+            });
+        });
+
+        Array.from(document.getElementById('edu-container').children).forEach(b => {
+            const id = b.id.split('-')[2];
+            data.edu.push({
+                degree: document.getElementById(`edu-degree-${id}`).value,
+                school: document.getElementById(`edu-school-${id}`).value,
+                date: document.getElementById(`edu-date-${id}`).value
+            });
+        });
+        
+        Array.from(document.getElementById('custom-sections-container').children).forEach(b => {
+            const id = b.id.split('-')[2];
+            data.custom.push({
+                title: document.getElementById(`title-custom-${id}`).value,
+                desc: document.getElementById(`inp-custom-${id}`).value,
+                hidden: hiddenSections[`custom-${id}`] ? true : false
+            });
+        });
+
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "freeqube_resume_data.json";
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
+    function importJSON(file) {
+        if (!file || !file.name.endsWith('.json')) {
+            alert('Please select a valid .json file generated by FreeQube.');
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const data = JSON.parse(e.target.result);
+                
+                // Clear existing
+                document.getElementById('exp-container').innerHTML = '';
+                document.getElementById('edu-container').innerHTML = '';
+                document.getElementById('custom-sections-container').innerHTML = '';
+                expCount = 0; eduCount = 0; customCount = 0;
+                
+                hiddenSections = data.hidden || {};
+
+                if (data.personal) {
+                    document.getElementById('inp-name').value = data.personal.name || '';
+                    document.getElementById('inp-title').value = data.personal.title || '';
+                    document.getElementById('inp-email').value = data.personal.email || '';
+                    document.getElementById('inp-phone').value = data.personal.phone || '';
+                    document.getElementById('inp-location').value = data.personal.location || '';
+                }
+                if (data.titles) {
+                    document.getElementById('title-summary').value = data.titles.summary || 'Professional Summary';
+                    document.getElementById('title-exp').value = data.titles.exp || 'Work Experience';
+                    document.getElementById('title-edu').value = data.titles.edu || 'Education';
+                    document.getElementById('title-skills').value = data.titles.skills || 'Skills';
+                }
+                
+                document.getElementById('inp-summary').value = data.summary || '';
+                document.getElementById('inp-skills').value = data.skills || '';
+                
+                if (data.exp) data.exp.forEach(e => addExperience(e));
+                if (data.edu) data.edu.forEach(e => addEducation(e));
+                
+                if (data.custom) {
+                    data.custom.forEach(c => {
+                        addCustomSection(c);
+                        if (c.hidden) {
+                            hiddenSections[`custom-${customCount}`] = true;
+                        }
+                    });
+                }
+                
+                // Sync UI toggles
+                ['summary', 'exp', 'edu', 'skills'].forEach(sec => {
+                    const btn = document.querySelector(`[onclick="toggleSection('${sec}', this)"]`);
+                    if (btn) {
+                        if (hiddenSections[sec]) {
+                            btn.innerHTML = '<i class="fas fa-eye"></i>';
+                            btn.classList.replace('text-secondary', 'text-danger');
+                            document.getElementById(`edit-sec-${sec}`).style.display = 'none';
+                        } else {
+                            btn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+                            btn.classList.replace('text-danger', 'text-secondary');
+                            document.getElementById(`edit-sec-${sec}`).style.display = 'block';
+                        }
+                    }
+                });
+
+                updateResume();
+                alert('Resume data loaded successfully!');
+            } catch (err) {
+                alert('Failed to parse resume data.');
+            }
+        };
+        reader.readAsText(file);
     }
 
     function downloadResumePDF() {
