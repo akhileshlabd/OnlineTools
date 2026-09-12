@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Show original image
+        // Generate a secure Blob URL for the image
         const origUrl = URL.createObjectURL(file);
         origImg.src = origUrl;
 
@@ -132,11 +132,14 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // Configuration for the WebML AI
             const config = {
-                publicPath: 'https://unpkg.com/@imgly/background-removal@1.4.3/bin/', // Explicitly point to the WASM and ONNX binary files
+                // The library requires a separate -data package for the WASM and ONNX binaries
+                // We use their official highly-available static CDN to guarantee no CORS/Fetch errors
+                publicPath: 'https://static.imgly.com/@imgly/background-removal-data/1.4.3/dist/',
+                debug: true, // Enable debug mode to see exactly what fails if it does
                 progress: (key, current, total) => {
                     const percent = Math.round((current / total) * 100) || 0;
                     if(key.includes('fetch')) {
-                        statusText.innerText = "Downloading AI Model (Once)...";
+                        statusText.innerText = "Downloading AI Model (" + percent + "%)...";
                     } else if(key.includes('compute')) {
                         statusText.innerText = "Neural Network Processing...";
                     }
@@ -145,8 +148,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             };
 
-            // This is where the magic happens! Entirely in the browser.
-            const resultBlob = await imglyRemoveBackground(file, config);
+            // This is where the magic happens! We pass the blob URL to avoid any File object quirks.
+            const resultBlob = await imglyRemoveBackground(origUrl, config);
             
             // Show Result
             const resultUrl = URL.createObjectURL(resultBlob);
@@ -160,8 +163,9 @@ document.addEventListener('DOMContentLoaded', () => {
             resultArea.classList.remove('d-none');
 
         } catch (error) {
-            console.error(error);
-            alert("AI Processing Failed: " + error.message);
+            console.error("AI BG Removal Error:", error);
+            // Provide a highly detailed error message to help debug if it fails again
+            alert("AI Processing Failed. \n\nReason: " + error.message + "\n\nPlease ensure you have no strict AdBlockers blocking 'static.imgly.com' and that your network allows WebAssembly downloads.");
             location.reload();
         }
     }
