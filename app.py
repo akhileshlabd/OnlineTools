@@ -61,12 +61,13 @@ app.register_blueprint(health_bp)
 app.register_blueprint(math_bp)
 app.register_blueprint(network_bp)
 app.register_blueprint(games_bp)
+app.register_blueprint(kids_bp)
 
 
 # ---------------- Home ----------------
 @app.route('/')
 def home():
-    return render_template('index.html', image_tools=IMAGE_TOOLS, pdf_tools=PDF_TOOLS, finance_tools=FINANCE_TOOLS, code_tools=CODE_TOOLS, text_tools=TEXT_TOOLS, health_tools=HEALTH_TOOLS, math_tools=MATH_TOOLS, network_tools=NETWORK_TOOLS, games_tools=GAMES_TOOLS)
+    return render_template('index.html', image_tools=IMAGE_TOOLS, pdf_tools=PDF_TOOLS, finance_tools=FINANCE_TOOLS, code_tools=CODE_TOOLS, text_tools=TEXT_TOOLS, health_tools=HEALTH_TOOLS, math_tools=MATH_TOOLS, network_tools=NETWORK_TOOLS, games_tools=GAMES_TOOLS, kids_tools=KIDS_TOOLS)
 
 # ---------------- Legal / Policies (AdSense Compliance) ----------------
 @app.route('/contact')
