@@ -143,11 +143,11 @@
     <!-- Footer -->
     <footer class="bg-white py-4 mt-auto shadow-sm border-top">
         <div class="container text-center text-muted">
-            <p class="mb-2">&copy; {{ year | default(2023) }} Free Qube. All rights reserved.</p>
+            <p class="mb-2">&copy; {{ year | default(2023) }} {{ t('footer_rights') }}</p>
             <p class="mb-0 fs-6">
-                <a href="/about" class="text-decoration-none text-muted mx-2">About Us</a> | 
-                <a href="/privacy" class="text-decoration-none text-muted mx-2">Privacy Policy</a> | 
-                <a href="/terms" class="text-decoration-none text-muted mx-2">Terms of Service</a> | <a href="/contact" class="text-decoration-none text-muted mx-2">Contact Us</a>
+                <a href="/about" class="text-decoration-none text-muted mx-2">{{ t('footer_about') }}</a> | 
+                <a href="/privacy" class="text-decoration-none text-muted mx-2">{{ t('footer_privacy') }}</a> | 
+                <a href="/terms" class="text-decoration-none text-muted mx-2">{{ t('footer_terms') }}</a> | <a href="/contact" class="text-decoration-none text-muted mx-2">{{ t('footer_contact') }}</a>
             </p>
         </div>
     </footer>

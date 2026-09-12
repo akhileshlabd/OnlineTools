@@ -17,7 +17,7 @@
         <a href="{{ url_for('pdf.pdf_hub') }}" class="tool-card w-100 p-4 shadow-sm">
             <div class="icon-wrapper mx-auto mb-3 text-danger" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-file-pdf"></i></div>
             <h3 class="fw-bold text-dark fs-4">{{ t('nav_pdf') }} {{ t('nav_tools') }}</h3>
-            <p class="text-muted mb-0">Merge, split, edit, and compress PDF files easily and securely.</p>
+            <p class="text-muted mb-0">{{ t('desc_pdf') }}</p>
         </a>
     </div>
 
@@ -26,7 +26,7 @@
         <a href="{{ url_for('image.image_hub') }}" class="tool-card w-100 p-4 shadow-sm">
             <div class="icon-wrapper mx-auto mb-3 text-success" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-image"></i></div>
             <h3 class="fw-bold text-dark fs-4">{{ t('nav_image') }} {{ t('nav_tools') }}</h3>
-            <p class="text-muted mb-0">Resize, convert, compress images and generate custom QR codes.</p>
+            <p class="text-muted mb-0">{{ t('desc_image') }}</p>
         </a>
     </div>
 
@@ -35,7 +35,7 @@
         <a href="{{ url_for('finance.finance_hub') }}" class="tool-card w-100 p-4 shadow-sm">
             <div class="icon-wrapper mx-auto mb-3 text-primary" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-calculator"></i></div>
             <h3 class="fw-bold text-dark fs-4">{{ t('nav_finance') }} {{ t('nav_tools') }}</h3>
-            <p class="text-muted mb-0">Calculate SIP, EMI, Lumpsum, and Fixed Deposit returns instantly.</p>
+            <p class="text-muted mb-0">{{ t('desc_finance') }}</p>
         </a>
     </div>
 
@@ -43,8 +43,8 @@
     <div class="col-md-6 col-lg-4 d-flex">
         <a href="{{ url_for('text.text_hub') }}" class="tool-card w-100 p-4 shadow-sm">
             <div class="icon-wrapper mx-auto mb-3 text-info" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-font"></i></div>
-            <h3 class="fw-bold text-dark fs-4">Text & SEO</h3>
-            <p class="text-muted mb-0">Count words, convert case, and generate Lorem Ipsum placeholders.</p>
+            <h3 class="fw-bold text-dark fs-4">{{ t('title_text') }}</h3>
+            <p class="text-muted mb-0">{{ t('desc_text') }}</p>
         </a>
     </div>
 
@@ -52,8 +52,8 @@
     <div class="col-md-6 col-lg-4 d-flex">
         <a href="{{ url_for('health.health_hub') }}" class="tool-card w-100 p-4 shadow-sm">
             <div class="icon-wrapper mx-auto mb-3 text-danger" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-heartbeat"></i></div>
-            <h3 class="fw-bold text-dark fs-4">Health Calculators</h3>
-            <p class="text-muted mb-0">Calculate BMI, daily calories, TDEE, and pregnancy due dates.</p>
+            <h3 class="fw-bold text-dark fs-4">{{ t('title_health') }}</h3>
+            <p class="text-muted mb-0">{{ t('desc_health') }}</p>
         </a>
     </div>
 
@@ -61,8 +61,8 @@
     <div class="col-md-6 col-lg-4 d-flex">
         <a href="{{ url_for('network.network_hub') }}" class="tool-card w-100 p-4 shadow-sm">
             <div class="icon-wrapper mx-auto mb-3 text-secondary" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-network-wired"></i></div>
-            <h3 class="fw-bold text-dark fs-4">Network Tools</h3>
-            <p class="text-muted mb-0">Instantly check your public IP address, location, and ISP details.</p>
+            <h3 class="fw-bold text-dark fs-4">{{ t('title_network') }}</h3>
+            <p class="text-muted mb-0">{{ t('desc_network') }}</p>
         </a>
     </div>
 
@@ -70,8 +70,8 @@
     <div class="col-md-6 col-lg-4 d-flex">
         <a href="{{ url_for('math.math_hub') }}" class="tool-card w-100 p-4 shadow-sm">
             <div class="icon-wrapper mx-auto mb-3 text-warning" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-calculator"></i></div>
-            <h3 class="fw-bold text-dark fs-4">Everyday Math</h3>
-            <p class="text-muted mb-0">Calculate percentages, exact age, and discount sale prices instantly.</p>
+            <h3 class="fw-bold text-dark fs-4">{{ t('title_math') }}</h3>
+            <p class="text-muted mb-0">{{ t('desc_math') }}</p>
         </a>
     </div>
 
@@ -79,8 +79,8 @@
     <div class="col-md-6 col-lg-4 d-flex">
         <a href="{{ url_for('code.code_hub') }}" class="tool-card w-100 p-4 shadow-sm">
             <div class="icon-wrapper mx-auto mb-3 text-dark" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-code"></i></div>
-            <h3 class="fw-bold text-dark fs-4">Developer Tools</h3>
-            <p class="text-muted mb-0">Format JSON, check code diffs, encode Base64, and generate hashes.</p>
+            <h3 class="fw-bold text-dark fs-4">{{ t('title_dev') }}</h3>
+            <p class="text-muted mb-0">{{ t('desc_dev') }}</p>
         </a>
     </div>
 
@@ -88,8 +88,8 @@
     <div class="col-md-6 col-lg-4 d-flex">
         <a href="{{ url_for('games.games_hub') }}" class="tool-card w-100 p-4 shadow-sm">
             <div class="icon-wrapper mx-auto mb-3" style="width: 70px; height: 70px; font-size: 2rem; color: #e83e8c;"><i class="fas fa-gamepad"></i></div>
-            <h3 class="fw-bold text-dark fs-4">Classic Games</h3>
-            <p class="text-muted mb-0">Take a break and play classic retro games like Brick Breaker directly in your browser.</p>
+            <h3 class="fw-bold text-dark fs-4">{{ t('title_games') }}</h3>
+            <p class="text-muted mb-0">{{ t('desc_games') }}</p>
         </a>
     </div>
 
@@ -97,10 +97,10 @@
 
 <!-- SEO Content for AdSense Compliance -->
 <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
-    <h2 class="fw-bold mb-3">Welcome to Free Qube: Your All-in-One Online Utility Hub</h2>
-    <p>Finding a reliable, free, and secure online platform for your digital tasks can be a challenge. That’s why we built <strong>Free Qube</strong>. Our goal is to provide you with the most essential web-based utilities—ranging from advanced PDF manipulation to high-quality image conversion, financial planning, and developer coding tools—all completely free of charge. You won't find any hidden paywalls, strict usage limits, or mandatory account registrations here. Just fast, simple, and effective tools designed to make your workflow smoother.</p>
+    <h2 class="fw-bold mb-3">{{ t('seo_welcome_title') }}</h2>
+    <p>{{ t('seo_welcome_text') }}</p>
     
-    <h3 class="h5 fw-bold mt-4">Security and Privacy First</h3>
-    <p>We understand that the documents and images you process can contain sensitive information. We prioritize your privacy above everything else. Most of our tools, including our entire Image, Finance, and Developer suites, are designed to process your files locally inside your own web browser. This means your data is never even sent to our servers! For complex PDF tools that require server processing, we transmit your files over a secure, encrypted HTTPS connection, and automatically delete them immediately after your task is completed. You have complete peace of mind knowing your data is safe and secure.</p>
+    <h3 class="h5 fw-bold mt-4">{{ t('seo_security_title') }}</h3>
+    <p>{{ t('seo_security_text') }}</p>
 </div>
 {% endblock %}

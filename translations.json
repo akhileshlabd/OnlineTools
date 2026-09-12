@@ -11,14 +11,208 @@
     "pt": "Sem marcas d'água. Sem instalação. Funciona no seu navegador.",
     "hi": "कोई वॉटरमार्क नहीं। कोई इंस्टॉलेशन नहीं। अधिकांश टूल सीधे आपके ब्राउज़र में काम करते हैं।"
   },
-  "nav_pdf": { "en": "PDF", "es": "PDF", "pt": "PDF", "hi": "पीडीएफ" },
-  "nav_image": { "en": "Image", "es": "Imagen", "pt": "Imagem", "hi": "चित्र" },
-  "nav_finance": { "en": "Finance", "es": "Finanzas", "pt": "Finanças", "hi": "वित्त" },
-  "nav_text": { "en": "Text", "es": "Texto", "pt": "Texto", "hi": "पाठ" },
-  "nav_health": { "en": "Health", "es": "Salud", "pt": "Saúde", "hi": "स्वास्थ्य" },
-  "nav_math": { "en": "Math", "es": "Mate", "pt": "Matemática", "hi": "गणित" },
-  "nav_network": { "en": "Network", "es": "Red", "pt": "Rede", "hi": "नेटवर्क" },
-  "nav_dev": { "en": "Dev", "es": "Desarrollo", "pt": "Dev", "hi": "डेव" },
-  "nav_games": { "en": "Games", "es": "Juegos", "pt": "Jogos", "hi": "खेल" },
-  "nav_tools": { "en": "Tools", "es": "Herramientas", "pt": "Ferramentas", "hi": "उपकरण" }
+  "nav_pdf": {
+    "en": "PDF",
+    "es": "PDF",
+    "pt": "PDF",
+    "hi": "पीडीएफ"
+  },
+  "nav_image": {
+    "en": "Image",
+    "es": "Imagen",
+    "pt": "Imagem",
+    "hi": "चित्र"
+  },
+  "nav_finance": {
+    "en": "Finance",
+    "es": "Finanzas",
+    "pt": "Finanças",
+    "hi": "वित्त"
+  },
+  "nav_text": {
+    "en": "Text",
+    "es": "Texto",
+    "pt": "Texto",
+    "hi": "पाठ"
+  },
+  "nav_health": {
+    "en": "Health",
+    "es": "Salud",
+    "pt": "Saúde",
+    "hi": "स्वास्थ्य"
+  },
+  "nav_math": {
+    "en": "Math",
+    "es": "Mate",
+    "pt": "Matemática",
+    "hi": "गणित"
+  },
+  "nav_network": {
+    "en": "Network",
+    "es": "Red",
+    "pt": "Rede",
+    "hi": "नेटवर्क"
+  },
+  "nav_dev": {
+    "en": "Dev",
+    "es": "Desarrollo",
+    "pt": "Dev",
+    "hi": "डेव"
+  },
+  "nav_games": {
+    "en": "Games",
+    "es": "Juegos",
+    "pt": "Jogos",
+    "hi": "खेल"
+  },
+  "nav_tools": {
+    "en": "Tools",
+    "es": "Herramientas",
+    "pt": "Ferramentas",
+    "hi": "उपकरण"
+  },
+  "desc_pdf": {
+    "en": "Merge, split, edit, and compress PDF files easily and securely.",
+    "es": "Une, divide, edita y comprime archivos PDF de forma fácil y segura.",
+    "pt": "Una, divida, edite e comprima arquivos PDF com facilidade e segurança.",
+    "hi": "पीडीएफ फाइलों को आसानी से और सुरक्षित रूप से मर्ज, स्प्लिट, एडिट और कंप्रेस करें।"
+  },
+  "desc_image": {
+    "en": "Resize, convert, compress images and generate custom QR codes.",
+    "es": "Cambia el tamaño, convierte, comprime imágenes y genera códigos QR personalizados.",
+    "pt": "Redimensione, converta, comprima imagens e gere códigos QR personalizados.",
+    "hi": "छवियों का आकार बदलें, बदलें, कंप्रेस करें और कस्टम क्यूआर कोड उत्पन्न करें।"
+  },
+  "desc_finance": {
+    "en": "Calculate SIP, EMI, Lumpsum, and Fixed Deposit returns instantly.",
+    "es": "Calcula SIP, EMI, Inversiones y Depósitos Fijos al instante.",
+    "pt": "Calcule SIP, EMI, Investimentos e Depósitos Fixos instantaneamente.",
+    "hi": "एसआईपी, ईएमआई, एकमुश्त और सावधि जमा रिटर्न की तुरंत गणना करें।"
+  },
+  "title_text": {
+    "en": "Text & SEO",
+    "es": "Texto y SEO",
+    "pt": "Texto e SEO",
+    "hi": "टेक्स्ट और एसईओ"
+  },
+  "desc_text": {
+    "en": "Count words, convert case, and generate Lorem Ipsum placeholders.",
+    "es": "Cuenta palabras, cambia mayúsculas y genera textos Lorem Ipsum.",
+    "pt": "Conte palavras, mude maiúsculas e gere textos Lorem Ipsum.",
+    "hi": "शब्द गिनें, केस बदलें, और लोरम इप्सम प्लेसहोल्डर उत्पन्न करें।"
+  },
+  "title_health": {
+    "en": "Health Calculators",
+    "es": "Calculadoras de Salud",
+    "pt": "Calculadoras de Saúde",
+    "hi": "स्वास्थ्य कैलकुलेटर"
+  },
+  "desc_health": {
+    "en": "Calculate BMI, daily calories, TDEE, and pregnancy due dates.",
+    "es": "Calcula tu IMC, calorías diarias, TDEE y fechas de parto.",
+    "pt": "Calcule seu IMC, calorias diárias, TDEE e datas de parto.",
+    "hi": "बीएमआई, दैनिक कैलोरी, टीडीईई, और गर्भावस्था की देय तिथियों की गणना करें।"
+  },
+  "title_network": {
+    "en": "Network Tools",
+    "es": "Herramientas de Red",
+    "pt": "Ferramentas de Rede",
+    "hi": "नेटवर्क टूल्स"
+  },
+  "desc_network": {
+    "en": "Instantly check your public IP address, location, and ISP details.",
+    "es": "Verifica tu dirección IP pública, ubicación y detalles del ISP.",
+    "pt": "Verifique seu endereço IP público, localização e detalhes do ISP.",
+    "hi": "तुरंत अपना सार्वजनिक आईपी पता, स्थान और आईएसपी विवरण जांचें।"
+  },
+  "title_math": {
+    "en": "Everyday Math",
+    "es": "Matemática Diaria",
+    "pt": "Matemática Diária",
+    "hi": "दैनिक गणित"
+  },
+  "desc_math": {
+    "en": "Calculate percentages, exact age, and discount sale prices instantly.",
+    "es": "Calcula porcentajes, tu edad exacta y descuentos de ventas al instante.",
+    "pt": "Calcule porcentagens, sua idade exata e descontos de vendas instantaneamente.",
+    "hi": "प्रतिशत, सटीक आयु और छूट बिक्री मूल्य तुरंत गणना करें।"
+  },
+  "title_dev": {
+    "en": "Developer Tools",
+    "es": "Herramientas para Desarrolladores",
+    "pt": "Ferramentas de Desenvolvedor",
+    "hi": "डेवलपर टूल्स"
+  },
+  "desc_dev": {
+    "en": "Format JSON, check code diffs, encode Base64, and generate hashes.",
+    "es": "Formatea JSON, compara código, codifica en Base64 y genera hashes.",
+    "pt": "Formate JSON, compare código, codifique em Base64 e gere hashes.",
+    "hi": "JSON प्रारूपित करें, कोड अंतर जांचें, Base64 एन्कोड करें और हैश उत्पन्न करें।"
+  },
+  "title_games": {
+    "en": "Classic Games",
+    "es": "Juegos Clásicos",
+    "pt": "Jogos Clássicos",
+    "hi": "क्लासिक गेम्स"
+  },
+  "desc_games": {
+    "en": "Take a break and play classic retro games like Tetris directly in your browser.",
+    "es": "Tómate un descanso y juega juegos retro como Tetris directamente en tu navegador.",
+    "pt": "Faça uma pausa e jogue jogos retrô como Tetris diretamente no seu navegador.",
+    "hi": "एक ब्रेक लें और सीधे अपने ब्राउज़र में टेट्रिस जैसे क्लासिक रेट्रो गेम खेलें।"
+  },
+  "footer_rights": {
+    "en": "Free Qube. All rights reserved.",
+    "es": "Free Qube. Todos los derechos reservados.",
+    "pt": "Free Qube. Todos os direitos reservados.",
+    "hi": "फ्री क्यूब। सर्वाधिकार सुरक्षित।"
+  },
+  "footer_about": {
+    "en": "About Us",
+    "es": "Sobre Nosotros",
+    "pt": "Sobre Nós",
+    "hi": "हमारे बारे में"
+  },
+  "footer_privacy": {
+    "en": "Privacy Policy",
+    "es": "Política de Privacidad",
+    "pt": "Política de Privacidade",
+    "hi": "गोपनीयता नीति"
+  },
+  "footer_terms": {
+    "en": "Terms of Service",
+    "es": "Términos de Servicio",
+    "pt": "Termos de Serviço",
+    "hi": "सेवा की शर्तें"
+  },
+  "footer_contact": {
+    "en": "Contact Us",
+    "es": "Contáctanos",
+    "pt": "Contate-nos",
+    "hi": "संपर्क करें"
+  },
+  "seo_welcome_title": {
+    "en": "Welcome to Free Qube: Your All-in-One Online Utility Hub",
+    "es": "Bienvenido a Free Qube: Tu centro de utilidades online todo en uno",
+    "pt": "Bem-vindo ao Free Qube: Seu centro de utilidades online tudo-em-um",
+    "hi": "फ्री क्यूब में आपका स्वागत है: आपका ऑल-इन-वन ऑनलाइन यूटिलिटी हब"
+  },
+  "seo_welcome_text": {
+    "en": "Finding a reliable, free, and secure online platform for your digital tasks can be a challenge. That’s why we built Free Qube. Our goal is to provide you with the most essential web-based utilities—ranging from advanced PDF manipulation to high-quality image conversion, financial planning, and developer coding tools—all completely free of charge. You won't find any hidden paywalls, strict usage limits, or mandatory account registrations here. Just fast, simple, and effective tools designed to make your workflow smoother.",
+    "es": "Encontrar una plataforma online confiable, gratuita y segura para tus tareas digitales puede ser un desafío. Por eso creamos Free Qube. Nuestro objetivo es brindarte las utilidades web más esenciales, desde manipulación avanzada de PDF hasta conversión de imágenes, herramientas financieras y para desarrolladores, todo completamente gratis. Aquí no encontrarás muros de pago ocultos, límites de uso estrictos ni registros de cuentas obligatorios.",
+    "pt": "Encontrar uma plataforma online confiável, gratuita e segura para suas tarefas digitais pode ser um desafio. É por isso que criamos o Free Qube. Nosso objetivo é fornecer a você as utilidades baseadas na web mais essenciais - variando de manipulação avançada de PDF a conversão de imagem de alta qualidade, planejamento financeiro e ferramentas de codificação para desenvolvedores - tudo totalmente gratuito. Você não encontrará paywalls ocultos ou limites de uso estritos.",
+    "hi": "अपने डिजिटल कार्यों के लिए एक विश्वसनीय, मुफ्त और सुरक्षित ऑनलाइन प्लेटफॉर्म खोजना एक चुनौती हो सकती है। इसलिए हमने फ्री क्यूब बनाया। हमारा लक्ष्य आपको सबसे आवश्यक वेब-आधारित उपयोगिताओं के साथ प्रदान करना है, जिसमें उन्नत पीडीएफ हेरफेर से लेकर उच्च गुणवत्ता वाले छवि रूपांतरण, वित्तीय योजना और डेवलपर कोडिंग टूल शामिल हैं - सभी पूरी तरह से मुफ्त।"
+  },
+  "seo_security_title": {
+    "en": "Security and Privacy First",
+    "es": "Seguridad y Privacidad Primero",
+    "pt": "Segurança e Privacidade em Primeiro Lugar",
+    "hi": "सुरक्षा और गोपनीयता पहले"
+  },
+  "seo_security_text": {
+    "en": "We understand that the documents and images you process can contain sensitive information. We prioritize your privacy above everything else. Most of our tools, including our entire Image, Finance, and Developer suites, are designed to process your files locally inside your own web browser. This means your data is never even sent to our servers! For complex PDF tools that require server processing, we transmit your files over a secure, encrypted HTTPS connection, and automatically delete them immediately after your task is completed. You have complete peace of mind knowing your data is safe and secure.",
+    "es": "Entendemos que los documentos e imágenes que procesas pueden contener información confidencial. Priorizamos tu privacidad. La mayoría de nuestras herramientas están diseñadas para procesar tus archivos localmente dentro de tu navegador web. ¡Esto significa que tus datos nunca se envían a nuestros servidores! Para herramientas PDF complejas que requieren procesamiento en el servidor, las eliminamos automáticamente una vez finalizadas.",
+    "pt": "Entendemos que os documentos e imagens que você processa podem conter informações confidenciais. Priorizamos sua privacidade. A maioria de nossas ferramentas são projetadas para processar seus arquivos localmente em seu navegador da web. Isso significa que seus dados nunca são enviados aos nossos servidores! Para ferramentas complexas de PDF que exigem processamento no servidor, nós os excluímos automaticamente após a conclusão.",
+    "hi": "हम समझते हैं कि आपके द्वारा संसाधित किए जाने वाले दस्तावेज़ और चित्र संवेदनशील जानकारी रख सकते हैं। हम आपकी गोपनीयता को प्राथमिकता देते हैं। हमारे अधिकांश टूल आपके फ़ाइलों को आपके वेब ब्राउज़र के भीतर स्थानीय रूप से संसाधित करने के लिए डिज़ाइन किए गए हैं। इसका मतलब है कि आपका डेटा कभी भी हमारे सर्वर पर नहीं भेजा जाता है!"
+  }
 }
