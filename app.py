@@ -79,6 +79,13 @@ def ads_txt():
 def robots_txt():
     return send_from_directory(app.static_folder, 'robots.txt')
 
+@app.route('/sw.js')
+def sw():
+    from flask import make_response
+    response = make_response(send_from_directory(app.static_folder, 'sw.js'))
+    response.headers['Cache-Control'] = 'no-cache'
+    return response
+
 if __name__ == '__main__':
     # Ensure upload folder exists just in case it's used elsewhere
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)

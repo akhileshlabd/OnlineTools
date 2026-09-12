@@ -69,6 +69,10 @@
         })();
     </script>
 
+    <!-- PWA Manifest & Theme -->
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <meta name="theme-color" content="#0d6efd">
+
 </head>
 <body class="bg-light d-flex flex-column min-vh-100">
 
@@ -165,6 +169,19 @@
                 setTheme(!isDark);
             });
         });
+    </script>
+
+    <!-- PWA Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').then(reg => {
+            console.log('PWA ServiceWorker registered', reg.scope);
+          }).catch(err => {
+            console.warn('PWA ServiceWorker failed', err);
+          });
+        });
+      }
     </script>
 
 </body>
