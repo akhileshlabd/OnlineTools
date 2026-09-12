@@ -6,7 +6,7 @@ GAMES_TOOLS = {
     'tetris-game': {
         'id': 'tetris-game',
         'name': 'Classic Brick Game',
-        'desc': 'The iconic block-stacking puzzle game. Clear lines to score points!',
+        'desc': 'Opens directly in fullscreen! The iconic block-stacking puzzle game. Clear lines to score points!',
         'icon': 'fa-cubes',
         'seo_title': 'Play Classic Brick Game (Tetris) Online for Free',
         'seo_desc': 'Play the ultimate classic Brick Game online for free. Stack the blocks, clear the lines, and beat your high score directly in your browser.'
@@ -14,7 +14,7 @@ GAMES_TOOLS = {
     'brick-breaker': {
         'id': 'brick-breaker',
         'name': 'Classic Brick Breaker',
-        'desc': 'Play the classic retro Brick Breaker game directly in your browser.',
+        'desc': 'Opens directly in fullscreen! Play the classic retro Brick Breaker game with high-quality relaxed visuals.',
         'icon': 'fa-gamepad',
         'seo_title': 'Play Classic Brick Breaker Game Online for Free',
         'seo_desc': 'Play the ultimate retro Brick Breaker arcade game online for free. No downloads required, perfectly optimized for desktop and mobile browsers.'
@@ -22,10 +22,18 @@ GAMES_TOOLS = {
     'snake-game': {
         'id': 'snake-game',
         'name': 'Retro Snake',
-        'desc': 'The timeless classic Snake game. Eat the apples and grow your high score!',
+        'desc': 'Opens directly in fullscreen! The timeless classic Snake game. Eat the apples and grow your high score!',
         'icon': 'fa-staff-snake',
         'seo_title': 'Play Retro Snake Game Online for Free',
         'seo_desc': 'Play the classic retro Snake game online for free. Control the snake, eat the apples, and compete for the highest score directly in your browser.'
+    },
+    'neon-qube': {
+        'id': 'neon-qube',
+        'name': 'Neon Qube Runner (Exclusive)',
+        'desc': 'Opens directly in fullscreen! An exclusive, thrilling neon infinite runner game only available on FreeQube.',
+        'icon': 'fa-cube',
+        'seo_title': 'Play Neon Qube Runner Game - Exclusive on FreeQube',
+        'seo_desc': 'Play Neon Qube Runner, an exclusive, relaxing yet thrilling retro arcade game only found on FreeQube. Play directly in your browser in full screen.'
     }
 }
 

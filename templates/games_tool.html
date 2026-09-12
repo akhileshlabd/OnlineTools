@@ -36,46 +36,61 @@
 
     <!-- BRICK BREAKER -->
     {% if tool.id == 'brick-breaker' %}
-    <div class="card shadow-sm border-0 mb-4 bg-dark">
-        <div class="card-body p-0 text-center position-relative">
+    <div class="card shadow-sm border-0 mb-4 bg-dark" id="game-container" style="display:flex; justify-content:center; align-items:center;">
+        <div class="card-body p-0 text-center position-relative w-100 h-100 d-flex justify-content-center align-items-center">
             <!-- Game Canvas -->
-            <canvas id="brickCanvas" width="800" height="500" class="w-100 h-auto" style="display: block; max-width: 100%; border-radius: 8px;"></canvas>
+            <canvas id="brickCanvas" width="800" height="500" style="display: block; max-width: 100vw; max-height: 100vh; object-fit: contain; box-shadow: 0 0 20px rgba(0,0,0,0.5);"></canvas>
             
             <!-- Overlay Menu -->
-            <div id="bb-overlay" class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center bg-dark bg-opacity-75" style="border-radius: 8px;">
+            <div id="bb-overlay" class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center bg-dark bg-opacity-75">
                 <h1 class="text-white fw-bold mb-4" id="bb-title">BRICK BREAKER</h1>
                 <p class="text-white-50 mb-4">Use Left/Right Arrows or Touch edges to move.</p>
-                <button class="btn btn-primary btn-lg fw-bold px-5 rounded-pill shadow" onclick="startBrickGame()" id="bb-btn">PLAY NOW</button>
+                <button class="btn btn-primary btn-lg fw-bold px-5 rounded-pill shadow" onclick="startBrickGame()" id="bb-btn">PLAY IN FULLSCREEN</button>
             </div>
         </div>
     </div>
     
     <!-- SNAKE GAME -->
     {% elif tool.id == 'snake-game' %}
-    <div class="card shadow-sm border-0 mb-4 bg-dark">
-        <div class="card-body p-0 text-center position-relative">
-            <canvas id="snakeCanvas" width="500" height="500" class="w-100 h-auto mx-auto" style="display: block; max-width: 500px; border-radius: 8px;"></canvas>
+    <div class="card shadow-sm border-0 mb-4 bg-dark" id="game-container" style="display:flex; justify-content:center; align-items:center;">
+        <div class="card-body p-0 text-center position-relative w-100 h-100 d-flex justify-content-center align-items-center">
+            <canvas id="snakeCanvas" width="500" height="500" style="display: block; max-width: 100vw; max-height: 100vh; object-fit: contain; box-shadow: 0 0 20px rgba(0,0,0,0.5);"></canvas>
             
             <!-- Overlay Menu -->
-            <div id="snake-overlay" class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center bg-dark bg-opacity-75" style="border-radius: 8px;">
+            <div id="snake-overlay" class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center bg-dark bg-opacity-75">
                 <h1 class="text-success fw-bold mb-4" id="snake-title">RETRO SNAKE</h1>
                 <p class="text-white-50 mb-4">Use Arrow Keys or Swipe to move.</p>
-                <button class="btn btn-success btn-lg fw-bold px-5 rounded-pill shadow" onclick="startSnakeGame()" id="snake-btn">PLAY NOW</button>
+                <button class="btn btn-success btn-lg fw-bold px-5 rounded-pill shadow" onclick="startSnakeGame()" id="snake-btn">PLAY IN FULLSCREEN</button>
             </div>
         </div>
     </div>
 
     <!-- TETRIS GAME -->
     {% elif tool.id == 'tetris-game' %}
-    <div class="card shadow-sm border-0 mb-4 bg-dark">
-        <div class="card-body p-0 text-center position-relative">
-            <canvas id="tetrisCanvas" width="320" height="640" class="w-100 h-auto mx-auto" style="display: block; max-width: 320px; border-radius: 8px;"></canvas>
+    <div class="card shadow-sm border-0 mb-4 bg-dark" id="game-container" style="display:flex; justify-content:center; align-items:center;">
+        <div class="card-body p-0 text-center position-relative w-100 h-100 d-flex justify-content-center align-items-center">
+            <canvas id="tetrisCanvas" width="320" height="640" style="display: block; max-width: 100vw; max-height: 100vh; object-fit: contain; box-shadow: 0 0 20px rgba(0,0,0,0.5);"></canvas>
             
             <!-- Overlay Menu -->
-            <div id="tetris-overlay" class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center bg-dark bg-opacity-75" style="border-radius: 8px;">
+            <div id="tetris-overlay" class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center bg-dark bg-opacity-75">
                 <h1 class="text-warning fw-bold mb-4" id="tetris-title">TETRIS</h1>
                 <p class="text-white-50 mb-4">Arrows to Move/Rotate. Down to Drop.</p>
-                <button class="btn btn-warning btn-lg fw-bold px-5 rounded-pill shadow" onclick="startTetrisGame()" id="tetris-btn">PLAY NOW</button>
+                <button class="btn btn-warning btn-lg fw-bold px-5 rounded-pill shadow" onclick="startTetrisGame()" id="tetris-btn">PLAY IN FULLSCREEN</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- NEON QUBE -->
+    {% elif tool.id == 'neon-qube' %}
+    <div class="card shadow-sm border-0 mb-4 bg-dark" id="game-container" style="display:flex; justify-content:center; align-items:center; background: radial-gradient(circle at center, #1b0033 0%, #000 100%);">
+        <div class="card-body p-0 text-center position-relative w-100 h-100 d-flex justify-content-center align-items-center">
+            <canvas id="neonCanvas" width="400" height="600" style="display: block; max-width: 100vw; max-height: 100vh; object-fit: contain; box-shadow: 0 0 40px rgba(0, 255, 204, 0.2);"></canvas>
+            
+            <!-- Overlay Menu -->
+            <div id="neon-overlay" class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center bg-dark bg-opacity-75">
+                <h1 class="fw-bold mb-4" id="neon-title" style="color: #00ffcc; text-shadow: 0 0 20px #00ffcc; font-family: monospace; font-size: 3rem;">NEON QUBE</h1>
+                <p class="text-white-50 mb-4">Use Left/Right Arrows or Tap sides to dodge!</p>
+                <button class="btn btn-lg fw-bold px-5 rounded-pill shadow" style="background: #00ffcc; color: #000;" onclick="startNeonGame()" id="neon-btn">PLAY IN FULLSCREEN</button>
             </div>
         </div>
     </div>
@@ -94,6 +109,17 @@
 {% block scripts %}
 <script>
     const toolId = "{{ tool.id }}";
+
+    // Utility for fullscreen
+    function enterFullscreen(elementId) {
+        const el = document.getElementById(elementId);
+        if (!el) return;
+        if (!document.fullscreenElement) {
+            if (el.requestFullscreen) el.requestFullscreen();
+            else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+            else if (el.msRequestFullscreen) el.msRequestFullscreen();
+        }
+    }
 
     // ==========================================
     // BRICK BREAKER LOGIC
@@ -266,6 +292,7 @@
         }
 
         window.startBrickGame = function() {
+            enterFullscreen('game-container');
             overlay.classList.remove('d-flex');
             overlay.classList.add('d-none');
             x = canvas.width/2;
@@ -417,6 +444,7 @@
         }, false);
 
         window.startSnakeGame = function() {
+            enterFullscreen('game-container');
             overlay.classList.remove('d-flex');
             overlay.classList.add('d-none');
             snake.x = 160; snake.y = 160;
@@ -624,6 +652,7 @@
         });
 
         window.startTetrisGame = function() {
+            enterFullscreen('game-container');
             overlay.classList.remove('d-flex');
             overlay.classList.add('d-none');
             for (let row = -2; row < 20; row++) {
@@ -650,6 +679,157 @@
 
         ctx.fillStyle = "#222";
         ctx.fillRect(0,0,canvas.width,canvas.height);
+    }
+
+    // ==========================================
+    // NEON QUBE LOGIC (Exclusive)
+    // ==========================================
+    if (toolId === 'neon-qube') {
+        const canvas = document.getElementById("neonCanvas");
+        const ctx = canvas.getContext("2d");
+        const overlay = document.getElementById("neon-overlay");
+        const title = document.getElementById("neon-title");
+        const btn = document.getElementById("neon-btn");
+
+        let isPlaying = false;
+        let animationId;
+        let score = 0;
+        let frameCount = 0;
+        
+        let player = { x: 175, y: 520, size: 50, color: '#00ffcc', vx: 0 };
+        let obstacles = [];
+        let particles = [];
+        
+        let keys = {};
+        document.addEventListener('keydown', e => keys[e.code] = true);
+        document.addEventListener('keyup', e => keys[e.code] = false);
+        
+        // Touch controls
+        canvas.addEventListener('touchstart', e => {
+            let rect = canvas.getBoundingClientRect();
+            let touchX = e.touches[0].clientX - rect.left;
+            if (touchX < rect.width / 2) keys['ArrowLeft'] = true;
+            else keys['ArrowRight'] = true;
+            e.preventDefault();
+        }, {passive: false});
+        canvas.addEventListener('touchend', e => {
+            keys['ArrowLeft'] = false;
+            keys['ArrowRight'] = false;
+            e.preventDefault();
+        }, {passive: false});
+
+        window.startNeonGame = function() {
+            enterFullscreen('game-container');
+            overlay.classList.replace('d-flex', 'd-none');
+            isPlaying = true;
+            score = 0;
+            frameCount = 0;
+            obstacles = [];
+            particles = [];
+            player.x = (canvas.width - player.size) / 2;
+            player.vx = 0;
+            loop();
+        };
+
+        function gameOver() {
+            isPlaying = false;
+            cancelAnimationFrame(animationId);
+            overlay.classList.replace('d-none', 'd-flex');
+            title.innerText = "CRASHED!";
+            title.style.color = "#ff0055";
+            title.style.textShadow = "0 0 20px #ff0055";
+            btn.innerText = "TRY AGAIN";
+            btn.style.background = "#ff0055";
+        }
+
+        function drawPlayer() {
+            // Neon glow
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = player.color;
+            ctx.fillStyle = player.color;
+            ctx.fillRect(player.x, player.y, player.size, player.size);
+            ctx.shadowBlur = 0;
+            
+            // Inner core
+            ctx.fillStyle = "#fff";
+            ctx.fillRect(player.x + 10, player.y + 10, player.size - 20, player.size - 20);
+        }
+
+        function drawObstacles() {
+            for (let i = 0; i < obstacles.length; i++) {
+                let obs = obstacles[i];
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = obs.color;
+                ctx.fillStyle = obs.color;
+                ctx.fillRect(obs.x, obs.y, obs.w, obs.h);
+                ctx.shadowBlur = 0;
+            }
+        }
+        
+        function updateGame() {
+            // Player movement
+            if (keys['ArrowLeft']) player.vx -= 1.5;
+            if (keys['ArrowRight']) player.vx += 1.5;
+            player.vx *= 0.85; // friction
+            player.x += player.vx;
+            
+            // Bounds
+            if (player.x < 0) player.x = 0;
+            if (player.x + player.size > canvas.width) player.x = canvas.width - player.size;
+            
+            // Spawn obstacles
+            frameCount++;
+            let speedMult = 1 + (score / 1000);
+            
+            if (frameCount % Math.max(15, Math.floor(40 - speedMult*5)) === 0) {
+                let w = Math.random() * 150 + 50;
+                let x = Math.random() * (canvas.width - w);
+                let colors = ['#ff0055', '#ffaa00', '#aa00ff', '#ff00aa'];
+                obstacles.push({
+                    x: x, y: -30, w: w, h: 30, 
+                    vy: (Math.random() * 4 + 5) * speedMult,
+                    color: colors[Math.floor(Math.random() * colors.length)]
+                });
+            }
+            
+            // Update obstacles
+            for (let i = obstacles.length - 1; i >= 0; i--) {
+                let obs = obstacles[i];
+                obs.y += obs.vy;
+                
+                // Collision
+                if (player.x < obs.x + obs.w && player.x + player.size > obs.x &&
+                    player.y < obs.y + obs.h && player.y + player.size > obs.y) {
+                    gameOver();
+                }
+                
+                // Cleanup and score
+                if (obs.y > canvas.height) {
+                    obstacles.splice(i, 1);
+                    score += 10;
+                }
+            }
+        }
+        
+        function drawScore() {
+            ctx.fillStyle = "#fff";
+            ctx.font = "24px monospace";
+            ctx.fillText("SCORE: " + score, 20, 40);
+        }
+        
+        function loop() {
+            if (!isPlaying) return;
+            animationId = requestAnimationFrame(loop);
+            
+            // Trail effect background
+            ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            updateGame();
+            drawObstacles();
+            drawPlayer();
+            drawScore();
+        }
     }
 </script>
 {% endblock %}
