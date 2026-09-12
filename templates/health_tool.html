@@ -138,16 +138,37 @@
                     </div>
                     
                     <div class="mb-4 text-start">
-                        <label class="form-label fw-bold text-dark"><i class="far fa-calendar-check text-primary me-2"></i>First Day of Last Period (LMP)</label>
-                        <input type="date" id="lmp" class="form-control form-control-lg border-0 shadow-sm" onchange="calculateDueDate()" style="border-radius: 12px; background-color: rgba(255,255,255,0.9);">
-                    </div>
-                    <div class="mb-5 text-start">
-                        <label class="form-label fw-bold text-dark"><i class="fas fa-sync-alt text-primary me-2"></i>Cycle Length (Days)</label>
-                        <input type="number" id="cycle" class="form-control border-0 shadow-sm" value="28" min="20" max="45" onchange="calculateDueDate()" style="border-radius: 12px; background-color: rgba(255,255,255,0.9);">
+                        <label class="form-label fw-bold text-dark"><i class="fas fa-calculator text-primary me-2"></i>Calculate Based On</label>
+                        <select id="calc-method" class="form-select border-0 shadow-sm" onchange="toggleCalcMethod()" style="border-radius: 12px; background-color: rgba(255,255,255,0.9);">
+                            <option value="lmp">First Day of Last Period (LMP)</option>
+                            <option value="duedate">I Know My Due Date</option>
+                        </select>
                     </div>
 
-                    <p class="text-muted fw-bold mb-2 text-uppercase" style="letter-spacing: 1.5px; font-size: 0.85rem;">Estimated Due Date</p>
-                    <h2 class="fw-bold mb-4" id="due-date-res" style="color: #d63384; font-size: 2.2rem; text-shadow: 1px 1px 0 rgba(255,255,255,0.8);">Select a date</h2>
+                    <!-- LMP Input Mode -->
+                    <div id="mode-lmp">
+                        <div class="mb-4 text-start">
+                            <label class="form-label fw-bold text-dark"><i class="far fa-calendar-check text-primary me-2"></i>First Day of Last Period (LMP)</label>
+                            <input type="date" id="lmp" class="form-control form-control-lg border-0 shadow-sm" onchange="calculateDueDate()" style="border-radius: 12px; background-color: rgba(255,255,255,0.9);">
+                        </div>
+                        <div class="mb-4 text-start">
+                            <label class="form-label fw-bold text-dark"><i class="fas fa-sync-alt text-primary me-2"></i>Cycle Length (Days)</label>
+                            <input type="number" id="cycle" class="form-control border-0 shadow-sm" value="28" min="20" max="45" onchange="calculateDueDate()" style="border-radius: 12px; background-color: rgba(255,255,255,0.9);">
+                        </div>
+                    </div>
+
+                    <!-- Due Date Input Mode -->
+                    <div id="mode-duedate" style="display: none;">
+                        <div class="mb-5 text-start">
+                            <label class="form-label fw-bold text-dark"><i class="far fa-calendar-alt text-primary me-2"></i>Your Estimated Due Date</label>
+                            <input type="date" id="known-dd" class="form-control form-control-lg border-0 shadow-sm" onchange="calculateFromDueDate()" style="border-radius: 12px; background-color: rgba(255,255,255,0.9);">
+                        </div>
+                    </div>
+
+                    <div id="result-due-date-section">
+                        <p class="text-muted fw-bold mb-2 text-uppercase" style="letter-spacing: 1.5px; font-size: 0.85rem;">Estimated Due Date</p>
+                        <h2 class="fw-bold mb-4" id="due-date-res" style="color: #d63384; font-size: 2.2rem; text-shadow: 1px 1px 0 rgba(255,255,255,0.8);">Select a date</h2>
+                    </div>
                     
                     <div class="mt-2 text-start bg-white p-3 rounded-4 shadow-sm">
                         <div class="d-flex justify-content-between mb-2">
@@ -248,14 +269,28 @@
         }
     }
 
+    // --- PREGNANCY DUE DATE LOGIC ---
+    function toggleCalcMethod() {
+        const method = document.getElementById('calc-method').value;
+        if(method === 'lmp') {
+            document.getElementById('mode-lmp').style.display = 'block';
+            document.getElementById('mode-duedate').style.display = 'none';
+            document.getElementById('result-due-date-section').style.display = 'block';
+            calculateDueDate();
+        } else {
+            document.getElementById('mode-lmp').style.display = 'none';
+            document.getElementById('mode-duedate').style.display = 'block';
+            document.getElementById('result-due-date-section').style.display = 'none'; // They already know the due date
+            calculateFromDueDate();
+        }
+    }
+
     function calculateDueDate() {
         const lmpVal = document.getElementById('lmp').value;
         const cycle = parseInt(document.getElementById('cycle').value);
         if(!lmpVal || !cycle) return;
         
         const lmpDate = new Date(lmpVal);
-        
-        // Naegele's rule: Add 280 days (for 28 day cycle), adjust for cycle length
         const daysToAdd = 280 + (cycle - 28);
         const dueDate = new Date(lmpDate);
         dueDate.setDate(dueDate.getDate() + daysToAdd);
@@ -263,6 +298,22 @@
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         document.getElementById('due-date-res').innerText = dueDate.toLocaleDateString(undefined, options);
 
+        renderPregnancyTimeline(lmpDate, dueDate, daysToAdd);
+    }
+
+    function calculateFromDueDate() {
+        const ddVal = document.getElementById('known-dd').value;
+        if(!ddVal) return;
+
+        const dueDate = new Date(ddVal);
+        // Assuming a standard 280 day gestation to find standard LMP
+        const lmpDate = new Date(dueDate);
+        lmpDate.setDate(lmpDate.getDate() - 280);
+
+        renderPregnancyTimeline(lmpDate, dueDate, 280);
+    }
+
+    function renderPregnancyTimeline(lmpDate, dueDate, totalDays) {
         // Progress Calculation
         const today = new Date();
         const diffTime = today - lmpDate;
@@ -270,7 +321,7 @@
         
         let weeks = Math.floor(diffDays / 7);
         let days = diffDays % 7;
-        let percentage = (diffDays / daysToAdd) * 100;
+        let percentage = (diffDays / totalDays) * 100;
         
         if (percentage < 0) percentage = 0;
         if (percentage > 100) percentage = 100;
@@ -322,7 +373,14 @@
         if(toolId === 'bmi' || toolId === 'calorie') calculateHealth();
         if(toolId === 'due-date') {
             const today = new Date();
-            document.getElementById('lmp').value = today.toISOString().split('T')[0];
+            const dateString = today.toISOString().split('T')[0];
+            document.getElementById('lmp').value = dateString;
+            
+            // Set a default known due date to 7 months from now for the other tab
+            const future = new Date();
+            future.setMonth(future.getMonth() + 7);
+            document.getElementById('known-dd').value = future.toISOString().split('T')[0];
+            
             calculateDueDate();
         }
     });
