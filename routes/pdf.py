@@ -135,10 +135,7 @@ PDF_TOOLS = {
     'add_blank': {'id': 'add_blank', 'type': 'pdf', 'name': 'Add Blank Page', 'desc': 'Add a blank page to the end of the document.', 'icon': 'fa-plus-square', 'endpoint': '/pdf-process/add_blank', 'inputs': []},
     # Lightweight tools retained; heavy tools removed per AdSense review
     'compress': {'id': 'compress', 'type': 'pdf', 'name': 'Compress PDF', 'desc': 'Reduce PDF file size.', 'icon': 'fa-compress', 'endpoint': '/pdf-process/compress', 'inputs': []},
-    'convert_word': {'id': 'convert_word', 'type': 'pdf', 'name': 'PDF to Word', 'desc': 'Convert PDF to DOCX.', 'icon': 'fa-file-word', 'endpoint': '/pdf-process/convert_word', 'inputs': []},
-    'convert_excel': {'id': 'convert_excel', 'type': 'pdf', 'name': 'PDF to Excel', 'desc': 'Convert PDF to XLSX.', 'icon': 'fa-file-excel', 'endpoint': '/pdf-process/convert_excel', 'inputs': []},
     'watermark': {'id': 'watermark', 'type': 'pdf', 'name': 'Add Watermark', 'desc': 'Add text or image watermark.', 'icon': 'fa-water', 'endpoint': '/pdf-process/watermark', 'inputs': [{'name': 'watermark_text', 'type': 'text', 'label': 'Watermark Text'}]},
-    'ocr': {'id': 'ocr', 'type': 'pdf', 'name': 'PDF OCR', 'desc': 'Extract text via OCR.', 'icon': 'fa-magnifying-glass', 'endpoint': '/pdf-process/ocr', 'inputs': []},
     'optimize': {'id': 'optimize', 'type': 'pdf', 'name': 'Optimize PDF', 'desc': 'Remove metadata and compress streams.', 'icon': 'fa-wrench', 'endpoint': '/pdf-process/optimize', 'inputs': []}
 }
 
@@ -218,42 +215,6 @@ def process_dynamic_pdf(tool_id):
             compressed.seek(0)
             return send_file(compressed, as_attachment=True, download_name='compressed.pdf', mimetype='application/pdf')
 
-        elif tool_id == 'convert_word':
-            from pdf2docx import Converter
-            import tempfile, os
-            with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as src_tmp:
-                src_tmp.write(file.read())
-                src_tmp.flush()
-                src_path = src_tmp.name
-            docx_path = src_path + '.docx'
-            cv = Converter(src_path)
-            cv.convert(docx_path, start=0, end=None)
-            cv.close()
-            with open(docx_path, 'rb') as f_docx:
-                docx_io = io.BytesIO(f_docx.read())
-            os.remove(src_path)
-            os.remove(docx_path)
-            docx_io.seek(0)
-            return send_file(docx_io, as_attachment=True, download_name='converted.docx', mimetype='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-
-        elif tool_id == 'convert_excel':
-            import pandas as pd, tempfile, os
-            from tabula import read_pdf
-            with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as src_tmp:
-                src_tmp.write(file.read())
-                src_tmp.flush()
-                src_path = src_tmp.name
-            dfs = read_pdf(src_path, pages='all')
-            os.remove(src_path)
-            if not dfs:
-                return jsonify({'error': 'No tables found in PDF'}), 400
-            df = pd.concat(dfs, ignore_index=True)
-            excel_io = io.BytesIO()
-            with pd.ExcelWriter(excel_io, engine='openpyxl') as writer_excel:
-                df.to_excel(writer_excel, index=False, sheet_name='Sheet1')
-            excel_io.seek(0)
-            return send_file(excel_io, as_attachment=True, download_name='converted.xlsx', mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-
         elif tool_id == 'watermark':
             from reportlab.pdfgen import canvas
             from reportlab.lib.pagesizes import letter
@@ -273,16 +234,6 @@ def process_dynamic_pdf(tool_id):
             for page in reader.pages:
                 page.merge_page(watermark_reader.pages[0])
                 writer.add_page(page)
-
-        elif tool_id == 'ocr':
-            from pdf2image import convert_from_bytes
-            import pytesseract
-            images = convert_from_bytes(file.read())
-            text = ''
-            for img in images:
-                text += pytesseract.image_to_string(img) + '\n'
-            buf = io.BytesIO(text.encode('utf-8'))
-            return send_file(buf, as_attachment=True, download_name='ocr_text.txt', mimetype='text/plain')
 
         elif tool_id == 'optimize':
             for page in reader.pages:
