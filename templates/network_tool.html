@@ -255,58 +255,77 @@
             });
     }
 
-    // --- SPEED TEST ---
-    function startSpeedTest() {
+    // --- SPEED TEST (Fast.com Style) ---
+    async function startSpeedTest() {
         const btn = document.getElementById('btn-start-test');
         const res = document.getElementById('speed-result');
         const prog = document.getElementById('speed-progress');
         
         btn.disabled = true;
         btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Testing...';
-        res.innerText = '0.00';
+        res.innerText = '0.0';
         prog.style.width = '0%';
+        prog.classList.add('progress-bar-animated');
         
-        // 2.7MB image from wikimedia for test
-        const imageAddr = "https://upload.wikimedia.org/wikipedia/commons/a/a6/Brandenburger_Tor_abends.jpg"; 
-        const downloadSize = 2700000; // bytes
+        let bytesLoaded = 0;
+        let startTime = performance.now();
+        let testActive = true;
+        let finalMbps = '0.0';
         
-        const startTime = new Date().getTime();
-        const cacheBuster = "?nnn=" + startTime;
-        
-        // Simulate progress bar visually during the download since we can't track fetch progress easily without streams
-        let progressVal = 0;
-        const progressInterval = setInterval(() => {
-            progressVal += Math.random() * 15;
-            if (progressVal > 90) progressVal = 90;
-            prog.style.width = progressVal + '%';
-        }, 300);
+        // Real-time UI Update Loop (like fast.com)
+        const uiInterval = setInterval(() => {
+            if (!testActive) {
+                clearInterval(uiInterval);
+                return;
+            }
+            const duration = (performance.now() - startTime) / 1000;
+            if (duration > 0.1 && bytesLoaded > 0) {
+                const speedBps = (bytesLoaded * 8) / duration;
+                const speedMbps = (speedBps / 1000000).toFixed(1);
+                res.innerText = speedMbps;
+                finalMbps = speedMbps;
+                
+                // Visual progress bar assuming a 10-second test
+                let p = (duration / 10) * 100;
+                if(p > 100) p = 100;
+                prog.style.width = p + '%';
+            }
+        }, 100);
 
-        const download = new Image();
-        download.onload = function() {
-            clearInterval(progressInterval);
-            prog.style.width = '100%';
+        try {
+            // Download a 50MB payload from Cloudflare's global edge network
+            const response = await fetch('https://speed.cloudflare.com/__down?bytes=50000000', {
+                cache: 'no-store'
+            });
             
-            const endTime = new Date().getTime();
-            const duration = (endTime - startTime) / 1000; // seconds
-            const bitsLoaded = downloadSize * 8;
-            const speedBps = (bitsLoaded / duration).toFixed(2);
-            const speedKbps = (speedBps / 1024).toFixed(2);
-            const speedMbps = (speedKbps / 1024).toFixed(2);
+            if(!response.ok) throw new Error("Network blocked request");
             
-            res.innerText = speedMbps;
+            const reader = response.body.getReader();
             
+            while(true) {
+                const {done, value} = await reader.read();
+                if (done) break;
+                
+                bytesLoaded += value.length;
+                
+                // Stop after exactly 10 seconds to conserve bandwidth and emulate fast.com
+                if((performance.now() - startTime) / 1000 > 10) {
+                    await reader.cancel();
+                    break;
+                }
+            }
+        } catch (e) {
+            clearInterval(uiInterval);
+            Swal.fire('Error', 'Speed test failed. Your browser or network may be blocking the test stream.', 'error');
+            console.error(e);
+        } finally {
+            testActive = false;
             btn.disabled = false;
             btn.innerHTML = '<i class="fas fa-redo me-2"></i> Test Again';
+            prog.classList.remove('progress-bar-animated');
+            prog.style.width = '100%';
+            if(finalMbps !== '0.0') res.innerText = finalMbps; // lock in final speed
         }
-        
-        download.onerror = function() {
-            clearInterval(progressInterval);
-            Swal.fire('Error', 'Failed to complete speed test. Network blocked the request.', 'error');
-            btn.disabled = false;
-            btn.innerHTML = '<i class="fas fa-play me-2"></i> Start Test';
-        }
-        
-        download.src = imageAddr + cacheBuster;
     }
 
     // --- DNS LOOKUP ---
