@@ -168,6 +168,45 @@
             </div>
         </div>
     </div>
+    <!-- UNIT CONVERTER -->
+    {% elif tool.id == 'unit' %}
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 p-md-5">
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-secondary">Select Conversion Type</label>
+                        <select id="unitCategory" class="form-select form-select-lg" onchange="populateUnitDropdowns()">
+                            <option value="length">Length</option>
+                            <option value="weight">Weight / Mass</option>
+                            <option value="temperature">Temperature</option>
+                            <option value="data">Data Storage</option>
+                        </select>
+                    </div>
+
+                    <div class="row g-4 align-items-center">
+                        <div class="col-md-5">
+                            <label class="form-label fw-bold">From</label>
+                            <input type="number" id="unitInput" class="form-control form-control-lg mb-2" value="1" oninput="convertUnit()">
+                            <select id="unitFrom" class="form-select" onchange="convertUnit()"></select>
+                        </div>
+                        
+                        <div class="col-md-2 text-center">
+                            <button class="btn btn-light rounded-circle shadow-sm" style="width: 50px; height: 50px;" onclick="swapUnits()">
+                                <i class="fas fa-exchange-alt text-primary"></i>
+                            </button>
+                        </div>
+
+                        <div class="col-md-5">
+                            <label class="form-label fw-bold">To</label>
+                            <input type="text" id="unitOutput" class="form-control form-control-lg mb-2 bg-light fw-bold text-success" readonly>
+                            <select id="unitTo" class="form-select" onchange="convertUnit()"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     {% endif %}
 </div>
 
@@ -282,6 +321,122 @@
         document.getElementById('finalPrice').innerText = formatter.format(final);
     }
 
+    // --- UNIT CONVERTER LOGIC ---
+    const unitDefinitions = {
+        length: {
+            base: 'meter',
+            units: {
+                meter: { name: 'Meters (m)', factor: 1 },
+                kilometer: { name: 'Kilometers (km)', factor: 1000 },
+                centimeter: { name: 'Centimeters (cm)', factor: 0.01 },
+                millimeter: { name: 'Millimeters (mm)', factor: 0.001 },
+                mile: { name: 'Miles (mi)', factor: 1609.344 },
+                yard: { name: 'Yards (yd)', factor: 0.9144 },
+                foot: { name: 'Feet (ft)', factor: 0.3048 },
+                inch: { name: 'Inches (in)', factor: 0.0254 }
+            }
+        },
+        weight: {
+            base: 'kilogram',
+            units: {
+                kilogram: { name: 'Kilograms (kg)', factor: 1 },
+                gram: { name: 'Grams (g)', factor: 0.001 },
+                milligram: { name: 'Milligrams (mg)', factor: 0.000001 },
+                metric_ton: { name: 'Metric Tons (t)', factor: 1000 },
+                pound: { name: 'Pounds (lbs)', factor: 0.45359237 },
+                ounce: { name: 'Ounces (oz)', factor: 0.02834952 }
+            }
+        },
+        data: {
+            base: 'byte',
+            units: {
+                byte: { name: 'Bytes (B)', factor: 1 },
+                kilobyte: { name: 'Kilobytes (KB)', factor: 1024 },
+                megabyte: { name: 'Megabytes (MB)', factor: 1048576 },
+                gigabyte: { name: 'Gigabytes (GB)', factor: 1073741824 },
+                terabyte: { name: 'Terabytes (TB)', factor: 1099511627776 }
+            }
+        }
+    };
+
+    function populateUnitDropdowns() {
+        const cat = document.getElementById('unitCategory').value;
+        const fromSel = document.getElementById('unitFrom');
+        const toSel = document.getElementById('unitTo');
+        
+        fromSel.innerHTML = '';
+        toSel.innerHTML = '';
+
+        if (cat === 'temperature') {
+            const temps = ['Celsius', 'Fahrenheit', 'Kelvin'];
+            temps.forEach(t => {
+                fromSel.add(new Option(t, t.toLowerCase()));
+                toSel.add(new Option(t, t.toLowerCase()));
+            });
+            toSel.selectedIndex = 1;
+        } else {
+            const units = unitDefinitions[cat].units;
+            let i = 0;
+            for (const [key, val] of Object.entries(units)) {
+                fromSel.add(new Option(val.name, key));
+                toSel.add(new Option(val.name, key));
+                i++;
+            }
+            if (fromSel.options.length > 1) toSel.selectedIndex = 1;
+        }
+        convertUnit();
+    }
+
+    function swapUnits() {
+        const fromSel = document.getElementById('unitFrom');
+        const toSel = document.getElementById('unitTo');
+        const temp = fromSel.value;
+        fromSel.value = toSel.value;
+        toSel.value = temp;
+        convertUnit();
+    }
+
+    function convertUnit() {
+        const cat = document.getElementById('unitCategory').value;
+        const val = parseFloat(document.getElementById('unitInput').value);
+        const out = document.getElementById('unitOutput');
+        
+        if (isNaN(val)) {
+            out.value = '';
+            return;
+        }
+
+        const from = document.getElementById('unitFrom').value;
+        const to = document.getElementById('unitTo').value;
+        
+        if (cat === 'temperature') {
+            let celsius = 0;
+            // Convert to Celsius first
+            if (from === 'celsius') celsius = val;
+            else if (from === 'fahrenheit') celsius = (val - 32) * 5/9;
+            else if (from === 'kelvin') celsius = val - 273.15;
+            
+            // Convert from Celsius to Target
+            let res = 0;
+            if (to === 'celsius') res = celsius;
+            else if (to === 'fahrenheit') res = (celsius * 9/5) + 32;
+            else if (to === 'kelvin') res = celsius + 273.15;
+            
+            out.value = parseFloat(res.toFixed(4));
+        } else {
+            const units = unitDefinitions[cat].units;
+            const factorFrom = units[from].factor;
+            const factorTo = units[to].factor;
+            
+            // Convert to base, then to target
+            const baseVal = val * factorFrom;
+            const resVal = baseVal / factorTo;
+            
+            // Format intelligently (avoid e-notation for normal numbers, don't drop decimals)
+            out.value = parseFloat(resVal.toPrecision(10));
+        }
+    }
+
     // Init
     document.addEventListener('DOMContentLoaded', () => {
         if (toolId === 'percentage') {
@@ -293,6 +448,8 @@
             calcAge();
         } else if (toolId === 'discount') {
             calcDiscount();
+        } else if (toolId === 'unit') {
+            populateUnitDropdowns();
         }
     });
 </script>

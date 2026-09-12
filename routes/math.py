@@ -26,6 +26,14 @@ MATH_TOOLS = {
         'icon': 'fa-tags',
         'seo_title': 'Free Discount & Sale Price Calculator',
         'seo_desc': 'Calculate the final sale price of an item after applying a percentage discount. Instantly see how much money you save.'
+    },
+    'unit': {
+        'id': 'unit',
+        'name': 'Unit Converter',
+        'desc': 'Instantly convert between length, weight, and temperature units.',
+        'icon': 'fa-exchange-alt',
+        'seo_title': 'Free Online Unit Converter - Length, Weight & Temperature',
+        'seo_desc': 'Convert between different units of measurement instantly. Supports metric and imperial systems for length, weight, area, and temperature.'
     }
 }
 
