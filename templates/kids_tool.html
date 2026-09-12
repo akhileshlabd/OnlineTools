@@ -334,17 +334,9 @@
                 currentAudio.currentTime = 0;
             }
 
-            // Play real, copyright-free animal sound via Google CDN
-            const url = `https://actions.google.com/sounds/v1/animals/${animal.file}.ogg`;
-            currentAudio = new Audio(url);
-            
-            currentAudio.play().catch(e => {
-                console.log("Audio play failed, falling back to Web Speech TTS", e);
-                // Fallback to browser TTS if offline or blocked
-                speakText(animal.name, 1.2);
-            });
-            
-            // Optionally, we can also speak the name after the animal sound starts, but the user explicitly requested the real sound.
+            // Speak the animal name using TTS
+            const phrase = `It is a ${animal.name}`;
+            speakText(phrase, 1.2);
         };
     }
 
