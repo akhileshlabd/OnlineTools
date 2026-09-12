@@ -73,68 +73,79 @@
 
 {% block scripts %}
 <script>
-const form = document.getElementById('splitForm');
-const pdfInput = document.getElementById('pdfInput');
-const dropArea = document.getElementById('dropArea');
-const splitBtn = document.getElementById('splitBtn');
-const filePreviewSection = document.getElementById('filePreviewSection');
-const pageRangeContainer = document.getElementById('pageRangeContainer');
-const previewFileName = document.getElementById('previewFileName');
-const previewFileSize = document.getElementById('previewFileSize');
-const pdfPreviewFrame = document.getElementById('pdfPreviewFrame');
-const pdfPreviewIcon = document.getElementById('pdfPreviewIcon');
-const spinnerContainer = document.getElementById('spinnerContainer');
+    const pdfInput = document.getElementById('pdfInput');
+    const dropArea = document.getElementById('dropArea');
+    const filePreviewSection = document.getElementById('filePreviewSection');
+    const pageRangeContainer = document.getElementById('pageRangeContainer');
+    const splitBtn = document.getElementById('splitBtn');
+    const spinnerContainer = document.getElementById('spinnerContainer');
+    const form = document.getElementById('splitForm');
 
-function removeFile() {
-    pdfInput.value = '';
-    filePreviewSection.style.display = 'none';
-    pageRangeContainer.style.display = 'none';
-    splitBtn.style.display = 'none';
-    dropArea.style.display = 'block';
-    if (pdfPreviewFrame) pdfPreviewFrame.src = '';
-}
+    const previewFileName = document.getElementById('previewFileName');
+    const previewFileSize = document.getElementById('previewFileSize');
+    const pdfPreviewFrame = document.getElementById('pdfPreviewFrame');
+    const pdfPreviewIcon = document.getElementById('pdfPreviewIcon');
+    const startPageInput = document.getElementById('start_page');
+    const endPageInput = document.getElementById('end_page');
 
-dropArea.addEventListener('dragover', (e) => { e.preventDefault(); dropArea.classList.add('dragover'); });
-dropArea.addEventListener('dragleave', () => { dropArea.classList.remove('dragover'); });
-dropArea.addEventListener('drop', (e) => {
-    e.preventDefault();
-    dropArea.classList.remove('dragover');
-    if (e.dataTransfer.files.length > 0) {
-        pdfInput.files = e.dataTransfer.files;
-        handleFileLoad();
-    }
-});
+    dropArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropArea.style.backgroundColor = '#f8f9fa';
+        dropArea.style.borderColor = '#0d6efd';
+    });
 
-pdfInput.addEventListener('change', handleFileLoad);
+    dropArea.addEventListener('dragleave', () => {
+        dropArea.style.backgroundColor = '';
+        dropArea.style.borderColor = '';
+    });
 
-function handleFileLoad() {
-    if (pdfInput.files && pdfInput.files[0]) {
-        const file = pdfInput.files[0];
-        
-        if (file.type !== 'application/pdf') {
-            Swal.fire("Wait!", "Please select a valid PDF file.", "warning");
-            pdfInput.value = '';
-            return;
+    dropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropArea.style.backgroundColor = '';
+        dropArea.style.borderColor = '';
+        if (e.dataTransfer.files.length) {
+            pdfInput.files = e.dataTransfer.files;
+            handleFile();
         }
+    });
 
-        previewFileName.textContent = file.name;
-        previewFileSize.textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
-        
-        const url = URL.createObjectURL(file);
-        if (pdfPreviewFrame) {
-            pdfPreviewFrame.src = url + "#toolbar=0&navpanes=0&scrollbar=0";
-            pdfPreviewFrame.style.display = 'block';
-            if (pdfPreviewIcon) pdfPreviewIcon.style.display = 'none';
-        } else if (pdfPreviewIcon) {
-            pdfPreviewIcon.style.display = 'block';
-        }
-        
-        dropArea.style.display = 'none';
-        filePreviewSection.style.display = 'block';
-        pageRangeContainer.style.display = 'flex';
-        splitBtn.style.display = 'inline-block';
+    pdfInput.addEventListener('change', handleFile);
+
+    window.removeFile = function() {
+        pdfInput.value = '';
+        dropArea.style.display = 'block';
+        filePreviewSection.style.display = 'none';
+        pageRangeContainer.style.display = 'none';
+        splitBtn.style.display = 'none';
+        if (pdfPreviewFrame) pdfPreviewFrame.src = '';
     }
-}
+
+    async function handleFile() {
+        if (pdfInput.files.length > 0) {
+            const file = pdfInput.files[0];
+            if (file.type !== 'application/pdf') {
+                Swal.fire("Wait!", "Please select a valid PDF file.", "warning");
+                pdfInput.value = '';
+                return;
+            }
+            previewFileName.textContent = file.name;
+            previewFileSize.textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
+            
+            const url = URL.createObjectURL(file);
+            if (pdfPreviewFrame) {
+                pdfPreviewFrame.src = url + "#toolbar=0&navpanes=0&scrollbar=0";
+                pdfPreviewFrame.style.display = 'block';
+                if (pdfPreviewIcon) pdfPreviewIcon.style.display = 'none';
+            } else if (pdfPreviewIcon) {
+                pdfPreviewIcon.style.display = 'block';
+            }
+            
+            dropArea.style.display = 'none';
+            filePreviewSection.style.display = 'block';
+            pageRangeContainer.style.display = 'flex';
+            splitBtn.style.display = 'inline-block';
+        }
+    }
 
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -145,14 +156,12 @@ form.addEventListener('submit', async (e) => {
     }
     
     spinnerContainer.style.display = 'block';
-    spinnerContainer.style.display = 'block';
     splitBtn.disabled = true;
     
     const spinnerText = spinnerContainer.querySelector('p');
     let progressStages = [
-        "Uploading PDF...",
-        "Uploading PDF (100%)...",
-        "Splitting pages securely on server...",
+        "Reading PDF locally...",
+        "Extracting pages securely in browser...",
         "Finalizing document..."
     ];
     let stageIdx = 0;
@@ -162,48 +171,52 @@ form.addEventListener('submit', async (e) => {
         if (stageIdx < progressStages.length) {
             spinnerText.innerText = progressStages[stageIdx];
         } else {
-            spinnerText.innerText = "Almost done... large files may take a bit longer.";
             clearInterval(progressInterval);
         }
-    }, 1500);
-
-    const formData = new FormData(form);
+    }, 1000);
     
     try {
-        const response = await fetch('/pdf-splitter/split', {
-            method: 'POST',
-            body: formData
-        });
+        const file = pdfInput.files[0];
+        const arrayBuffer = await file.arrayBuffer();
+        const { PDFDocument } = PDFLib;
+        const pdf = await PDFDocument.load(arrayBuffer);
+        const totalPages = pdf.getPageCount();
         
-        if (response.ok) {
-            const blob = await response.blob();
-            
-            // Get filename from Content-Disposition header if available
-            let downloadFilename = 'split.pdf';
-            const disposition = response.headers.get('Content-Disposition');
-            if (disposition && disposition.indexOf('attachment') !== -1) {
-                const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-                const matches = filenameRegex.exec(disposition);
-                if (matches != null && matches[1]) { 
-                    downloadFilename = matches[1].replace(/['"]/g, '');
-                }
-            }
-
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = downloadFilename;
-            
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        } else {
-            const data = await response.json();
-            Swal.fire("Error", data.error || "Failed to split PDF", "error");
+        let start = parseInt(startPageInput.value) || 1;
+        let end = parseInt(endPageInput.value) || totalPages;
+        
+        if (start < 1) start = 1;
+        if (end > totalPages) end = totalPages;
+        if (start > end) {
+            throw new Error("Start page cannot be greater than End page.");
         }
+        
+        const newPdf = await PDFDocument.create();
+        const indices = [];
+        for (let i = start - 1; i < end; i++) {
+            indices.push(i);
+        }
+        
+        const copiedPages = await newPdf.copyPages(pdf, indices);
+        copiedPages.forEach((page) => newPdf.addPage(page));
+        
+        const pdfBytes = await newPdf.save();
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        
+        clearInterval(progressInterval);
+        
+        const downloadFilename = file.name.replace('.pdf', '') + `_pages_${start}_to_${end}.pdf`;
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = downloadFilename;
+        
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
     } catch (error) {
-        Swal.fire("Error", "An error occurred while splitting the document.", "error");
+        Swal.fire("Error", error.message || "An error occurred while splitting the document.", "error");
     } finally {
         if (typeof progressInterval !== 'undefined') clearInterval(progressInterval); spinnerContainer.style.display = 'none';
         splitBtn.disabled = false;

@@ -159,71 +159,74 @@ fileList.addEventListener('drop', (e) => {
         const draggedIndex = parseInt(draggedItem.dataset.index);
         const targetIndex = parseInt(target.dataset.index);
         
-        const draggedFile = selectedFiles.splice(draggedIndex, 1)[0];
-        selectedFiles.splice(targetIndex, 0, draggedFile);
-        renderFileList();
-    }
-});
-
-form.addEventListener('submit', async e => {
-    e.preventDefault();
-
-    if (selectedFiles.length < 2) {
-        Swal.fire("Wait!", "Please select at least two PDF files.", "warning");
-        return;
     }
 
-    spinnerContainer.style.display = 'block';
-    spinnerContainer.style.display = 'block';
-    mergeBtn.disabled = true;
-    
-    const spinnerText = spinnerContainer.querySelector('p');
-    let progressStages = [
-        "Uploading PDFs...",
-        "Uploading PDFs (100%)...",
-        "Merging files securely on server...",
-        "Finalizing document..."
-    ];
-    let stageIdx = 0;
-    spinnerText.innerText = progressStages[0];
-    const progressInterval = setInterval(() => {
-        stageIdx++;
-        if (stageIdx < progressStages.length) {
-            spinnerText.innerText = progressStages[stageIdx];
-        } else {
-            spinnerText.innerText = "Almost done... large files may take a bit longer.";
-            clearInterval(progressInterval);
+    window.removeFile = function(fileName, btnElement) {
+        selectedFiles = selectedFiles.filter(f => f.name !== fileName);
+        const li = btnElement.closest('li');
+        li.style.transform = 'scale(0.9)';
+        li.style.opacity = '0';
+        setTimeout(() => li.remove(), 200);
+        updateMergeButton();
+    }
+
+    document.getElementById('pdfForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        if (selectedFiles.length < 2) {
+            Swal.fire("Wait!", "Please select at least two PDF files.", "warning");
+            return;
         }
-    }, 1500);
 
-    const formData = new FormData();
-    selectedFiles.forEach((file, index) => {
-        formData.append('pdfs[]', file);
-        formData.append('order[]', index);
-    });
+        spinnerContainer.style.display = 'block';
+        mergeBtn.disabled = true;
+        
+        const spinnerText = spinnerContainer.querySelector('p');
+        let progressStages = [
+            "Reading PDFs locally...",
+            "Merging documents securely in browser...",
+            "Finalizing document..."
+        ];
+        let stageIdx = 0;
+        spinnerText.innerText = progressStages[0];
+        const progressInterval = setInterval(() => {
+            stageIdx++;
+            if (stageIdx < progressStages.length) {
+                spinnerText.innerText = progressStages[stageIdx];
+            } else {
+                clearInterval(progressInterval);
+            }
+        }, 1000);
 
-    try {
-        const response = await fetch('/pdf-merger/merge', {
-            method: 'POST',
-            body: formData
-        });
+        try {
+            const { PDFDocument } = PDFLib;
+            const mergedPdf = await PDFDocument.create();
 
-        if (response.ok) {
-            const blob = await response.blob();
+            for (const file of selectedFiles) {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await PDFDocument.load(arrayBuffer);
+                const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                copiedPages.forEach((page) => mergedPdf.addPage(page));
+            }
+
+            const pdfBytes = await mergedPdf.save();
+            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+            
+            clearInterval(progressInterval);
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
             link.download = 'merged.pdf';
             link.click();
-        } else {
-            Swal.fire("Error", "Failed to merge PDF files.", "error");
+            
+        } catch (error) {
+            console.error(error);
+            Swal.fire("Error", "Failed to merge PDF files. Some files might be corrupted or encrypted.", "error");
+        } finally {
+            spinnerContainer.style.display = 'none';
+            mergeBtn.disabled = false;
+            clearInterval(progressInterval);
         }
-    } catch (error) {
-        Swal.fire("Error", error.message, "error");
-    } finally {
-        if (typeof progressInterval !== 'undefined') clearInterval(progressInterval); spinnerContainer.style.display = 'none';
-        mergeBtn.disabled = false;
-    }
-});
+    });
 </script>
 {% endblock %}
