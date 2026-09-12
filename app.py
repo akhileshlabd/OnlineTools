@@ -12,6 +12,7 @@ from routes.health import health_bp, HEALTH_TOOLS
 from routes.math import math_bp, MATH_TOOLS
 from routes.network import network_bp, NETWORK_TOOLS
 from routes.games import games_bp, GAMES_TOOLS
+from routes.kids import kids_bp, KIDS_TOOLS
 
 
 app = Flask(__name__)
