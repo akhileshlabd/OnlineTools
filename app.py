@@ -1,4 +1,6 @@
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, request, g, make_response
+import json
+
 import os
 
 from routes.pdf import pdf_bp, PDF_TOOLS
@@ -18,6 +20,36 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg'}
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 # 50 MB max file size limit to protect the server
+
+# --- MULTI-LANGUAGE SEO ENGINE ---
+try:
+    with open('translations.json', 'r', encoding='utf-8') as f:
+        TRANSLATIONS = json.load(f)
+except Exception as e:
+    TRANSLATIONS = {}
+
+SUPPORTED_LANGUAGES = {'en': 'English', 'es': 'Español', 'pt': 'Português', 'hi': 'हिन्दी'}
+
+@app.before_request
+def set_language():
+    lang = request.args.get('lang')
+    if lang in SUPPORTED_LANGUAGES:
+        g.lang = lang
+    else:
+        g.lang = request.cookies.get('lang', 'en')
+        if g.lang not in SUPPORTED_LANGUAGES:
+            g.lang = 'en'
+
+@app.context_processor
+def inject_translations():
+    def t(key):
+        if key in TRANSLATIONS and g.lang in TRANSLATIONS[key]:
+            return TRANSLATIONS[key][g.lang]
+        if key in TRANSLATIONS and 'en' in TRANSLATIONS[key]:
+            return TRANSLATIONS[key]['en']
+        return key
+    return dict(t=t, current_lang=g.lang, supported_langs=SUPPORTED_LANGUAGES)
+# ---------------------------------
 
 # Register Blueprints
 app.register_blueprint(pdf_bp)

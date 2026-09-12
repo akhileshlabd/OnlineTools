@@ -1,0 +1,24 @@
+{
+  "hero_title": {
+    "en": "Every tool you need, completely free.",
+    "es": "Todas las herramientas que necesitas, totalmente gratis.",
+    "pt": "Todas as ferramentas que você precisa, totalmente grátis.",
+    "hi": "हर उपकरण जिसकी आपको आवश्यकता है, बिल्कुल मुफ्त।"
+  },
+  "hero_subtitle": {
+    "en": "No watermarks. No installation required. Most tools work entirely in your browser.",
+    "es": "Sin marcas de agua. Sin instalación. La mayoría funciona en tu navegador.",
+    "pt": "Sem marcas d'água. Sem instalação. Funciona no seu navegador.",
+    "hi": "कोई वॉटरमार्क नहीं। कोई इंस्टॉलेशन नहीं। अधिकांश टूल सीधे आपके ब्राउज़र में काम करते हैं।"
+  },
+  "nav_pdf": { "en": "PDF", "es": "PDF", "pt": "PDF", "hi": "पीडीएफ" },
+  "nav_image": { "en": "Image", "es": "Imagen", "pt": "Imagem", "hi": "चित्र" },
+  "nav_finance": { "en": "Finance", "es": "Finanzas", "pt": "Finanças", "hi": "वित्त" },
+  "nav_text": { "en": "Text", "es": "Texto", "pt": "Texto", "hi": "पाठ" },
+  "nav_health": { "en": "Health", "es": "Salud", "pt": "Saúde", "hi": "स्वास्थ्य" },
+  "nav_math": { "en": "Math", "es": "Mate", "pt": "Matemática", "hi": "गणित" },
+  "nav_network": { "en": "Network", "es": "Red", "pt": "Rede", "hi": "नेटवर्क" },
+  "nav_dev": { "en": "Dev", "es": "Desarrollo", "pt": "Dev", "hi": "डेव" },
+  "nav_games": { "en": "Games", "es": "Juegos", "pt": "Jogos", "hi": "खेल" },
+  "nav_tools": { "en": "Tools", "es": "Herramientas", "pt": "Ferramentas", "hi": "उपकरण" }
+}

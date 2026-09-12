@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ current_lang }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -35,6 +35,12 @@
     <!-- Canonical Link Block -->
     {% block canonical %}<link rel="canonical" href="{{ request.url }}">{% endblock %}
     
+    <!-- Hreflang Tags for Multi-Language SEO -->
+    {% for lang_code in supported_langs %}
+    <link rel="alternate" hreflang="{{ lang_code }}" href="{{ request.base_url }}?lang={{ lang_code }}">
+    {% endfor %}
+    <link rel="alternate" hreflang="x-default" href="{{ request.base_url }}">
+
     <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="{{ url_for('static', filename='favicon.jpg') }}">
 
@@ -88,19 +94,27 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto fs-6">
-                    <li class="nav-item"><a class="nav-link fw-semibold px-3" href="{{ url_for('pdf.pdf_hub') }}"><i class="fas fa-file-pdf text-danger me-1"></i> PDF</a></li>
-                    <li class="nav-item"><a class="nav-link fw-semibold px-3" href="{{ url_for('image.image_hub') }}"><i class="fas fa-image text-success me-1"></i> Image</a></li>
-                    <li class="nav-item"><a class="nav-link fw-semibold px-3" href="{{ url_for('finance.finance_hub') }}"><i class="fas fa-calculator text-primary me-1"></i> Finance</a></li>
-                    <li class="nav-item"><a class="nav-link fw-semibold px-3" href="{{ url_for('text.text_hub') }}"><i class="fas fa-font text-info me-1"></i> Text</a></li>
-                    <li class="nav-item"><a class="nav-link fw-semibold px-3" href="{{ url_for('health.health_hub') }}"><i class="fas fa-heartbeat text-danger me-1"></i> Health</a></li>
-
-                    <li class="nav-item"><a class="nav-link fw-semibold px-3" href="{{ url_for('math.math_hub') }}"><i class="fas fa-calculator text-warning me-1"></i> Math</a></li>
-                    <li class="nav-item"><a class="nav-link fw-semibold px-3" href="{{ url_for('network.network_hub') }}"><i class="fas fa-network-wired text-secondary me-1"></i> Network</a></li>
-
-
-                    <li class="nav-item"><a class="nav-link fw-semibold px-3" href="{{ url_for('code.code_hub') }}"><i class="fas fa-code text-dark me-1"></i> Dev</a></li>
-                    <li class="nav-item"><a class="nav-link fw-bold px-3 text-danger" href="{{ url_for('games.games_hub') }}"><i class="fas fa-gamepad text-danger me-1"></i> Games</a></li>
-
+                    <li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('pdf.pdf_hub') }}"><i class="fas fa-file-pdf text-danger me-1"></i> {{ t('nav_pdf') }}</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('image.image_hub') }}"><i class="fas fa-image text-success me-1"></i> {{ t('nav_image') }}</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('finance.finance_hub') }}"><i class="fas fa-calculator text-primary me-1"></i> {{ t('nav_finance') }}</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('text.text_hub') }}"><i class="fas fa-font text-info me-1"></i> {{ t('nav_text') }}</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('health.health_hub') }}"><i class="fas fa-heartbeat text-danger me-1"></i> {{ t('nav_health') }}</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('math.math_hub') }}"><i class="fas fa-calculator text-warning me-1"></i> {{ t('nav_math') }}</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('network.network_hub') }}"><i class="fas fa-network-wired text-secondary me-1"></i> {{ t('nav_network') }}</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('code.code_hub') }}"><i class="fas fa-code text-dark me-1"></i> {{ t('nav_dev') }}</a></li>
+                    <li class="nav-item"><a class="nav-link fw-bold px-2 text-danger" href="{{ url_for('games.games_hub') }}"><i class="fas fa-gamepad text-danger me-1"></i> {{ t('nav_games') }}</a></li>
+                    
+                    <!-- Language Switcher -->
+                    <li class="nav-item dropdown ms-2 border-start ps-2">
+                        <a class="nav-link dropdown-toggle fw-bold" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-globe text-secondary me-1"></i> {{ current_lang | upper }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0" aria-labelledby="langDropdown">
+                            {% for lang_code, lang_name in supported_langs.items() %}
+                            <li><a class="dropdown-item {% if lang_code == current_lang %}active{% endif %}" href="#" onclick="switchLang('{{ lang_code }}'); return false;">{{ lang_name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
                 </ul>
                 <div class="d-flex align-items-center ms-lg-3 mt-3 mt-lg-0">
                     <button id="darkModeToggle" class="btn btn-outline-secondary rounded-circle" style="width:40px; height:40px;" aria-label="Toggle Dark Mode">
@@ -182,6 +196,16 @@
           });
         });
       }
+    </script>
+
+    <!-- Language Switcher Script -->
+    <script>
+        function switchLang(lang) {
+            document.cookie = "lang=" + lang + "; path=/; max-age=31536000";
+            let url = new URL(window.location.href);
+            url.searchParams.set("lang", lang);
+            window.location.href = url.toString();
+        }
     </script>
 
 </body>
