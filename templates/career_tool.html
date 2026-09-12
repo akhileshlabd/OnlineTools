@@ -1,0 +1,322 @@
+{% extends "base.html" %}
+
+{% block title %}{{ tool.seo_title }} - Free Qube{% endblock %}
+{% block meta_desc %}{{ tool.seo_desc }}{% endblock %}
+
+{% block head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+    /* Resume Builder Layout */
+    .resume-builder-container { display: flex; flex-wrap: wrap; gap: 20px; }
+    .resume-editor { flex: 1 1 400px; max-height: 800px; overflow-y: auto; padding-right: 15px; }
+    .resume-preview-wrapper { flex: 1 1 600px; position: sticky; top: 20px; display: flex; flex-direction: column; align-items: center; }
+    
+    /* The actual ATS-friendly Resume Paper */
+    .resume-paper {
+        width: 100%;
+        max-width: 210mm; /* A4 width */
+        min-height: 297mm; /* A4 height */
+        background: #fff;
+        padding: 40px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        color: #333;
+        line-height: 1.5;
+        box-sizing: border-box;
+    }
+    
+    /* Typography for Resume */
+    .res-header { text-align: center; margin-bottom: 25px; border-bottom: 2px solid #333; padding-bottom: 15px; }
+    .res-name { font-size: 28px; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 1px; color: #111; }
+    .res-title { font-size: 16px; color: #555; margin-bottom: 10px; font-weight: 500; }
+    .res-contact { font-size: 12px; color: #666; }
+    .res-contact span { margin: 0 8px; }
+    
+    .res-section-title { font-size: 16px; font-weight: bold; text-transform: uppercase; border-bottom: 1px solid #ccc; margin-top: 20px; margin-bottom: 15px; padding-bottom: 5px; color: #222; }
+    
+    .res-summary { font-size: 13px; text-align: justify; margin-bottom: 15px; }
+    
+    .res-item { margin-bottom: 15px; }
+    .res-item-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 3px; }
+    .res-item-title { font-size: 14px; font-weight: bold; color: #222; }
+    .res-item-date { font-size: 12px; font-style: italic; color: #555; }
+    .res-item-subtitle { font-size: 13px; font-weight: 500; margin-bottom: 5px; color: #444; }
+    .res-item-desc { font-size: 13px; margin: 0; padding-left: 15px; }
+    .res-item-desc li { margin-bottom: 3px; }
+    
+    .res-skills { font-size: 13px; display: flex; flex-wrap: wrap; gap: 10px; }
+    .res-skill-badge { background: #f0f0f0; padding: 4px 10px; border-radius: 4px; border: 1px solid #ddd; }
+
+    /* Custom scrollbar for editor */
+    .resume-editor::-webkit-scrollbar { width: 6px; }
+    .resume-editor::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 4px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h2 class="fw-bold">{{ tool.name }}</h2>
+    <p class="text-muted">{{ tool.desc }}</p>
+</div>
+
+<div class="resume-builder-container">
+    <!-- EDITOR PANEL -->
+    <div class="resume-editor card shadow-sm border-0">
+        <div class="card-body p-4">
+            
+            <h5 class="fw-bold text-primary mb-3"><i class="fas fa-user-circle me-2"></i>Personal Info</h5>
+            <div class="mb-3">
+                <label class="form-label">Full Name</label>
+                <input type="text" id="inp-name" class="form-control" placeholder="John Doe" oninput="updateResume()">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Job Title</label>
+                <input type="text" id="inp-title" class="form-control" placeholder="Software Engineer" oninput="updateResume()">
+            </div>
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="inp-email" class="form-control" placeholder="john@example.com" oninput="updateResume()">
+                </div>
+                <div class="col-6">
+                    <label class="form-label">Phone</label>
+                    <input type="text" id="inp-phone" class="form-control" placeholder="(555) 123-4567" oninput="updateResume()">
+                </div>
+            </div>
+            <div class="mb-4">
+                <label class="form-label">Location / Links</label>
+                <input type="text" id="inp-location" class="form-control" placeholder="New York, NY | linkedin.com/in/johndoe" oninput="updateResume()">
+            </div>
+
+            <h5 class="fw-bold text-primary mb-3 border-top pt-3"><i class="fas fa-align-left me-2"></i>Professional Summary</h5>
+            <div class="mb-4">
+                <textarea id="inp-summary" class="form-control" rows="4" placeholder="Dedicated software engineer with 5+ years of experience..." oninput="updateResume()"></textarea>
+            </div>
+
+            <h5 class="fw-bold text-primary mb-3 border-top pt-3 d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-briefcase me-2"></i>Work Experience</span>
+                <button class="btn btn-sm btn-outline-primary" onclick="addExperience()"><i class="fas fa-plus"></i> Add</button>
+            </h5>
+            <div id="exp-container"></div>
+
+            <h5 class="fw-bold text-primary mb-3 border-top pt-3 d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-graduation-cap me-2"></i>Education</span>
+                <button class="btn btn-sm btn-outline-primary" onclick="addEducation()"><i class="fas fa-plus"></i> Add</button>
+            </h5>
+            <div id="edu-container"></div>
+
+            <h5 class="fw-bold text-primary mb-3 border-top pt-3"><i class="fas fa-tools me-2"></i>Skills</h5>
+            <div class="mb-4">
+                <textarea id="inp-skills" class="form-control" rows="2" placeholder="JavaScript, Python, React, SQL (Comma separated)" oninput="updateResume()"></textarea>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- PREVIEW PANEL -->
+    <div class="resume-preview-wrapper">
+        <button class="btn btn-success btn-lg shadow fw-bold mb-3 w-100" onclick="downloadResumePDF()">
+            <i class="fas fa-download me-2"></i>Download PDF (ATS-Friendly)
+        </button>
+        
+        <div id="resume-document" class="resume-paper">
+            <div class="res-header">
+                <div class="res-name" id="res-name">JOHN DOE</div>
+                <div class="res-title" id="res-title">Software Engineer</div>
+                <div class="res-contact">
+                    <span id="res-email">john@example.com</span> | 
+                    <span id="res-phone">(555) 123-4567</span> | 
+                    <span id="res-location">New York, NY | linkedin.com/in/johndoe</span>
+                </div>
+            </div>
+
+            <div id="res-section-summary" style="display: none;">
+                <div class="res-section-title">Professional Summary</div>
+                <div class="res-summary" id="res-summary"></div>
+            </div>
+
+            <div id="res-section-exp" style="display: none;">
+                <div class="res-section-title">Work Experience</div>
+                <div id="res-exp-list"></div>
+            </div>
+
+            <div id="res-section-edu" style="display: none;">
+                <div class="res-section-title">Education</div>
+                <div id="res-edu-list"></div>
+            </div>
+
+            <div id="res-section-skills" style="display: none;">
+                <div class="res-section-title">Skills</div>
+                <div class="res-skills" id="res-skills"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let expCount = 0;
+    let eduCount = 0;
+
+    function addExperience() {
+        expCount++;
+        const id = expCount;
+        const html = `
+            <div class="border rounded p-3 mb-3 bg-light position-relative" id="exp-block-${id}">
+                <button type="button" class="btn-close position-absolute top-0 end-0 m-2" onclick="removeBlock('exp-block-${id}')"></button>
+                <input type="text" class="form-control form-control-sm mb-2 fw-bold" id="exp-title-${id}" placeholder="Job Title (e.g. Senior Developer)" oninput="updateResume()">
+                <input type="text" class="form-control form-control-sm mb-2" id="exp-company-${id}" placeholder="Company Name" oninput="updateResume()">
+                <input type="text" class="form-control form-control-sm mb-2" id="exp-date-${id}" placeholder="Jan 2020 - Present" oninput="updateResume()">
+                <textarea class="form-control form-control-sm" id="exp-desc-${id}" rows="3" placeholder="Description/Achievements (Use dashes for bullets)" oninput="updateResume()"></textarea>
+            </div>
+        `;
+        document.getElementById('exp-container').insertAdjacentHTML('beforeend', html);
+        updateResume();
+    }
+
+    function addEducation() {
+        eduCount++;
+        const id = eduCount;
+        const html = `
+            <div class="border rounded p-3 mb-3 bg-light position-relative" id="edu-block-${id}">
+                <button type="button" class="btn-close position-absolute top-0 end-0 m-2" onclick="removeBlock('edu-block-${id}')"></button>
+                <input type="text" class="form-control form-control-sm mb-2 fw-bold" id="edu-degree-${id}" placeholder="Degree (e.g. B.S. Computer Science)" oninput="updateResume()">
+                <input type="text" class="form-control form-control-sm mb-2" id="edu-school-${id}" placeholder="University Name" oninput="updateResume()">
+                <input type="text" class="form-control form-control-sm mb-2" id="edu-date-${id}" placeholder="Graduated May 2022" oninput="updateResume()">
+            </div>
+        `;
+        document.getElementById('edu-container').insertAdjacentHTML('beforeend', html);
+        updateResume();
+    }
+
+    function removeBlock(id) {
+        document.getElementById(id).remove();
+        updateResume();
+    }
+
+    function updateResume() {
+        // Personal
+        document.getElementById('res-name').innerText = document.getElementById('inp-name').value || 'YOUR NAME';
+        document.getElementById('res-title').innerText = document.getElementById('inp-title').value || 'Professional Title';
+        document.getElementById('res-email').innerText = document.getElementById('inp-email').value || 'email@example.com';
+        document.getElementById('res-phone').innerText = document.getElementById('inp-phone').value || 'Phone Number';
+        document.getElementById('res-location').innerText = document.getElementById('inp-location').value || 'Location / Links';
+
+        // Summary
+        const summary = document.getElementById('inp-summary').value;
+        if (summary.trim()) {
+            document.getElementById('res-section-summary').style.display = 'block';
+            document.getElementById('res-summary').innerText = summary;
+        } else {
+            document.getElementById('res-section-summary').style.display = 'none';
+        }
+
+        // Experience
+        const expContainer = document.getElementById('exp-container');
+        const expBlocks = expContainer.children;
+        const resExpList = document.getElementById('res-exp-list');
+        resExpList.innerHTML = '';
+        if (expBlocks.length > 0) {
+            document.getElementById('res-section-exp').style.display = 'block';
+            Array.from(expBlocks).forEach(block => {
+                const id = block.id.split('-')[2];
+                const title = document.getElementById(`exp-title-${id}`).value;
+                const company = document.getElementById(`exp-company-${id}`).value;
+                const date = document.getElementById(`exp-date-${id}`).value;
+                const desc = document.getElementById(`exp-desc-${id}`).value;
+                
+                if(title || company || date || desc) {
+                    let descHtml = '';
+                    if (desc) {
+                        const bullets = desc.split('\n').filter(l => l.trim() !== '');
+                        descHtml = '<ul class="res-item-desc">';
+                        bullets.forEach(b => {
+                            descHtml += `<li>${b.replace(/^- /, '')}</li>`;
+                        });
+                        descHtml += '</ul>';
+                    }
+
+                    const html = `
+                        <div class="res-item">
+                            <div class="res-item-header">
+                                <span class="res-item-title">${title}</span>
+                                <span class="res-item-date">${date}</span>
+                            </div>
+                            <div class="res-item-subtitle">${company}</div>
+                            ${descHtml}
+                        </div>
+                    `;
+                    resExpList.insertAdjacentHTML('beforeend', html);
+                }
+            });
+        } else {
+            document.getElementById('res-section-exp').style.display = 'none';
+        }
+
+        // Education
+        const eduContainer = document.getElementById('edu-container');
+        const eduBlocks = eduContainer.children;
+        const resEduList = document.getElementById('res-edu-list');
+        resEduList.innerHTML = '';
+        if (eduBlocks.length > 0) {
+            document.getElementById('res-section-edu').style.display = 'block';
+            Array.from(eduBlocks).forEach(block => {
+                const id = block.id.split('-')[2];
+                const degree = document.getElementById(`edu-degree-${id}`).value;
+                const school = document.getElementById(`edu-school-${id}`).value;
+                const date = document.getElementById(`edu-date-${id}`).value;
+                
+                if (degree || school || date) {
+                    const html = `
+                        <div class="res-item">
+                            <div class="res-item-header">
+                                <span class="res-item-title">${degree}</span>
+                                <span class="res-item-date">${date}</span>
+                            </div>
+                            <div class="res-item-subtitle">${school}</div>
+                        </div>
+                    `;
+                    resEduList.insertAdjacentHTML('beforeend', html);
+                }
+            });
+        } else {
+            document.getElementById('res-section-edu').style.display = 'none';
+        }
+
+        // Skills
+        const skills = document.getElementById('inp-skills').value;
+        const resSkills = document.getElementById('res-skills');
+        resSkills.innerHTML = '';
+        if (skills.trim()) {
+            document.getElementById('res-section-skills').style.display = 'block';
+            const skillArray = skills.split(',').map(s => s.trim()).filter(Boolean);
+            skillArray.forEach(s => {
+                resSkills.insertAdjacentHTML('beforeend', `<span class="res-skill-badge">${s}</span>`);
+            });
+        } else {
+            document.getElementById('res-section-skills').style.display = 'none';
+        }
+    }
+
+    function downloadResumePDF() {
+        const element = document.getElementById('resume-document');
+        const opt = {
+            margin:       0,
+            filename:     'My_Professional_Resume.pdf',
+            image:        { type: 'jpeg', quality: 1.0 },
+            html2canvas:  { scale: 2, useCORS: true, scrollY: 0 },
+            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+        html2pdf().set(opt).from(element).save();
+    }
+    
+    // Init empty template
+    document.addEventListener('DOMContentLoaded', () => {
+        addExperience();
+        addEducation();
+        updateResume();
+    });
+</script>
+{% endblock %}
