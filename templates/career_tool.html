@@ -67,10 +67,32 @@
                 <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(this.files[0])">
             </div>
 
-            <div class="alert alert-info py-2 small">
-                <i class="fas fa-info-circle me-1"></i> <strong>Why JSON instead of PDF parsing?</strong> 
-                Client-side PDF parsing is highly inaccurate due to PDF structure loss. Using JSON saves ensures perfect layout mapping and 100% privacy!
+            <!-- DESIGN SETTINGS -->
+            <div class="card mb-4 border border-primary shadow-sm">
+                <div class="card-header bg-primary text-white fw-bold py-2">
+                    <i class="fas fa-paint-brush me-2"></i>Design & Layout
+                </div>
+                <div class="card-body p-3 row g-2 align-items-center">
+                    <div class="col-sm-4">
+                        <label class="form-label small fw-bold mb-1">Theme Color</label>
+                        <input type="color" class="form-control form-control-color w-100" id="design-color" value="#111111" title="Choose accent color" onchange="updateDesign()">
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="form-label small fw-bold mb-1">Font Family</label>
+                        <select class="form-select form-select-sm" id="design-font" onchange="updateDesign()">
+                            <option value="'Helvetica Neue', Helvetica, Arial, sans-serif">Helvetica (Sans)</option>
+                            <option value="Georgia, serif">Georgia (Serif)</option>
+                            <option value="'Times New Roman', Times, serif">Times New Roman</option>
+                            <option value="'Courier New', Courier, monospace">Courier (Mono)</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4">
+                        <label class="form-label small fw-bold mb-1">Text Size</label>
+                        <input type="range" class="form-range" id="design-size" min="12" max="18" value="14" oninput="updateDesign()">
+                    </div>
+                </div>
             </div>
+
             
             <h5 class="fw-bold text-primary mb-3"><i class="fas fa-user-circle me-2"></i>Personal Info</h5>
             <div class="mb-3">
@@ -441,10 +463,48 @@
                 resCustomList.insertAdjacentHTML('beforeend', html);
             }
         });
+        
+        autoSave();
+    }
+
+    function updateDesign() {
+        const color = document.getElementById('design-color').value;
+        const font = document.getElementById('design-font').value;
+        const size = document.getElementById('design-size').value;
+        
+        const resumePaper = document.getElementById('resume-document');
+        resumePaper.style.fontFamily = font;
+        
+        // Update font sizes proportionally based on base size
+        const baseSize = parseInt(size);
+        document.querySelector('.res-name').style.fontSize = (baseSize * 2) + 'px';
+        document.querySelector('.res-name').style.color = color;
+        
+        const sectionTitles = document.querySelectorAll('.res-section-title');
+        sectionTitles.forEach(el => {
+            el.style.fontSize = (baseSize + 2) + 'px';
+            el.style.color = color;
+            el.style.borderColor = color;
+        });
+        
+        const allText = document.querySelectorAll('.res-item-title, .res-item-subtitle, .res-summary, .res-item-desc, .res-skills');
+        allText.forEach(el => el.style.fontSize = (baseSize - 1) + 'px');
+        
+        document.querySelector('.res-contact').style.fontSize = (baseSize - 2) + 'px';
+        document.querySelector('.res-title').style.fontSize = (baseSize + 2) + 'px';
+        
+        autoSave();
+    }
+
+    function autoSave() {
+        if (!window.isInitializing) {
+            const data = getExportData();
+            localStorage.setItem('freeqube_resume', JSON.stringify(data));
+        }
     }
 
     // JSON Import/Export
-    function exportJSON() {
+    function getExportData() {
         const data = {
             personal: {
                 name: document.getElementById('inp-name').value,
@@ -458,6 +518,11 @@
                 exp: document.getElementById('title-exp').value,
                 edu: document.getElementById('title-edu').value,
                 skills: document.getElementById('title-skills').value
+            },
+            design: {
+                color: document.getElementById('design-color').value,
+                font: document.getElementById('design-font').value,
+                size: document.getElementById('design-size').value
             },
             summary: document.getElementById('inp-summary').value,
             skills: document.getElementById('inp-skills').value,
@@ -495,6 +560,11 @@
             });
         });
 
+        return data;
+    }
+
+    function exportJSON() {
+        const data = getExportData();
         const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
@@ -510,64 +580,81 @@
             return;
         }
         const reader = new FileReader();
+    function loadDataIntoForm(data) {
+        window.isInitializing = true;
+        // Clear existing
+        document.getElementById('exp-container').innerHTML = '';
+        document.getElementById('edu-container').innerHTML = '';
+        document.getElementById('custom-sections-container').innerHTML = '';
+        expCount = 0; eduCount = 0; customCount = 0;
+        
+        hiddenSections = data.hidden || {};
+
+        if (data.personal) {
+            document.getElementById('inp-name').value = data.personal.name || '';
+            document.getElementById('inp-title').value = data.personal.title || '';
+            document.getElementById('inp-email').value = data.personal.email || '';
+            document.getElementById('inp-phone').value = data.personal.phone || '';
+            document.getElementById('inp-location').value = data.personal.location || '';
+        }
+        if (data.titles) {
+            document.getElementById('title-summary').value = data.titles.summary || 'Professional Summary';
+            document.getElementById('title-exp').value = data.titles.exp || 'Work Experience';
+            document.getElementById('title-edu').value = data.titles.edu || 'Education';
+            document.getElementById('title-skills').value = data.titles.skills || 'Skills';
+        }
+        if (data.design) {
+            document.getElementById('design-color').value = data.design.color || '#111111';
+            document.getElementById('design-font').value = data.design.font || "'Helvetica Neue', Helvetica, Arial, sans-serif";
+            document.getElementById('design-size').value = data.design.size || '14';
+        }
+        
+        document.getElementById('inp-summary').value = data.summary || '';
+        document.getElementById('inp-skills').value = data.skills || '';
+        
+        if (data.exp) data.exp.forEach(e => addExperience(e));
+        if (data.edu) data.edu.forEach(e => addEducation(e));
+        
+        if (data.custom) {
+            data.custom.forEach(c => {
+                addCustomSection(c);
+                if (c.hidden) {
+                    hiddenSections[`custom-${customCount}`] = true;
+                }
+            });
+        }
+        
+        // Sync UI toggles
+        ['summary', 'exp', 'edu', 'skills'].forEach(sec => {
+            const btn = document.querySelector(`[onclick="toggleSection('${sec}', this)"]`);
+            if (btn) {
+                if (hiddenSections[sec]) {
+                    btn.innerHTML = '<i class="fas fa-eye"></i>';
+                    btn.classList.replace('text-secondary', 'text-danger');
+                    document.getElementById(`edit-sec-${sec}`).style.display = 'none';
+                } else {
+                    btn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+                    btn.classList.replace('text-danger', 'text-secondary');
+                    document.getElementById(`edit-sec-${sec}`).style.display = 'block';
+                }
+            }
+        });
+
+        updateDesign();
+        updateResume();
+        window.isInitializing = false;
+    }
+
+    function importJSON(file) {
+        if (!file || !file.name.endsWith('.json')) {
+            alert('Please select a valid .json file generated by FreeQube.');
+            return;
+        }
+        const reader = new FileReader();
         reader.onload = function(e) {
             try {
                 const data = JSON.parse(e.target.result);
-                
-                // Clear existing
-                document.getElementById('exp-container').innerHTML = '';
-                document.getElementById('edu-container').innerHTML = '';
-                document.getElementById('custom-sections-container').innerHTML = '';
-                expCount = 0; eduCount = 0; customCount = 0;
-                
-                hiddenSections = data.hidden || {};
-
-                if (data.personal) {
-                    document.getElementById('inp-name').value = data.personal.name || '';
-                    document.getElementById('inp-title').value = data.personal.title || '';
-                    document.getElementById('inp-email').value = data.personal.email || '';
-                    document.getElementById('inp-phone').value = data.personal.phone || '';
-                    document.getElementById('inp-location').value = data.personal.location || '';
-                }
-                if (data.titles) {
-                    document.getElementById('title-summary').value = data.titles.summary || 'Professional Summary';
-                    document.getElementById('title-exp').value = data.titles.exp || 'Work Experience';
-                    document.getElementById('title-edu').value = data.titles.edu || 'Education';
-                    document.getElementById('title-skills').value = data.titles.skills || 'Skills';
-                }
-                
-                document.getElementById('inp-summary').value = data.summary || '';
-                document.getElementById('inp-skills').value = data.skills || '';
-                
-                if (data.exp) data.exp.forEach(e => addExperience(e));
-                if (data.edu) data.edu.forEach(e => addEducation(e));
-                
-                if (data.custom) {
-                    data.custom.forEach(c => {
-                        addCustomSection(c);
-                        if (c.hidden) {
-                            hiddenSections[`custom-${customCount}`] = true;
-                        }
-                    });
-                }
-                
-                // Sync UI toggles
-                ['summary', 'exp', 'edu', 'skills'].forEach(sec => {
-                    const btn = document.querySelector(`[onclick="toggleSection('${sec}', this)"]`);
-                    if (btn) {
-                        if (hiddenSections[sec]) {
-                            btn.innerHTML = '<i class="fas fa-eye"></i>';
-                            btn.classList.replace('text-secondary', 'text-danger');
-                            document.getElementById(`edit-sec-${sec}`).style.display = 'none';
-                        } else {
-                            btn.innerHTML = '<i class="fas fa-eye-slash"></i>';
-                            btn.classList.replace('text-danger', 'text-secondary');
-                            document.getElementById(`edit-sec-${sec}`).style.display = 'block';
-                        }
-                    }
-                });
-
-                updateResume();
+                loadDataIntoForm(data);
                 alert('Resume data loaded successfully!');
             } catch (err) {
                 alert('Failed to parse resume data.');
@@ -588,11 +675,22 @@
         html2pdf().set(opt).from(element).save();
     }
     
-    // Init empty template
+    // Init empty template or restore from LocalStorage
     document.addEventListener('DOMContentLoaded', () => {
-        addExperience();
-        addEducation();
-        updateResume();
+        const saved = localStorage.getItem('freeqube_resume');
+        if (saved) {
+            try {
+                const data = JSON.parse(saved);
+                loadDataIntoForm(data);
+            } catch (e) {
+                addExperience(); addEducation(); updateDesign(); updateResume();
+            }
+        } else {
+            addExperience();
+            addEducation();
+            updateDesign();
+            updateResume();
+        }
     });
 </script>
 {% endblock %}
