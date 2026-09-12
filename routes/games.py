@@ -3,6 +3,14 @@ from flask import Blueprint, render_template
 games_bp = Blueprint('games', __name__, url_prefix='/games')
 
 GAMES_TOOLS = {
+    'tetris-game': {
+        'id': 'tetris-game',
+        'name': 'Classic Brick Game',
+        'desc': 'The iconic block-stacking puzzle game. Clear lines to score points!',
+        'icon': 'fa-cubes',
+        'seo_title': 'Play Classic Brick Game (Tetris) Online for Free',
+        'seo_desc': 'Play the ultimate classic Brick Game online for free. Stack the blocks, clear the lines, and beat your high score directly in your browser.'
+    },
     'brick-breaker': {
         'id': 'brick-breaker',
         'name': 'Classic Brick Breaker',
