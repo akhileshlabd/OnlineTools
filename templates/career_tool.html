@@ -7,8 +7,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 <script>
-    // Set worker path for pdf.js
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+    // Robustly set worker path for pdf.js
+    window.onload = function() {
+        const pdfjs = window['pdfjs-dist/build/pdf'] || window.pdfjsLib;
+        if (pdfjs) {
+            pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+        }
+    };
 </script>
 <style>
     /* Resume Builder Layout */
@@ -279,7 +284,8 @@
     async function importPDF(file) {
         try {
             const arrayBuffer = await file.arrayBuffer();
-            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            const pdfjs = window['pdfjs-dist/build/pdf'] || window.pdfjsLib;
+            const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
             let fullText = '';
             for (let i = 1; i <= pdf.numPages; i++) {
                 const page = await pdf.getPage(i);
@@ -300,7 +306,9 @@
             document.getElementById('pdf-extracted-text').value = fullText.trim();
             
             updateResume();
+            alert('PDF Text Extracted Successfully!');
         } catch (e) {
+            console.error(e);
             alert('Failed to extract text from PDF. It might be scanned or encrypted.');
         }
     }
