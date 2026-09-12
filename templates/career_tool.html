@@ -272,14 +272,14 @@
     
     function handleFileUpload(file) {
         if (!file) return;
-        if (file.name.endsWith('.json')) {
-            importJSON(file);
-        } else if (file.name.endsWith('.pdf')) {
+        if (file.name.endsWith('.pdf')) {
             importPDF(file);
         } else {
-            alert('Please upload a .json or .pdf file.');
+            alert('Please upload a PDF resume file.');
         }
     }
+    // Expose to global scope for inline event handlers
+    window.handleFileUpload = handleFileUpload;
     
     async function importPDF(file) {
         try {
