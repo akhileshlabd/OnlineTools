@@ -58,6 +58,21 @@ FINANCE_TOOLS = {
             {'id': 'rate', 'label': 'Interest Rate (p.a)', 'min': 1, 'max': 15, 'step': 0.1, 'default': 6.5, 'suffix': '%'},
             {'id': 'years', 'label': 'Time Period', 'min': 1, 'max': 25, 'step': 1, 'default': 5, 'suffix': 'Yr'}
         ]
+    },
+    'compound': {
+        'id': 'compound',
+        'name': 'Compound Interest Calculator',
+        'desc': 'Visualize the power of compounding on your investments over time.',
+        'icon': 'fa-chart-pie',
+        'seo_title': 'Free Compound Interest Calculator Online',
+        'seo_desc': 'Calculate compound interest effortlessly. Visualize your wealth growth with our interactive charts breaking down principal and total interest.',
+        'formula': 'compound',
+        'inputs': [
+            {'id': 'amount', 'label': 'Initial Principal', 'min': 1000, 'max': 5000000, 'step': 1000, 'default': 100000, 'prefix': '₹'},
+            {'id': 'rate', 'label': 'Interest Rate (p.a)', 'min': 1, 'max': 30, 'step': 0.1, 'default': 12, 'suffix': '%'},
+            {'id': 'years', 'label': 'Time Period', 'min': 1, 'max': 40, 'step': 1, 'default': 10, 'suffix': 'Yr'},
+            {'id': 'freq', 'label': 'Compounds per Year', 'min': 1, 'max': 12, 'step': 1, 'default': 1, 'suffix': 'x'}
+        ]
     }
 }
 

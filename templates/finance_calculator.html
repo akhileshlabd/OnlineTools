@@ -172,6 +172,8 @@
         const amount = parseFloat(document.getElementById('amount').value);
         const rate = parseFloat(document.getElementById('rate').value);
         const years = parseFloat(document.getElementById('years').value);
+        const freqEl = document.getElementById('freq');
+        const freq = freqEl ? parseFloat(freqEl.value) : 1;
         
         let principal = 0;
         let interest = 0;
@@ -202,6 +204,18 @@
             
             financeChart.data.datasets[0].backgroundColor = ['#e2e8f0', '#0d6efd'];
             document.getElementById('res-interest').className = "fw-bold mb-0 text-primary";
+        } 
+        else if (toolFormula === 'compound') {
+            document.getElementById('label-principal').innerText = 'Initial Principal';
+            document.getElementById('label-interest').innerText = 'Total Interest';
+            document.getElementById('label-total').innerText = 'Future Value';
+            
+            principal = amount;
+            total = principal * Math.pow(1 + (rate / 100) / freq, freq * years);
+            interest = total - principal;
+            
+            financeChart.data.datasets[0].backgroundColor = ['#e2e8f0', '#198754']; // Green for compound growth
+            document.getElementById('res-interest').className = "fw-bold mb-0 text-success";
         } 
         else if (toolFormula === 'emi') {
             document.getElementById('label-principal').innerText = 'Principal Amount';
