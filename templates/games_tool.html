@@ -28,6 +28,19 @@
 {% endblock %}
 
 {% block content %}
+<style>
+    #game-container:-webkit-full-screen { width: 100vw; height: 100vh; background: #000 !important; border-radius: 0 !important; border: none !important; margin: 0 !important; padding: 0 !important; }
+    #game-container:-moz-full-screen { width: 100vw; height: 100vh; background: #000 !important; border-radius: 0 !important; border: none !important; margin: 0 !important; padding: 0 !important; }
+    #game-container:fullscreen { width: 100vw; height: 100vh; background: #000 !important; border-radius: 0 !important; border: none !important; margin: 0 !important; padding: 0 !important; }
+    
+    #game-container:fullscreen canvas {
+        width: 100vw !important;
+        height: 100vh !important;
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        object-fit: contain !important;
+    }
+</style>
 <div class="tool-interface" style="max-width: 800px;">
     <div class="text-center mb-4">
         <h2 class="fw-bold">{{ t(tool.name) }}</h2>

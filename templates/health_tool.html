@@ -429,10 +429,12 @@
         style.id = 'pdf-print-styles';
         style.innerHTML = `
             .timeline-item { page-break-inside: avoid; break-inside: avoid; }
-            #timeline-card { border-radius: 0 !important; box-shadow: none !important; margin: 0 !important; }
+            #timeline-card { border-radius: 0 !important; box-shadow: none !important; margin: 0 !important; padding: 0 !important; }
             #timeline-card .card-body { padding: 0 1.5rem !important; margin: 0 !important; }
             #pdf-temp-header { padding-top: 0 !important; margin-top: 0 !important; }
             .pregnancy-timeline { margin-top: 1rem !important; }
+            #timeline-ui-header { display: none !important; }
+            .alert { display: none !important; }
         `;
         document.head.appendChild(style);
 

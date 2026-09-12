@@ -26,22 +26,6 @@ TEXT_TOOLS = {
         'icon': 'fa-paragraph',
         'seo_title': 'Free Lorem Ipsum Dummy Text Generator',
         'seo_desc': 'Generate custom Lorem Ipsum placeholder text for your web design, layouts, and mockups. Fast, free, and highly customizable.'
-    },
-    'meta-tags': {
-        'id': 'meta-tags',
-        'name': 'Meta Tag Generator',
-        'desc': 'Generate SEO-optimized HTML meta tags for your website.',
-        'icon': 'fa-tags',
-        'seo_title': 'Free Meta Tag Generator Tool - SEO Tags',
-        'seo_desc': 'Easily generate custom HTML meta tags for your website. Improve your search engine rankings with perfectly formatted title and description tags.'
-    },
-    'keyword-density': {
-        'id': 'keyword-density',
-        'name': 'Keyword Density Checker',
-        'desc': 'Analyze text to find the most frequently used keywords.',
-        'icon': 'fa-chart-pie',
-        'seo_title': 'Free Keyword Density Checker - SEO Tool',
-        'seo_desc': 'Analyze your article or webpage text to find the most used words and phrases. Optimize your keyword density and avoid keyword stuffing.'
     }
 }
 

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
-{% block title %}{{ t(tool.name) }} - Free Qube{% endblock %}
-{% block meta_desc %}Use our free {{ t(tool.name) }} tool online. {{ t(tool.desc) }} No watermark, no installation required. Fast and secure processing.{% endblock %}
+{% block title %}{{ tool.seo_title }} - Free Qube{% endblock %}
+{% block meta_desc %}{{ tool.seo_desc }}{% endblock %}
 {% block meta_keywords %}{{ tool.name | lower }}, free {{ tool.name | lower }}, online {{ tool.name | lower }}, free qube, {{ tool.type }} tools{% endblock %}
 
 {% block schema %}
@@ -28,6 +28,7 @@
 </script>
 {% endblock %}
 {% block content %}
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 <div class="tool-interface" style="max-width: 700px;">
     <div class="text-center mb-4">
         <h2 class="fw-bold">{{ t(tool.name) }}</h2>
@@ -267,6 +268,56 @@ function processImageClientSide(file, toolId) {
     });
 }
 
+// Client-Side PDF Processing Engine
+async function processPdfClientSide(file, toolId) {
+    if (typeof PDFLib === 'undefined') {
+        throw new Error("PDF processing library not loaded. Please check your internet connection.");
+    }
+    
+    const { PDFDocument, rgb, degrees, StandardFonts } = PDFLib;
+    const arrayBuffer = await file.arrayBuffer();
+    const pdfDoc = await PDFDocument.load(arrayBuffer);
+    
+    if (toolId === 'rotate_pdf') {
+        const angle = parseInt(document.getElementById('input_angle').value) || 90;
+        const pages = pdfDoc.getPages();
+        pages.forEach(page => {
+            const currentRotation = page.getRotation().angle;
+            page.setRotation(degrees(currentRotation + angle));
+        });
+    } else if (toolId === 'remove_page') {
+        const pageNum = parseInt(document.getElementById('input_page_num').value) || 1;
+        const pages = pdfDoc.getPages();
+        if (pageNum > 0 && pageNum <= pages.length) {
+            pdfDoc.removePage(pageNum - 1);
+        } else {
+            throw new Error("Invalid page number. Document only has " + pages.length + " pages.");
+        }
+    } else if (toolId === 'add_blank') {
+        pdfDoc.addPage();
+    } else if (toolId === 'watermark') {
+        const text = document.getElementById('input_watermark_text').value || 'Watermark';
+        const pages = pdfDoc.getPages();
+        const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+        
+        pages.forEach(page => {
+            const { width, height } = page.getSize();
+            page.drawText(text, {
+                x: width / 2 - (text.length * 15),
+                y: height / 2 - 25,
+                size: 50,
+                font: font,
+                color: rgb(0.8, 0.2, 0.2),
+                rotate: degrees(45),
+                opacity: 0.4,
+            });
+        });
+    }
+    
+    const pdfBytes = await pdfDoc.save();
+    return new Blob([pdfBytes], { type: 'application/pdf' });
+}
+
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -300,7 +351,7 @@ form.addEventListener('submit', async (e) => {
             
             spinnerContainer.style.display = 'none';
             submitBtn.disabled = false;
-            return; // EXIT EARLY, NO SERVER CALL
+            return;
         } catch (error) {
             console.error(error);
             Swal.fire("Error", "Local browser processing failed. Please try again.", "error");
@@ -310,67 +361,36 @@ form.addEventListener('submit', async (e) => {
         }
     }
     
-    // Server-Side Processing for PDF / Career Tools
-    let progressStages = [
-        "Uploading document...",
-        "Uploading document (100%)...",
-        "Processing securely on server...",
-        "Applying tool operations...",
-        "Finalizing document..."
-    ];
-    let stageIdx = 0;
-    spinnerText.innerText = progressStages[0];
-    const progressInterval = setInterval(() => {
-        stageIdx++;
-        if (stageIdx < progressStages.length) {
-            spinnerText.innerText = progressStages[stageIdx];
-        } else {
-            spinnerText.innerText = "Almost done... large files may take a bit longer.";
-            clearInterval(progressInterval);
-        }
-    }, 1500);
-
-    const formData = new FormData(form);
-    try {
-        const response = await fetch("{{ tool.endpoint }}", {
-            method: 'POST',
-            body: formData
-        });
-        if (response.ok) {
-            const blob = await response.blob();
-            let downloadFilename = 'processed_document.pdf';
-            const disposition = response.headers.get('Content-Disposition');
-            if (disposition && disposition.indexOf('attachment') !== -1) {
-                const matches = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(disposition);
-                if (matches != null && matches[1]) downloadFilename = matches[1].replace(/['"]/g, '');
-            }
-            
-            if (blob.type === 'application/json') {
-                const text = await blob.text();
-                const json = JSON.parse(text);
-                Swal.fire("Error", json.error, "error");
-                return;
-            }
-
+    // JS-Side Processing for PDFs
+    if (toolType === 'pdf' && fileInput && fileInput.files.length > 0) {
+        spinnerText.innerText = "Processing PDF securely on your device...";
+        try {
+            const blob = await processPdfClientSide(fileInput.files[0], toolId);
             const url = URL.createObjectURL(blob);
+            
             const a = document.createElement('a');
             a.href = url;
-            a.download = downloadFilename;
+            a.download = `processed_${fileInput.files[0].name}`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-        } else {
-            const data = await response.json();
-            Swal.fire("Error", data.error || "Processing failed", "error");
+            
+            spinnerContainer.style.display = 'none';
+            submitBtn.disabled = false;
+            return;
+        } catch (error) {
+            console.error(error);
+            Swal.fire("Error", error.message || "Local PDF processing failed. Please try again.", "error");
+            spinnerContainer.style.display = 'none';
+            submitBtn.disabled = false;
+            return;
         }
-    } catch (error) {
-        Swal.fire("Error", "An error occurred. Please check your internet connection.", "error");
-    } finally {
-        if (typeof progressInterval !== 'undefined') clearInterval(progressInterval);
-        spinnerContainer.style.display = 'none';
-        submitBtn.disabled = false;
     }
+    
+    // Fallback for non-file tools if any exist
+    spinnerContainer.style.display = 'none';
+    submitBtn.disabled = false;
 });
 
 function modifySettings() {

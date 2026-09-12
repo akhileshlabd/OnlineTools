@@ -289,18 +289,18 @@
     // ==========================================
     if (toolId === 'animal-sounds') {
         const animals = [
-            { emoji: '🐶', name: 'Dog', sound: 'Woof woof!' },
-            { emoji: '🐱', name: 'Cat', sound: 'Meow meow!' },
-            { emoji: '🐮', name: 'Cow', sound: 'Moo moo!' },
-            { emoji: '🐷', name: 'Pig', sound: 'Oink oink!' },
-            { emoji: '🐸', name: 'Frog', sound: 'Ribbit ribbit!' },
-            { emoji: '🦁', name: 'Lion', sound: 'Roar!' },
-            { emoji: '🐒', name: 'Monkey', sound: 'Ooh ooh ah ah!' },
-            { emoji: '🐘', name: 'Elephant', sound: 'Trumpet!' },
-            { emoji: '🐔', name: 'Chicken', sound: 'Cluck cluck!' },
-            { emoji: '🐑', name: 'Sheep', sound: 'Baa baa!' },
-            { emoji: '🦆', name: 'Duck', sound: 'Quack quack!' },
-            { emoji: '🐴', name: 'Horse', sound: 'Neigh neigh!' }
+            { emoji: '🐶', name: 'Dog', file: 'dog_barking' },
+            { emoji: '🐱', name: 'Cat', file: 'cat_purr_close' },
+            { emoji: '🦅', name: 'Crow', file: 'crow_call' },
+            { emoji: '🐝', name: 'Bee', file: 'bee_buzz' },
+            { emoji: '🐴', name: 'Horse', file: 'horse_eating_grass' },
+            { emoji: '🦉', name: 'Owl', file: 'owl_hooting' },
+            { emoji: '🐭', name: 'Mouse', file: 'mouse_squeaking' },
+            { emoji: '🦗', name: 'Cricket', file: 'cicada_chirp' },
+            { emoji: '🦆', name: 'Goose', file: 'geese_outside' },
+            { emoji: '🐦', name: 'Woodpecker', file: 'woodpecker_pecking_fast' },
+            { emoji: '🦟', name: 'Wasp', file: 'wasp_on_window' },
+            { emoji: '🐍', name: 'Snake', file: 'animal_hiss_and_rattle' }
         ];
 
         const grid = document.getElementById('animal-grid');
@@ -309,32 +309,42 @@
             const col = document.createElement('div');
             col.className = 'col';
             col.innerHTML = `
-                <div class="animal-card h-100" onclick="playAnimal(${idx}, this)">
+                <div class="animal-card" onclick="playAnimalSound('${idx}', this)">
                     <div class="animal-emoji">${animal.emoji}</div>
-                    <p class="animal-name">${animal.name}</p>
+                    <div class="animal-name">${animal.name}</div>
                 </div>
             `;
             grid.appendChild(col);
         });
 
-        window.playAnimal = function(idx, element) {
-            // Animation
-            element.classList.remove('active');
-            void element.offsetWidth; // trigger reflow
-            element.classList.add('active');
-            
+        // Keep track of active audio to prevent overlapping chaos
+        let currentAudio = null;
+
+        window.playAnimalSound = (idx, el) => {
             const animal = animals[idx];
             
-            // Play animal sound using highly reliable Google TTS (bypasses browser SpeechSynthesis bugs)
-            const text = encodeURIComponent(animal.name + "! " + animal.sound);
-            const url = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=en-us&client=tw-ob&q=' + text;
+            // Animation
+            el.classList.remove('active');
+            void el.offsetWidth; // trigger reflow
+            el.classList.add('active');
             
-            const audio = new Audio(url);
-            audio.play().catch(e => {
-                console.log("Audio play failed, falling back to Web Speech", e);
+            // Stop previous audio if playing
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+
+            // Play real, copyright-free animal sound via Google CDN
+            const url = `https://actions.google.com/sounds/v1/animals/${animal.file}.ogg`;
+            currentAudio = new Audio(url);
+            
+            currentAudio.play().catch(e => {
+                console.log("Audio play failed, falling back to Web Speech TTS", e);
                 // Fallback to browser TTS if offline or blocked
-                speakText(`${animal.name}! ${animal.sound}`, 1.4);
+                speakText(animal.name, 1.2);
             });
+            
+            // Optionally, we can also speak the name after the animal sound starts, but the user explicitly requested the real sound.
         };
     }
 
