@@ -208,14 +208,6 @@
 
     <!-- COLOR CONVERTER -->
     {% elif tool.id == 'color-converter' %}
-    <div class="card shadow-sm border-0">
-        <div class="card-body p-4 p-md-5 bg-light rounded text-center">
-            
-            <!-- Modern Color Converter UI -->
-            <div class="row justify-content-center g-4 align-items-end">
-                <div class="col-md-3">
-                    <label class="form-label fw-bold w-100">Pick a Color</label>
-                    <input type="color" id="color-picker" class="form-control form-control-color w-100" value="#0d6efd" title="Choose your color" oninput="updateFromPicker()" style="height: 48px; cursor: pointer; padding: 0.375rem;">
     <!-- Modern Advanced Color Converter UI -->
     <div class="row g-4 text-start">
         <!-- Left Column: Picker & WCAG -->
@@ -239,9 +231,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <label class="form-label fw-bold text-start w-100">HEX Code</label>
-                    <input type="text" id="color-hex" class="form-control form-control-lg font-monospace text-center" value="#0d6efd" oninput="hexToRgb()">
             </div>
         </div>
         
@@ -295,12 +284,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-5">
-                    <label class="form-label fw-bold text-start w-100">RGB Value</label>
-                    <input type="text" id="color-rgb" class="form-control form-control-lg font-monospace text-center" value="rgb(13, 110, 253)" oninput="rgbToHex()">
-                </div>
             </div>
-            
         </div>
     </div>
     {% endif %}
@@ -452,8 +436,6 @@
         document.getElementById('uuid-output').value = uuids.join('\n');
     }
 
-    // --- COLOR CONVERTER ---
-    function updateFromPicker() {
     // --- COLOR CONVERTER (ADVANCED) ---
     function copyValue(id) {
         const el = document.getElementById(id);
@@ -471,31 +453,17 @@
     function updateAllFromPicker() {
         const hex = document.getElementById('color-picker').value;
         document.getElementById('color-hex').value = hex;
-        hexToRgb(); // re-use hex to rgb logic
         processColor(hex);
     }
-    function hexToRgb() {
 
     function updateAllFromHex() {
         let hex = document.getElementById('color-hex').value.trim();
-        if(hex.startsWith('#')) hex = hex.slice(1);
-        if(hex.length === 3) hex = hex.split('').map(c => c+c).join('');
-        if(hex.length === 6) {
-            const r = parseInt(hex.slice(0, 2), 16);
-            const g = parseInt(hex.slice(2, 4), 16);
-            const b = parseInt(hex.slice(4, 6), 16);
-            if(!isNaN(r) && !isNaN(g) && !isNaN(b)) {
-                const rgb = `rgb(${r}, ${g}, ${b})`;
-                document.getElementById('color-rgb').value = rgb;
-                document.getElementById('color-picker').value = `#${hex}`;
-            }
         if(!hex.startsWith('#')) hex = '#' + hex;
         if(/^#[0-9A-F]{6}$/i.test(hex)) {
             document.getElementById('color-picker').value = hex;
             processColor(hex);
         }
     }
-    function rgbToHex() {
 
     function updateAllFromRgb() {
         const rgb = document.getElementById('color-rgb').value.trim();
