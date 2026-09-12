@@ -74,9 +74,10 @@
     }
 </style>
 
-<!-- Load @imgly/background-removal from CDN -->
-<script src="https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.4.3/dist/imgly-background-removal.browser.min.js"></script>
-<script>
+<!-- Load @imgly/background-removal as ES Module -->
+<script type="module">
+import imglyRemoveBackground from 'https://esm.sh/@imgly/background-removal@1.4.3';
+
 document.addEventListener('DOMContentLoaded', () => {
     const uploadArea = document.getElementById('upload-area');
     const imageInput = document.getElementById('imageInput');
@@ -131,6 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // Configuration for the WebML AI
             const config = {
+                publicPath: 'https://unpkg.com/@imgly/background-removal@1.4.3/bin/', // Explicitly point to the WASM and ONNX binary files
                 progress: (key, current, total) => {
                     const percent = Math.round((current / total) * 100) || 0;
                     if(key.includes('fetch')) {
