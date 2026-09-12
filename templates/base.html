@@ -32,10 +32,14 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 
-    <!-- Canonical Link Block -->
-    {% block canonical %}<link rel="canonical" href="{{ request.url }}">{% endblock %}
-    
-    <!-- Hreflang Tags for Multi-Language SEO -->
+    <!-- Canonical Link Block for SEO -->
+    {% block canonical %}
+    {% if current_lang and current_lang != 'en' %}
+    <link rel="canonical" href="{{ request.base_url }}?lang={{ current_lang }}">
+    {% else %}
+    <link rel="canonical" href="{{ request.base_url }}">
+    {% endif %}
+    {% endblock %}
     {% for lang_code in supported_langs %}
     <link rel="alternate" hreflang="{{ lang_code }}" href="{{ request.base_url }}?lang={{ lang_code }}">
     {% endfor %}
