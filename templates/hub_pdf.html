@@ -26,11 +26,11 @@
         <h3>Image to PDF</h3>
         <p>Convert JPG, PNG, or GIF images to PDF in seconds.</p>
     </a>
-    {% for key, t in pdf_tools.items() %}
-    <a href="{{ url_for('pdf.dynamic_pdf_tool', tool_id=t.id) }}" class="tool-card">
-        <div class="icon-wrapper pdf-icon"><i class="fas {{ t.icon }}"></i></div>
-        <h3>{{ t(t.name) }}</h3>
-        <p>{{ t(t.desc) }}</p>
+    {% for key, tool in pdf_tools.items() %}
+    <a href="{{ url_for('pdf.dynamic_pdf_tool', tool_id=tool.id) }}" class="tool-card">
+        <div class="icon-wrapper pdf-icon"><i class="fas {{ tool.icon }}"></i></div>
+        <h3>{{ t(tool.name) }}</h3>
+        <p>{{ t(tool.desc) }}</p>
     </a>
     {% endfor %}
 </div>

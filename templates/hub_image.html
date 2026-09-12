@@ -27,11 +27,11 @@
         <h3>QR Generator</h3>
         <p>Create custom QR codes for URLs, Text, WiFi and more. 100% browser-side.</p>
     </a>
-    {% for key, t in image_tools.items() %}
-    <a href="{{ url_for('image.dynamic_image_tool', tool_id=t.id) }}" class="tool-card">
-        <div class="icon-wrapper img-icon"><i class="fas {{ t.icon }}"></i></div>
-        <h3>{{ t(t.name) }}</h3>
-        <p>{{ t(t.desc) }}</p>
+    {% for key, tool in image_tools.items() %}
+    <a href="{{ url_for('image.dynamic_image_tool', tool_id=tool.id) }}" class="tool-card">
+        <div class="icon-wrapper img-icon"><i class="fas {{ tool.icon }}"></i></div>
+        <h3>{{ t(tool.name) }}</h3>
+        <p>{{ t(tool.desc) }}</p>
     </a>
     {% endfor %}
 </div>

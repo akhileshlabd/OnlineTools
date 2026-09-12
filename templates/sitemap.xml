@@ -47,42 +47,42 @@
     <url><loc>{{ url_for('image.qr_generator', _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
     <!-- Dynamic PDF Tools -->
-    {% for id, t in pdf_tools.items() %}
+    {% for id, tool in pdf_tools.items() %}
     <url><loc>{{ url_for('pdf.dynamic_pdf_tool', tool_id=id, _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
     {% endfor %}
 
     <!-- Dynamic Image Tools -->
-    {% for id, t in image_tools.items() %}
+    {% for id, tool in image_tools.items() %}
     <url><loc>{{ url_for('image.dynamic_image_tool', tool_id=id, _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
     {% endfor %}
 
     <!-- Dynamic Finance Tools -->
-    {% for id, t in finance_tools.items() %}
+    {% for id, tool in finance_tools.items() %}
     <url><loc>{{ url_for('finance.calculator_page', tool_id=id, _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
     {% endfor %}
 
     <!-- Dynamic Code Tools -->
-    {% for id, t in code_tools.items() %}
+    {% for id, tool in code_tools.items() %}
     <url><loc>{{ url_for('code.code_tool_page', tool_id=id, _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
     {% endfor %}
 
     <!-- Dynamic Text Tools -->
-    {% for id, t in text_tools.items() %}
+    {% for id, tool in text_tools.items() %}
     <url><loc>{{ url_for('text.text_tool_page', tool_id=id, _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
     {% endfor %}
 
     <!-- Dynamic Health Tools -->
-    {% for id, t in health_tools.items() %}
+    {% for id, tool in health_tools.items() %}
     <url><loc>{{ url_for('health.health_tool_page', tool_id=id, _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
     {% endfor %}
 
     <!-- Dynamic Math Tools -->
-    {% for id, t in math_tools.items() %}
+    {% for id, tool in math_tools.items() %}
     <url><loc>{{ url_for('math.math_tool_page', tool_id=id, _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
     {% endfor %}
 
     <!-- Dynamic Network Tools -->
-    {% for id, t in network_tools.items() %}
+    {% for id, tool in network_tools.items() %}
     <url><loc>{{ url_for('network.network_tool_page', tool_id=id, _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
     {% endfor %}
 
