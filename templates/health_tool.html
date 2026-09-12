@@ -424,22 +424,29 @@
         cardBody.insertAdjacentHTML('afterbegin', headerHtml);
         cardBody.insertAdjacentHTML('beforeend', footerHtml);
         
-        // Calculate the height needed for a single page
-        const totalHeightPx = element.scrollHeight;
-        const heightInInches = (totalHeightPx / 96) + 1.5; // 96 DPI conversion + margin
-        
+        // Ensure timeline items don't get cut in half across pages
+        const style = document.createElement('style');
+        style.id = 'pdf-print-styles';
+        style.innerHTML = `
+            .timeline-item { page-break-inside: avoid; break-inside: avoid; }
+            #timeline-card { border-radius: 0 !important; box-shadow: none !important; }
+        `;
+        document.head.appendChild(style);
+
         const opt = {
-            margin:       [0.4, 0.4, 0.4, 0.4],
+            margin:       10, // 10mm margins for proper A4 alignment
             filename:     'My_Pregnancy_Milestones.pdf',
             image:        { type: 'jpeg', quality: 0.98 },
             html2canvas:  { scale: 2, useCORS: true },
-            jsPDF:        { unit: 'in', format: [8.5, Math.max(11, heightInInches)], orientation: 'portrait' }
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+            pagebreak:    { mode: ['css', 'legacy'] }
         };
         
         html2pdf().set(opt).from(element).save().then(() => {
             // Cleanup DOM
             document.getElementById('pdf-temp-header').remove();
             document.getElementById('pdf-temp-footer').remove();
+            document.getElementById('pdf-print-styles').remove();
         });
     }
 </script>
