@@ -5,7 +5,6 @@
 
 {% block content %}
 <!-- Audio Element for Playful Background Music -->
-<!-- Using a safe public domain / creative commons track, looping -->
 <audio id="bgMusic" loop preload="auto">
     <source src="https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3" type="audio/mpeg">
 </audio>
@@ -28,9 +27,12 @@
             <p class="text-muted small mt-3">Press <strong>ESC</strong> to exit fullscreen mode.</p>
         </div>
 
-        <div id="smash-container" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #111; overflow: hidden; z-index: 9999; cursor: crosshair;">
+        <div id="smash-container" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%); overflow: hidden; z-index: 9999; cursor: crosshair;">
+            <!-- Stars background will be injected here -->
+            <div id="stars-container"></div>
+            
             <!-- Shapes will be injected here -->
-            <div id="exit-hint" style="position: absolute; top: 20px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.3); font-family: sans-serif; pointer-events: none;">
+            <div id="exit-hint" style="position: absolute; top: 20px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.3); font-family: sans-serif; pointer-events: none; z-index: 100;">
                 Press ESC to exit
             </div>
         </div>
@@ -51,6 +53,7 @@
         color: white;
         text-shadow: 3px 3px 0 rgba(0,0,0,0.3);
         box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        z-index: 10;
     }
     
     .smash-glitter {
@@ -62,6 +65,18 @@
         border-radius: 50%;
         animation: sparkle 0.6s ease-out forwards;
         box-shadow: 0 0 10px 2px rgba(255,255,255,0.8);
+        z-index: 20;
+    }
+    
+    .bg-star {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        background-color: white;
+        border-radius: 50%;
+        opacity: 0;
+        animation: twinkle 3s infinite ease-in-out;
+        z-index: 1;
     }
     
     @keyframes popIn {
@@ -78,10 +93,16 @@
         0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
         100% { transform: translate(var(--tx), var(--ty)) scale(1.5); opacity: 0; }
     }
+    
+    @keyframes twinkle {
+        0%, 100% { opacity: 0; transform: scale(0.5); }
+        50% { opacity: 0.8; transform: scale(1.5); box-shadow: 0 0 6px rgba(255,255,255,0.8); }
+    }
 </style>
 
 <script>
     const container = document.getElementById('smash-container');
+    const starsContainer = document.getElementById('stars-container');
     const colors = ['#FF3B30', '#FF9500', '#FFCC00', '#4CD964', '#5AC8FA', '#007AFF', '#5856D6', '#FF2D55', '#FF1493', '#00FA9A'];
     const shapes = ['circle', 'square', 'letter', 'number'];
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
@@ -89,6 +110,54 @@
     
     // Check if speechSynthesis is available
     const synth = window.speechSynthesis;
+    let audioCtx = null;
+    let starsCreated = false;
+
+    // Fast, zero-latency Web Audio API pop sound!
+    function playPopSound() {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        
+        osc.type = 'sine';
+        // Random playful pitch between 400Hz and 800Hz
+        const startFreq = 400 + Math.random() * 400;
+        osc.frequency.setValueAtTime(startFreq, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(startFreq + 400, audioCtx.currentTime + 0.1);
+        
+        gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime); // Sound effect volume
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+        
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.1);
+    }
+    
+    function createBackgroundStars() {
+        if (starsCreated) return;
+        starsCreated = true;
+        for (let i = 0; i < 80; i++) {
+            const star = document.createElement('div');
+            star.className = 'bg-star';
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            
+            // Randomize size slightly
+            const size = Math.random() * 2 + 2; // 2px to 4px
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            
+            // Randomize animation duration and delay
+            star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            star.style.animationDelay = (Math.random() * 5) + 's';
+            
+            starsContainer.appendChild(star);
+        }
+    }
 
     function startSmashToy() {
         if (container.requestFullscreen) {
@@ -100,7 +169,10 @@
         }
         
         container.style.display = 'block';
-        bgMusic.volume = 0.4;
+        createBackgroundStars();
+        
+        // Very light music volume
+        bgMusic.volume = 0.04;
         bgMusic.play().catch(e => console.log('Audio play blocked:', e));
     }
 
@@ -113,7 +185,6 @@
         if (!document.fullscreenElement && !document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
             container.style.display = 'none';
             bgMusic.pause();
-            container.innerHTML = '<div id="exit-hint" style="position: absolute; top: 20px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.3); font-family: sans-serif; pointer-events: none;">Press ESC to exit</div>';
         }
     }
     
@@ -146,6 +217,9 @@
 
     function createShape(x, y, char = null) {
         if (container.style.display === 'none') return;
+        
+        // Play sound effect instantly
+        playPopSound();
         
         const el = document.createElement('div');
         el.className = 'smash-shape';
