@@ -5,6 +5,11 @@
 
 {% block head %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+<script>
+    // Set worker path for pdf.js
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+</script>
 <style>
     /* Resume Builder Layout */
     .resume-builder-container { display: flex; flex-wrap: wrap; gap: 20px; }
@@ -62,9 +67,21 @@
             
             <div class="drag-drop-zone" id="drop-zone" onclick="document.getElementById('importFile').click()">
                 <i class="fas fa-file-import fa-2x text-primary mb-2"></i>
-                <h6 class="fw-bold m-0">Import Resume Data (.json)</h6>
-                <p class="small text-muted m-0 mt-1">Drag & drop your saved FreeQube resume data here.</p>
-                <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(this.files[0])">
+                <h6 class="fw-bold m-0">Import Resume (.json or .pdf)</h6>
+                <p class="small text-muted m-0 mt-1">Drag & drop your saved data or an existing PDF resume.</p>
+                <input type="file" id="importFile" accept=".json,.pdf" style="display:none" onchange="handleFileUpload(this.files[0])">
+            </div>
+
+            <!-- PDF SCRATCHPAD (Hidden by default) -->
+            <div class="card border-warning mb-4 shadow-sm" id="pdf-scratchpad-panel" style="display: none;">
+                <div class="card-header bg-warning text-dark fw-bold py-2 d-flex justify-content-between align-items-center">
+                    <span><i class="fas fa-clipboard-list me-2"></i>PDF Extracted Text</span>
+                    <button class="btn btn-sm btn-outline-dark border-0 py-0" onclick="document.getElementById('pdf-scratchpad-panel').style.display='none'"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="card-body p-3">
+                    <p class="small text-muted mb-2">We auto-filled what we could! Copy and paste your specific details from here into the structured fields below for perfect formatting.</p>
+                    <textarea id="pdf-extracted-text" class="form-control text-muted" rows="6" style="font-size: 12px;"></textarea>
+                </div>
             </div>
 
             <!-- DESIGN SETTINGS -->
@@ -244,9 +261,49 @@
         e.preventDefault();
         dropZone.style.background = '#f8f9fa';
         if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-            importJSON(e.dataTransfer.files[0]);
+            handleFileUpload(e.dataTransfer.files[0]);
         }
     });
+    
+    function handleFileUpload(file) {
+        if (!file) return;
+        if (file.name.endsWith('.json')) {
+            importJSON(file);
+        } else if (file.name.endsWith('.pdf')) {
+            importPDF(file);
+        } else {
+            alert('Please upload a .json or .pdf file.');
+        }
+    }
+    
+    async function importPDF(file) {
+        try {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            let fullText = '';
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const content = await page.getTextContent();
+                const strings = content.items.map(item => item.str);
+                fullText += strings.join(' ') + '\n\n';
+            }
+            
+            // Heuristic Parsing for basic fields
+            const emailMatch = fullText.match(/[\w\.-]+@[\w\.-]+\.\w+/);
+            if (emailMatch) document.getElementById('inp-email').value = emailMatch[0];
+            
+            const phoneMatch = fullText.match(/(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?/i);
+            if (phoneMatch) document.getElementById('inp-phone').value = phoneMatch[0];
+            
+            // Show scratchpad
+            document.getElementById('pdf-scratchpad-panel').style.display = 'block';
+            document.getElementById('pdf-extracted-text').value = fullText.trim();
+            
+            updateResume();
+        } catch (e) {
+            alert('Failed to extract text from PDF. It might be scanned or encrypted.');
+        }
+    }
 
     function addExperience(data = null) {
         expCount++;
