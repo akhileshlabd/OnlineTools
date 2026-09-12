@@ -66,6 +66,30 @@ CODE_TOOLS = {
         'icon': 'fa-palette',
         'seo_title': 'Free HEX to RGB Color Converter',
         'seo_desc': 'Instantly convert CSS color codes between HEX, RGB, and HSL formats. Perfect tool for frontend web developers and designers.'
+    },
+    'box-shadow-generator': {
+        'id': 'box-shadow-generator',
+        'name': 'CSS Box Shadow Generator',
+        'desc': 'Visually design CSS box shadows and generate the code.',
+        'icon': 'fa-clone',
+        'seo_title': 'Free CSS Box Shadow Generator - Visual Tool',
+        'seo_desc': 'Visually generate beautiful CSS3 box shadows. Adjust blur, spread, X/Y offsets, and colors to get instant CSS code for your web design.'
+    },
+    'markdown-editor': {
+        'id': 'markdown-editor',
+        'name': 'Markdown Editor & Preview',
+        'desc': 'Write Markdown and preview the HTML rendering in real-time.',
+        'icon': 'fa-markdown',
+        'seo_title': 'Free Online Markdown Editor & Real-Time Preview',
+        'seo_desc': 'Write and edit Markdown files with an instant, real-time HTML preview. A lightweight, client-side tool for developers to draft README files.'
+    },
+    'html-entities': {
+        'id': 'html-entities',
+        'name': 'HTML Entity Encoder',
+        'desc': 'Encode or decode HTML characters securely.',
+        'icon': 'fa-file-code',
+        'seo_title': 'Free HTML Entity Encoder and Decoder Online',
+        'seo_desc': 'Convert special characters to their corresponding HTML entities, or decode HTML entities back to plain text. 100% secure client-side processing.'
     }
 }
 
