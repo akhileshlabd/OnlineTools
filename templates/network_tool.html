@@ -29,9 +29,9 @@
         <p class="text-muted">{{ tool.desc }}</p>
     </div>
 
+    <!-- WHAT IS MY IP -->
     {% if tool.id == 'what-is-my-ip' %}
     <div class="card shadow border-0 overflow-hidden mb-4">
-        <!-- Banner -->
         <div class="bg-primary text-white p-5 text-center">
             <p class="text-uppercase fw-bold mb-2 text-white-50">Your Public IP Address</p>
             <h1 class="display-3 fw-bold mb-0" id="main-ip" style="word-break: break-all;">
@@ -42,7 +42,6 @@
             </button>
         </div>
         
-        <!-- Details Grid -->
         <div class="card-body p-4 p-md-5 bg-light position-relative">
             <div id="loading-details" class="text-center py-5">
                 <div class="spinner-border text-primary" role="status">
@@ -52,7 +51,6 @@
             </div>
             
             <div id="ip-details" class="row g-4" style="display: none;">
-                <!-- Left Col -->
                 <div class="col-md-6">
                     <ul class="list-group list-group-flush bg-transparent">
                         <li class="list-group-item bg-transparent border-bottom-0 py-3 d-flex align-items-center">
@@ -75,8 +73,6 @@
                         </li>
                     </ul>
                 </div>
-                
-                <!-- Right Col -->
                 <div class="col-md-6">
                     <ul class="list-group list-group-flush bg-transparent">
                         <li class="list-group-item bg-transparent border-bottom-0 py-3 d-flex align-items-center">
@@ -102,22 +98,129 @@
             </div>
         </div>
     </div>
+
+    <!-- SPEED TEST -->
+    {% elif tool.id == 'speed-test' %}
+    <div class="card shadow border-0 overflow-hidden mb-4">
+        <div class="bg-dark text-white p-5 text-center">
+            <h3 class="mb-4 text-white-50">Download Speed</h3>
+            <div class="d-flex justify-content-center align-items-baseline mb-4">
+                <h1 class="display-1 fw-bold mb-0 text-success" id="speed-result">0.00</h1>
+                <span class="fs-4 ms-2 text-white-50">Mbps</span>
+            </div>
+            
+            <div class="progress mb-4 bg-secondary" style="height: 10px;" id="speed-progress-container">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" id="speed-progress" style="width: 0%"></div>
+            </div>
+
+            <button class="btn btn-primary btn-lg fw-bold rounded-pill px-5 shadow" id="btn-start-test" onclick="startSpeedTest()">
+                <i class="fas fa-play me-2"></i> Start Test
+            </button>
+        </div>
+        <div class="card-body bg-light text-center p-4">
+            <p class="text-muted mb-0 small"><i class="fas fa-info-circle me-1"></i> This test measures your raw download speed by securely downloading a 2.5MB payload from Wikimedia's global CDN in the background.</p>
+        </div>
+    </div>
+
+    <!-- DNS LOOKUP -->
+    {% elif tool.id == 'dns-lookup' %}
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body p-4 p-md-5">
+            <div class="row g-3 mb-4">
+                <div class="col-md-7">
+                    <input type="text" id="dns-domain" class="form-control form-control-lg" placeholder="example.com" value="google.com">
+                </div>
+                <div class="col-md-3">
+                    <select id="dns-type" class="form-select form-select-lg">
+                        <option value="A">A (IPv4)</option>
+                        <option value="AAAA">AAAA (IPv6)</option>
+                        <option value="MX">MX (Mail)</option>
+                        <option value="TXT">TXT (Text)</option>
+                        <option value="CNAME">CNAME</option>
+                        <option value="NS">NS (Nameserver)</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary btn-lg w-100 fw-bold" onclick="lookupDns()" id="btn-dns">Lookup</button>
+                </div>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered mb-0 bg-white shadow-sm">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Name</th>
+                            <th>TTL</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dns-results">
+                        <tr><td colspan="3" class="text-center text-muted">Enter a domain to view records</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- BROWSER INFO -->
+    {% elif tool.id == 'browser-info' %}
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body p-4 p-md-5">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="icon-wrapper text-primary me-3 fs-3"><i class="fab fa-windows"></i></div>
+                        <div>
+                            <h6 class="fw-bold text-muted mb-0">OPERATING SYSTEM</h6>
+                            <h4 class="fw-bold mb-0" id="bi-os">Detecting...</h4>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="icon-wrapper text-primary me-3 fs-3"><i class="fas fa-globe"></i></div>
+                        <div>
+                            <h6 class="fw-bold text-muted mb-0">BROWSER ENGINE</h6>
+                            <h4 class="fw-bold mb-0" id="bi-browser">Detecting...</h4>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="icon-wrapper text-primary me-3 fs-3"><i class="fas fa-expand"></i></div>
+                        <div>
+                            <h6 class="fw-bold text-muted mb-0">SCREEN RESOLUTION</h6>
+                            <h4 class="fw-bold mb-0" id="bi-screen">Detecting...</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="bg-light p-4 rounded h-100">
+                        <h6 class="fw-bold text-muted mb-2">RAW USER AGENT</h6>
+                        <code class="text-dark" id="bi-ua" style="word-break: break-all;">Detecting...</code>
+                        <hr>
+                        <div class="row text-center mt-4">
+                            <div class="col-4">
+                                <p class="mb-1 text-muted small fw-bold">COOKIES</p>
+                                <span class="badge bg-success" id="bi-cookies">Enabled</span>
+                            </div>
+                            <div class="col-4">
+                                <p class="mb-1 text-muted small fw-bold">JS</p>
+                                <span class="badge bg-success">Enabled</span>
+                            </div>
+                            <div class="col-4">
+                                <p class="mb-1 text-muted small fw-bold">LANG</p>
+                                <span class="badge bg-secondary" id="bi-lang">EN</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     {% endif %}
 </div>
 
 <!-- SEO Content -->
 <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
-    <h2 class="fw-bold mb-3">About the {{ tool.name }} Tool</h2>
-    <p>Every time you connect to the internet, your device is assigned a public IP address. This address acts like a digital return address, allowing websites and servers to send information back to your computer. Our completely free <strong>{{ tool.name }}</strong> utility helps you securely verify exactly what address you are broadcasting to the world.</p>
-    
-    <h3 class="h5 fw-bold mt-4">Why check your IP address?</h3>
-    <ul>
-        <li><strong>VPN Verification:</strong> If you use a VPN for privacy, checking your IP address is the best way to ensure your VPN is actively masking your real location.</li>
-        <li><strong>Network Troubleshooting:</strong> IT administrators and tech support often need your public IP to whitelist your device or troubleshoot connection issues.</li>
-        <li><strong>Security Audits:</strong> Find out what location data your Internet Service Provider (ISP) is publicly sharing.</li>
-    </ul>
-    
-    <p class="mb-0">This tool provides instant results without storing any of your network data on our servers, ensuring your absolute privacy.</p>
+    <h2 class="fw-bold mb-3">About the {{ tool.name }}</h2>
+    <p>{{ tool.seo_desc }} All network tools provided by Free Qube run directly in your browser or via secure public APIs, ensuring your network data remains absolutely private.</p>
 </div>
 {% endblock %}
 
@@ -125,10 +228,11 @@
 <script>
     const toolId = "{{ tool.id }}";
 
+    // --- WHAT IS MY IP ---
     function copyIp() {
         const ip = document.getElementById('main-ip').innerText.trim();
         navigator.clipboard.writeText(ip).then(() => {
-            Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'IP Copied to Clipboard', showConfirmButton: false, timer: 1500 });
+            Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'IP Copied', showConfirmButton: false, timer: 1500 });
         });
     }
 
@@ -137,24 +241,145 @@
             .then(res => res.json())
             .then(data => {
                 if(data.error) throw new Error(data.reason);
-                
-                // If python failed to get the IP, use the JS one
                 const currentIp = document.getElementById('main-ip').innerText.trim();
-                if(!currentIp || currentIp === "Loading...") {
-                    document.getElementById('main-ip').innerText = data.ip;
-                }
-                
+                if(!currentIp || currentIp === "Loading...") document.getElementById('main-ip').innerText = data.ip;
                 document.getElementById('loc-city').innerText = data.city + ', ' + data.region;
                 document.getElementById('loc-country').innerText = data.country_name;
                 document.getElementById('loc-isp').innerText = data.org || "-";
                 document.getElementById('loc-asn').innerText = data.asn || "-";
-                
                 document.getElementById('loading-details').style.display = 'none';
                 document.getElementById('ip-details').style.display = 'flex';
             })
             .catch(err => {
-                document.getElementById('loading-details').innerHTML = '<p class="text-danger fw-bold"><i class="fas fa-exclamation-triangle me-2"></i> Failed to fetch location details.</p>';
+                document.getElementById('loading-details').innerHTML = '<p class="text-danger fw-bold">Failed to fetch location details.</p>';
             });
+    }
+
+    // --- SPEED TEST ---
+    function startSpeedTest() {
+        const btn = document.getElementById('btn-start-test');
+        const res = document.getElementById('speed-result');
+        const prog = document.getElementById('speed-progress');
+        
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Testing...';
+        res.innerText = '0.00';
+        prog.style.width = '0%';
+        
+        // 2.7MB image from wikimedia for test
+        const imageAddr = "https://upload.wikimedia.org/wikipedia/commons/a/a6/Brandenburger_Tor_abends.jpg"; 
+        const downloadSize = 2700000; // bytes
+        
+        const startTime = new Date().getTime();
+        const cacheBuster = "?nnn=" + startTime;
+        
+        // Simulate progress bar visually during the download since we can't track fetch progress easily without streams
+        let progressVal = 0;
+        const progressInterval = setInterval(() => {
+            progressVal += Math.random() * 15;
+            if (progressVal > 90) progressVal = 90;
+            prog.style.width = progressVal + '%';
+        }, 300);
+
+        const download = new Image();
+        download.onload = function() {
+            clearInterval(progressInterval);
+            prog.style.width = '100%';
+            
+            const endTime = new Date().getTime();
+            const duration = (endTime - startTime) / 1000; // seconds
+            const bitsLoaded = downloadSize * 8;
+            const speedBps = (bitsLoaded / duration).toFixed(2);
+            const speedKbps = (speedBps / 1024).toFixed(2);
+            const speedMbps = (speedKbps / 1024).toFixed(2);
+            
+            res.innerText = speedMbps;
+            
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-redo me-2"></i> Test Again';
+        }
+        
+        download.onerror = function() {
+            clearInterval(progressInterval);
+            Swal.fire('Error', 'Failed to complete speed test. Network blocked the request.', 'error');
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-play me-2"></i> Start Test';
+        }
+        
+        download.src = imageAddr + cacheBuster;
+    }
+
+    // --- DNS LOOKUP ---
+    function lookupDns() {
+        let domain = document.getElementById('dns-domain').value.trim();
+        const type = document.getElementById('dns-type').value;
+        const btn = document.getElementById('btn-dns');
+        const tbody = document.getElementById('dns-results');
+        
+        if (!domain) return Swal.fire('Error', 'Please enter a domain name.', 'error');
+        // Clean domain (remove http/https)
+        domain = domain.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0];
+        
+        btn.disabled = true;
+        btn.innerText = '...';
+        tbody.innerHTML = '<tr><td colspan="3" class="text-center text-muted"><div class="spinner-border spinner-border-sm me-2"></div>Looking up records...</td></tr>';
+        
+        // Use Google's free DNS-over-HTTPS JSON API
+        fetch(`https://dns.google/resolve?name=${domain}&type=${type}`)
+            .then(res => res.json())
+            .then(data => {
+                btn.disabled = false;
+                btn.innerText = 'Lookup';
+                
+                if (!data.Answer || data.Answer.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="3" class="text-center text-danger fw-bold">No ${type} records found for ${domain}</td></tr>`;
+                    return;
+                }
+                
+                let html = '';
+                data.Answer.forEach(record => {
+                    html += `<tr>
+                        <td class="fw-bold">${record.name}</td>
+                        <td>${record.TTL}</td>
+                        <td style="word-break: break-all;"><code>${record.data}</code></td>
+                    </tr>`;
+                });
+                tbody.innerHTML = html;
+            })
+            .catch(err => {
+                btn.disabled = false;
+                btn.innerText = 'Lookup';
+                tbody.innerHTML = '<tr><td colspan="3" class="text-center text-danger fw-bold">Error connecting to DNS resolver.</td></tr>';
+            });
+    }
+
+    // --- BROWSER INFO ---
+    if (toolId === 'browser-info') {
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById('bi-ua').innerText = navigator.userAgent;
+            document.getElementById('bi-screen').innerText = window.screen.width + " x " + window.screen.height;
+            document.getElementById('bi-cookies').innerText = navigator.cookieEnabled ? 'Enabled' : 'Disabled';
+            document.getElementById('bi-cookies').className = navigator.cookieEnabled ? 'badge bg-success' : 'badge bg-danger';
+            document.getElementById('bi-lang').innerText = navigator.language.toUpperCase();
+            
+            // Basic OS Detection
+            let os = "Unknown OS";
+            if (navigator.userAgent.indexOf("Win") !== -1) os = "Windows";
+            else if (navigator.userAgent.indexOf("Mac") !== -1) os = "MacOS";
+            else if (navigator.userAgent.indexOf("Linux") !== -1) os = "Linux";
+            else if (navigator.userAgent.indexOf("Android") !== -1) os = "Android";
+            else if (navigator.userAgent.indexOf("like Mac") !== -1) os = "iOS";
+            document.getElementById('bi-os').innerText = os;
+            
+            // Basic Browser Detection
+            let browser = "Unknown Browser";
+            if(navigator.userAgent.indexOf("Chrome") !== -1) browser = "Google Chrome";
+            else if(navigator.userAgent.indexOf("Safari") !== -1) browser = "Apple Safari";
+            else if(navigator.userAgent.indexOf("Firefox") !== -1) browser = "Mozilla Firefox";
+            else if(navigator.userAgent.indexOf("MSIE") !== -1 || !!document.documentMode) browser = "Internet Explorer";
+            else if(navigator.userAgent.indexOf("Edge") !== -1) browser = "Microsoft Edge";
+            document.getElementById('bi-browser').innerText = browser;
+        });
     }
 </script>
 {% endblock %}
