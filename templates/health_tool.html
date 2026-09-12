@@ -429,17 +429,18 @@
         style.id = 'pdf-print-styles';
         style.innerHTML = `
             .timeline-item { page-break-inside: avoid; break-inside: avoid; }
-            #timeline-card { border-radius: 0 !important; box-shadow: none !important; margin: 0 !important; padding: 0 !important; }
-            #timeline-card .card-body { padding: 0 1.5rem !important; margin: 0 !important; }
+            #timeline-card { border-radius: 0 !important; box-shadow: none !important; margin: 0 !important; padding: 0 !important; border: none !important; }
+            #timeline-card .card-body { padding: 0 1.5rem 0.5rem 1.5rem !important; margin: 0 !important; }
             #pdf-temp-header { padding-top: 0 !important; margin-top: 0 !important; }
-            .pregnancy-timeline { margin-top: 1rem !important; }
+            #pdf-temp-footer { margin-bottom: 0 !important; padding-bottom: 0 !important; }
+            .pregnancy-timeline { margin-top: 1rem !important; margin-bottom: 0 !important; }
             #timeline-ui-header { display: none !important; }
             .alert { display: none !important; }
         `;
         document.head.appendChild(style);
 
         const opt = {
-            margin:       [5, 10, 10, 10], // [top, left, bottom, right] minimal top margin
+            margin:       [5, 10, 2, 10], // [top, left, bottom, right] minimal margins
             filename:     'My_Pregnancy_Milestones.pdf',
             image:        { type: 'jpeg', quality: 0.98 },
             html2canvas:  { scale: 2, useCORS: true, scrollY: 0, windowWidth: document.documentElement.offsetWidth },

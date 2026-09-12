@@ -792,15 +792,25 @@
             
             // Spawn obstacles
             frameCount++;
-            let speedMult = 1 + (score / 1000);
             
-            if (frameCount % Math.max(15, Math.floor(40 - speedMult*5)) === 0) {
-                let w = Math.random() * 150 + 50;
+            // Speed starts at 1, gradually increases as score reaches 200, 400, etc.
+            let speedMult = 1 + (score / 400); 
+            
+            // Spawn rate starts slow (every 80 frames), gets faster but caps at 20
+            let spawnRate = Math.max(20, Math.floor(80 - (speedMult * 10)));
+            
+            if (frameCount % spawnRate === 0) {
+                // Width between 50 and 140
+                let w = Math.random() * 90 + 50;
                 let x = Math.random() * (canvas.width - w);
                 let colors = ['#ff0055', '#ffaa00', '#aa00ff', '#ff00aa'];
+                
+                // Initial velocity between 2.5 and 4.5, scales up
+                let baseVelocity = Math.random() * 2 + 2.5; 
+                
                 obstacles.push({
                     x: x, y: -30, w: w, h: 30, 
-                    vy: (Math.random() * 4 + 5) * speedMult,
+                    vy: baseVelocity * speedMult,
                     color: colors[Math.floor(Math.random() * colors.length)]
                 });
             }

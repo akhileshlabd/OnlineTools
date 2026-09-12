@@ -113,83 +113,8 @@
             </div>
         </div>
     </div>
-    <!-- META TAG GENERATOR -->
-    {% elif tool.id == 'meta-tags' %}
-    <div class="row g-4">
-        <div class="col-lg-6">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-header bg-white pt-3 pb-0 border-0">
-                    <h6 class="fw-bold text-primary"><i class="fas fa-search me-2"></i>Primary SEO Tags</h6>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Site Title</label>
-                        <input type="text" id="metaTitle" class="form-control" placeholder="e.g. Free SEO Tools | FreeQube" oninput="generateMeta()">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Site Description</label>
-                        <textarea id="metaDesc" class="form-control" rows="3" placeholder="A brief, engaging description of your site..." oninput="generateMeta()"></textarea>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Keywords (comma separated)</label>
-                            <input type="text" id="metaKeys" class="form-control" placeholder="seo, tools, free" oninput="generateMeta()">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Author</label>
-                            <input type="text" id="metaAuthor" class="form-control" placeholder="John Doe" oninput="generateMeta()">
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Robots Indexing</label>
-                            <select id="metaRobots" class="form-select" onchange="generateMeta()">
-                                <option value="index, follow">Index, Follow (Recommended)</option>
-                                <option value="noindex, follow">No Index, Follow</option>
-                                <option value="index, nofollow">Index, No Follow</option>
-                                <option value="noindex, nofollow">No Index, No Follow</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Language</label>
-                            <input type="text" id="metaLang" class="form-control" placeholder="e.g. English" value="English" oninput="generateMeta()">
-                        </div>
-                    </div>
-                    
-                    <hr class="text-muted">
-                    <h6 class="fw-bold text-info"><i class="fas fa-share-alt me-2"></i>Social Media Tags (OpenGraph & Twitter)</h6>
-                    
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Image URL (For Link Previews)</label>
-                        <input type="url" id="metaImage" class="form-control" placeholder="https://example.com/banner.jpg" oninput="generateMeta()">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Canonical URL (Primary Page Link)</label>
-                        <input type="url" id="metaUrl" class="form-control" placeholder="https://example.com/my-page" oninput="generateMeta()">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Content Type</label>
-                        <select id="metaType" class="form-select" onchange="generateMeta()">
-                            <option value="website">Website</option>
-                            <option value="article">Article</option>
-                            <option value="product">Product</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="card shadow-sm border-0 h-100 bg-dark text-light">
-                <div class="card-header bg-dark border-secondary pt-3 pb-2 d-flex justify-content-between align-items-center">
-                    <h6 class="fw-bold mb-0 text-white"><i class="fas fa-code me-2"></i>Generated HTML Head Code</h6>
-                    <button class="btn btn-sm btn-outline-light" onclick="copyToClipboard('metaOutput')"><i class="fas fa-copy"></i> Copy Code</button>
-                </div>
-                <div class="card-body p-0">
-                    <textarea id="metaOutput" class="form-control font-monospace bg-dark text-success border-0 h-100" style="min-height: 500px; resize: none;" readonly></textarea>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% endif %}
+</div>
 
 <!-- SEO Content -->
 <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
@@ -258,50 +183,6 @@
 
     // Initialize
     if (toolId === 'lorem-ipsum') generateLorem();
-    // --- META TAGS ---
-    function generateMeta() {
-        if (toolId !== 'meta-tags') return;
-        
-        const title = document.getElementById('metaTitle').value.trim();
-        const desc = document.getElementById('metaDesc').value.trim();
-        const keys = document.getElementById('metaKeys').value.trim();
-        const author = document.getElementById('metaAuthor').value.trim();
-        const robots = document.getElementById('metaRobots').value;
-        const lang = document.getElementById('metaLang').value.trim();
-        const image = document.getElementById('metaImage').value.trim();
-        const url = document.getElementById('metaUrl').value.trim();
-        const type = document.getElementById('metaType').value;
-
-        let out = '<!-- Essential Meta Tags -->\n';
-        out += `<meta charset="UTF-8">\n`;
-        out += `<meta name="viewport" content="width=device-width, initial-scale=1.0">\n`;
-        
-        if (title) out += `<title>${title}</title>\n`;
-        if (desc) out += `<meta name="description" content="${desc}">\n`;
-        if (keys) out += `<meta name="keywords" content="${keys}">\n`;
-        if (author) out += `<meta name="author" content="${author}">\n`;
-        if (lang) out += `<meta name="language" content="${lang}">\n`;
-        out += `<meta name="robots" content="${robots}">\n`;
-        
-        if (url) out += `\n<!-- Canonical Tag -->\n<link rel="canonical" href="${url}">\n`;
-        
-        out += `\n<!-- Open Graph / Facebook -->\n`;
-        if (title) out += `<meta property="og:title" content="${title}">\n`;
-        if (desc) out += `<meta property="og:description" content="${desc}">\n`;
-        out += `<meta property="og:type" content="${type}">\n`;
-        if (url) out += `<meta property="og:url" content="${url}">\n`;
-        if (image) out += `<meta property="og:image" content="${image}">\n`;
-        
-        out += `\n<!-- Twitter Card -->\n`;
-        out += `<meta name="twitter:card" content="summary_large_image">\n`;
-        if (title) out += `<meta name="twitter:title" content="${title}">\n`;
-        if (desc) out += `<meta name="twitter:description" content="${desc}">\n`;
-        if (image) out += `<meta name="twitter:image" content="${image}">\n`;
-        
-        document.getElementById('metaOutput').value = out;
-    }
-
-
     // Initialize tools that need setup
     document.addEventListener('DOMContentLoaded', () => {
     });
