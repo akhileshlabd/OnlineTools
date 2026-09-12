@@ -4,6 +4,12 @@
 {% block meta_desc %}{{ t(tool.seo_desc) }}{% endblock %}
 
 {% block content %}
+<!-- Audio Element for Playful Background Music -->
+<!-- Using a safe public domain / creative commons track, looping -->
+<audio id="bgMusic" loop preload="auto">
+    <source src="https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3" type="audio/mpeg">
+</audio>
+
 <div class="text-center mb-4">
     <h2 class="fw-bold">{{ t(tool.name) }}</h2>
     <p class="text-muted">{{ t(tool.desc) }}</p>
@@ -12,12 +18,12 @@
 <div class="card shadow-sm border-0 mb-5">
     <div class="card-body p-4 p-md-5 text-center">
         
-        <div id="setup-screen">
+        <div id="setup-screen" style="cursor: pointer;" onclick="startSmashToy()">
             <i class="fas fa-baby mb-3" style="font-size: 4rem; color: #ffbc00;"></i>
             <h3 class="fw-bold mb-3">Ready to Play?</h3>
-            <p class="text-muted mb-4 max-w-md mx-auto">This tool will go fullscreen. Once in fullscreen mode, any key pressed on the keyboard, or any tap on the screen will create a fun, colorful shape!</p>
-            <button class="btn btn-lg btn-warning fw-bold text-dark px-5 shadow-sm" onclick="startSmashToy()" style="border-radius: 50px;">
-                <i class="fas fa-play me-2"></i> Start Playing (Fullscreen)
+            <p class="text-muted mb-4 max-w-md mx-auto">Click ANYWHERE on this screen to instantly enter Fullscreen mode and start playing! Glitters, shapes, and letters will appear to help your toddler learn.</p>
+            <button class="btn btn-lg btn-warning fw-bold text-dark px-5 shadow-sm" style="border-radius: 50px;">
+                <i class="fas fa-play me-2"></i> TAP HERE TO START
             </button>
             <p class="text-muted small mt-3">Press <strong>ESC</strong> to exit fullscreen mode.</p>
         </div>
@@ -36,14 +42,26 @@
     .smash-shape {
         position: absolute;
         pointer-events: none;
-        animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, fadeOut 2s ease-in forwards 3s;
+        animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, fadeOut 2s ease-in forwards 3s;
         transform: translate(-50%, -50%) scale(0);
         display: flex;
         align-items: center;
         justify-content: center;
         font-weight: bold;
         color: white;
-        text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+        text-shadow: 3px 3px 0 rgba(0,0,0,0.3);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    
+    .smash-glitter {
+        position: absolute;
+        pointer-events: none;
+        width: 10px;
+        height: 10px;
+        background-color: white;
+        border-radius: 50%;
+        animation: sparkle 0.6s ease-out forwards;
+        box-shadow: 0 0 10px 2px rgba(255,255,255,0.8);
     }
     
     @keyframes popIn {
@@ -55,14 +73,23 @@
         0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         100% { opacity: 0; transform: translate(-50%, -50%) scale(1.2); }
     }
+    
+    @keyframes sparkle {
+        0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+        100% { transform: translate(var(--tx), var(--ty)) scale(1.5); opacity: 0; }
+    }
 </style>
 
 <script>
     const container = document.getElementById('smash-container');
-    const colors = ['#FF3B30', '#FF9500', '#FFCC00', '#4CD964', '#5AC8FA', '#007AFF', '#5856D6', '#FF2D55'];
+    const colors = ['#FF3B30', '#FF9500', '#FFCC00', '#4CD964', '#5AC8FA', '#007AFF', '#5856D6', '#FF2D55', '#FF1493', '#00FA9A'];
     const shapes = ['circle', 'square', 'letter', 'number'];
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    const bgMusic = document.getElementById('bgMusic');
     
+    // Check if speechSynthesis is available
+    const synth = window.speechSynthesis;
+
     function startSmashToy() {
         if (container.requestFullscreen) {
             container.requestFullscreen();
@@ -73,8 +100,8 @@
         }
         
         container.style.display = 'block';
-        
-        // Focus container to capture keys if necessary, though document handles it
+        bgMusic.volume = 0.4;
+        bgMusic.play().catch(e => console.log('Audio play blocked:', e));
     }
 
     document.addEventListener('fullscreenchange', exitHandler);
@@ -85,7 +112,35 @@
     function exitHandler() {
         if (!document.fullscreenElement && !document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
             container.style.display = 'none';
+            bgMusic.pause();
             container.innerHTML = '<div id="exit-hint" style="position: absolute; top: 20px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.3); font-family: sans-serif; pointer-events: none;">Press ESC to exit</div>';
+        }
+    }
+    
+    function createGlitters(x, y, count) {
+        for (let i = 0; i < count; i++) {
+            const glitter = document.createElement('div');
+            glitter.className = 'smash-glitter';
+            glitter.style.left = x + 'px';
+            glitter.style.top = y + 'px';
+            
+            // Random explosion direction
+            const angle = Math.random() * Math.PI * 2;
+            const distance = Math.random() * 100 + 50; // 50 to 150px
+            const tx = Math.cos(angle) * distance + 'px';
+            const ty = Math.sin(angle) * distance + 'px';
+            
+            glitter.style.setProperty('--tx', tx);
+            glitter.style.setProperty('--ty', ty);
+            
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            glitter.style.backgroundColor = randomColor;
+            glitter.style.boxShadow = `0 0 10px 2px ${randomColor}`;
+            
+            container.appendChild(glitter);
+            setTimeout(() => {
+                if (glitter.parentNode === container) container.removeChild(glitter);
+            }, 600);
         }
     }
 
@@ -97,7 +152,7 @@
         
         // Randomize
         const color = colors[Math.floor(Math.random() * colors.length)];
-        const size = Math.floor(Math.random() * 100) + 100; // 100px to 200px
+        const size = Math.floor(Math.random() * 150) + 150; // 150px to 300px
         const shapeType = shapes[Math.floor(Math.random() * shapes.length)];
         
         el.style.left = x + 'px';
@@ -105,26 +160,47 @@
         el.style.width = size + 'px';
         el.style.height = size + 'px';
         el.style.backgroundColor = color;
-        el.style.fontSize = (size * 0.6) + 'px';
+        el.style.fontSize = (size * 0.7) + 'px';
+        
+        let spokenText = char;
         
         if (char) {
             el.innerText = char.toUpperCase();
             el.style.borderRadius = '20%';
+            spokenText = char;
         } else {
             if (shapeType === 'circle') {
                 el.style.borderRadius = '50%';
+                spokenText = "Circle";
             } else if (shapeType === 'square') {
                 el.style.borderRadius = '10%';
+                spokenText = "Square";
             } else if (shapeType === 'letter') {
                 el.style.borderRadius = '20%';
-                el.innerText = letters[Math.floor(Math.random() * letters.length)];
+                const l = letters[Math.floor(Math.random() * letters.length)];
+                el.innerText = l;
+                spokenText = l;
             } else if (shapeType === 'number') {
                 el.style.borderRadius = '20%';
-                el.innerText = Math.floor(Math.random() * 10);
+                const n = Math.floor(Math.random() * 10);
+                el.innerText = n;
+                spokenText = n.toString();
             }
         }
         
         container.appendChild(el);
+        
+        // Glitters!
+        createGlitters(x, y, 12);
+        
+        // Speak out the letter / shape
+        if (synth && spokenText) {
+            synth.cancel(); // Stop current speech
+            const utterThis = new SpeechSynthesisUtterance(spokenText);
+            utterThis.rate = 1.0;
+            utterThis.pitch = 1.5; // High pitch for kids
+            synth.speak(utterThis);
+        }
         
         // Cleanup after animation
         setTimeout(() => {
@@ -153,13 +229,15 @@
         e.preventDefault();
         
         // Random position for keyboard smashes
-        const x = Math.random() * (window.innerWidth - 200) + 100;
-        const y = Math.random() * (window.innerHeight - 200) + 100;
+        const x = Math.random() * (window.innerWidth - 300) + 150;
+        const y = Math.random() * (window.innerHeight - 300) + 150;
         
         // If they pressed a letter or number, show it
         let char = null;
-        if (e.key.length === 1 && e.key.match(/[a-z0-9]/i)) {
-            char = e.key;
+        if (e.key.length === 1 && e.key.match(/[a-z0-9\s]/i)) {
+            char = e.key.trim() === '' ? 'SPACE' : e.key;
+        } else if (e.key.length > 1) {
+             // For enter, backspace, etc. just fall back to random shape
         }
         
         createShape(x, y, char);

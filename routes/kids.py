@@ -6,7 +6,7 @@ KIDS_TOOLS = {
     'smash-toy': {
         'id': 'smash-toy',
         'name': 'Baby Smash Toy',
-        'desc': 'A fullscreen keyboard and touch smash toy for babies and toddlers.',
+        'desc': 'Opens directly in fullscreen! Smashes keyboard to learn letters and numbers with playful sounds and glitters.',
         'icon': 'fa-baby',
         'seo_title': 'Baby Smash Toy - Fullscreen Keyboard Game for Toddlers',
         'seo_desc': 'An instant fullscreen smash toy for babies and toddlers. Safe, colorful, and fun. Works with touch, keyboard, and mouse.'
