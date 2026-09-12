@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Classic Retro Games Online - Free Qube{% endblock %}
+{% block meta_desc %}Take a break and play classic retro browser games like Brick Breaker and Snake completely for free. No downloads required, works on all devices.{% endblock %}
+
+{% block content %}
+<div class="text-center mb-5">
+    <div class="icon-wrapper mx-auto mb-3" style="color: #e83e8c;"><i class="fas fa-gamepad fa-2x"></i></div>
+    <h1 class="fw-bold text-dark">Classic Games</h1>
+    <p class="text-muted fs-5">Take a break and enjoy these timeless retro classics directly in your browser.</p>
+</div>
+
+<div class="row g-4 justify-content-center">
+    {% for key, tool in games_tools.items() %}
+    <div class="col-md-6 col-lg-4 d-flex">
+        <a href="{{ url_for('games.games_tool_page', tool_id=tool.id) }}" class="tool-card w-100 p-4 shadow-sm text-center">
+            <div class="icon-wrapper mx-auto mb-3" style="color: #e83e8c; width: 60px; height: 60px; font-size: 1.5rem;"><i class="fas {{ tool.icon }}"></i></div>
+            <h4 class="fw-bold text-dark">{{ tool.name }}</h4>
+            <p class="text-muted small mb-0">{{ tool.desc }}</p>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- SEO Content -->
+<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
+    <h2 class="fw-bold mb-3">Why Play Browser Games?</h2>
+    <p>Sometimes you just need a quick 5-minute break from work, studying, or coding. Our Classic Games Hub is designed to give you exactly that. We've recreated timeless retro arcade games using modern HTML5 Canvas technology, meaning they load instantly, require absolutely no downloads or installations, and work flawlessly across both desktop and mobile devices.</p>
+</div>
+{% endblock %}

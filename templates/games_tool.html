@@ -1,0 +1,421 @@
+{% extends "base.html" %}
+
+{% block title %}{{ tool.seo_title }} - Free Qube{% endblock %}
+{% block meta_desc %}{{ tool.seo_desc }}{% endblock %}
+
+{% block schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "{{ tool.name }}",
+  "operatingSystem": "All",
+  "applicationCategory": "GameApplication",
+  "description": "{{ tool.seo_desc }}",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="tool-interface" style="max-width: 800px;">
+    <div class="text-center mb-4">
+        <h2 class="fw-bold">{{ tool.name }}</h2>
+        <p class="text-muted">{{ tool.desc }}</p>
+    </div>
+
+    <!-- BRICK BREAKER -->
+    {% if tool.id == 'brick-breaker' %}
+    <div class="card shadow-sm border-0 mb-4 bg-dark">
+        <div class="card-body p-0 text-center position-relative">
+            <!-- Game Canvas -->
+            <canvas id="brickCanvas" width="800" height="500" class="w-100 h-auto" style="display: block; max-width: 100%; border-radius: 8px;"></canvas>
+            
+            <!-- Overlay Menu -->
+            <div id="bb-overlay" class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center bg-dark bg-opacity-75" style="border-radius: 8px;">
+                <h1 class="text-white fw-bold mb-4" id="bb-title">BRICK BREAKER</h1>
+                <p class="text-white-50 mb-4">Use Left/Right Arrows or Touch edges to move.</p>
+                <button class="btn btn-primary btn-lg fw-bold px-5 rounded-pill shadow" onclick="startBrickGame()" id="bb-btn">PLAY NOW</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- SNAKE GAME -->
+    {% elif tool.id == 'snake-game' %}
+    <div class="card shadow-sm border-0 mb-4 bg-dark">
+        <div class="card-body p-0 text-center position-relative">
+            <canvas id="snakeCanvas" width="500" height="500" class="w-100 h-auto mx-auto" style="display: block; max-width: 500px; border-radius: 8px;"></canvas>
+            
+            <!-- Overlay Menu -->
+            <div id="snake-overlay" class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center bg-dark bg-opacity-75" style="border-radius: 8px;">
+                <h1 class="text-success fw-bold mb-4" id="snake-title">RETRO SNAKE</h1>
+                <p class="text-white-50 mb-4">Use Arrow Keys or Swipe to move.</p>
+                <button class="btn btn-success btn-lg fw-bold px-5 rounded-pill shadow" onclick="startSnakeGame()" id="snake-btn">PLAY NOW</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Instructions & SEO -->
+    <div class="card shadow-sm border-0 mt-4">
+        <div class="card-body p-4 p-md-5">
+            <h3 class="fw-bold h5">About {{ tool.name }}</h3>
+            <p class="text-muted">{{ tool.seo_desc }} This game is built using HTML5 Canvas, ensuring it runs blazing fast on your browser without any plugins.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const toolId = "{{ tool.id }}";
+
+    // ==========================================
+    // BRICK BREAKER LOGIC
+    // ==========================================
+    if(toolId === 'brick-breaker') {
+        const canvas = document.getElementById("brickCanvas");
+        const ctx = canvas.getContext("2d");
+        const overlay = document.getElementById("bb-overlay");
+        const title = document.getElementById("bb-title");
+        const btn = document.getElementById("bb-btn");
+
+        let x, y, dx, dy;
+        let ballRadius = 8;
+        let paddleHeight = 15;
+        let paddleWidth = 100;
+        let paddleX;
+        let rightPressed = false;
+        let leftPressed = false;
+        
+        let brickRowCount = 6;
+        let brickColumnCount = 9;
+        let brickWidth = 75;
+        let brickHeight = 20;
+        let brickPadding = 10;
+        let brickOffsetTop = 50;
+        let brickOffsetLeft = 20;
+        let bricks = [];
+        
+        let score = 0;
+        let lives = 3;
+        let isPlaying = false;
+        let animationId;
+
+        // Initialize Bricks
+        function initBricks() {
+            bricks = [];
+            for(let c=0; c<brickColumnCount; c++) {
+                bricks[c] = [];
+                for(let r=0; r<brickRowCount; r++) {
+                    // Randomize colors for rows
+                    let colors = ["#0d6efd", "#dc3545", "#ffc107", "#198754", "#6f42c1", "#fd7e14"];
+                    bricks[c][r] = { x: 0, y: 0, status: 1, color: colors[r % colors.length] };
+                }
+            }
+        }
+
+        // Event Listeners
+        document.addEventListener("keydown", (e) => {
+            if(e.key == "Right" || e.key == "ArrowRight") rightPressed = true;
+            else if(e.key == "Left" || e.key == "ArrowLeft") leftPressed = true;
+        }, false);
+        document.addEventListener("keyup", (e) => {
+            if(e.key == "Right" || e.key == "ArrowRight") rightPressed = false;
+            else if(e.key == "Left" || e.key == "ArrowLeft") leftPressed = false;
+        }, false);
+        
+        // Touch support
+        canvas.addEventListener("touchstart", handleTouch, false);
+        canvas.addEventListener("touchmove", handleTouch, false);
+        function handleTouch(e) {
+            e.preventDefault();
+            let rect = canvas.getBoundingClientRect();
+            let touchX = e.touches[0].clientX - rect.left;
+            let scaleX = canvas.width / rect.width;
+            paddleX = (touchX * scaleX) - paddleWidth/2;
+            if(paddleX < 0) paddleX = 0;
+            if(paddleX + paddleWidth > canvas.width) paddleX = canvas.width - paddleWidth;
+        }
+
+        function collisionDetection() {
+            for(let c=0; c<brickColumnCount; c++) {
+                for(let r=0; r<brickRowCount; r++) {
+                    let b = bricks[c][r];
+                    if(b.status == 1) {
+                        if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
+                            dy = -dy;
+                            b.status = 0;
+                            score++;
+                            if(score == brickRowCount*brickColumnCount) {
+                                gameOver(true);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        function drawBall() {
+            ctx.beginPath();
+            ctx.arc(x, y, ballRadius, 0, Math.PI*2);
+            ctx.fillStyle = "#fff";
+            ctx.fill();
+            ctx.closePath();
+        }
+        function drawPaddle() {
+            ctx.beginPath();
+            ctx.rect(paddleX, canvas.height-paddleHeight-10, paddleWidth, paddleHeight);
+            ctx.fillStyle = "#0d6efd";
+            ctx.fill();
+            ctx.closePath();
+        }
+        function drawBricks() {
+            for(let c=0; c<brickColumnCount; c++) {
+                for(let r=0; r<brickRowCount; r++) {
+                    if(bricks[c][r].status == 1) {
+                        let brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+                        let brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
+                        bricks[c][r].x = brickX;
+                        bricks[c][r].y = brickY;
+                        ctx.beginPath();
+                        ctx.rect(brickX, brickY, brickWidth, brickHeight);
+                        ctx.fillStyle = bricks[c][r].color;
+                        ctx.fill();
+                        ctx.closePath();
+                    }
+                }
+            }
+        }
+        function drawScore() {
+            ctx.font = "18px Arial";
+            ctx.fillStyle = "#fff";
+            ctx.fillText("Score: "+score, 20, 30);
+        }
+        function drawLives() {
+            ctx.font = "18px Arial";
+            ctx.fillStyle = "#fff";
+            ctx.fillText("Lives: "+lives, canvas.width-85, 30);
+        }
+
+        function draw() {
+            if(!isPlaying) return;
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBricks();
+            drawBall();
+            drawPaddle();
+            drawScore();
+            drawLives();
+            collisionDetection();
+
+            if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) dx = -dx;
+            if(y + dy < ballRadius) dy = -dy;
+            else if(y + dy > canvas.height-ballRadius - 10) {
+                if(x > paddleX && x < paddleX + paddleWidth) {
+                    dy = -dy;
+                    // Add slight angle deflection
+                    dx = 8 * ((x-(paddleX+paddleWidth/2))/paddleWidth);
+                }
+                else {
+                    lives--;
+                    if(!lives) {
+                        gameOver(false);
+                        return;
+                    } else {
+                        x = canvas.width/2;
+                        y = canvas.height-30;
+                        dx = 4;
+                        dy = -4;
+                        paddleX = (canvas.width-paddleWidth)/2;
+                    }
+                }
+            }
+
+            if(rightPressed && paddleX < canvas.width-paddleWidth) paddleX += 7;
+            else if(leftPressed && paddleX > 0) paddleX -= 7;
+
+            x += dx;
+            y += dy;
+            animationId = requestAnimationFrame(draw);
+        }
+
+        window.startBrickGame = function() {
+            overlay.style.display = 'none';
+            x = canvas.width/2;
+            y = canvas.height-30;
+            dx = 4;
+            dy = -4;
+            paddleX = (canvas.width-paddleWidth)/2;
+            score = 0;
+            lives = 3;
+            initBricks();
+            isPlaying = true;
+            draw();
+        }
+
+        function gameOver(win) {
+            isPlaying = false;
+            cancelAnimationFrame(animationId);
+            overlay.style.display = 'flex';
+            if(win) {
+                title.innerText = "YOU WIN!";
+                title.className = "text-success fw-bold mb-4";
+            } else {
+                title.innerText = "GAME OVER";
+                title.className = "text-danger fw-bold mb-4";
+            }
+            btn.innerText = "PLAY AGAIN";
+        }
+        
+        // Initial Draw
+        ctx.fillStyle = "#222";
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+    }
+
+    // ==========================================
+    // SNAKE GAME LOGIC
+    // ==========================================
+    if(toolId === 'snake-game') {
+        const canvas = document.getElementById("snakeCanvas");
+        const ctx = canvas.getContext("2d");
+        const overlay = document.getElementById("snake-overlay");
+        const title = document.getElementById("snake-title");
+        const btn = document.getElementById("snake-btn");
+
+        const grid = 20;
+        let count = 0;
+        let snake = { x: 160, y: 160, dx: grid, dy: 0, cells: [], maxCells: 4 };
+        let apple = { x: 320, y: 320 };
+        let score = 0;
+        let isPlaying = false;
+        let animationId;
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        function loop() {
+            if(!isPlaying) return;
+            animationId = requestAnimationFrame(loop);
+
+            // slow game loop to 15 fps instead of 60
+            if (++count < 4) return;
+            count = 0;
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            
+            snake.x += snake.dx;
+            snake.y += snake.dy;
+
+            // wrap snake position horizontally on edge of screen
+            if (snake.x < 0) snake.x = canvas.width - grid;
+            else if (snake.x >= canvas.width) snake.x = 0;
+            // wrap snake position vertically on edge of screen
+            if (snake.y < 0) snake.y = canvas.height - grid;
+            else if (snake.y >= canvas.height) snake.y = 0;
+
+            // keep track of where snake has been. front of the array is always the head
+            snake.cells.unshift({x: snake.x, y: snake.y});
+            if (snake.cells.length > snake.maxCells) snake.cells.pop();
+
+            // draw apple
+            ctx.fillStyle = '#dc3545';
+            ctx.fillRect(apple.x, apple.y, grid-1, grid-1);
+
+            // draw snake
+            ctx.fillStyle = '#198754';
+            snake.cells.forEach(function(cell, index) {
+                // draw 1 px smaller than grid
+                ctx.fillRect(cell.x, cell.y, grid-1, grid-1);
+
+                // snake ate apple
+                if (cell.x === apple.x && cell.y === apple.y) {
+                    snake.maxCells++;
+                    score += 10;
+                    apple.x = getRandomInt(0, 25) * grid;
+                    apple.y = getRandomInt(0, 25) * grid;
+                }
+
+                // check collision with all cells after this one
+                for (var i = index + 1; i < snake.cells.length; i++) {
+                    if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+                        gameOver();
+                    }
+                }
+            });
+            
+            // Draw score
+            ctx.fillStyle = '#fff';
+            ctx.font = '20px Arial';
+            ctx.fillText('Score: ' + score, 10, 25);
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' && snake.dx === 0) {
+                snake.dx = -grid;
+                snake.dy = 0;
+            } else if (e.key === 'ArrowUp' && snake.dy === 0) {
+                snake.dy = -grid;
+                snake.dx = 0;
+            } else if (e.key === 'ArrowRight' && snake.dx === 0) {
+                snake.dx = grid;
+                snake.dy = 0;
+            } else if (e.key === 'ArrowDown' && snake.dy === 0) {
+                snake.dy = grid;
+                snake.dx = 0;
+            }
+        });
+
+        // Swipe Support
+        let touchStartX = 0; let touchStartY = 0;
+        canvas.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+        }, false);
+        canvas.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            let touchEndX = e.changedTouches[0].screenX;
+            let touchEndY = e.changedTouches[0].screenY;
+            let dx = touchEndX - touchStartX;
+            let dy = touchEndY - touchStartY;
+            
+            if(Math.abs(dx) > Math.abs(dy)) {
+                if(dx > 0 && snake.dx === 0) { snake.dx = grid; snake.dy = 0; }
+                else if(dx < 0 && snake.dx === 0) { snake.dx = -grid; snake.dy = 0; }
+            } else {
+                if(dy > 0 && snake.dy === 0) { snake.dy = grid; snake.dx = 0; }
+                else if(dy < 0 && snake.dy === 0) { snake.dy = -grid; snake.dx = 0; }
+            }
+        }, false);
+
+        window.startSnakeGame = function() {
+            overlay.style.display = 'none';
+            snake.x = 160; snake.y = 160;
+            snake.cells = []; snake.maxCells = 4;
+            snake.dx = grid; snake.dy = 0;
+            apple.x = getRandomInt(0, 25) * grid;
+            apple.y = getRandomInt(0, 25) * grid;
+            score = 0;
+            isPlaying = true;
+            requestAnimationFrame(loop);
+        }
+
+        function gameOver() {
+            isPlaying = false;
+            cancelAnimationFrame(animationId);
+            overlay.style.display = 'flex';
+            title.innerText = "GAME OVER";
+            title.className = "text-danger fw-bold mb-4";
+            btn.innerText = "PLAY AGAIN";
+        }
+        
+        ctx.fillStyle = "#222";
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+    }
+</script>
+{% endblock %}

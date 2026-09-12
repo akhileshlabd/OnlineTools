@@ -9,6 +9,8 @@ from routes.text import text_bp, TEXT_TOOLS
 from routes.health import health_bp, HEALTH_TOOLS
 from routes.math import math_bp, MATH_TOOLS
 from routes.network import network_bp, NETWORK_TOOLS
+from routes.games import games_bp, GAMES_TOOLS
+
 
 app = Flask(__name__)
 
@@ -26,11 +28,13 @@ app.register_blueprint(text_bp)
 app.register_blueprint(health_bp)
 app.register_blueprint(math_bp)
 app.register_blueprint(network_bp)
+app.register_blueprint(games_bp)
+
 
 # ---------------- Home ----------------
 @app.route('/')
 def home():
-    return render_template('index.html', image_tools=IMAGE_TOOLS, pdf_tools=PDF_TOOLS, finance_tools=FINANCE_TOOLS, code_tools=CODE_TOOLS, text_tools=TEXT_TOOLS, health_tools=HEALTH_TOOLS, math_tools=MATH_TOOLS, network_tools=NETWORK_TOOLS)
+    return render_template('index.html', image_tools=IMAGE_TOOLS, pdf_tools=PDF_TOOLS, finance_tools=FINANCE_TOOLS, code_tools=CODE_TOOLS, text_tools=TEXT_TOOLS, health_tools=HEALTH_TOOLS, math_tools=MATH_TOOLS, network_tools=NETWORK_TOOLS, games_tools=GAMES_TOOLS)
 
 # ---------------- Legal / Policies (AdSense Compliance) ----------------
 @app.route('/contact')
@@ -48,7 +52,8 @@ def sitemap():
                                text_tools=TEXT_TOOLS, 
                                health_tools=HEALTH_TOOLS, 
                                math_tools=MATH_TOOLS,
-                               network_tools=NETWORK_TOOLS)
+                               network_tools=NETWORK_TOOLS,
+                               games_tools=GAMES_TOOLS)
     response = make_response(template)
     response.headers["Content-Type"] = "application/xml"
     return response
@@ -73,10 +78,6 @@ def ads_txt():
 @app.route('/robots.txt')
 def robots_txt():
     return send_from_directory(app.static_folder, 'robots.txt')
-
-@app.route('/sitemap.xml')
-def sitemap_xml():
-    return send_from_directory(app.static_folder, 'sitemap.xml')
 
 if __name__ == '__main__':
     # Ensure upload folder exists just in case it's used elsewhere
