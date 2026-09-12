@@ -323,10 +323,18 @@
             void element.offsetWidth; // trigger reflow
             element.classList.add('active');
             
-            // WebAudio Pop + TTS Voice
-            playPopSound();
             const animal = animals[idx];
-            speakText(`${animal.name}! ${animal.sound}`, 1.4);
+            
+            // Play animal sound using highly reliable Google TTS (bypasses browser SpeechSynthesis bugs)
+            const text = encodeURIComponent(animal.name + "! " + animal.sound);
+            const url = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=en-us&client=tw-ob&q=' + text;
+            
+            const audio = new Audio(url);
+            audio.play().catch(e => {
+                console.log("Audio play failed, falling back to Web Speech", e);
+                // Fallback to browser TTS if offline or blocked
+                speakText(`${animal.name}! ${animal.sound}`, 1.4);
+            });
         };
     }
 
