@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
-{% block title %}{{ tool.name }} - Free Qube{% endblock %}
-{% block meta_desc %}Use our free {{ tool.name }} tool online. {{ tool.desc }} No watermark, no installation required. Fast and secure processing.{% endblock %}
+{% block title %}{{ t(tool.name) }} - Free Qube{% endblock %}
+{% block meta_desc %}Use our free {{ t(tool.name) }} tool online. {{ t(tool.desc) }} No watermark, no installation required. Fast and secure processing.{% endblock %}
 {% block meta_keywords %}{{ tool.name | lower }}, free {{ tool.name | lower }}, online {{ tool.name | lower }}, free qube, {{ tool.type }} tools{% endblock %}
 
 {% block schema %}
@@ -9,10 +9,10 @@
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "{{ tool.name }}",
+  "name": "{{ t(tool.name) }}",
   "operatingSystem": "All",
   "applicationCategory": "UtilitiesApplication",
-  "description": "{{ tool.desc }}",
+  "description": "{{ t(tool.desc) }}",
   "offers": {
     "@type": "Offer",
     "price": "0",
@@ -30,8 +30,8 @@
 {% block content %}
 <div class="tool-interface" style="max-width: 700px;">
     <div class="text-center mb-4">
-        <h2 class="fw-bold">{{ tool.name }}</h2>
-        <p class="text-muted">{{ tool.desc }}</p>
+        <h2 class="fw-bold">{{ t(tool.name) }}</h2>
+        <p class="text-muted">{{ t(tool.desc) }}</p>
     </div>
 
     <form id="dynamicForm">
@@ -103,8 +103,8 @@
 
 <!-- SEO & Instructions Content for AdSense Compliance -->
 <div class="container bg-white p-4 rounded shadow-sm mt-5 mb-4" style="max-width: 800px; margin: 0 auto;">
-    <h3 class="h4 fw-bold">How to Use the {{ tool.name }} Tool</h3>
-    <p>Using our <strong>{{ tool.name }}</strong> utility is designed to be as straightforward and secure as possible. To get started, simply drag and drop your file into the designated upload area above, or click the "Select File" button to browse your device. Once your file is loaded, you will see a preview indicating that the file is ready for processing.</p>
+    <h3 class="h4 fw-bold">How to Use the {{ t(tool.name) }} Tool</h3>
+    <p>Using our <strong>{{ t(tool.name) }}</strong> utility is designed to be as straightforward and secure as possible. To get started, simply drag and drop your file into the designated upload area above, or click the "Select File" button to browse your device. Once your file is loaded, you will see a preview indicating that the file is ready for processing.</p>
     
     <h3 class="h5 fw-bold mt-4">Why Choose Free Qube for Your Document Needs?</h3>
     <p>Free Qube is dedicated to providing premium-level utilities without the premium price tag. Here are a few reasons why thousands of users trust our platform:</p>
@@ -116,7 +116,7 @@
     </ul>
 
     <h3 class="h5 fw-bold mt-4">Best Practices for File Processing</h3>
-    <p>To ensure the best results when using the {{ tool.name }} feature, please make sure your uploaded files are not corrupted and do not exceed our 50MB file size limit. If you are processing images, using standard formats like JPG, PNG, or WEBP will yield the fastest processing times. For PDF documents, ensure the file is not heavily encrypted or damaged before attempting to apply modifications. If you encounter any issues, simply refresh the page and try again.</p>
+    <p>To ensure the best results when using the {{ t(tool.name) }} feature, please make sure your uploaded files are not corrupted and do not exceed our 50MB file size limit. If you are processing images, using standard formats like JPG, PNG, or WEBP will yield the fastest processing times. For PDF documents, ensure the file is not heavily encrypted or damaged before attempting to apply modifications. If you encounter any issues, simply refresh the page and try again.</p>
 </div>
 {% endblock %}
 

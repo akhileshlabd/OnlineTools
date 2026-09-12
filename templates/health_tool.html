@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 
 {% block title %}{{ tool.seo_title }} - Free Qube{% endblock %}
-{% block meta_desc %}{{ tool.seo_desc }}{% endblock %}
+{% block meta_desc %}{{ t(tool.seo_desc) }}{% endblock %}
 
 {% block schema %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "{{ tool.name }}",
+  "name": "{{ t(tool.name) }}",
   "operatingSystem": "All",
   "applicationCategory": "HealthApplication",
-  "description": "{{ tool.seo_desc }}",
+  "description": "{{ t(tool.seo_desc) }}",
   "offers": {
     "@type": "Offer",
     "price": "0",
@@ -31,8 +31,8 @@
 <div class="tool-interface" style="max-width: 800px;">
     <div class="text-center mb-4">
         <div class="icon-wrapper mx-auto mb-3 text-danger"><i class="fas {{ tool.icon }} fa-2x"></i></div>
-        <h2 class="fw-bold">{{ tool.name }}</h2>
-        <p class="text-muted">{{ tool.desc }}</p>
+        <h2 class="fw-bold">{{ t(tool.name) }}</h2>
+        <p class="text-muted">{{ t(tool.desc) }}</p>
     </div>
 
     <!-- BMI & CALORIE CALCULATORS (Share similar inputs) -->
@@ -146,8 +146,8 @@
 
 <!-- SEO Content -->
 <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
-    <h2 class="fw-bold mb-3">About the {{ tool.name }}</h2>
-    <p>Staying on top of your health starts with the right numbers. Free Qube provides incredibly fast, precise calculators to help you manage your wellness journey. This free {{ tool.name }} is built with clinically accepted formulas to give you accurate insights instantly.</p>
+    <h2 class="fw-bold mb-3">About the {{ t(tool.name) }}</h2>
+    <p>Staying on top of your health starts with the right numbers. Free Qube provides incredibly fast, precise calculators to help you manage your wellness journey. This free {{ t(tool.name) }} is built with clinically accepted formulas to give you accurate insights instantly.</p>
     
     <h3 class="h5 fw-bold mt-4">100% Private Client-Side Calculation</h3>
     <p>Because health data is highly personal, we built this calculator to run 100% inside your web browser. Absolutely nothing you type—no weights, no dates, no ages—is ever transmitted or saved to our servers. Your personal health data stays entirely on your own device, guaranteeing your absolute privacy.</p>

@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 
 {% block title %}{{ tool.seo_title }} - Free Qube{% endblock %}
-{% block meta_desc %}{{ tool.seo_desc }}{% endblock %}
+{% block meta_desc %}{{ t(tool.seo_desc) }}{% endblock %}
 
 {% block schema %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "{{ tool.name }}",
+  "name": "{{ t(tool.name) }}",
   "operatingSystem": "All",
   "applicationCategory": "UtilitiesApplication",
-  "description": "{{ tool.seo_desc }}",
+  "description": "{{ t(tool.seo_desc) }}",
   "offers": {
     "@type": "Offer",
     "price": "0",
@@ -31,8 +31,8 @@
 <div class="tool-interface" style="max-width: 800px;">
     <div class="text-center mb-4">
         <div class="icon-wrapper mx-auto mb-3 text-warning"><i class="fas {{ tool.icon }} fa-2x"></i></div>
-        <h2 class="fw-bold">{{ tool.name }}</h2>
-        <p class="text-muted">{{ tool.desc }}</p>
+        <h2 class="fw-bold">{{ t(tool.name) }}</h2>
+        <p class="text-muted">{{ t(tool.desc) }}</p>
     </div>
 
     <!-- PERCENTAGE CALCULATOR -->
@@ -173,8 +173,8 @@
 
 <!-- SEO Content -->
 <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
-    <h2 class="fw-bold mb-3">About the {{ tool.name }}</h2>
-    <p>Welcome to our free online {{ tool.name }}. Designed for fast, everyday use, this utility helps you crunch numbers instantly. You don't need to be a math whiz or remember complex algebraic formulas to get accurate results. We built this calculator to run entirely on the client-side within your browser. That means the math is calculated on your own device with absolute privacy and zero server delays.</p>
+    <h2 class="fw-bold mb-3">About the {{ t(tool.name) }}</h2>
+    <p>Welcome to our free online {{ t(tool.name) }}. Designed for fast, everyday use, this utility helps you crunch numbers instantly. You don't need to be a math whiz or remember complex algebraic formulas to get accurate results. We built this calculator to run entirely on the client-side within your browser. That means the math is calculated on your own device with absolute privacy and zero server delays.</p>
 </div>
 {% endblock %}
 

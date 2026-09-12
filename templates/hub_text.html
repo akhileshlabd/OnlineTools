@@ -14,8 +14,8 @@
     {% for key, t in text_tools.items() %}
     <a href="{{ url_for('text.text_tool_page', tool_id=t.id) }}" class="tool-card">
         <div class="icon-wrapper img-icon text-info"><i class="fas {{ t.icon }}"></i></div>
-        <h3>{{ t.name }}</h3>
-        <p>{{ t.desc }}</p>
+        <h3>{{ t(t.name) }}</h3>
+        <p>{{ t(t.desc) }}</p>
     </a>
     {% endfor %}
 </div>

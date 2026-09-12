@@ -214,5 +214,773 @@
     "es": "Entendemos que los documentos e imágenes que procesas pueden contener información confidencial. Priorizamos tu privacidad. La mayoría de nuestras herramientas están diseñadas para procesar tus archivos localmente dentro de tu navegador web. ¡Esto significa que tus datos nunca se envían a nuestros servidores! Para herramientas PDF complejas que requieren procesamiento en el servidor, las eliminamos automáticamente una vez finalizadas.",
     "pt": "Entendemos que os documentos e imagens que você processa podem conter informações confidenciais. Priorizamos sua privacidade. A maioria de nossas ferramentas são projetadas para processar seus arquivos localmente em seu navegador da web. Isso significa que seus dados nunca são enviados aos nossos servidores! Para ferramentas complexas de PDF que exigem processamento no servidor, nós os excluímos automaticamente após a conclusão.",
     "hi": "हम समझते हैं कि आपके द्वारा संसाधित किए जाने वाले दस्तावेज़ और चित्र संवेदनशील जानकारी रख सकते हैं। हम आपकी गोपनीयता को प्राथमिकता देते हैं। हमारे अधिकांश टूल आपके फ़ाइलों को आपके वेब ब्राउज़र के भीतर स्थानीय रूप से संसाधित करने के लिए डिज़ाइन किए गए हैं। इसका मतलब है कि आपका डेटा कभी भी हमारे सर्वर पर नहीं भेजा जाता है!"
+  },
+  "SIP Calculator": {
+    "en": "SIP Calculator",
+    "es": "SIP Calculator",
+    "pt": "SIP Calculator",
+    "hi": "SIP Calculator"
+  },
+  "Lumpsum Calculator": {
+    "en": "Lumpsum Calculator",
+    "es": "Lumpsum Calculator",
+    "pt": "Lumpsum Calculator",
+    "hi": "Lumpsum Calculator"
+  },
+  "EMI Calculator": {
+    "en": "EMI Calculator",
+    "es": "EMI Calculator",
+    "pt": "EMI Calculator",
+    "hi": "EMI Calculator"
+  },
+  "FD Calculator": {
+    "en": "FD Calculator",
+    "es": "FD Calculator",
+    "pt": "FD Calculator",
+    "hi": "FD Calculator"
+  },
+  "Calculate the future value of your monthly Systematic Investment Plan.": {
+    "en": "Calculate the future value of your monthly Systematic Investment Plan.",
+    "es": "Calculate the future value of your monthly Systematic Investment Plan.",
+    "pt": "Calculate the future value of your monthly Systematic Investment Plan.",
+    "hi": "Calculate the future value of your monthly Systematic Investment Plan."
+  },
+  "Calculate the wealth you can generate from a one-time investment.": {
+    "en": "Calculate the wealth you can generate from a one-time investment.",
+    "es": "Calculate the wealth you can generate from a one-time investment.",
+    "pt": "Calculate the wealth you can generate from a one-time investment.",
+    "hi": "Calculate the wealth you can generate from a one-time investment."
+  },
+  "Calculate your monthly EMI for Home, Car, or Personal Loans.": {
+    "en": "Calculate your monthly EMI for Home, Car, or Personal Loans.",
+    "es": "Calculate your monthly EMI for Home, Car, or Personal Loans.",
+    "pt": "Calculate your monthly EMI for Home, Car, or Personal Loans.",
+    "hi": "Calculate your monthly EMI for Home, Car, or Personal Loans."
+  },
+  "Calculate your Fixed Deposit maturity amount and interest earned.": {
+    "en": "Calculate your Fixed Deposit maturity amount and interest earned.",
+    "es": "Calculate your Fixed Deposit maturity amount and interest earned.",
+    "pt": "Calculate your Fixed Deposit maturity amount and interest earned.",
+    "hi": "Calculate your Fixed Deposit maturity amount and interest earned."
+  },
+  "Use our free SIP calculator to estimate your mutual fund returns. Plan your monthly investments with our interactive charts and accurate future value projections.": {
+    "en": "Use our free SIP calculator to estimate your mutual fund returns. Plan your monthly investments with our interactive charts and accurate future value projections.",
+    "es": "Use our free SIP calculator to estimate your mutual fund returns. Plan your monthly investments with our interactive charts and accurate future value projections.",
+    "pt": "Use our free SIP calculator to estimate your mutual fund returns. Plan your monthly investments with our interactive charts and accurate future value projections.",
+    "hi": "Use our free SIP calculator to estimate your mutual fund returns. Plan your monthly investments with our interactive charts and accurate future value projections."
+  },
+  "Estimate the future value of your one-time investments with our free lumpsum calculator. See your wealth grow with compound interest.": {
+    "en": "Estimate the future value of your one-time investments with our free lumpsum calculator. See your wealth grow with compound interest.",
+    "es": "Estimate the future value of your one-time investments with our free lumpsum calculator. See your wealth grow with compound interest.",
+    "pt": "Estimate the future value of your one-time investments with our free lumpsum calculator. See your wealth grow with compound interest.",
+    "hi": "Estimate the future value of your one-time investments with our free lumpsum calculator. See your wealth grow with compound interest."
+  },
+  "Calculate your monthly EMI for home, car, or personal loans instantly. Break down your principal and interest amounts with our interactive charts.": {
+    "en": "Calculate your monthly EMI for home, car, or personal loans instantly. Break down your principal and interest amounts with our interactive charts.",
+    "es": "Calculate your monthly EMI for home, car, or personal loans instantly. Break down your principal and interest amounts with our interactive charts.",
+    "pt": "Calculate your monthly EMI for home, car, or personal loans instantly. Break down your principal and interest amounts with our interactive charts.",
+    "hi": "Calculate your monthly EMI for home, car, or personal loans instantly. Break down your principal and interest amounts with our interactive charts."
+  },
+  "Calculate the maturity amount and interest earned on your Fixed Deposits. Free, accurate, and completely private.": {
+    "en": "Calculate the maturity amount and interest earned on your Fixed Deposits. Free, accurate, and completely private.",
+    "es": "Calculate the maturity amount and interest earned on your Fixed Deposits. Free, accurate, and completely private.",
+    "pt": "Calculate the maturity amount and interest earned on your Fixed Deposits. Free, accurate, and completely private.",
+    "hi": "Calculate the maturity amount and interest earned on your Fixed Deposits. Free, accurate, and completely private."
+  },
+  "BMI Calculator": {
+    "en": "BMI Calculator",
+    "es": "BMI Calculator",
+    "pt": "BMI Calculator",
+    "hi": "BMI Calculator"
+  },
+  "Calorie & TDEE Calculator": {
+    "en": "Calorie & TDEE Calculator",
+    "es": "Calorie & TDEE Calculator",
+    "pt": "Calorie & TDEE Calculator",
+    "hi": "Calorie & TDEE Calculator"
+  },
+  "Pregnancy Due Date Calculator": {
+    "en": "Pregnancy Due Date Calculator",
+    "es": "Pregnancy Due Date Calculator",
+    "pt": "Pregnancy Due Date Calculator",
+    "hi": "Pregnancy Due Date Calculator"
+  },
+  "Calculate your Body Mass Index and check your health category.": {
+    "en": "Calculate your Body Mass Index and check your health category.",
+    "es": "Calculate your Body Mass Index and check your health category.",
+    "pt": "Calculate your Body Mass Index and check your health category.",
+    "hi": "Calculate your Body Mass Index and check your health category."
+  },
+  "Calculate your daily calorie needs for weight loss or maintenance.": {
+    "en": "Calculate your daily calorie needs for weight loss or maintenance.",
+    "es": "Calculate your daily calorie needs for weight loss or maintenance.",
+    "pt": "Calculate your daily calorie needs for weight loss or maintenance.",
+    "hi": "Calculate your daily calorie needs for weight loss or maintenance."
+  },
+  "Calculate your estimated delivery date based on your LMP.": {
+    "en": "Calculate your estimated delivery date based on your LMP.",
+    "es": "Calculate your estimated delivery date based on your LMP.",
+    "pt": "Calculate your estimated delivery date based on your LMP.",
+    "hi": "Calculate your estimated delivery date based on your LMP."
+  },
+  "Calculate your Body Mass Index (BMI) instantly. Find out if you are at a healthy weight using our free, private online BMI calculator.": {
+    "en": "Calculate your Body Mass Index (BMI) instantly. Find out if you are at a healthy weight using our free, private online BMI calculator.",
+    "es": "Calculate your Body Mass Index (BMI) instantly. Find out if you are at a healthy weight using our free, private online BMI calculator.",
+    "pt": "Calculate your Body Mass Index (BMI) instantly. Find out if you are at a healthy weight using our free, private online BMI calculator.",
+    "hi": "Calculate your Body Mass Index (BMI) instantly. Find out if you are at a healthy weight using our free, private online BMI calculator."
+  },
+  "Calculate your Total Daily Energy Expenditure (TDEE) and find out exactly how many calories you need to eat to lose, maintain, or gain weight.": {
+    "en": "Calculate your Total Daily Energy Expenditure (TDEE) and find out exactly how many calories you need to eat to lose, maintain, or gain weight.",
+    "es": "Calculate your Total Daily Energy Expenditure (TDEE) and find out exactly how many calories you need to eat to lose, maintain, or gain weight.",
+    "pt": "Calculate your Total Daily Energy Expenditure (TDEE) and find out exactly how many calories you need to eat to lose, maintain, or gain weight.",
+    "hi": "Calculate your Total Daily Energy Expenditure (TDEE) and find out exactly how many calories you need to eat to lose, maintain, or gain weight."
+  },
+  "Calculate your exact pregnancy due date easily. Enter the first day of your last menstrual period (LMP) to instantly get your estimated delivery date.": {
+    "en": "Calculate your exact pregnancy due date easily. Enter the first day of your last menstrual period (LMP) to instantly get your estimated delivery date.",
+    "es": "Calculate your exact pregnancy due date easily. Enter the first day of your last menstrual period (LMP) to instantly get your estimated delivery date.",
+    "pt": "Calculate your exact pregnancy due date easily. Enter the first day of your last menstrual period (LMP) to instantly get your estimated delivery date.",
+    "hi": "Calculate your exact pregnancy due date easily. Enter the first day of your last menstrual period (LMP) to instantly get your estimated delivery date."
+  },
+  "JSON Formatter & Validator": {
+    "en": "JSON Formatter & Validator",
+    "es": "JSON Formatter & Validator",
+    "pt": "JSON Formatter & Validator",
+    "hi": "JSON Formatter & Validator"
+  },
+  "Text & Code Diff Checker": {
+    "en": "Text & Code Diff Checker",
+    "es": "Text & Code Diff Checker",
+    "pt": "Text & Code Diff Checker",
+    "hi": "Text & Code Diff Checker"
+  },
+  "Base64 Encoder/Decoder": {
+    "en": "Base64 Encoder/Decoder",
+    "es": "Base64 Encoder/Decoder",
+    "pt": "Base64 Encoder/Decoder",
+    "hi": "Base64 Encoder/Decoder"
+  },
+  "MD5 & SHA Hash Generator": {
+    "en": "MD5 & SHA Hash Generator",
+    "es": "MD5 & SHA Hash Generator",
+    "pt": "MD5 & SHA Hash Generator",
+    "hi": "MD5 & SHA Hash Generator"
+  },
+  "JWT Decoder": {
+    "en": "JWT Decoder",
+    "es": "JWT Decoder",
+    "pt": "JWT Decoder",
+    "hi": "JWT Decoder"
+  },
+  "URL Encoder & Decoder": {
+    "en": "URL Encoder & Decoder",
+    "es": "URL Encoder & Decoder",
+    "pt": "URL Encoder & Decoder",
+    "hi": "URL Encoder & Decoder"
+  },
+  "UUID / GUID Generator": {
+    "en": "UUID / GUID Generator",
+    "es": "UUID / GUID Generator",
+    "pt": "UUID / GUID Generator",
+    "hi": "UUID / GUID Generator"
+  },
+  "HEX to RGB Color Converter": {
+    "en": "HEX to RGB Color Converter",
+    "es": "HEX to RGB Color Converter",
+    "pt": "HEX to RGB Color Converter",
+    "hi": "HEX to RGB Color Converter"
+  },
+  "Format, beautify, and validate JSON data instantly.": {
+    "en": "Format, beautify, and validate JSON data instantly.",
+    "es": "Format, beautify, and validate JSON data instantly.",
+    "pt": "Format, beautify, and validate JSON data instantly.",
+    "hi": "Format, beautify, and validate JSON data instantly."
+  },
+  "Compare two pieces of text or code to find differences.": {
+    "en": "Compare two pieces of text or code to find differences.",
+    "es": "Compare two pieces of text or code to find differences.",
+    "pt": "Compare two pieces of text or code to find differences.",
+    "hi": "Compare two pieces of text or code to find differences."
+  },
+  "Encode strings to Base64 or decode Base64 back to text.": {
+    "en": "Encode strings to Base64 or decode Base64 back to text.",
+    "es": "Encode strings to Base64 or decode Base64 back to text.",
+    "pt": "Encode strings to Base64 or decode Base64 back to text.",
+    "hi": "Encode strings to Base64 or decode Base64 back to text."
+  },
+  "Generate MD5, SHA-1, and SHA-256 cryptographic hashes.": {
+    "en": "Generate MD5, SHA-1, and SHA-256 cryptographic hashes.",
+    "es": "Generate MD5, SHA-1, and SHA-256 cryptographic hashes.",
+    "pt": "Generate MD5, SHA-1, and SHA-256 cryptographic hashes.",
+    "hi": "Generate MD5, SHA-1, and SHA-256 cryptographic hashes."
+  },
+  "Instantly decode JSON Web Tokens (JWT) to view headers and payloads.": {
+    "en": "Instantly decode JSON Web Tokens (JWT) to view headers and payloads.",
+    "es": "Instantly decode JSON Web Tokens (JWT) to view headers and payloads.",
+    "pt": "Instantly decode JSON Web Tokens (JWT) to view headers and payloads.",
+    "hi": "Instantly decode JSON Web Tokens (JWT) to view headers and payloads."
+  },
+  "Encode strings for safe URL transmission or decode URL query strings.": {
+    "en": "Encode strings for safe URL transmission or decode URL query strings.",
+    "es": "Encode strings for safe URL transmission or decode URL query strings.",
+    "pt": "Encode strings for safe URL transmission or decode URL query strings.",
+    "hi": "Encode strings for safe URL transmission or decode URL query strings."
+  },
+  "Bulk generate cryptographically secure v4 UUIDs instantly.": {
+    "en": "Bulk generate cryptographically secure v4 UUIDs instantly.",
+    "es": "Bulk generate cryptographically secure v4 UUIDs instantly.",
+    "pt": "Bulk generate cryptographically secure v4 UUIDs instantly.",
+    "hi": "Bulk generate cryptographically secure v4 UUIDs instantly."
+  },
+  "Convert CSS color formats between HEX, RGB, and HSL.": {
+    "en": "Convert CSS color formats between HEX, RGB, and HSL.",
+    "es": "Convert CSS color formats between HEX, RGB, and HSL.",
+    "pt": "Convert CSS color formats between HEX, RGB, and HSL.",
+    "hi": "Convert CSS color formats between HEX, RGB, and HSL."
+  },
+  "Beautify, format, and validate your JSON code online for free. Features instant syntax checking and clean formatting. 100% secure and runs in your browser.": {
+    "en": "Beautify, format, and validate your JSON code online for free. Features instant syntax checking and clean formatting. 100% secure and runs in your browser.",
+    "es": "Beautify, format, and validate your JSON code online for free. Features instant syntax checking and clean formatting. 100% secure and runs in your browser.",
+    "pt": "Beautify, format, and validate your JSON code online for free. Features instant syntax checking and clean formatting. 100% secure and runs in your browser.",
+    "hi": "Beautify, format, and validate your JSON code online for free. Features instant syntax checking and clean formatting. 100% secure and runs in your browser."
+  },
+  "Compare two text files or code blocks to instantly highlight the differences, additions, and deletions. Completely free and secure client-side processing.": {
+    "en": "Compare two text files or code blocks to instantly highlight the differences, additions, and deletions. Completely free and secure client-side processing.",
+    "es": "Compare two text files or code blocks to instantly highlight the differences, additions, and deletions. Completely free and secure client-side processing.",
+    "pt": "Compare two text files or code blocks to instantly highlight the differences, additions, and deletions. Completely free and secure client-side processing.",
+    "hi": "Compare two text files or code blocks to instantly highlight the differences, additions, and deletions. Completely free and secure client-side processing."
+  },
+  "Encode normal text into Base64 format or decode Base64 strings back into readable text. Free, fast, and fully runs in your local web browser.": {
+    "en": "Encode normal text into Base64 format or decode Base64 strings back into readable text. Free, fast, and fully runs in your local web browser.",
+    "es": "Encode normal text into Base64 format or decode Base64 strings back into readable text. Free, fast, and fully runs in your local web browser.",
+    "pt": "Encode normal text into Base64 format or decode Base64 strings back into readable text. Free, fast, and fully runs in your local web browser.",
+    "hi": "Encode normal text into Base64 format or decode Base64 strings back into readable text. Free, fast, and fully runs in your local web browser."
+  },
+  "Generate secure MD5, SHA-1, SHA-256, and SHA-512 hashes instantly from any text string. Built for developers with 100% local processing.": {
+    "en": "Generate secure MD5, SHA-1, SHA-256, and SHA-512 hashes instantly from any text string. Built for developers with 100% local processing.",
+    "es": "Generate secure MD5, SHA-1, SHA-256, and SHA-512 hashes instantly from any text string. Built for developers with 100% local processing.",
+    "pt": "Generate secure MD5, SHA-1, SHA-256, and SHA-512 hashes instantly from any text string. Built for developers with 100% local processing.",
+    "hi": "Generate secure MD5, SHA-1, SHA-256, and SHA-512 hashes instantly from any text string. Built for developers with 100% local processing."
+  },
+  "Decode JSON Web Tokens (JWT) instantly online. View the decoded JSON header and payload with 100% secure client-side processing.": {
+    "en": "Decode JSON Web Tokens (JWT) instantly online. View the decoded JSON header and payload with 100% secure client-side processing.",
+    "es": "Decode JSON Web Tokens (JWT) instantly online. View the decoded JSON header and payload with 100% secure client-side processing.",
+    "pt": "Decode JSON Web Tokens (JWT) instantly online. View the decoded JSON header and payload with 100% secure client-side processing.",
+    "hi": "Decode JSON Web Tokens (JWT) instantly online. View the decoded JSON header and payload with 100% secure client-side processing."
+  },
+  "Instantly URL-encode or URL-decode text strings and query parameters. Safe, private, and runs entirely in your browser.": {
+    "en": "Instantly URL-encode or URL-decode text strings and query parameters. Safe, private, and runs entirely in your browser.",
+    "es": "Instantly URL-encode or URL-decode text strings and query parameters. Safe, private, and runs entirely in your browser.",
+    "pt": "Instantly URL-encode or URL-decode text strings and query parameters. Safe, private, and runs entirely in your browser.",
+    "hi": "Instantly URL-encode or URL-decode text strings and query parameters. Safe, private, and runs entirely in your browser."
+  },
+  "Generate cryptographically secure Version 4 UUIDs (GUIDs) instantly. Generate up to 500 unique identifiers at once for database seeding.": {
+    "en": "Generate cryptographically secure Version 4 UUIDs (GUIDs) instantly. Generate up to 500 unique identifiers at once for database seeding.",
+    "es": "Generate cryptographically secure Version 4 UUIDs (GUIDs) instantly. Generate up to 500 unique identifiers at once for database seeding.",
+    "pt": "Generate cryptographically secure Version 4 UUIDs (GUIDs) instantly. Generate up to 500 unique identifiers at once for database seeding.",
+    "hi": "Generate cryptographically secure Version 4 UUIDs (GUIDs) instantly. Generate up to 500 unique identifiers at once for database seeding."
+  },
+  "Instantly convert CSS color codes between HEX, RGB, and HSL formats. Perfect tool for frontend web developers and designers.": {
+    "en": "Instantly convert CSS color codes between HEX, RGB, and HSL formats. Perfect tool for frontend web developers and designers.",
+    "es": "Instantly convert CSS color codes between HEX, RGB, and HSL formats. Perfect tool for frontend web developers and designers.",
+    "pt": "Instantly convert CSS color codes between HEX, RGB, and HSL formats. Perfect tool for frontend web developers and designers.",
+    "hi": "Instantly convert CSS color codes between HEX, RGB, and HSL formats. Perfect tool for frontend web developers and designers."
+  },
+  "Protect PDF": {
+    "en": "Protect PDF",
+    "es": "Protect PDF",
+    "pt": "Protect PDF",
+    "hi": "Protect PDF"
+  },
+  "password": {
+    "en": "password",
+    "es": "password",
+    "pt": "password",
+    "hi": "password"
+  },
+  "Unlock PDF": {
+    "en": "Unlock PDF",
+    "es": "Unlock PDF",
+    "pt": "Unlock PDF",
+    "hi": "Unlock PDF"
+  },
+  "Rotate PDF": {
+    "en": "Rotate PDF",
+    "es": "Rotar PDF",
+    "pt": "Girar PDF",
+    "hi": "पीडीएफ घुमाएं"
+  },
+  "angle": {
+    "en": "angle",
+    "es": "angle",
+    "pt": "angle",
+    "hi": "angle"
+  },
+  "Extract Text": {
+    "en": "Extract Text",
+    "es": "Extract Text",
+    "pt": "Extract Text",
+    "hi": "Extract Text"
+  },
+  "Remove Page": {
+    "en": "Remove Page",
+    "es": "Remove Page",
+    "pt": "Remove Page",
+    "hi": "Remove Page"
+  },
+  "page_num": {
+    "en": "page_num",
+    "es": "page_num",
+    "pt": "page_num",
+    "hi": "page_num"
+  },
+  "Add Blank Page": {
+    "en": "Add Blank Page",
+    "es": "Add Blank Page",
+    "pt": "Add Blank Page",
+    "hi": "Add Blank Page"
+  },
+  "Compress PDF": {
+    "en": "Compress PDF",
+    "es": "Compress PDF",
+    "pt": "Compress PDF",
+    "hi": "Compress PDF"
+  },
+  "PDF to Word": {
+    "en": "PDF to Word",
+    "es": "PDF a Word",
+    "pt": "PDF para Word",
+    "hi": "पीडीएफ से वर्ड"
+  },
+  "PDF to Excel": {
+    "en": "PDF to Excel",
+    "es": "PDF to Excel",
+    "pt": "PDF to Excel",
+    "hi": "PDF to Excel"
+  },
+  "Add Watermark": {
+    "en": "Add Watermark",
+    "es": "Add Watermark",
+    "pt": "Add Watermark",
+    "hi": "Add Watermark"
+  },
+  "watermark_text": {
+    "en": "watermark_text",
+    "es": "watermark_text",
+    "pt": "watermark_text",
+    "hi": "watermark_text"
+  },
+  "PDF OCR": {
+    "en": "PDF OCR",
+    "es": "PDF OCR",
+    "pt": "PDF OCR",
+    "hi": "PDF OCR"
+  },
+  "Optimize PDF": {
+    "en": "Optimize PDF",
+    "es": "Optimize PDF",
+    "pt": "Optimize PDF",
+    "hi": "Optimize PDF"
+  },
+  "Encrypt your PDF with a password.": {
+    "en": "Encrypt your PDF with a password.",
+    "es": "Encrypt your PDF with a password.",
+    "pt": "Encrypt your PDF with a password.",
+    "hi": "Encrypt your PDF with a password."
+  },
+  "Remove password from a PDF.": {
+    "en": "Remove password from a PDF.",
+    "es": "Remove password from a PDF.",
+    "pt": "Remove password from a PDF.",
+    "hi": "Remove password from a PDF."
+  },
+  "Rotate all pages by 90, 180, or 270 degrees.": {
+    "en": "Rotate all pages by 90, 180, or 270 degrees.",
+    "es": "Rotate all pages by 90, 180, or 270 degrees.",
+    "pt": "Rotate all pages by 90, 180, or 270 degrees.",
+    "hi": "Rotate all pages by 90, 180, or 270 degrees."
+  },
+  "Extract all text from a PDF file into a .txt file.": {
+    "en": "Extract all text from a PDF file into a .txt file.",
+    "es": "Extract all text from a PDF file into a .txt file.",
+    "pt": "Extract all text from a PDF file into a .txt file.",
+    "hi": "Extract all text from a PDF file into a .txt file."
+  },
+  "Delete a specific page from your PDF.": {
+    "en": "Delete a specific page from your PDF.",
+    "es": "Delete a specific page from your PDF.",
+    "pt": "Delete a specific page from your PDF.",
+    "hi": "Delete a specific page from your PDF."
+  },
+  "Add a blank page to the end of the document.": {
+    "en": "Add a blank page to the end of the document.",
+    "es": "Add a blank page to the end of the document.",
+    "pt": "Add a blank page to the end of the document.",
+    "hi": "Add a blank page to the end of the document."
+  },
+  "Reduce PDF file size.": {
+    "en": "Reduce PDF file size.",
+    "es": "Reduce PDF file size.",
+    "pt": "Reduce PDF file size.",
+    "hi": "Reduce PDF file size."
+  },
+  "Convert PDF to DOCX.": {
+    "en": "Convert PDF to DOCX.",
+    "es": "Convert PDF to DOCX.",
+    "pt": "Convert PDF to DOCX.",
+    "hi": "Convert PDF to DOCX."
+  },
+  "Convert PDF to XLSX.": {
+    "en": "Convert PDF to XLSX.",
+    "es": "Convert PDF to XLSX.",
+    "pt": "Convert PDF to XLSX.",
+    "hi": "Convert PDF to XLSX."
+  },
+  "Add text or image watermark.": {
+    "en": "Add text or image watermark.",
+    "es": "Add text or image watermark.",
+    "pt": "Add text or image watermark.",
+    "hi": "Add text or image watermark."
+  },
+  "Extract text via OCR.": {
+    "en": "Extract text via OCR.",
+    "es": "Extract text via OCR.",
+    "pt": "Extract text via OCR.",
+    "hi": "Extract text via OCR."
+  },
+  "Remove metadata and compress streams.": {
+    "en": "Remove metadata and compress streams.",
+    "es": "Remove metadata and compress streams.",
+    "pt": "Remove metadata and compress streams.",
+    "hi": "Remove metadata and compress streams."
+  },
+  "Classic Brick Game": {
+    "en": "Classic Brick Game",
+    "es": "Classic Brick Game",
+    "pt": "Classic Brick Game",
+    "hi": "Classic Brick Game"
+  },
+  "Classic Brick Breaker": {
+    "en": "Classic Brick Breaker",
+    "es": "Classic Brick Breaker",
+    "pt": "Classic Brick Breaker",
+    "hi": "Classic Brick Breaker"
+  },
+  "Retro Snake": {
+    "en": "Retro Snake",
+    "es": "Retro Snake",
+    "pt": "Retro Snake",
+    "hi": "Retro Snake"
+  },
+  "The iconic block-stacking puzzle game. Clear lines to score points!": {
+    "en": "The iconic block-stacking puzzle game. Clear lines to score points!",
+    "es": "The iconic block-stacking puzzle game. Clear lines to score points!",
+    "pt": "The iconic block-stacking puzzle game. Clear lines to score points!",
+    "hi": "The iconic block-stacking puzzle game. Clear lines to score points!"
+  },
+  "Play the classic retro Brick Breaker game directly in your browser.": {
+    "en": "Play the classic retro Brick Breaker game directly in your browser.",
+    "es": "Play the classic retro Brick Breaker game directly in your browser.",
+    "pt": "Play the classic retro Brick Breaker game directly in your browser.",
+    "hi": "Play the classic retro Brick Breaker game directly in your browser."
+  },
+  "The timeless classic Snake game. Eat the apples and grow your high score!": {
+    "en": "The timeless classic Snake game. Eat the apples and grow your high score!",
+    "es": "The timeless classic Snake game. Eat the apples and grow your high score!",
+    "pt": "The timeless classic Snake game. Eat the apples and grow your high score!",
+    "hi": "The timeless classic Snake game. Eat the apples and grow your high score!"
+  },
+  "Play the ultimate classic Brick Game online for free. Stack the blocks, clear the lines, and beat your high score directly in your browser.": {
+    "en": "Play the ultimate classic Brick Game online for free. Stack the blocks, clear the lines, and beat your high score directly in your browser.",
+    "es": "Play the ultimate classic Brick Game online for free. Stack the blocks, clear the lines, and beat your high score directly in your browser.",
+    "pt": "Play the ultimate classic Brick Game online for free. Stack the blocks, clear the lines, and beat your high score directly in your browser.",
+    "hi": "Play the ultimate classic Brick Game online for free. Stack the blocks, clear the lines, and beat your high score directly in your browser."
+  },
+  "Play the ultimate retro Brick Breaker arcade game online for free. No downloads required, perfectly optimized for desktop and mobile browsers.": {
+    "en": "Play the ultimate retro Brick Breaker arcade game online for free. No downloads required, perfectly optimized for desktop and mobile browsers.",
+    "es": "Play the ultimate retro Brick Breaker arcade game online for free. No downloads required, perfectly optimized for desktop and mobile browsers.",
+    "pt": "Play the ultimate retro Brick Breaker arcade game online for free. No downloads required, perfectly optimized for desktop and mobile browsers.",
+    "hi": "Play the ultimate retro Brick Breaker arcade game online for free. No downloads required, perfectly optimized for desktop and mobile browsers."
+  },
+  "Play the classic retro Snake game online for free. Control the snake, eat the apples, and compete for the highest score directly in your browser.": {
+    "en": "Play the classic retro Snake game online for free. Control the snake, eat the apples, and compete for the highest score directly in your browser.",
+    "es": "Play the classic retro Snake game online for free. Control the snake, eat the apples, and compete for the highest score directly in your browser.",
+    "pt": "Play the classic retro Snake game online for free. Control the snake, eat the apples, and compete for the highest score directly in your browser.",
+    "hi": "Play the classic retro Snake game online for free. Control the snake, eat the apples, and compete for the highest score directly in your browser."
+  },
+  "Word & Character Counter": {
+    "en": "Word & Character Counter",
+    "es": "Word & Character Counter",
+    "pt": "Word & Character Counter",
+    "hi": "Word & Character Counter"
+  },
+  "Case Converter": {
+    "en": "Case Converter",
+    "es": "Case Converter",
+    "pt": "Case Converter",
+    "hi": "Case Converter"
+  },
+  "Lorem Ipsum Generator": {
+    "en": "Lorem Ipsum Generator",
+    "es": "Lorem Ipsum Generator",
+    "pt": "Lorem Ipsum Generator",
+    "hi": "Lorem Ipsum Generator"
+  },
+  "Count words, characters, and estimate reading time instantly.": {
+    "en": "Count words, characters, and estimate reading time instantly.",
+    "es": "Count words, characters, and estimate reading time instantly.",
+    "pt": "Count words, characters, and estimate reading time instantly.",
+    "hi": "Count words, characters, and estimate reading time instantly."
+  },
+  "Change text to UPPERCASE, lowercase, Title Case, and more.": {
+    "en": "Change text to UPPERCASE, lowercase, Title Case, and more.",
+    "es": "Change text to UPPERCASE, lowercase, Title Case, and more.",
+    "pt": "Change text to UPPERCASE, lowercase, Title Case, and more.",
+    "hi": "Change text to UPPERCASE, lowercase, Title Case, and more."
+  },
+  "Generate dummy text for web design and mockups.": {
+    "en": "Generate dummy text for web design and mockups.",
+    "es": "Generate dummy text for web design and mockups.",
+    "pt": "Generate dummy text for web design and mockups.",
+    "hi": "Generate dummy text for web design and mockups."
+  },
+  "Instantly count words, characters, sentences, and paragraphs in your text. Perfect for essays, SEO writing, and social media posts. 100% free.": {
+    "en": "Instantly count words, characters, sentences, and paragraphs in your text. Perfect for essays, SEO writing, and social media posts. 100% free.",
+    "es": "Instantly count words, characters, sentences, and paragraphs in your text. Perfect for essays, SEO writing, and social media posts. 100% free.",
+    "pt": "Instantly count words, characters, sentences, and paragraphs in your text. Perfect for essays, SEO writing, and social media posts. 100% free.",
+    "hi": "Instantly count words, characters, sentences, and paragraphs in your text. Perfect for essays, SEO writing, and social media posts. 100% free."
+  },
+  "Easily convert your text to uppercase, lowercase, title case, or sentence case. Fast, free, and completely secure client-side processing.": {
+    "en": "Easily convert your text to uppercase, lowercase, title case, or sentence case. Fast, free, and completely secure client-side processing.",
+    "es": "Easily convert your text to uppercase, lowercase, title case, or sentence case. Fast, free, and completely secure client-side processing.",
+    "pt": "Easily convert your text to uppercase, lowercase, title case, or sentence case. Fast, free, and completely secure client-side processing.",
+    "hi": "Easily convert your text to uppercase, lowercase, title case, or sentence case. Fast, free, and completely secure client-side processing."
+  },
+  "Generate custom Lorem Ipsum placeholder text for your web design, layouts, and mockups. Fast, free, and highly customizable.": {
+    "en": "Generate custom Lorem Ipsum placeholder text for your web design, layouts, and mockups. Fast, free, and highly customizable.",
+    "es": "Generate custom Lorem Ipsum placeholder text for your web design, layouts, and mockups. Fast, free, and highly customizable.",
+    "pt": "Generate custom Lorem Ipsum placeholder text for your web design, layouts, and mockups. Fast, free, and highly customizable.",
+    "hi": "Generate custom Lorem Ipsum placeholder text for your web design, layouts, and mockups. Fast, free, and highly customizable."
+  },
+  "What Is My IP?": {
+    "en": "What Is My IP?",
+    "es": "What Is My IP?",
+    "pt": "What Is My IP?",
+    "hi": "What Is My IP?"
+  },
+  "Internet Speed Test": {
+    "en": "Internet Speed Test",
+    "es": "Internet Speed Test",
+    "pt": "Internet Speed Test",
+    "hi": "Internet Speed Test"
+  },
+  "DNS Record Lookup": {
+    "en": "DNS Record Lookup",
+    "es": "DNS Record Lookup",
+    "pt": "DNS Record Lookup",
+    "hi": "DNS Record Lookup"
+  },
+  "What Is My Browser?": {
+    "en": "What Is My Browser?",
+    "es": "What Is My Browser?",
+    "pt": "What Is My Browser?",
+    "hi": "What Is My Browser?"
+  },
+  "Check your public IP address, location, and ISP details.": {
+    "en": "Check your public IP address, location, and ISP details.",
+    "es": "Check your public IP address, location, and ISP details.",
+    "pt": "Check your public IP address, location, and ISP details.",
+    "hi": "Check your public IP address, location, and ISP details."
+  },
+  "Test your download speed instantly in your browser.": {
+    "en": "Test your download speed instantly in your browser.",
+    "es": "Test your download speed instantly in your browser.",
+    "pt": "Test your download speed instantly in your browser.",
+    "hi": "Test your download speed instantly in your browser."
+  },
+  "Find A, AAAA, CNAME, MX, and TXT records for any domain.": {
+    "en": "Find A, AAAA, CNAME, MX, and TXT records for any domain.",
+    "es": "Find A, AAAA, CNAME, MX, and TXT records for any domain.",
+    "pt": "Find A, AAAA, CNAME, MX, and TXT records for any domain.",
+    "hi": "Find A, AAAA, CNAME, MX, and TXT records for any domain."
+  },
+  "View detailed information about your browser, OS, and device.": {
+    "en": "View detailed information about your browser, OS, and device.",
+    "es": "View detailed information about your browser, OS, and device.",
+    "pt": "View detailed information about your browser, OS, and device.",
+    "hi": "View detailed information about your browser, OS, and device."
+  },
+  "Instantly find out your public IPv4/IPv6 address. Check your exact location, Internet Service Provider (ISP), and network details completely free.": {
+    "en": "Instantly find out your public IPv4/IPv6 address. Check your exact location, Internet Service Provider (ISP), and network details completely free.",
+    "es": "Instantly find out your public IPv4/IPv6 address. Check your exact location, Internet Service Provider (ISP), and network details completely free.",
+    "pt": "Instantly find out your public IPv4/IPv6 address. Check your exact location, Internet Service Provider (ISP), and network details completely free.",
+    "hi": "Instantly find out your public IPv4/IPv6 address. Check your exact location, Internet Service Provider (ISP), and network details completely free."
+  },
+  "Test your internet connection speed instantly. Our free browser-based speed test measures your download bandwidth without requiring flash or java.": {
+    "en": "Test your internet connection speed instantly. Our free browser-based speed test measures your download bandwidth without requiring flash or java.",
+    "es": "Test your internet connection speed instantly. Our free browser-based speed test measures your download bandwidth without requiring flash or java.",
+    "pt": "Test your internet connection speed instantly. Our free browser-based speed test measures your download bandwidth without requiring flash or java.",
+    "hi": "Test your internet connection speed instantly. Our free browser-based speed test measures your download bandwidth without requiring flash or java."
+  },
+  "Perform a free DNS lookup to find A, AAAA, CNAME, MX, and TXT records for any domain. Uses secure DNS-over-HTTPS.": {
+    "en": "Perform a free DNS lookup to find A, AAAA, CNAME, MX, and TXT records for any domain. Uses secure DNS-over-HTTPS.",
+    "es": "Perform a free DNS lookup to find A, AAAA, CNAME, MX, and TXT records for any domain. Uses secure DNS-over-HTTPS.",
+    "pt": "Perform a free DNS lookup to find A, AAAA, CNAME, MX, and TXT records for any domain. Uses secure DNS-over-HTTPS.",
+    "hi": "Perform a free DNS lookup to find A, AAAA, CNAME, MX, and TXT records for any domain. Uses secure DNS-over-HTTPS."
+  },
+  "Instantly check your browser version, operating system, screen resolution, and user agent string.": {
+    "en": "Instantly check your browser version, operating system, screen resolution, and user agent string.",
+    "es": "Instantly check your browser version, operating system, screen resolution, and user agent string.",
+    "pt": "Instantly check your browser version, operating system, screen resolution, and user agent string.",
+    "hi": "Instantly check your browser version, operating system, screen resolution, and user agent string."
+  },
+  "Percentage Calculator": {
+    "en": "Percentage Calculator",
+    "es": "Percentage Calculator",
+    "pt": "Percentage Calculator",
+    "hi": "Percentage Calculator"
+  },
+  "Age Calculator": {
+    "en": "Age Calculator",
+    "es": "Age Calculator",
+    "pt": "Age Calculator",
+    "hi": "Age Calculator"
+  },
+  "Discount & Sale Calculator": {
+    "en": "Discount & Sale Calculator",
+    "es": "Discount & Sale Calculator",
+    "pt": "Discount & Sale Calculator",
+    "hi": "Discount & Sale Calculator"
+  },
+  "Calculate percentages, increases, and decreases instantly.": {
+    "en": "Calculate percentages, increases, and decreases instantly.",
+    "es": "Calculate percentages, increases, and decreases instantly.",
+    "pt": "Calculate percentages, increases, and decreases instantly.",
+    "hi": "Calculate percentages, increases, and decreases instantly."
+  },
+  "Calculate your exact age in years, months, days, and hours.": {
+    "en": "Calculate your exact age in years, months, days, and hours.",
+    "es": "Calculate your exact age in years, months, days, and hours.",
+    "pt": "Calculate your exact age in years, months, days, and hours.",
+    "hi": "Calculate your exact age in years, months, days, and hours."
+  },
+  "Calculate your final price and total savings during sales.": {
+    "en": "Calculate your final price and total savings during sales.",
+    "es": "Calculate your final price and total savings during sales.",
+    "pt": "Calculate your final price and total savings during sales.",
+    "hi": "Calculate your final price and total savings during sales."
+  },
+  "Calculate percentages instantly. Find out what X percent of Y is, or calculate percentage increases and decreases. Free, fast, and private.": {
+    "en": "Calculate percentages instantly. Find out what X percent of Y is, or calculate percentage increases and decreases. Free, fast, and private.",
+    "es": "Calculate percentages instantly. Find out what X percent of Y is, or calculate percentage increases and decreases. Free, fast, and private.",
+    "pt": "Calculate percentages instantly. Find out what X percent of Y is, or calculate percentage increases and decreases. Free, fast, and private.",
+    "hi": "Calculate percentages instantly. Find out what X percent of Y is, or calculate percentage increases and decreases. Free, fast, and private."
+  },
+  "Enter your date of birth to calculate your exact chronological age in years, months, weeks, and days. 100% private and runs in your browser.": {
+    "en": "Enter your date of birth to calculate your exact chronological age in years, months, weeks, and days. 100% private and runs in your browser.",
+    "es": "Enter your date of birth to calculate your exact chronological age in years, months, weeks, and days. 100% private and runs in your browser.",
+    "pt": "Enter your date of birth to calculate your exact chronological age in years, months, weeks, and days. 100% private and runs in your browser.",
+    "hi": "Enter your date of birth to calculate your exact chronological age in years, months, weeks, and days. 100% private and runs in your browser."
+  },
+  "Calculate the final sale price of an item after applying a percentage discount. Instantly see how much money you save.": {
+    "en": "Calculate the final sale price of an item after applying a percentage discount. Instantly see how much money you save.",
+    "es": "Calculate the final sale price of an item after applying a percentage discount. Instantly see how much money you save.",
+    "pt": "Calculate the final sale price of an item after applying a percentage discount. Instantly see how much money you save.",
+    "hi": "Calculate the final sale price of an item after applying a percentage discount. Instantly see how much money you save."
+  },
+  "Grayscale Image": {
+    "en": "Grayscale Image",
+    "es": "Imagen en Escala de Grises",
+    "pt": "Imagem em Tons de Cinza",
+    "hi": "ग्रेस्केल छवि"
+  },
+  "Blur Image": {
+    "en": "Blur Image",
+    "es": "Blur Image",
+    "pt": "Blur Image",
+    "hi": "Blur Image"
+  },
+  "radius": {
+    "en": "radius",
+    "es": "radius",
+    "pt": "radius",
+    "hi": "radius"
+  },
+  "Flip Horizontal": {
+    "en": "Flip Horizontal",
+    "es": "Flip Horizontal",
+    "pt": "Flip Horizontal",
+    "hi": "Flip Horizontal"
+  },
+  "Flip Vertical": {
+    "en": "Flip Vertical",
+    "es": "Flip Vertical",
+    "pt": "Flip Vertical",
+    "hi": "Flip Vertical"
+  },
+  "Rotate Image": {
+    "en": "Rotate Image",
+    "es": "Rotate Image",
+    "pt": "Rotate Image",
+    "hi": "Rotate Image"
+  },
+  "Adjust Brightness": {
+    "en": "Adjust Brightness",
+    "es": "Adjust Brightness",
+    "pt": "Adjust Brightness",
+    "hi": "Adjust Brightness"
+  },
+  "factor": {
+    "en": "factor",
+    "es": "factor",
+    "pt": "factor",
+    "hi": "factor"
+  },
+  "Adjust Contrast": {
+    "en": "Adjust Contrast",
+    "es": "Adjust Contrast",
+    "pt": "Adjust Contrast",
+    "hi": "Adjust Contrast"
+  },
+  "Convert your image to black and white.": {
+    "en": "Convert your image to black and white.",
+    "es": "Convert your image to black and white.",
+    "pt": "Convert your image to black and white.",
+    "hi": "Convert your image to black and white."
+  },
+  "Apply a gaussian blur to your image.": {
+    "en": "Apply a gaussian blur to your image.",
+    "es": "Apply a gaussian blur to your image.",
+    "pt": "Apply a gaussian blur to your image.",
+    "hi": "Apply a gaussian blur to your image."
+  },
+  "Mirror your image horizontally.": {
+    "en": "Mirror your image horizontally.",
+    "es": "Mirror your image horizontally.",
+    "pt": "Mirror your image horizontally.",
+    "hi": "Mirror your image horizontally."
+  },
+  "Mirror your image vertically.": {
+    "en": "Mirror your image vertically.",
+    "es": "Mirror your image vertically.",
+    "pt": "Mirror your image vertically.",
+    "hi": "Mirror your image vertically."
+  },
+  "Rotate your image by any degree.": {
+    "en": "Rotate your image by any degree.",
+    "es": "Rotate your image by any degree.",
+    "pt": "Rotate your image by any degree.",
+    "hi": "Rotate your image by any degree."
+  },
+  "Change the brightness of your image.": {
+    "en": "Change the brightness of your image.",
+    "es": "Change the brightness of your image.",
+    "pt": "Change the brightness of your image.",
+    "hi": "Change the brightness of your image."
+  },
+  "Change the contrast of your image.": {
+    "en": "Change the contrast of your image.",
+    "es": "Change the contrast of your image.",
+    "pt": "Change the contrast of your image.",
+    "hi": "Change the contrast of your image."
   }
 }
