@@ -184,9 +184,14 @@
         </div>
         
         <div class="col-lg-7 col-xl-8">
-            <div class="card border-0 shadow-sm" style="border-radius: 20px;">
+            <div class="card border-0 shadow-sm" style="border-radius: 20px;" id="timeline-card">
                 <div class="card-body p-4 p-md-5">
-                    <h3 class="fw-bold mb-4" style="color: #4a4a4a; font-size: 1.5rem;"><i class="fas fa-clipboard-list text-primary me-2"></i> Your Milestones & Tests</h3>
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="fw-bold mb-0" style="color: #4a4a4a; font-size: 1.5rem;"><i class="fas fa-clipboard-list text-primary me-2"></i> Your Milestones & Tests</h3>
+                        <button class="btn btn-sm btn-outline-primary shadow-sm" id="btn-download-pdf" style="display:none; border-radius: 8px;" onclick="downloadTimelinePDF()">
+                            <i class="fas fa-file-pdf me-1"></i> Save PDF
+                        </button>
+                    </div>
                     <div class="pregnancy-timeline" id="milestones-container">
                         <p class="text-muted mt-5 text-center">Please select a date to generate your personalized pregnancy timeline.</p>
                     </div>
@@ -366,6 +371,7 @@
         });
         
         document.getElementById('milestones-container').innerHTML = html;
+        document.getElementById('btn-download-pdf').style.display = 'block';
     }
 
     // Init
@@ -384,5 +390,27 @@
             calculateDueDate();
         }
     });
+
+    function downloadTimelinePDF() {
+        const element = document.getElementById('timeline-card');
+        const btn = document.getElementById('btn-download-pdf');
+        
+        // Hide button temporarily so it doesn't appear in the PDF
+        btn.style.display = 'none';
+        
+        const opt = {
+            margin:       [0.5, 0.5, 0.5, 0.5],
+            filename:     'My_Pregnancy_Milestones.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true },
+            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+        
+        html2pdf().set(opt).from(element).save().then(() => {
+            // Show button again
+            btn.style.display = 'block';
+        });
+    }
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 {% endblock %}
