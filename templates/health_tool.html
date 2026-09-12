@@ -129,73 +129,80 @@
         .progress-bar-maternity { background-color: #ff69b4; border-radius: 10px; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1); }
     </style>
     
-    <div class="row g-4 align-items-start">
-        <div class="col-lg-5 col-xl-4 position-sticky" style="top: 2rem; z-index: 10;">
+    <div class="row g-4 justify-content-center">
+        <!-- Input section at the top -->
+        <div class="col-12">
             <div class="card shadow-sm baby-card">
-                <div class="card-body p-4 text-center d-flex flex-column justify-content-center">
-                    <div class="mb-3">
+                <div class="card-body p-4 p-md-5 text-center">
+                    <div class="mb-4">
                         <i class="fas fa-baby-carriage" style="color: #ff69b4; font-size: 2.5rem; filter: drop-shadow(0 4px 6px rgba(255,105,180,0.3));"></i>
                     </div>
                     
-                    <div class="mb-3 text-start">
-                        <label class="form-label fw-bold text-dark"><i class="fas fa-calculator text-primary me-2"></i>Calculate Based On</label>
-                        <select id="calc-method" class="form-select border-0 shadow-sm" onchange="toggleCalcMethod()" style="border-radius: 10px; background-color: rgba(255,255,255,0.9);">
-                            <option value="lmp">First Day of Last Period (LMP)</option>
-                            <option value="duedate">I Know My Due Date</option>
-                        </select>
-                    </div>
-
-                    <!-- LMP Input Mode -->
-                    <div id="mode-lmp">
-                        <div class="mb-3 text-start">
-                            <label class="form-label fw-bold text-dark"><i class="far fa-calendar-check text-primary me-2"></i>First Day of Last Period</label>
-                            <input type="date" id="lmp" class="form-control form-control-lg border-0 shadow-sm" onchange="calculateDueDate()" style="border-radius: 10px; background-color: rgba(255,255,255,0.9);">
+                    <div class="row g-3 justify-content-center align-items-end text-start">
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold text-dark"><i class="fas fa-calculator text-primary me-2"></i>Calculate Based On</label>
+                            <select id="calc-method" class="form-select border-0 shadow-sm form-control-lg" onchange="toggleCalcMethod()" style="border-radius: 10px; background-color: rgba(255,255,255,0.9);">
+                                <option value="lmp">First Day of Last Period (LMP)</option>
+                                <option value="duedate">I Know My Due Date</option>
+                            </select>
                         </div>
-                        <div class="mb-3 text-start">
-                            <label class="form-label fw-bold text-dark"><i class="fas fa-sync-alt text-primary me-2"></i>Cycle Length (Days)</label>
-                            <input type="number" id="cycle" class="form-control border-0 shadow-sm" value="28" min="20" max="45" onchange="calculateDueDate()" style="border-radius: 10px; background-color: rgba(255,255,255,0.9);">
-                        </div>
-                    </div>
 
-                    <!-- Due Date Input Mode -->
-                    <div id="mode-duedate" style="display: none;">
-                        <div class="mb-4 text-start">
+                        <!-- LMP Input Mode -->
+                        <div class="col-md-8" id="mode-lmp">
+                            <div class="row g-3">
+                                <div class="col-sm-6">
+                                    <label class="form-label fw-bold text-dark"><i class="far fa-calendar-check text-primary me-2"></i>First Day of Last Period</label>
+                                    <input type="date" id="lmp" class="form-control form-control-lg border-0 shadow-sm" onchange="calculateDueDate()" style="border-radius: 10px; background-color: rgba(255,255,255,0.9);">
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label fw-bold text-dark"><i class="fas fa-sync-alt text-primary me-2"></i>Cycle Length (Days)</label>
+                                    <input type="number" id="cycle" class="form-control form-control-lg border-0 shadow-sm" value="28" min="20" max="45" onchange="calculateDueDate()" style="border-radius: 10px; background-color: rgba(255,255,255,0.9);">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Due Date Input Mode -->
+                        <div class="col-md-8" id="mode-duedate" style="display: none;">
                             <label class="form-label fw-bold text-dark"><i class="far fa-calendar-alt text-primary me-2"></i>Estimated Due Date</label>
                             <input type="date" id="known-dd" class="form-control form-control-lg border-0 shadow-sm" onchange="calculateFromDueDate()" style="border-radius: 10px; background-color: rgba(255,255,255,0.9);">
                         </div>
                     </div>
 
-                    <div id="result-due-date-section">
-                        <p class="text-muted fw-bold mb-1 text-uppercase" style="letter-spacing: 1px; font-size: 0.8rem;">Estimated Due Date</p>
-                        <h2 class="fw-bold mb-3" id="due-date-res" style="color: #d63384; font-size: 1.8rem; text-shadow: 1px 1px 0 rgba(255,255,255,0.8);">Select date</h2>
-                    </div>
-                    
-                    <div class="mt-2 text-start bg-white p-3 rounded-4 shadow-sm">
-                        <div class="d-flex justify-content-between mb-2">
-                            <small class="fw-bold text-dark">Pregnancy Progress</small>
-                            <small class="fw-bold" style="color: #d63384;" id="preg-weeks">0 Weeks, 0 Days</small>
+                    <div class="row mt-5 justify-content-center">
+                        <div class="col-md-6 text-center" id="result-due-date-section">
+                            <p class="text-muted fw-bold mb-1 text-uppercase" style="letter-spacing: 1px; font-size: 0.85rem;">Estimated Due Date</p>
+                            <h2 class="fw-bold mb-3" id="due-date-res" style="color: #d63384; font-size: 2.2rem; text-shadow: 1px 1px 0 rgba(255,255,255,0.8);">Select date</h2>
                         </div>
-                        <div class="progress progress-maternity">
-                            <div class="progress-bar progress-bar-maternity progress-bar-striped progress-bar-animated" id="preg-progress" role="progressbar" style="width: 0%"></div>
+                        <div class="col-md-6">
+                            <div class="text-start bg-white p-4 rounded-4 shadow-sm h-100 d-flex flex-column justify-content-center">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="fw-bold text-dark">Pregnancy Progress</span>
+                                    <span class="fw-bold" style="color: #d63384; font-size: 1.1rem;" id="preg-weeks">0 Weeks, 0 Days</span>
+                                </div>
+                                <div class="progress progress-maternity mb-1" style="height: 18px;">
+                                    <div class="progress-bar progress-bar-maternity progress-bar-striped progress-bar-animated" id="preg-progress" role="progressbar" style="width: 0%"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         
-        <div class="col-lg-7 col-xl-8">
+        <!-- Timeline section below -->
+        <div class="col-lg-10">
             <div class="card border-0 shadow-sm" style="border-radius: 20px;" id="timeline-card">
                 <div class="card-body p-4 p-md-5">
-                    <div class="d-flex justify-content-between align-items-center mb-4" id="timeline-ui-header">
+                    <div class="d-flex justify-content-between align-items-center mb-4" id="timeline-ui-header" data-html2canvas-ignore="true">
                         <h3 class="fw-bold mb-0" style="color: #4a4a4a; font-size: 1.5rem;"><i class="fas fa-clipboard-list text-primary me-2"></i> Your Milestones & Tests</h3>
-                        <button class="btn btn-sm btn-outline-primary shadow-sm" id="btn-download-pdf" style="display:none; border-radius: 8px;" onclick="downloadTimelinePDF()">
-                            <i class="fas fa-file-pdf me-1"></i> Save PDF
+                        <button class="btn btn-outline-primary shadow-sm fw-bold px-4" id="btn-download-pdf" style="display:none; border-radius: 8px;" onclick="downloadTimelinePDF()">
+                            <i class="fas fa-file-pdf me-2"></i> Save PDF
                         </button>
                     </div>
                     <div class="pregnancy-timeline" id="milestones-container">
                         <p class="text-muted mt-5 text-center">Please select a date to generate your personalized pregnancy timeline.</p>
                     </div>
-                    <div class="alert alert-light border mt-4 mb-0 small text-muted">
+                    <div class="alert alert-light border mt-4 mb-0 small text-muted" data-html2canvas-ignore="true">
                         <i class="fas fa-info-circle me-1 text-primary"></i> <strong>Medical Disclaimer:</strong> This timeline provides standard medical estimates based on a typical 40-week gestation. Your healthcare provider (OB/GYN or Midwife) will schedule your actual tests and scans based on your unique health profile.
                     </div>
                 </div>
@@ -394,48 +401,45 @@
     function downloadTimelinePDF() {
         const element = document.getElementById('timeline-card');
         const cardBody = element.querySelector('.card-body');
-        const uiHeader = document.getElementById('timeline-ui-header');
-        
-        // Hide UI header so it doesn't appear in the PDF
-        uiHeader.style.display = 'none';
         
         // Get user data
         const dueDateText = document.getElementById('due-date-res').innerText;
         
-        // Create custom header and footer for PDF
+        // Create custom header and footer for PDF (adjusted fonts)
         const headerHtml = `
         <div id="pdf-temp-header" class="text-center mb-4 pb-3 border-bottom">
-            <i class="fas fa-baby mb-2" style="font-size: 2.5rem; color: #ff69b4;"></i>
-            <h2 class="fw-bold mt-2" style="color: #d63384;">My Pregnancy Journey</h2>
-            <p class="text-muted fw-bold mb-0" style="font-size: 1.2rem;">Estimated Due Date: <span class="text-dark">${dueDateText}</span></p>
+            <i class="fas fa-baby-carriage mb-2" style="font-size: 2rem; color: #ff69b4;"></i>
+            <h2 class="fw-bold mt-2" style="color: #d63384; font-size: 1.8rem;">My Pregnancy Journey</h2>
+            <p class="text-muted fw-bold mb-0" style="font-size: 1.1rem;">Estimated Due Date: <span class="text-dark">${dueDateText}</span></p>
         </div>`;
         
         const footerHtml = `
         <div id="pdf-temp-footer" class="text-center mt-5 pt-4 border-top">
-            <h4 style="color: #ff69b4; font-family: 'Georgia', serif; font-style: italic; line-height: 1.5;">
+            <h4 style="color: #ff69b4; font-family: 'Georgia', serif; font-style: italic; font-size: 1.3rem; line-height: 1.5;">
                 "Wishing you a beautiful, healthy journey and a lifetime of joy.<br>All the best to the parents-to-be! ❤️"
             </h4>
-            <p class="text-muted small mt-3 fw-bold text-uppercase" style="letter-spacing: 1px;">Generated with love by FreeQube</p>
+            <p class="text-muted mt-2 fw-bold text-uppercase" style="letter-spacing: 1px; font-size: 0.75rem;">Generated with love by FreeQube</p>
         </div>`;
         
         cardBody.insertAdjacentHTML('afterbegin', headerHtml);
         cardBody.insertAdjacentHTML('beforeend', footerHtml);
         
+        // Calculate the height needed for a single page
+        const totalHeightPx = element.scrollHeight;
+        const heightInInches = (totalHeightPx / 96) + 1.5; // 96 DPI conversion + margin
+        
         const opt = {
-            margin:       [0.5, 0.5, 0.5, 0.5],
+            margin:       [0.4, 0.4, 0.4, 0.4],
             filename:     'My_Pregnancy_Milestones.pdf',
             image:        { type: 'jpeg', quality: 0.98 },
             html2canvas:  { scale: 2, useCORS: true },
-            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            jsPDF:        { unit: 'in', format: [8.5, Math.max(11, heightInInches)], orientation: 'portrait' }
         };
         
         html2pdf().set(opt).from(element).save().then(() => {
             // Cleanup DOM
             document.getElementById('pdf-temp-header').remove();
             document.getElementById('pdf-temp-footer').remove();
-            
-            // Show UI header again
-            uiHeader.style.display = 'flex';
         });
     }
 </script>
