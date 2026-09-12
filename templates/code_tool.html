@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 
-{% block title %}{{ tool.seo_title }} - Free Qube{% endblock %}
-{% block meta_desc %}{{ tool.seo_desc }}{% endblock %}
 
 {% block schema %}
 <script type="application/ld+json">
@@ -18,8 +16,9 @@
     "priceCurrency": "USD"
   }
 }
-</script>
 {% endblock %}
+
+</script>
 
 {% block content %}
 <div class="tool-interface" style="max-width: 1200px;">
@@ -110,6 +109,100 @@
             </div>
         </div>
     </div>
+    <!-- JWT Decoder -->
+    {% elif tool.id == 'jwt-decoder' %}
+    <div class="row g-4">
+        <div class="col-md-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 bg-light rounded">
+                    <label class="form-label fw-bold">Encoded JWT (Paste here)</label>
+                    <textarea id="jwt-input" class="form-control font-monospace mb-3" rows="4" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."></textarea>
+                    <button class="btn btn-primary fw-bold" onclick="decodeJwt()">Decode JWT</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-white fw-bold text-danger border-bottom-0 pt-3">HEADER (Algorithm & Token Type)</div>
+                <div class="card-body p-0">
+                    <textarea id="jwt-header" class="form-control font-monospace bg-light border-0 h-100 p-3" rows="5" readonly></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-white fw-bold text-success border-bottom-0 pt-3">PAYLOAD (Data)</div>
+                <div class="card-body p-0">
+                    <textarea id="jwt-payload" class="form-control font-monospace bg-light border-0 h-100 p-3" rows="5" readonly></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- URL ENCODER/DECODER -->
+    {% elif tool.id == 'url-encode-decode' %}
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 bg-light rounded">
+                    <label class="form-label fw-bold">Input Text</label>
+                    <textarea id="url-input" class="form-control mb-3" rows="6" placeholder="Paste your text or URL here..."></textarea>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-primary fw-bold w-50" onclick="urlEncode()">Encode</button>
+                        <button class="btn btn-outline-primary fw-bold w-50" onclick="urlDecode()">Decode</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-4 bg-light rounded h-100">
+                    <label class="form-label fw-bold d-flex justify-content-between">Result <button class="btn btn-sm btn-light py-0" onclick="copyResult('url-output')"><i class="fas fa-copy"></i></button></label>
+                    <textarea id="url-output" class="form-control" rows="6" readonly></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- UUID GENERATOR -->
+    {% elif tool.id == 'uuid-generator' %}
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4 bg-light rounded">
+            <div class="row align-items-end g-3 mb-4">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">How many UUIDs?</label>
+                    <input type="number" id="uuid-count" class="form-control" value="1" min="1" max="500">
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-primary fw-bold w-100" onclick="generateUuids()">Generate UUIDs</button>
+                </div>
+            </div>
+            <div class="position-relative">
+                <textarea id="uuid-output" class="form-control font-monospace" rows="10" readonly></textarea>
+                <button class="btn btn-light btn-sm position-absolute top-0 end-0 m-2 shadow-sm" onclick="copyResult('uuid-output')"><i class="fas fa-copy"></i> Copy All</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- COLOR CONVERTER -->
+    {% elif tool.id == 'color-converter' %}
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4 p-md-5 bg-light rounded text-center">
+            <div class="mx-auto shadow-sm rounded-circle mb-4" id="color-preview" style="width: 120px; height: 120px; background-color: #0d6efd; border: 5px solid white;"></div>
+            
+            <div class="row justify-content-center g-3">
+                <div class="col-md-5">
+                    <label class="form-label fw-bold text-start w-100">HEX Code</label>
+                    <input type="text" id="color-hex" class="form-control form-control-lg font-monospace text-center" value="#0d6efd" oninput="hexToRgb()">
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label fw-bold text-start w-100">RGB Value</label>
+                    <input type="text" id="color-rgb" class="form-control form-control-lg font-monospace text-center" value="rgb(13, 110, 253)" oninput="rgbToHex()">
+                </div>
+            </div>
+        </div>
+    </div>
+
     {% endif %}
 </div>
 
@@ -122,19 +215,208 @@
     <p>We know that developers often work with proprietary code, sensitive JSON payloads, and private API keys. That is why this tool processes all data <strong>entirely in your local web browser</strong>. None of your text, code, or hashes are ever sent to our backend servers. Your data remains completely private and secure, giving you peace of mind while you work.</p>
 
     <h3 class="h5 fw-bold mt-4">Why use this tool?</h3>
+{% endblock %}
+
     <p>{{ tool.seo_desc }} Bookmark this page for a lightning-fast utility that requires zero installation, loads instantly, and runs entirely client-side without any intrusive loading screens or server wait times.</p>
 </div>
-{% endblock %}
 
 {% block scripts %}
 <!-- Google Diff Match Patch -->
 {% if tool.id == 'code-diff' %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/diff_match_patch/20121119/diff_match_patch.js"></script>
+    <!-- JWT Decoder -->
+    {% elif tool.id == 'jwt-decoder' %}
+    <div class="row g-4">
+        <div class="col-md-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 bg-light rounded">
+                    <label class="form-label fw-bold">Encoded JWT (Paste here)</label>
+                    <textarea id="jwt-input" class="form-control font-monospace mb-3" rows="4" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."></textarea>
+                    <button class="btn btn-primary fw-bold" onclick="decodeJwt()">Decode JWT</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-white fw-bold text-danger border-bottom-0 pt-3">HEADER (Algorithm & Token Type)</div>
+                <div class="card-body p-0">
+                    <textarea id="jwt-header" class="form-control font-monospace bg-light border-0 h-100 p-3" rows="5" readonly></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-white fw-bold text-success border-bottom-0 pt-3">PAYLOAD (Data)</div>
+                <div class="card-body p-0">
+                    <textarea id="jwt-payload" class="form-control font-monospace bg-light border-0 h-100 p-3" rows="5" readonly></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- URL ENCODER/DECODER -->
+    {% elif tool.id == 'url-encode-decode' %}
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 bg-light rounded">
+                    <label class="form-label fw-bold">Input Text</label>
+                    <textarea id="url-input" class="form-control mb-3" rows="6" placeholder="Paste your text or URL here..."></textarea>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-primary fw-bold w-50" onclick="urlEncode()">Encode</button>
+                        <button class="btn btn-outline-primary fw-bold w-50" onclick="urlDecode()">Decode</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-4 bg-light rounded h-100">
+                    <label class="form-label fw-bold d-flex justify-content-between">Result <button class="btn btn-sm btn-light py-0" onclick="copyResult('url-output')"><i class="fas fa-copy"></i></button></label>
+                    <textarea id="url-output" class="form-control" rows="6" readonly></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- UUID GENERATOR -->
+    {% elif tool.id == 'uuid-generator' %}
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4 bg-light rounded">
+            <div class="row align-items-end g-3 mb-4">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">How many UUIDs?</label>
+                    <input type="number" id="uuid-count" class="form-control" value="1" min="1" max="500">
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-primary fw-bold w-100" onclick="generateUuids()">Generate UUIDs</button>
+                </div>
+            </div>
+            <div class="position-relative">
+                <textarea id="uuid-output" class="form-control font-monospace" rows="10" readonly></textarea>
+                <button class="btn btn-light btn-sm position-absolute top-0 end-0 m-2 shadow-sm" onclick="copyResult('uuid-output')"><i class="fas fa-copy"></i> Copy All</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- COLOR CONVERTER -->
+    {% elif tool.id == 'color-converter' %}
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4 p-md-5 bg-light rounded text-center">
+            <div class="mx-auto shadow-sm rounded-circle mb-4" id="color-preview" style="width: 120px; height: 120px; background-color: #0d6efd; border: 5px solid white;"></div>
+            
+            <div class="row justify-content-center g-3">
+                <div class="col-md-5">
+                    <label class="form-label fw-bold text-start w-100">HEX Code</label>
+                    <input type="text" id="color-hex" class="form-control form-control-lg font-monospace text-center" value="#0d6efd" oninput="hexToRgb()">
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label fw-bold text-start w-100">RGB Value</label>
+                    <input type="text" id="color-rgb" class="form-control form-control-lg font-monospace text-center" value="rgb(13, 110, 253)" oninput="rgbToHex()">
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endif %}
 
 <!-- CryptoJS -->
 {% if tool.id == 'hash-generator' %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <!-- JWT Decoder -->
+    {% elif tool.id == 'jwt-decoder' %}
+    <div class="row g-4">
+        <div class="col-md-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 bg-light rounded">
+                    <label class="form-label fw-bold">Encoded JWT (Paste here)</label>
+                    <textarea id="jwt-input" class="form-control font-monospace mb-3" rows="4" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."></textarea>
+                    <button class="btn btn-primary fw-bold" onclick="decodeJwt()">Decode JWT</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-white fw-bold text-danger border-bottom-0 pt-3">HEADER (Algorithm & Token Type)</div>
+                <div class="card-body p-0">
+                    <textarea id="jwt-header" class="form-control font-monospace bg-light border-0 h-100 p-3" rows="5" readonly></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-white fw-bold text-success border-bottom-0 pt-3">PAYLOAD (Data)</div>
+                <div class="card-body p-0">
+                    <textarea id="jwt-payload" class="form-control font-monospace bg-light border-0 h-100 p-3" rows="5" readonly></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- URL ENCODER/DECODER -->
+    {% elif tool.id == 'url-encode-decode' %}
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 bg-light rounded">
+                    <label class="form-label fw-bold">Input Text</label>
+                    <textarea id="url-input" class="form-control mb-3" rows="6" placeholder="Paste your text or URL here..."></textarea>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-primary fw-bold w-50" onclick="urlEncode()">Encode</button>
+                        <button class="btn btn-outline-primary fw-bold w-50" onclick="urlDecode()">Decode</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body p-4 bg-light rounded h-100">
+                    <label class="form-label fw-bold d-flex justify-content-between">Result <button class="btn btn-sm btn-light py-0" onclick="copyResult('url-output')"><i class="fas fa-copy"></i></button></label>
+                    <textarea id="url-output" class="form-control" rows="6" readonly></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- UUID GENERATOR -->
+    {% elif tool.id == 'uuid-generator' %}
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4 bg-light rounded">
+            <div class="row align-items-end g-3 mb-4">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">How many UUIDs?</label>
+                    <input type="number" id="uuid-count" class="form-control" value="1" min="1" max="500">
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-primary fw-bold w-100" onclick="generateUuids()">Generate UUIDs</button>
+                </div>
+            </div>
+            <div class="position-relative">
+                <textarea id="uuid-output" class="form-control font-monospace" rows="10" readonly></textarea>
+                <button class="btn btn-light btn-sm position-absolute top-0 end-0 m-2 shadow-sm" onclick="copyResult('uuid-output')"><i class="fas fa-copy"></i> Copy All</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- COLOR CONVERTER -->
+    {% elif tool.id == 'color-converter' %}
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-4 p-md-5 bg-light rounded text-center">
+            <div class="mx-auto shadow-sm rounded-circle mb-4" id="color-preview" style="width: 120px; height: 120px; background-color: #0d6efd; border: 5px solid white;"></div>
+            
+            <div class="row justify-content-center g-3">
+                <div class="col-md-5">
+                    <label class="form-label fw-bold text-start w-100">HEX Code</label>
+                    <input type="text" id="color-hex" class="form-control form-control-lg font-monospace text-center" value="#0d6efd" oninput="hexToRgb()">
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label fw-bold text-start w-100">RGB Value</label>
+                    <input type="text" id="color-rgb" class="form-control form-control-lg font-monospace text-center" value="rgb(13, 110, 253)" oninput="rgbToHex()">
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endif %}
 
 <script>
@@ -206,6 +488,90 @@
         document.getElementById('hashMD5').value = CryptoJS.MD5(input).toString();
         document.getElementById('hashSHA1').value = CryptoJS.SHA1(input).toString();
         document.getElementById('hashSHA256').value = CryptoJS.SHA256(input).toString();
+    }
+</script>
+
+<script>
+    // --- HELPER ---
+    function copyResult(id) {
+        const t = document.getElementById(id);
+        t.select();
+        document.execCommand('copy');
+        Swal.fire({toast: true, position: 'top-end', icon: 'success', title: 'Copied to clipboard', showConfirmButton: false, timer: 1500});
+    }
+
+    // --- JWT DECODER ---
+    function decodeJwt() {
+        const token = document.getElementById('jwt-input').value.trim();
+        if(!token) return;
+        const parts = token.split('.');
+        if(parts.length !== 3) {
+            Swal.fire('Error', 'Invalid JWT format', 'error');
+            return;
+        }
+        try {
+            const header = JSON.parse(atob(parts[0].replace(/-/g, '+').replace(/_/g, '/')));
+            const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
+            document.getElementById('jwt-header').value = JSON.stringify(header, null, 2);
+            document.getElementById('jwt-payload').value = JSON.stringify(payload, null, 2);
+        } catch(e) {
+            Swal.fire('Error', 'Failed to decode token', 'error');
+        }
+    }
+
+    // --- URL ENCODE/DECODE ---
+    function urlEncode() {
+        const t = document.getElementById('url-input').value;
+        document.getElementById('url-output').value = encodeURIComponent(t);
+    }
+    function urlDecode() {
+        const t = document.getElementById('url-input').value;
+        try {
+            document.getElementById('url-output').value = decodeURIComponent(t);
+        } catch(e) {
+            Swal.fire('Error', 'Malformed URI sequence', 'error');
+        }
+    }
+
+    // --- UUID GENERATOR ---
+    function generateUuids() {
+        let count = parseInt(document.getElementById('uuid-count').value) || 1;
+        if(count < 1) count = 1;
+        if(count > 500) count = 500;
+        const uuids = [];
+        for(let i=0; i<count; i++) {
+            uuids.push(crypto.randomUUID ? crypto.randomUUID() : "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)));
+        }
+        document.getElementById('uuid-output').value = uuids.join('\n');
+    }
+
+    // --- COLOR CONVERTER ---
+    function hexToRgb() {
+        let hex = document.getElementById('color-hex').value.trim();
+        if(hex.startsWith('#')) hex = hex.slice(1);
+        if(hex.length === 3) hex = hex.split('').map(c => c+c).join('');
+        if(hex.length === 6) {
+            const r = parseInt(hex.slice(0, 2), 16);
+            const g = parseInt(hex.slice(2, 4), 16);
+            const b = parseInt(hex.slice(4, 6), 16);
+            if(!isNaN(r) && !isNaN(g) && !isNaN(b)) {
+                const rgb = `rgb(${r}, ${g}, ${b})`;
+                document.getElementById('color-rgb').value = rgb;
+                document.getElementById('color-preview').style.backgroundColor = rgb;
+            }
+        }
+    }
+    function rgbToHex() {
+        const rgb = document.getElementById('color-rgb').value.trim();
+        const match = rgb.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+        if(match) {
+            const r = parseInt(match[1]).toString(16).padStart(2, '0');
+            const g = parseInt(match[2]).toString(16).padStart(2, '0');
+            const b = parseInt(match[3]).toString(16).padStart(2, '0');
+            const hex = `#${r}${g}${b}`;
+            document.getElementById('color-hex').value = hex;
+            document.getElementById('color-preview').style.backgroundColor = hex;
+        }
     }
 </script>
 {% endblock %}

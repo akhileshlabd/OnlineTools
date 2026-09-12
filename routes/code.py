@@ -34,6 +34,38 @@ CODE_TOOLS = {
         'icon': 'fa-lock',
         'seo_title': 'Free MD5, SHA-1, SHA-256 Hash Generator',
         'seo_desc': 'Generate secure MD5, SHA-1, SHA-256, and SHA-512 hashes instantly from any text string. Built for developers with 100% local processing.'
+    },
+    'jwt-decoder': {
+        'id': 'jwt-decoder',
+        'name': 'JWT Decoder',
+        'desc': 'Instantly decode JSON Web Tokens (JWT) to view headers and payloads.',
+        'icon': 'fa-key',
+        'seo_title': 'Free Online JWT Decoder - Decode JSON Web Tokens',
+        'seo_desc': 'Decode JSON Web Tokens (JWT) instantly online. View the decoded JSON header and payload with 100% secure client-side processing.'
+    },
+    'url-encode-decode': {
+        'id': 'url-encode-decode',
+        'name': 'URL Encoder & Decoder',
+        'desc': 'Encode strings for safe URL transmission or decode URL query strings.',
+        'icon': 'fa-link',
+        'seo_title': 'Free URL Encoder and Decoder Online',
+        'seo_desc': 'Instantly URL-encode or URL-decode text strings and query parameters. Safe, private, and runs entirely in your browser.'
+    },
+    'uuid-generator': {
+        'id': 'uuid-generator',
+        'name': 'UUID / GUID Generator',
+        'desc': 'Bulk generate cryptographically secure v4 UUIDs instantly.',
+        'icon': 'fa-fingerprint',
+        'seo_title': 'Free UUID v4 Generator - Bulk GUID Generator',
+        'seo_desc': 'Generate cryptographically secure Version 4 UUIDs (GUIDs) instantly. Generate up to 500 unique identifiers at once for database seeding.'
+    },
+    'color-converter': {
+        'id': 'color-converter',
+        'name': 'HEX to RGB Color Converter',
+        'desc': 'Convert CSS color formats between HEX, RGB, and HSL.',
+        'icon': 'fa-palette',
+        'seo_title': 'Free HEX to RGB Color Converter',
+        'seo_desc': 'Instantly convert CSS color codes between HEX, RGB, and HSL formats. Perfect tool for frontend web developers and designers.'
     }
 }
 
