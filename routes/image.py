@@ -192,9 +192,6 @@ def process_dynamic_image(tool_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@image_bp.route('/ai-bg-remover')
-def ai_bg_remover():
-    return render_template('ai_bg_remover.html')
 
 @image_bp.route('/qr-generator')
 def qr_generator():
