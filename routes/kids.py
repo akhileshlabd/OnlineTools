@@ -10,6 +10,22 @@ KIDS_TOOLS = {
         'icon': 'fa-baby',
         'seo_title': 'Baby Smash Toy - Fullscreen Keyboard Game for Toddlers',
         'seo_desc': 'An instant fullscreen smash toy for babies and toddlers. Safe, colorful, and fun. Works with touch, keyboard, and mouse.'
+    },
+    'animal-sounds': {
+        'id': 'animal-sounds',
+        'name': 'Interactive Animal Sounds',
+        'desc': 'Learn animal names and sounds with these interactive flashcards. Click on any animal to hear it!',
+        'icon': 'fa-paw',
+        'seo_title': 'Interactive Animal Sounds & Flashcards for Kids',
+        'seo_desc': 'Free educational animal sounds flashcard game for toddlers and kids. 100% safe, no downloads required.'
+    },
+    'color-mixer': {
+        'id': 'color-mixer',
+        'name': 'Magic Color Mixer',
+        'desc': 'Discover how primary colors combine to make new colors! A fun, interactive color learning tool.',
+        'icon': 'fa-palette',
+        'seo_title': 'Interactive Color Mixing Game for Kids',
+        'seo_desc': 'Educational color mixing game for toddlers. Learn primary and secondary colors in a safe, interactive environment.'
     }
 }
 

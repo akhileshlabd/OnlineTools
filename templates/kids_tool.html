@@ -4,19 +4,19 @@
 {% block meta_desc %}{{ t(tool.seo_desc) }}{% endblock %}
 
 {% block content %}
-<!-- Audio Element for Playful Background Music -->
-<audio id="bgMusic" loop preload="auto">
-    <source src="https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3" type="audio/mpeg">
-</audio>
-
 <div class="text-center mb-4">
     <h2 class="fw-bold">{{ t(tool.name) }}</h2>
     <p class="text-muted">{{ t(tool.desc) }}</p>
 </div>
 
+{% if tool.id == 'smash-toy' %}
+<!-- Audio Element for Playful Background Music -->
+<audio id="bgMusic" loop preload="auto">
+    <source src="https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3" type="audio/mpeg">
+</audio>
+
 <div class="card shadow-sm border-0 mb-5">
     <div class="card-body p-4 p-md-5 text-center">
-        
         <div id="setup-screen" style="cursor: pointer;" onclick="startSmashToy()">
             <i class="fas fa-baby mb-3" style="font-size: 4rem; color: #ffbc00;"></i>
             <h3 class="fw-bold mb-3">Ready to Play?</h3>
@@ -36,286 +36,373 @@
                 Press ESC to exit
             </div>
         </div>
-        
     </div>
 </div>
 
 <style>
-    .smash-shape {
-        position: absolute;
-        pointer-events: none;
-        animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, fadeOut 2s ease-in forwards 3s;
-        transform: translate(-50%, -50%) scale(0);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        color: white;
-        text-shadow: 3px 3px 0 rgba(0,0,0,0.3);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        z-index: 10;
+    .smash-shape { position: absolute; pointer-events: none; animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, fadeOut 2s ease-in forwards 3s; transform: translate(-50%, -50%) scale(0); display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 3px 3px 0 rgba(0,0,0,0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 10; }
+    .smash-glitter { position: absolute; pointer-events: none; width: 10px; height: 10px; background-color: white; border-radius: 50%; animation: sparkle 0.6s ease-out forwards; box-shadow: 0 0 10px 2px rgba(255,255,255,0.8); z-index: 20; }
+    .bg-star { position: absolute; width: 3px; height: 3px; background-color: white; border-radius: 50%; opacity: 0; animation: twinkle 3s infinite ease-in-out; z-index: 1; }
+    @keyframes popIn { 0% { transform: translate(-50%, -50%) scale(0) rotate(-45deg); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; } }
+    @keyframes fadeOut { 0% { opacity: 1; transform: translate(-50%, -50%) scale(1); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.2); } }
+    @keyframes sparkle { 0% { transform: translate(-50%, -50%) scale(0); opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)) scale(1.5); opacity: 0; } }
+    @keyframes twinkle { 0%, 100% { opacity: 0; transform: scale(0.5); } 50% { opacity: 0.8; transform: scale(1.5); box-shadow: 0 0 6px rgba(255,255,255,0.8); } }
+</style>
+
+
+{% elif tool.id == 'animal-sounds' %}
+<div class="card shadow-sm border-0 mb-5" style="border-radius: 20px; background: #f8f9fa;">
+    <div class="card-body p-4 p-md-5">
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4" id="animal-grid">
+            <!-- Dynamically populated via JS -->
+        </div>
+    </div>
+</div>
+<style>
+    .animal-card {
+        background: white; border-radius: 20px; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center;
+        padding: 2rem 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 2px solid transparent;
     }
-    
-    .smash-glitter {
-        position: absolute;
-        pointer-events: none;
-        width: 10px;
-        height: 10px;
-        background-color: white;
-        border-radius: 50%;
-        animation: sparkle 0.6s ease-out forwards;
-        box-shadow: 0 0 10px 2px rgba(255,255,255,0.8);
-        z-index: 20;
-    }
-    
-    .bg-star {
-        position: absolute;
-        width: 3px;
-        height: 3px;
-        background-color: white;
-        border-radius: 50%;
-        opacity: 0;
-        animation: twinkle 3s infinite ease-in-out;
-        z-index: 1;
-    }
-    
-    @keyframes popIn {
-        0% { transform: translate(-50%, -50%) scale(0) rotate(-45deg); opacity: 0; }
-        100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
-    }
-    
-    @keyframes fadeOut {
-        0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        100% { opacity: 0; transform: translate(-50%, -50%) scale(1.2); }
-    }
-    
-    @keyframes sparkle {
-        0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-        100% { transform: translate(var(--tx), var(--ty)) scale(1.5); opacity: 0; }
-    }
-    
-    @keyframes twinkle {
-        0%, 100% { opacity: 0; transform: scale(0.5); }
-        50% { opacity: 0.8; transform: scale(1.5); box-shadow: 0 0 6px rgba(255,255,255,0.8); }
+    .animal-card:hover { transform: translateY(-10px) scale(1.05); box-shadow: 0 15px 30px rgba(0,0,0,0.1); border-color: #ffbc00; }
+    .animal-card.active { animation: jelly 0.5s ease; border-color: #4CD964; }
+    .animal-emoji { font-size: 5rem; line-height: 1; margin-bottom: 1rem; }
+    .animal-name { font-size: 1.2rem; font-weight: bold; color: #333; margin: 0; }
+    @keyframes jelly { 
+        0%, 100% { transform: scale(1, 1); } 25% { transform: scale(0.9, 1.1); } 
+        50% { transform: scale(1.1, 0.9); } 75% { transform: scale(0.95, 1.05); } 
     }
 </style>
 
+{% elif tool.id == 'color-mixer' %}
+<div class="card shadow-sm border-0 mb-5" style="border-radius: 20px; background: #f8f9fa;">
+    <div class="card-body p-4 p-md-5 text-center">
+        <h4 class="fw-bold mb-4" style="color: #4a4a4a;">Tap two primary colors to mix them!</h4>
+        
+        <div class="d-flex justify-content-center gap-3 mb-5 flex-wrap">
+            <button class="color-btn shadow-sm" style="background-color: #FF3B30;" onclick="selectColor('Red', '#FF3B30')"></button>
+            <button class="color-btn shadow-sm" style="background-color: #FFCC00;" onclick="selectColor('Yellow', '#FFCC00')"></button>
+            <button class="color-btn shadow-sm" style="background-color: #007AFF;" onclick="selectColor('Blue', '#007AFF')"></button>
+        </div>
+
+        <div class="mixer-area d-flex align-items-center justify-content-center gap-2 gap-md-4 mb-4 flex-wrap">
+            <div class="color-slot shadow-inner" id="slot1"></div>
+            <i class="fas fa-plus text-muted" style="font-size: 2rem;"></i>
+            <div class="color-slot shadow-inner" id="slot2"></div>
+            <i class="fas fa-equals text-muted" style="font-size: 2rem;"></i>
+            <div class="color-result shadow-sm" id="slot-result">?</div>
+        </div>
+
+        <button class="btn btn-outline-secondary mt-3 px-4 rounded-pill fw-bold" onclick="resetMixer()">
+            <i class="fas fa-redo me-2"></i> Reset
+        </button>
+    </div>
+</div>
+<style>
+    .color-btn { width: 80px; height: 80px; border-radius: 50%; border: 4px solid white; cursor: pointer; transition: transform 0.2s; }
+    .color-btn:hover { transform: scale(1.1); }
+    .color-btn:active { transform: scale(0.95); }
+    .color-slot { width: 100px; height: 100px; border-radius: 20px; background-color: #e9ecef; border: 4px dashed #ced4da; transition: all 0.3s; }
+    .color-result { width: 120px; height: 120px; border-radius: 20px; background-color: #fff; border: 4px solid #dee2e6; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: bold; color: #adb5bd; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    .shadow-inner { box-shadow: inset 0 3px 6px rgba(0,0,0,0.1); }
+</style>
+{% endif %}
+
 <script>
-    const container = document.getElementById('smash-container');
-    const starsContainer = document.getElementById('stars-container');
-    const colors = ['#FF3B30', '#FF9500', '#FFCC00', '#4CD964', '#5AC8FA', '#007AFF', '#5856D6', '#FF2D55', '#FF1493', '#00FA9A'];
-    const shapes = ['circle', 'square', 'letter', 'number'];
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-    const bgMusic = document.getElementById('bgMusic');
-    
-    // Check if speechSynthesis is available
+    const toolId = "{{ tool.id }}";
     const synth = window.speechSynthesis;
     let audioCtx = null;
-    let starsCreated = false;
-
-    // Fast, zero-latency Web Audio API pop sound!
-    function playPopSound() {
+    
+    // --- WEBAUDIO UTILITIES ---
+    function initAudio() {
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         if (audioCtx.state === 'suspended') audioCtx.resume();
-        
+    }
+
+    function playPopSound() {
+        initAudio();
         const osc = audioCtx.createOscillator();
         const gainNode = audioCtx.createGain();
-        
         osc.type = 'sine';
-        // Random playful pitch between 400Hz and 800Hz
         const startFreq = 400 + Math.random() * 400;
         osc.frequency.setValueAtTime(startFreq, audioCtx.currentTime);
         osc.frequency.exponentialRampToValueAtTime(startFreq + 400, audioCtx.currentTime + 0.1);
-        
-        gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime); // Sound effect volume
+        gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
         gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-        
         osc.connect(gainNode);
         gainNode.connect(audioCtx.destination);
-        
         osc.start();
         osc.stop(audioCtx.currentTime + 0.1);
     }
     
-    function createBackgroundStars() {
-        if (starsCreated) return;
-        starsCreated = true;
-        for (let i = 0; i < 80; i++) {
-            const star = document.createElement('div');
-            star.className = 'bg-star';
-            star.style.left = Math.random() * 100 + 'vw';
-            star.style.top = Math.random() * 100 + 'vh';
-            
-            // Randomize size slightly
-            const size = Math.random() * 2 + 2; // 2px to 4px
-            star.style.width = size + 'px';
-            star.style.height = size + 'px';
-            
-            // Randomize animation duration and delay
-            star.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            star.style.animationDelay = (Math.random() * 5) + 's';
-            
-            starsContainer.appendChild(star);
-        }
+    function playChimeSound() {
+        initAudio();
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.2);
+        gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.5);
     }
 
-    function startSmashToy() {
-        if (container.requestFullscreen) {
-            container.requestFullscreen();
-        } else if (container.webkitRequestFullscreen) {
-            container.webkitRequestFullscreen();
-        } else if (container.msRequestFullscreen) {
-            container.msRequestFullscreen();
-        }
-        
-        container.style.display = 'block';
-        createBackgroundStars();
-        
-        // Very light music volume
-        bgMusic.volume = 0.04;
-        bgMusic.play().catch(e => console.log('Audio play blocked:', e));
+    function speakText(text, pitch = 1.2) {
+        if (!synth) return;
+        synth.cancel();
+        const utterThis = new SpeechSynthesisUtterance(text);
+        utterThis.rate = 1.0;
+        utterThis.pitch = pitch;
+        synth.speak(utterThis);
     }
 
-    document.addEventListener('fullscreenchange', exitHandler);
-    document.addEventListener('webkitfullscreenchange', exitHandler);
-    document.addEventListener('mozfullscreenchange', exitHandler);
-    document.addEventListener('MSFullscreenChange', exitHandler);
 
-    function exitHandler() {
-        if (!document.fullscreenElement && !document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
-            container.style.display = 'none';
-            bgMusic.pause();
-        }
-    }
-    
-    function createGlitters(x, y, count) {
-        for (let i = 0; i < count; i++) {
-            const glitter = document.createElement('div');
-            glitter.className = 'smash-glitter';
-            glitter.style.left = x + 'px';
-            glitter.style.top = y + 'px';
-            
-            // Random explosion direction
-            const angle = Math.random() * Math.PI * 2;
-            const distance = Math.random() * 100 + 50; // 50 to 150px
-            const tx = Math.cos(angle) * distance + 'px';
-            const ty = Math.sin(angle) * distance + 'px';
-            
-            glitter.style.setProperty('--tx', tx);
-            glitter.style.setProperty('--ty', ty);
-            
-            const randomColor = colors[Math.floor(Math.random() * colors.length)];
-            glitter.style.backgroundColor = randomColor;
-            glitter.style.boxShadow = `0 0 10px 2px ${randomColor}`;
-            
-            container.appendChild(glitter);
-            setTimeout(() => {
-                if (glitter.parentNode === container) container.removeChild(glitter);
-            }, 600);
-        }
-    }
+    // ==========================================
+    // TOOL: SMASH TOY
+    // ==========================================
+    if (toolId === 'smash-toy') {
+        const container = document.getElementById('smash-container');
+        const starsContainer = document.getElementById('stars-container');
+        const colors = ['#FF3B30', '#FF9500', '#FFCC00', '#4CD964', '#5AC8FA', '#007AFF', '#5856D6', '#FF2D55', '#FF1493', '#00FA9A'];
+        const shapes = ['circle', 'square', 'letter', 'number'];
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+        const bgMusic = document.getElementById('bgMusic');
+        let starsCreated = false;
 
-    function createShape(x, y, char = null) {
-        if (container.style.display === 'none') return;
-        
-        // Play sound effect instantly
-        playPopSound();
-        
-        const el = document.createElement('div');
-        el.className = 'smash-shape';
-        
-        // Randomize
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const size = Math.floor(Math.random() * 150) + 150; // 150px to 300px
-        const shapeType = shapes[Math.floor(Math.random() * shapes.length)];
-        
-        el.style.left = x + 'px';
-        el.style.top = y + 'px';
-        el.style.width = size + 'px';
-        el.style.height = size + 'px';
-        el.style.backgroundColor = color;
-        el.style.fontSize = (size * 0.7) + 'px';
-        
-        let spokenText = char;
-        
-        if (char) {
-            el.innerText = char.toUpperCase();
-            el.style.borderRadius = '20%';
-            spokenText = char;
-        } else {
-            if (shapeType === 'circle') {
-                el.style.borderRadius = '50%';
-                spokenText = "Circle";
-            } else if (shapeType === 'square') {
-                el.style.borderRadius = '10%';
-                spokenText = "Square";
-            } else if (shapeType === 'letter') {
-                el.style.borderRadius = '20%';
-                const l = letters[Math.floor(Math.random() * letters.length)];
-                el.innerText = l;
-                spokenText = l;
-            } else if (shapeType === 'number') {
-                el.style.borderRadius = '20%';
-                const n = Math.floor(Math.random() * 10);
-                el.innerText = n;
-                spokenText = n.toString();
+        window.startSmashToy = function() {
+            if (container.requestFullscreen) container.requestFullscreen();
+            else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
+            else if (container.msRequestFullscreen) container.msRequestFullscreen();
+            
+            container.style.display = 'block';
+            if (!starsCreated) {
+                starsCreated = true;
+                for (let i = 0; i < 80; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'bg-star';
+                    star.style.left = Math.random() * 100 + 'vw';
+                    star.style.top = Math.random() * 100 + 'vh';
+                    const size = Math.random() * 2 + 2;
+                    star.style.width = size + 'px';
+                    star.style.height = size + 'px';
+                    star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    star.style.animationDelay = (Math.random() * 5) + 's';
+                    starsContainer.appendChild(star);
+                }
+            }
+            bgMusic.volume = 0.04;
+            bgMusic.play().catch(e => console.log('Audio play blocked:', e));
+        };
+
+        const exitHandler = () => {
+            if (!document.fullscreenElement && !document.webkitIsFullScreen && !document.mozFullScreen && !document.msFullscreenElement) {
+                container.style.display = 'none';
+                bgMusic.pause();
+            }
+        };
+        document.addEventListener('fullscreenchange', exitHandler);
+        document.addEventListener('webkitfullscreenchange', exitHandler);
+        document.addEventListener('mozfullscreenchange', exitHandler);
+        document.addEventListener('MSFullscreenChange', exitHandler);
+
+        function createGlitters(x, y, count) {
+            for (let i = 0; i < count; i++) {
+                const glitter = document.createElement('div');
+                glitter.className = 'smash-glitter';
+                glitter.style.left = x + 'px';
+                glitter.style.top = y + 'px';
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 100 + 50;
+                glitter.style.setProperty('--tx', Math.cos(angle) * distance + 'px');
+                glitter.style.setProperty('--ty', Math.sin(angle) * distance + 'px');
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                glitter.style.backgroundColor = randomColor;
+                glitter.style.boxShadow = `0 0 10px 2px ${randomColor}`;
+                container.appendChild(glitter);
+                setTimeout(() => { if (glitter.parentNode === container) container.removeChild(glitter); }, 600);
             }
         }
-        
-        container.appendChild(el);
-        
-        // Glitters!
-        createGlitters(x, y, 12);
-        
-        // Speak out the letter / shape
-        if (synth && spokenText) {
-            synth.cancel(); // Stop current speech
-            const utterThis = new SpeechSynthesisUtterance(spokenText);
-            utterThis.rate = 1.0;
-            utterThis.pitch = 1.5; // High pitch for kids
-            synth.speak(utterThis);
-        }
-        
-        // Cleanup after animation
-        setTimeout(() => {
-            if (el.parentNode === container) {
-                container.removeChild(el);
+
+        window.createShape = function(x, y, char = null) {
+            if (container.style.display === 'none') return;
+            playPopSound();
+            
+            const el = document.createElement('div');
+            el.className = 'smash-shape';
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const size = Math.floor(Math.random() * 150) + 150;
+            const shapeType = shapes[Math.floor(Math.random() * shapes.length)];
+            
+            el.style.left = x + 'px'; el.style.top = y + 'px';
+            el.style.width = size + 'px'; el.style.height = size + 'px';
+            el.style.backgroundColor = color; el.style.fontSize = (size * 0.7) + 'px';
+            
+            let spokenText = char;
+            if (char) {
+                el.innerText = char.toUpperCase();
+                el.style.borderRadius = '20%';
+                spokenText = char;
+            } else {
+                if (shapeType === 'circle') { el.style.borderRadius = '50%'; spokenText = "Circle"; }
+                else if (shapeType === 'square') { el.style.borderRadius = '10%'; spokenText = "Square"; }
+                else if (shapeType === 'letter') {
+                    el.style.borderRadius = '20%';
+                    const l = letters[Math.floor(Math.random() * letters.length)];
+                    el.innerText = l; spokenText = l;
+                }
+                else if (shapeType === 'number') {
+                    el.style.borderRadius = '20%';
+                    const n = Math.floor(Math.random() * 10);
+                    el.innerText = n; spokenText = n.toString();
+                }
             }
-        }, 5000);
+            container.appendChild(el);
+            createGlitters(x, y, 12);
+            speakText(spokenText, 1.5);
+            setTimeout(() => { if (el.parentNode === container) container.removeChild(el); }, 5000);
+        };
+
+        container.addEventListener('mousedown', e => createShape(e.clientX, e.clientY));
+        container.addEventListener('touchstart', e => {
+            e.preventDefault();
+            for (let i = 0; i < e.changedTouches.length; i++) createShape(e.changedTouches[i].clientX, e.changedTouches[i].clientY);
+        }, {passive: false});
+
+        document.addEventListener('keydown', e => {
+            if (container.style.display === 'none') return;
+            if (e.key === 'Escape' || e.key === 'F11') return;
+            e.preventDefault();
+            const x = Math.random() * (window.innerWidth - 300) + 150;
+            const y = Math.random() * (window.innerHeight - 300) + 150;
+            let char = null;
+            if (e.key.length === 1 && e.key.match(/[a-z0-9\s]/i)) char = e.key.trim() === '' ? 'SPACE' : e.key;
+            createShape(x, y, char);
+        });
     }
 
-    // Input handlers
-    container.addEventListener('mousedown', (e) => {
-        createShape(e.clientX, e.clientY);
-    });
-    
-    container.addEventListener('touchstart', (e) => {
-        e.preventDefault(); // prevent scrolling
-        for (let i = 0; i < e.changedTouches.length; i++) {
-            createShape(e.changedTouches[i].clientX, e.changedTouches[i].clientY);
-        }
-    }, {passive: false});
 
-    document.addEventListener('keydown', (e) => {
-        if (container.style.display === 'none') return;
-        if (e.key === 'Escape' || e.key === 'F11') return; // Don't intercept exit keys
-        
-        e.preventDefault();
-        
-        // Random position for keyboard smashes
-        const x = Math.random() * (window.innerWidth - 300) + 150;
-        const y = Math.random() * (window.innerHeight - 300) + 150;
-        
-        // If they pressed a letter or number, show it
-        let char = null;
-        if (e.key.length === 1 && e.key.match(/[a-z0-9\s]/i)) {
-            char = e.key.trim() === '' ? 'SPACE' : e.key;
-        } else if (e.key.length > 1) {
-             // For enter, backspace, etc. just fall back to random shape
-        }
-        
-        createShape(x, y, char);
-    });
+    // ==========================================
+    // TOOL: ANIMAL SOUNDS
+    // ==========================================
+    if (toolId === 'animal-sounds') {
+        const animals = [
+            { emoji: '🐶', name: 'Dog', sound: 'Woof woof!' },
+            { emoji: '🐱', name: 'Cat', sound: 'Meow meow!' },
+            { emoji: '🐮', name: 'Cow', sound: 'Moo moo!' },
+            { emoji: '🐷', name: 'Pig', sound: 'Oink oink!' },
+            { emoji: '🐸', name: 'Frog', sound: 'Ribbit ribbit!' },
+            { emoji: '🦁', name: 'Lion', sound: 'Roar!' },
+            { emoji: '🐒', name: 'Monkey', sound: 'Ooh ooh ah ah!' },
+            { emoji: '🐘', name: 'Elephant', sound: 'Trumpet!' },
+            { emoji: '🐔', name: 'Chicken', sound: 'Cluck cluck!' },
+            { emoji: '🐑', name: 'Sheep', sound: 'Baa baa!' },
+            { emoji: '🦆', name: 'Duck', sound: 'Quack quack!' },
+            { emoji: '🐴', name: 'Horse', sound: 'Neigh neigh!' }
+        ];
 
+        const grid = document.getElementById('animal-grid');
+        
+        animals.forEach((animal, idx) => {
+            const col = document.createElement('div');
+            col.className = 'col';
+            col.innerHTML = `
+                <div class="animal-card h-100" onclick="playAnimal(${idx}, this)">
+                    <div class="animal-emoji">${animal.emoji}</div>
+                    <p class="animal-name">${animal.name}</p>
+                </div>
+            `;
+            grid.appendChild(col);
+        });
+
+        window.playAnimal = function(idx, element) {
+            // Animation
+            element.classList.remove('active');
+            void element.offsetWidth; // trigger reflow
+            element.classList.add('active');
+            
+            // WebAudio Pop + TTS Voice
+            playPopSound();
+            const animal = animals[idx];
+            speakText(`${animal.name}! ${animal.sound}`, 1.4);
+        };
+    }
+
+
+    // ==========================================
+    // TOOL: COLOR MIXER
+    // ==========================================
+    if (toolId === 'color-mixer') {
+        let slot1 = null;
+        let slot2 = null;
+
+        const mixes = {
+            'Red,Yellow': { name: 'Orange', hex: '#FF9500' },
+            'Yellow,Red': { name: 'Orange', hex: '#FF9500' },
+            'Blue,Yellow': { name: 'Green', hex: '#4CD964' },
+            'Yellow,Blue': { name: 'Green', hex: '#4CD964' },
+            'Red,Blue': { name: 'Purple', hex: '#AF52DE' },
+            'Blue,Red': { name: 'Purple', hex: '#AF52DE' },
+            'Red,Red': { name: 'Red', hex: '#FF3B30' },
+            'Blue,Blue': { name: 'Blue', hex: '#007AFF' },
+            'Yellow,Yellow': { name: 'Yellow', hex: '#FFCC00' }
+        };
+
+        window.selectColor = function(name, hex) {
+            playPopSound();
+            if (!slot1) {
+                slot1 = { name, hex };
+                const el = document.getElementById('slot1');
+                el.style.backgroundColor = hex;
+                el.style.borderColor = hex;
+                speakText(name, 1.3);
+            } else if (!slot2) {
+                slot2 = { name, hex };
+                const el = document.getElementById('slot2');
+                el.style.backgroundColor = hex;
+                el.style.borderColor = hex;
+                
+                // Mix them!
+                setTimeout(() => {
+                    playChimeSound();
+                    const mixKey = `${slot1.name},${slot2.name}`;
+                    const result = mixes[mixKey];
+                    
+                    const resEl = document.getElementById('slot-result');
+                    resEl.innerHTML = ''; // remove '?'
+                    resEl.style.backgroundColor = result.hex;
+                    resEl.style.borderColor = result.hex;
+                    resEl.style.color = 'white';
+                    resEl.style.transform = 'scale(1.1)';
+                    
+                    speakText(`${slot1.name} and ${slot2.name} makes ${result.name}!`, 1.3);
+                    
+                    setTimeout(() => resEl.style.transform = 'scale(1)', 300);
+                }, 400);
+            } else {
+                // If both full, reset and start over with this new color
+                resetMixer(false);
+                selectColor(name, hex);
+            }
+        };
+
+        window.resetMixer = function(playSound = true) {
+            if (playSound) playPopSound();
+            slot1 = null;
+            slot2 = null;
+            document.getElementById('slot1').style.backgroundColor = '#e9ecef';
+            document.getElementById('slot1').style.borderColor = '#ced4da';
+            document.getElementById('slot2').style.backgroundColor = '#e9ecef';
+            document.getElementById('slot2').style.borderColor = '#ced4da';
+            
+            const resEl = document.getElementById('slot-result');
+            resEl.style.backgroundColor = '#fff';
+            resEl.style.borderColor = '#dee2e6';
+            resEl.style.color = '#adb5bd';
+            resEl.innerText = '?';
+        };
+    }
 </script>
 {% endblock %}
