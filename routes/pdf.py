@@ -1,20 +1,3 @@
-from flask import Blueprint, render_template, request, jsonify, send_file, current_app
-import io
-import os
-import subprocess
-import tempfile
-import zipfile
-from PyPDF2 import PdfMerger, PdfReader, PdfWriter
-from PIL import Image
-from werkzeug.utils import secure_filename
-# Additional libraries for new PDF tools
-import pandas as pd
-from tabula import read_pdf
-from pdf2image import convert_from_bytes
-import pytesseract
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
-import io
 from flask import Blueprint, render_template
 
 pdf_bp = Blueprint('pdf', __name__, url_prefix='/pdf')
@@ -44,6 +27,6 @@ def dynamic_pdf_tool(tool_id):
     if not tool: return "Tool not found", 404
     return render_template('dynamic_tool.html', tool=tool)
 
-@pdf_bp.route('/pdf')
+@pdf_bp.route('/')
 def pdf_hub():
     return render_template('hub_pdf.html', pdf_tools=PDF_TOOLS)
