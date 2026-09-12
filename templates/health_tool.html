@@ -116,27 +116,62 @@
 
     <!-- DUE DATE -->
     {% elif tool.id == 'due-date' %}
-    <div class="row g-4 justify-content-center">
-        <div class="col-md-6">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body p-4">
+    <style>
+        .pregnancy-timeline { position: relative; border-left: 2px solid #ffb6c1; margin-left: 1.5rem; padding-left: 1.5rem; }
+        .timeline-item { position: relative; margin-bottom: 1.5rem; }
+        .timeline-item::before { content: ''; position: absolute; left: -1.90rem; top: 0.2rem; width: 14px; height: 14px; border-radius: 50%; background-color: #ff69b4; border: 2px solid white; box-shadow: 0 0 0 2px #ffb6c1; z-index: 1; }
+        .timeline-item.passed::before { background-color: #adb5bd; box-shadow: 0 0 0 2px #e9ecef; border-color: white; }
+        .timeline-item h5 { margin-bottom: 0.35rem; font-weight: 700; color: #d63384; display: flex; align-items: center; gap: 8px; }
+        .timeline-item.passed h5 { color: #adb5bd; }
+        .timeline-item p { margin-bottom: 0; font-size: 0.95rem; color: #6c757d; line-height: 1.4; }
+        .baby-card { background: linear-gradient(135deg, #fff0f5 0%, #f4f4f9 100%); border: none; border-radius: 20px; }
+        .progress-maternity { height: 14px; border-radius: 10px; background-color: #ffe4e1; }
+        .progress-bar-maternity { background-color: #ff69b4; border-radius: 10px; box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1); }
+    </style>
+    
+    <div class="row g-4">
+        <div class="col-lg-5">
+            <div class="card shadow-sm baby-card h-100">
+                <div class="card-body p-4 p-md-5 text-center d-flex flex-column justify-content-center">
                     <div class="mb-4">
-                        <label class="form-label fw-bold">First Day of Last Period (LMP)</label>
-                        <input type="date" id="lmp" class="form-control form-control-lg" onchange="calculateDueDate()">
+                        <i class="fas fa-baby-carriage" style="color: #ff69b4; font-size: 3rem; filter: drop-shadow(0 4px 6px rgba(255,105,180,0.3));"></i>
                     </div>
-                    <div class="mb-0">
-                        <label class="form-label fw-bold">Average Cycle Length (Days)</label>
-                        <input type="number" id="cycle" class="form-control" value="28" min="20" max="45" onchange="calculateDueDate()">
+                    
+                    <div class="mb-4 text-start">
+                        <label class="form-label fw-bold text-dark"><i class="far fa-calendar-check text-primary me-2"></i>First Day of Last Period (LMP)</label>
+                        <input type="date" id="lmp" class="form-control form-control-lg border-0 shadow-sm" onchange="calculateDueDate()" style="border-radius: 12px; background-color: rgba(255,255,255,0.9);">
+                    </div>
+                    <div class="mb-5 text-start">
+                        <label class="form-label fw-bold text-dark"><i class="fas fa-sync-alt text-primary me-2"></i>Cycle Length (Days)</label>
+                        <input type="number" id="cycle" class="form-control border-0 shadow-sm" value="28" min="20" max="45" onchange="calculateDueDate()" style="border-radius: 12px; background-color: rgba(255,255,255,0.9);">
+                    </div>
+
+                    <p class="text-muted fw-bold mb-2 text-uppercase" style="letter-spacing: 1.5px; font-size: 0.85rem;">Estimated Due Date</p>
+                    <h2 class="fw-bold mb-4" id="due-date-res" style="color: #d63384; font-size: 2.2rem; text-shadow: 1px 1px 0 rgba(255,255,255,0.8);">Select a date</h2>
+                    
+                    <div class="mt-2 text-start bg-white p-3 rounded-4 shadow-sm">
+                        <div class="d-flex justify-content-between mb-2">
+                            <small class="fw-bold text-dark">Pregnancy Progress</small>
+                            <small class="fw-bold" style="color: #d63384;" id="preg-weeks">0 Weeks, 0 Days</small>
+                        </div>
+                        <div class="progress progress-maternity">
+                            <div class="progress-bar progress-bar-maternity progress-bar-striped progress-bar-animated" id="preg-progress" role="progressbar" style="width: 0%"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body p-4 text-center d-flex flex-column justify-content-center">
-                    <p class="text-muted fw-bold mb-2">Estimated Due Date</p>
-                    <h2 class="fw-bold text-primary mb-3" id="due-date-res">Select a date</h2>
-                    <p class="small text-muted mb-0">Based on Naegele's rule. Only 5% of babies are born on their exact due date!</p>
+        
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm h-100" style="border-radius: 20px;">
+                <div class="card-body p-4 p-md-5">
+                    <h3 class="fw-bold mb-4" style="color: #4a4a4a; font-size: 1.5rem;"><i class="fas fa-clipboard-list text-primary me-2"></i> Your Milestones & Tests</h3>
+                    <div class="pregnancy-timeline" id="milestones-container">
+                        <p class="text-muted mt-5 text-center">Please select your LMP date to generate your personalized pregnancy timeline.</p>
+                    </div>
+                    <div class="alert alert-light border mt-4 mb-0 small text-muted">
+                        <i class="fas fa-info-circle me-1 text-primary"></i> <strong>Medical Disclaimer:</strong> This timeline provides standard medical estimates based on a typical 40-week gestation. Your healthcare provider (OB/GYN or Midwife) will schedule your actual tests and scans based on your unique health profile.
+                    </div>
                 </div>
             </div>
         </div>
@@ -218,13 +253,68 @@
         const cycle = parseInt(document.getElementById('cycle').value);
         if(!lmpVal || !cycle) return;
         
-        let date = new Date(lmpVal);
+        const lmpDate = new Date(lmpVal);
+        
         // Naegele's rule: Add 280 days (for 28 day cycle), adjust for cycle length
         const daysToAdd = 280 + (cycle - 28);
-        date.setDate(date.getDate() + daysToAdd);
+        const dueDate = new Date(lmpDate);
+        dueDate.setDate(dueDate.getDate() + daysToAdd);
         
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('due-date-res').innerText = date.toLocaleDateString('en-US', options);
+        document.getElementById('due-date-res').innerText = dueDate.toLocaleDateString(undefined, options);
+
+        // Progress Calculation
+        const today = new Date();
+        const diffTime = today - lmpDate;
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        
+        let weeks = Math.floor(diffDays / 7);
+        let days = diffDays % 7;
+        let percentage = (diffDays / daysToAdd) * 100;
+        
+        if (percentage < 0) percentage = 0;
+        if (percentage > 100) percentage = 100;
+        
+        if (today < lmpDate) {
+            weeks = 0; days = 0; percentage = 0;
+        } else if (today > dueDate) {
+            weeks = 40; days = 0; percentage = 100;
+        }
+        
+        document.getElementById('preg-weeks').innerText = `${weeks} Weeks, ${days} Days`;
+        document.getElementById('preg-progress').style.width = percentage + '%';
+
+        // Milestones
+        const milestones = [
+            { week: 4, name: "First Positive Test", desc: "You may start experiencing early signs and get a positive home pregnancy test.", icon: "fa-vial" },
+            { week: 8, name: "First Ultrasound (Viability Scan)", desc: "Hear the heartbeat for the first time and confirm the pregnancy dating.", icon: "fa-heartbeat" },
+            { week: 12, name: "First Trimester Screening", desc: "NIPT or NT scan to check for chromosomal abnormalities. You can share the news safely!", icon: "fa-dna" },
+            { week: 20, name: "Anatomy Scan (Mid-Pregnancy)", desc: "Detailed ultrasound to check baby's development. You can find out the sex!", icon: "fa-camera" },
+            { week: 26, name: "Glucose Tolerance Test", desc: "Routine blood test to screen for gestational diabetes, and check iron levels.", icon: "fa-syringe" },
+            { week: 36, name: "Group B Strep (GBS) Test", desc: "A simple swab to ensure baby's safety during delivery. Weekly visits begin.", icon: "fa-stethoscope" },
+            { week: 40, name: "Estimated Due Date! 🎈", desc: "Time to meet your baby! (Only 5% of babies arrive exactly on this date).", icon: "fa-gift" }
+        ];
+
+        let html = '';
+        milestones.forEach(m => {
+            let mDate = new Date(lmpDate);
+            mDate.setDate(mDate.getDate() + (m.week * 7));
+            let dateStr = mDate.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+            
+            // Check if passed
+            let isPassed = today > mDate;
+            let titleColor = isPassed ? '#adb5bd' : '#d63384';
+            let itemClass = isPassed ? 'timeline-item passed' : 'timeline-item';
+            
+            html += `
+            <div class="${itemClass}">
+                <h5 style="color: ${titleColor};"><i class="fas ${m.icon} me-2" style="font-size: 0.9rem;"></i> Week ${m.week}: ${m.name}</h5>
+                <p><strong><i class="far fa-clock"></i> ${dateStr}</strong> — ${m.desc}</p>
+            </div>
+            `;
+        });
+        
+        document.getElementById('milestones-container').innerHTML = html;
     }
 
     // Init
