@@ -47,6 +47,7 @@ import time
 @text_bp.route('/api/tts-download', methods=['POST'])
 def tts_download():
     text = request.form.get('text', '').strip()
+    lang = request.form.get('lang', 'en').strip()
     if not text:
         return "No text provided", 400
         
@@ -55,7 +56,7 @@ def tts_download():
     
     mp3_data = b''
     for chunk in chunks:
-        url = f"https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q={urllib.parse.quote(chunk)}"
+        url = f"https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl={lang}&q={urllib.parse.quote(chunk)}"
         try:
             req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
             response = urllib.request.urlopen(req)
