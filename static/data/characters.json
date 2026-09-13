@@ -888,5 +888,356 @@
       "livesInWater": true,
       "hasMagic": false
     }
+  },
+  {
+    "name": "Virat Kohli",
+    "image": "\ud83c\udfcf",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isAthlete": true,
+      "isIndian": true,
+      "isCricketer": true,
+      "hasBeard": true
+    }
+  },
+  {
+    "name": "MS Dhoni",
+    "image": "\ud83d\ude81",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isAthlete": true,
+      "isIndian": true,
+      "isCricketer": true,
+      "isCaptain": true
+    }
+  },
+  {
+    "name": "Sachin Tendulkar",
+    "image": "\ud83c\udfcf",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isAthlete": true,
+      "isIndian": true,
+      "isCricketer": true,
+      "isGod": false,
+      "isAlive": true
+    }
+  },
+  {
+    "name": "Rohit Sharma",
+    "image": "\ud83c\udfcf",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isAthlete": true,
+      "isIndian": true,
+      "isCricketer": true,
+      "hasBeard": true
+    }
+  },
+  {
+    "name": "Shah Rukh Khan",
+    "image": "\ud83c\udfac",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isActor": true,
+      "isIndian": true,
+      "isMuslim": true
+    }
+  },
+  {
+    "name": "Amitabh Bachchan",
+    "image": "\ud83d\udc53",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isActor": true,
+      "isIndian": true,
+      "isOld": true,
+      "hasBeard": true,
+      "wearsGlasses": true
+    }
+  },
+  {
+    "name": "Salman Khan",
+    "image": "\ud83d\udcaa",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isActor": true,
+      "isIndian": true,
+      "isMuslim": true,
+      "isUnmarried": true
+    }
+  },
+  {
+    "name": "Rajinikanth",
+    "image": "\ud83d\udd76\ufe0f",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isActor": true,
+      "isIndian": true,
+      "isSouthIndian": true,
+      "isOld": true
+    }
+  },
+  {
+    "name": "Prabhas (Baahubali)",
+    "image": "\u2694\ufe0f",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isActor": true,
+      "isIndian": true,
+      "isSouthIndian": true
+    }
+  },
+  {
+    "name": "Allu Arjun",
+    "image": "\ud83d\udd7a",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isActor": true,
+      "isIndian": true,
+      "isSouthIndian": true,
+      "isDancer": true
+    }
+  },
+  {
+    "name": "Deepika Padukone",
+    "image": "\ud83d\udc57",
+    "traits": {
+      "isReal": true,
+      "isFemale": true,
+      "isActor": true,
+      "isIndian": true
+    }
+  },
+  {
+    "name": "Priyanka Chopra",
+    "image": "\ud83c\udf10",
+    "traits": {
+      "isReal": true,
+      "isFemale": true,
+      "isActor": true,
+      "isIndian": true,
+      "isAmerican": true
+    }
+  },
+  {
+    "name": "Aamir Khan",
+    "image": "\ud83c\udfac",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isActor": true,
+      "isIndian": true,
+      "isMuslim": true
+    }
+  },
+  {
+    "name": "Narendra Modi",
+    "image": "\ud83c\uddee\ud83c\uddf3",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isPolitician": true,
+      "isIndian": true,
+      "isPrimeMinister": true,
+      "hasBeard": true
+    }
+  },
+  {
+    "name": "Mahatma Gandhi",
+    "image": "\ud83d\udd4a\ufe0f",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isPolitician": true,
+      "isIndian": true,
+      "isAlive": false,
+      "wearsGlasses": true,
+      "isBald": true
+    }
+  },
+  {
+    "name": "APJ Abdul Kalam",
+    "image": "\ud83d\ude80",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isScientist": true,
+      "isPresident": true,
+      "isIndian": true,
+      "isAlive": false,
+      "isMuslim": true
+    }
+  },
+  {
+    "name": "B. R. Ambedkar",
+    "image": "\ud83d\udcd6",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isPolitician": true,
+      "isIndian": true,
+      "isAlive": false,
+      "wearsGlasses": true
+    }
+  },
+  {
+    "name": "Subhas Chandra Bose",
+    "image": "\ud83c\udf96\ufe0f",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isPolitician": true,
+      "isSoldier": true,
+      "isIndian": true,
+      "isAlive": false
+    }
+  },
+  {
+    "name": "Mukesh Ambani",
+    "image": "\ud83c\udfe2",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isBillionaire": true,
+      "isIndian": true,
+      "isBusiness": true
+    }
+  },
+  {
+    "name": "Ratan Tata",
+    "image": "\ud83d\ude97",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isBillionaire": true,
+      "isIndian": true,
+      "isBusiness": true,
+      "isOld": true
+    }
+  },
+  {
+    "name": "Sundar Pichai",
+    "image": "\ud83d\udcbb",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isTech": true,
+      "isIndian": true,
+      "isAmerican": true,
+      "wearsGlasses": true
+    }
+  },
+  {
+    "name": "Shaktimaan",
+    "image": "\ud83e\uddb8\u200d\u2642\ufe0f",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "hasSuperpowers": true,
+      "isIndian": true,
+      "isTvCharacter": true
+    }
+  },
+  {
+    "name": "Chhota Bheem",
+    "image": "\ud83d\udcaa",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isCartoon": true,
+      "isIndian": true,
+      "isChild": true
+    }
+  },
+  {
+    "name": "Motu",
+    "image": "\ud83e\udd5f",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isCartoon": true,
+      "isIndian": true,
+      "isFat": true,
+      "isBald": true
+    }
+  },
+  {
+    "name": "Patlu",
+    "image": "\ud83d\udc53",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isCartoon": true,
+      "isIndian": true,
+      "wearsGlasses": true,
+      "isBald": true
+    }
+  },
+  {
+    "name": "Lord Rama",
+    "image": "\ud83c\udff9",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isGod": true,
+      "isIndian": true,
+      "usesWeapons": true
+    }
+  },
+  {
+    "name": "Lord Krishna",
+    "image": "\ud83e\udd9a",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isGod": true,
+      "isIndian": true,
+      "isBlue": true
+    }
+  },
+  {
+    "name": "Hanuman",
+    "image": "\ud83d\udc12",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isGod": true,
+      "isIndian": true,
+      "isAnimal": true,
+      "hasSuperpowers": true
+    }
+  },
+  {
+    "name": "A.R. Rahman",
+    "image": "\ud83c\udfb9",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isMusician": true,
+      "isIndian": true,
+      "isSouthIndian": true
+    }
+  },
+  {
+    "name": "Arijit Singh",
+    "image": "\ud83c\udfa4",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isMusician": true,
+      "isIndian": true,
+      "hasBeard": true
+    }
   }
 ]

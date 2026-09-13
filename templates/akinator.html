@@ -19,8 +19,12 @@
         
         <!-- Loading State -->
         <div id="loadingState" class="card-body d-flex flex-column align-items-center justify-content-center text-center p-5">
-            <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;"></div>
-            <h5 class="fw-bold">Loading AI Brain...</h5>
+            <h4 class="fw-bold text-primary mb-3">Akinator is loading to beat you, pls wait...</h4>
+            <div class="spinner-border text-primary mb-4" role="status" style="width: 4rem; height: 4rem; border-width: 0.3rem;"></div>
+            <div class="progress w-100 shadow-sm" style="height: 20px; border-radius: 10px; max-width: 400px;">
+                <div id="loadingProgressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: 0%"></div>
+            </div>
+            <p id="loadingStatusText" class="text-muted small mt-3 fw-bold fs-6">Processing Data: 0%</p>
         </div>
 
         <!-- Question State -->

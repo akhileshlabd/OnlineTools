@@ -34,8 +34,45 @@ export class AkinatorUI {
 
     async initGame(jsonUrl) {
         this.show(this.ui.loading);
-        await this.engine.init(jsonUrl);
-        this.nextTurn();
+        
+        const progressBar = document.getElementById('loadingProgressBar');
+        const statusText = document.getElementById('loadingStatusText');
+        
+        let progress = 0;
+        // Simulate a smooth progression to accommodate future large datasets
+        const progressInterval = setInterval(() => {
+            progress += Math.floor(Math.random() * 15) + 5;
+            if (progress > 90) progress = 90; // Hold at 90% until fetch finishes
+            
+            if (progressBar && statusText) {
+                progressBar.style.width = progress + '%';
+                statusText.textContent = `Processing Data: ${progress}%`;
+            }
+        }, 150);
+
+        try {
+            await this.engine.init(jsonUrl);
+            
+            // Finish the progress bar
+            clearInterval(progressInterval);
+            if (progressBar && statusText) {
+                progressBar.style.width = '100%';
+                statusText.textContent = 'Brain Loaded! 100%';
+            }
+            
+            // Brief pause to let user see 100% completion
+            setTimeout(() => {
+                this.nextTurn();
+            }, 600);
+            
+        } catch (err) {
+            clearInterval(progressInterval);
+            if (statusText) {
+                statusText.textContent = 'Error loading data. Please refresh.';
+                statusText.classList.replace('text-muted', 'text-danger');
+            }
+            console.error(err);
+        }
     }
 
     show(el) {
