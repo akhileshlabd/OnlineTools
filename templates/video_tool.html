@@ -141,7 +141,7 @@
         progressBar.textContent = '10%';
 
         if (!ffmpeg) {
-            const { FFmpeg } = window.FFmpeg;
+            const { FFmpeg } = window.FFmpegWASM;
             ffmpeg = new FFmpeg();
             
             ffmpeg.on('log', ({ message }) => {
