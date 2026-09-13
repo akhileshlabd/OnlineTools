@@ -17,8 +17,8 @@
             <div id="dropZone" class="border border-2 border-dashed rounded bg-light p-5" style="cursor: pointer; border-color: #dee2e6 !important;">
                 <i class="fas fa-cloud-upload-alt text-primary mb-3" style="font-size: 3rem;"></i>
                 <h4 class="fw-bold">Select Video File</h4>
-                <p class="text-muted mb-0">or drag and drop here (MP4, WEBM, MOV)</p>
-                <input type="file" id="fileInput" accept="video/mp4,video/webm,video/quicktime" class="d-none">
+                <p class="text-muted mb-0">or drag and drop here (MP4, MOV, AVI, MKV)</p>
+                <input type="file" id="fileInput" accept="video/*" class="d-none">
             </div>
             <div id="fileInfo" class="mt-3" style="display: none;">
                 <p class="fw-bold mb-1 text-primary" id="fileName"></p>
@@ -36,6 +36,28 @@
                 <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
             </div>
             <p class="text-muted small" id="processLog">Loading FFmpeg core...</p>
+
+            
+            {% if tool.id == 'trim' %}
+            <div class="row g-3 justify-content-center mb-4 text-start">
+                <div class="col-md-5">
+                    <label class="form-label fw-bold">Start Time</label>
+                    <input type="text" class="form-control" id="trimStart" placeholder="00:00:00" value="00:00:00">
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label fw-bold">End Time</label>
+                    <input type="text" class="form-control" id="trimEnd" placeholder="00:00:10" value="00:00:10">
+                </div>
+            </div>
+            {% endif %}
+            {% if tool.id == 'thumbnail' %}
+            <div class="row g-3 justify-content-center mb-4 text-start">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Snapshot Time (Seconds)</label>
+                    <input type="number" class="form-control" id="thumbTime" placeholder="e.g. 5" value="1" min="0" step="0.1">
+                </div>
+            </div>
+            {% endif %}
 
             <button class="btn btn-primary btn-lg rounded-pill px-5 fw-bold shadow-sm mt-3" id="startBtn">
                 Start Processing
@@ -178,6 +200,23 @@
             outputName = 'audio_' + Date.now() + '.mp3';
             cmd = ['-i', safeInputName, '-q:a', '0', '-map', 'a', outputName];
             mimeType = 'audio/mp3';
+        } else if (toolId === 'trim') {
+            outputName = 'trimmed_' + Date.now() + '.mp4';
+            const start = document.getElementById('trimStart').value || '00:00:00';
+            const end = document.getElementById('trimEnd').value || '00:00:10';
+            // -ss and -to before -i is faster for ffmpeg
+            cmd = ['-ss', start, '-to', end, '-i', safeInputName, '-c', 'copy', outputName];
+            mimeType = 'video/mp4';
+        } else if (toolId === 'convert_mp4') {
+            outputName = 'converted_' + Date.now() + '.mp4';
+            // Copy video, encode audio to aac for compatibility
+            cmd = ['-i', safeInputName, '-c:v', 'copy', '-c:a', 'aac', '-strict', 'experimental', outputName];
+            mimeType = 'video/mp4';
+        } else if (toolId === 'thumbnail') {
+            outputName = 'thumbnail_' + Date.now() + '.jpg';
+            const t = document.getElementById('thumbTime').value || '1';
+            cmd = ['-ss', t, '-i', safeInputName, '-vframes', '1', '-q:v', '2', outputName];
+            mimeType = 'image/jpeg';
         }
 
         processStatus.textContent = 'Executing FFmpeg command...';
@@ -193,7 +232,13 @@
 
         downloadBtn.href = url;
         // Clean up the original filename for download
-        downloadBtn.download = (toolId === 'mute' ? 'muted_' : 'audio_') + selectedFile.name.replace(/\.[^/.]+$/, "") + (toolId === 'mute' ? '.mp4' : '.mp3');
+        
+        const prefix = toolId === 'mute' ? 'muted_' : toolId === 'extract_audio' ? 'audio_' : toolId === 'trim' ? 'trimmed_' : toolId === 'convert_mp4' ? 'converted_' : 'thumb_';
+        let ext = '.mp4';
+        if (toolId === 'extract_audio') ext = '.mp3';
+        if (toolId === 'thumbnail') ext = '.jpg';
+        downloadBtn.download = prefix + selectedFile.name.replace(/\.[^/.]+$/, "") + ext;
+
 
         // Cleanup virtual FS
         try {
