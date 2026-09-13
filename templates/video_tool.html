@@ -66,9 +66,8 @@
     </div>
 </div>
 
-<!-- FFmpeg.wasm v0.12.x -->
-<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/umd/index.js"></script>
+<!-- FFmpeg.wasm v0.11.6 (Stable Single-Threaded Version) -->
+<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
 
 <script>
     const toolId = "{{ tool.id }}";
@@ -91,17 +90,15 @@
 
     let selectedFile = null;
     let ffmpeg = null;
+    const { createFFmpeg, fetchFile } = FFmpeg;
 
-    // File Selection Logic
     dropZone.addEventListener('click', () => fileInput.click());
     dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('bg-white'); });
     dropZone.addEventListener('dragleave', (e) => { e.preventDefault(); dropZone.classList.remove('bg-white'); });
     dropZone.addEventListener('drop', (e) => {
         e.preventDefault();
         dropZone.classList.remove('bg-white');
-        if (e.dataTransfer.files.length) {
-            handleFile(e.dataTransfer.files[0]);
-        }
+        if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
     });
     fileInput.addEventListener('change', () => {
         if (fileInput.files.length) handleFile(fileInput.files[0]);
@@ -117,7 +114,6 @@
         fileSizeEl.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
         fileInfo.style.display = 'block';
         
-        // Show Process Card
         uploadCard.style.display = 'none';
         processCard.style.display = 'block';
     }
@@ -130,7 +126,8 @@
             await runFFmpeg();
         } catch (error) {
             console.error(error);
-            Swal.fire('Error', 'An error occurred during processing: ' + error.message, 'error');
+            const errMsg = error && error.message ? error.message : error.toString();
+            Swal.fire('Error', 'An error occurred during processing: ' + errMsg, 'error');
             startBtn.disabled = false;
         }
     });
@@ -141,70 +138,67 @@
         progressBar.textContent = '10%';
 
         if (!ffmpeg) {
-            const { FFmpeg } = window.FFmpegWASM;
-            ffmpeg = new FFmpeg();
+            // Use core-st (Single-Threaded) to avoid SharedArrayBuffer and COOP/COEP AdSense conflicts
+            ffmpeg = createFFmpeg({
+                corePath: 'https://unpkg.com/@ffmpeg/core-st@0.11.1/dist/ffmpeg-core.js',
+                log: true
+            });
             
-            ffmpeg.on('log', ({ message }) => {
+            ffmpeg.setLogger(({ message }) => {
                 processLog.textContent = message;
                 console.log(message);
             });
             
-            ffmpeg.on('progress', ({ progress }) => {
-                // progress is a ratio 0 to 1
-                const p = Math.max(10, Math.floor(progress * 100));
+            ffmpeg.setProgress(({ ratio }) => {
+                const p = Math.max(10, Math.floor(ratio * 100));
                 progressBar.style.width = p + '%';
                 progressBar.textContent = p + '%';
-                if(p > 10) {
-                    processStatus.textContent = 'Processing Video...';
-                }
+                if(p > 10) processStatus.textContent = 'Processing Video...';
             });
 
-            const { toBlobURL } = window.FFmpegUtil;
-            const coreBaseURL = "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.6/dist/umd";
-            const ffmpegBaseURL = "https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/umd";
-            await ffmpeg.load({
-                coreURL: await toBlobURL(`${coreBaseURL}/ffmpeg-core.js`, "text/javascript"),
-                wasmURL: await toBlobURL(`${coreBaseURL}/ffmpeg-core.wasm`, "application/wasm"),
-                classWorkerURL: await toBlobURL(`${ffmpegBaseURL}/814.ffmpeg.js`, "text/javascript"),
-                workerURL: await toBlobURL(`${ffmpegBaseURL}/814.ffmpeg.js`, "text/javascript")
-            });
-
+            await ffmpeg.load();
         }
 
         processStatus.textContent = 'Reading file...';
-        const { fetchFile } = window.FFmpegUtil;
-        const inputName = 'input' + selectedFile.name.substring(selectedFile.name.lastIndexOf('.'));
+        // Remove spaces and special characters from filename for FFmpeg virtual FS
+        const safeInputName = 'input_' + Date.now() + selectedFile.name.substring(selectedFile.name.lastIndexOf('.'));
         
-        await ffmpeg.writeFile(inputName, await fetchFile(selectedFile));
+        ffmpeg.FS('writeFile', safeInputName, await fetchFile(selectedFile));
 
         let outputName = '';
         let cmd = [];
         let mimeType = '';
 
         if (toolId === 'mute') {
-            outputName = 'muted_' + selectedFile.name;
-            cmd = ['-i', inputName, '-c', 'copy', '-an', outputName];
-            mimeType = selectedFile.type || 'video/mp4';
+            outputName = 'muted_' + Date.now() + '.mp4';
+            cmd = ['-i', safeInputName, '-c', 'copy', '-an', outputName];
+            mimeType = 'video/mp4';
         } else if (toolId === 'extract_audio') {
-            outputName = 'audio_' + selectedFile.name.substring(0, selectedFile.name.lastIndexOf('.')) + '.mp3';
-            // Extract audio as mp3, high quality
-            cmd = ['-i', inputName, '-q:a', '0', '-map', 'a', outputName];
+            outputName = 'audio_' + Date.now() + '.mp3';
+            cmd = ['-i', safeInputName, '-q:a', '0', '-map', 'a', outputName];
             mimeType = 'audio/mp3';
         }
 
         processStatus.textContent = 'Executing FFmpeg command...';
-        await ffmpeg.exec(cmd);
+        await ffmpeg.run(...cmd);
 
         processStatus.textContent = 'Finalizing...';
         progressBar.style.width = '100%';
         progressBar.textContent = '100%';
 
-        const data = await ffmpeg.readFile(outputName);
+        const data = ffmpeg.FS('readFile', outputName);
         const blob = new Blob([data.buffer], { type: mimeType });
         const url = URL.createObjectURL(blob);
 
         downloadBtn.href = url;
-        downloadBtn.download = outputName;
+        // Clean up the original filename for download
+        downloadBtn.download = (toolId === 'mute' ? 'muted_' : 'audio_') + selectedFile.name.replace(/\.[^/.]+$/, "") + (toolId === 'mute' ? '.mp4' : '.mp3');
+
+        // Cleanup virtual FS
+        try {
+            ffmpeg.FS('unlink', safeInputName);
+            ffmpeg.FS('unlink', outputName);
+        } catch(e) {}
 
         processCard.style.display = 'none';
         resultCard.style.display = 'block';

@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Word to PDF - Free Client-Side Converter | Free Qube{% endblock %}
+{% block meta_desc %}Convert Microsoft Word (DOCX) files to PDF completely free and securely. 100% client-side conversion means your files are never uploaded.{% endblock %}
+
+{% block content %}
+<div class="tool-interface" style="max-width: 800px; margin: 0 auto;">
+    <div class="text-center mb-4">
+        <div class="icon-wrapper mx-auto mb-3" style="color: #dc3545;"><i class="fas fa-file-word fa-2x"></i></div>
+        <h2 class="fw-bold text-dark">Word to PDF</h2>
+        <p class="text-muted">Convert your DOCX documents to PDF right in your browser.</p>
+    </div>
+
+    <!-- Upload Section -->
+    <div class="card shadow-sm border-0 mb-4" id="uploadCard">
+        <div class="card-body p-4 p-md-5 text-center">
+            <div id="dropZone" class="border border-2 border-dashed rounded bg-light p-5" style="cursor: pointer; border-color: #dee2e6 !important;">
+                <i class="fas fa-file-word text-danger mb-3" style="font-size: 3rem;"></i>
+                <h4 class="fw-bold">Select Word File</h4>
+                <p class="text-muted mb-0">or drag and drop here (DOCX only)</p>
+                <input type="file" id="fileInput" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="d-none">
+            </div>
+        </div>
+    </div>
+
+    <!-- Processing Section -->
+    <div class="card shadow-sm border-0 mb-4" id="processCard" style="display: none;">
+        <div class="card-body p-4 p-md-5 text-center">
+            <h4 class="fw-bold mb-3 text-primary" id="processStatus">Converting...</h4>
+            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="text-muted mt-3">Please wait while we generate your PDF.</p>
+        </div>
+    </div>
+
+    <div class="alert alert-info border-0 shadow-sm mt-4">
+        <i class="fas fa-shield-alt me-2"></i> <strong>Privacy First:</strong> This conversion happens entirely on your device using JavaScript. Your files never leave your computer.
+    </div>
+
+    <!-- Hidden container for rendering HTML before PDF conversion -->
+    <div id="renderContainer" style="display: none; padding: 40px; font-family: 'Times New Roman', Times, serif; color: black; background: white;"></div>
+</div>
+
+<!-- SEO Content for AdSense Compliance -->
+<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
+    <h2 class="fw-bold mb-3">Convert Word to PDF Securely</h2>
+    <p>Welcome to our free Word to PDF converter! In today's digital world, sharing documents in PDF format is essential to ensure that your formatting stays consistent across all devices and platforms. Our DOCX to PDF utility allows you to instantly transform your Microsoft Word files into standardized PDFs without the need for expensive software subscriptions.</p>
+    <p>What sets our tool apart is its strict adherence to privacy. Utilizing modern client-side WebAssembly and JavaScript engines, your document is parsed and converted entirely inside your web browser. This means your sensitive contracts, resumes, and personal essays are <strong>never uploaded to a remote server</strong>. It is 100% secure, incredibly fast, and completely free of watermarks or arbitrary file limits.</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.21/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const uploadCard = document.getElementById('uploadCard');
+    const processCard = document.getElementById('processCard');
+    const renderContainer = document.getElementById('renderContainer');
+
+    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('bg-white'); });
+    dropZone.addEventListener('dragleave', (e) => { e.preventDefault(); dropZone.classList.remove('bg-white'); });
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('bg-white');
+        if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+    });
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length) handleFile(fileInput.files[0]);
+    });
+
+    function handleFile(file) {
+        if (!file.name.endsWith('.docx')) {
+            Swal.fire('Error', 'Please select a valid .docx Word file.', 'error');
+            return;
+        }
+        
+        uploadCard.style.display = 'none';
+        processCard.style.display = 'block';
+
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const arrayBuffer = event.target.result;
+            
+            mammoth.convertToHtml({arrayBuffer: arrayBuffer})
+                .then(displayResult)
+                .catch(handleError);
+        };
+        reader.readAsArrayBuffer(file);
+
+        function displayResult(result) {
+            renderContainer.innerHTML = result.value; // The generated HTML
+            renderContainer.style.display = 'block'; // Unhide temporarily for html2pdf to measure
+            
+            const opt = {
+                margin:       [10, 10, 10, 10],
+                filename:     file.name.replace(/\.[^/.]+$/, "") + '.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(renderContainer).save().then(() => {
+                renderContainer.style.display = 'none';
+                uploadCard.style.display = 'block';
+                processCard.style.display = 'none';
+                Swal.fire('Success', 'PDF downloaded successfully!', 'success');
+            }).catch(handleError);
+        }
+
+        function handleError(error) {
+            console.error(error);
+            uploadCard.style.display = 'block';
+            processCard.style.display = 'none';
+            renderContainer.style.display = 'none';
+            Swal.fire('Conversion Error', 'Could not convert document. Make sure it is a valid DOCX.', 'error');
+        }
+    }
+</script>
+{% endblock %}

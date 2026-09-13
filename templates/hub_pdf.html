@@ -21,6 +21,17 @@
         <h3>Split PDF</h3>
         <p>Extract specific pages from your PDF file securely.</p>
     </a>
+    <a href="{{ url_for('pdf.word_to_pdf') }}" class="tool-card">
+        <div class="icon-wrapper pdf-icon"><i class="fas fa-file-word"></i></div>
+        <h3>Word to PDF</h3>
+        <p>Convert DOCX documents to PDF directly in your browser.</p>
+    </a>
+    <a href="{{ url_for('pdf.excel_to_pdf') }}" class="tool-card">
+        <div class="icon-wrapper pdf-icon"><i class="fas fa-file-excel"></i></div>
+        <h3>Excel to PDF</h3>
+        <p>Convert XLSX spreadsheets to PDF tables securely.</p>
+    </a>
+
     <a href="{{ url_for('pdf.image_to_pdf') }}" class="tool-card">
         <div class="icon-wrapper pdf-icon"><i class="fas fa-file-image"></i></div>
         <h3>Image to PDF</h3>

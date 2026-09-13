@@ -10,6 +10,14 @@ def pdf_merger():
 def pdf_splitter():
     return render_template('pdf_split.html')
 
+@pdf_bp.route("/word-to-pdf", methods=["GET"])
+def word_to_pdf():
+    return render_template("word_to_pdf.html")
+
+@pdf_bp.route("/excel-to-pdf", methods=["GET"])
+def excel_to_pdf():
+    return render_template("excel_to_pdf.html")
+
 @pdf_bp.route('/image-to-pdf', methods=['GET'])
 def image_to_pdf():  
     return render_template('image_to_pdf.html')
