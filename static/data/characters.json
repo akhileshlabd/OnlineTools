@@ -1,27 +1,892 @@
 [
-  {"name": "Superman", "image": "🦸‍♂️", "traits": {"isReal": false, "isMale": true, "hasSuperpowers": true, "wearsCape": true, "isDC": true, "isMarvel": false}},
-  {"name": "Batman", "image": "🦇", "traits": {"isReal": false, "isMale": true, "hasSuperpowers": false, "wearsCape": true, "isDC": true, "isMarvel": false}},
-  {"name": "Spider-Man", "image": "🕷️", "traits": {"isReal": false, "isMale": true, "hasSuperpowers": true, "wearsCape": false, "isDC": false, "isMarvel": true}},
-  {"name": "Wonder Woman", "image": "🦸‍♀️", "traits": {"isReal": false, "isMale": false, "hasSuperpowers": true, "wearsCape": false, "isDC": true, "isMarvel": false}},
-  {"name": "Taylor Swift", "image": "🎤", "traits": {"isReal": true, "isMale": false, "isMusician": true, "isAmerican": true, "isActor": false}},
-  {"name": "Elon Musk", "image": "🚀", "traits": {"isReal": true, "isMale": true, "isBillionaire": true, "isTech": true, "isMusician": false, "isAmerican": false}},
-  {"name": "Barack Obama", "image": "🇺🇸", "traits": {"isReal": true, "isMale": true, "isPolitician": true, "isAmerican": true}},
-  {"name": "Albert Einstein", "image": "🧠", "traits": {"isReal": true, "isMale": true, "isScientist": true, "isAlive": false}},
-  {"name": "Mickey Mouse", "image": "🐭", "traits": {"isReal": false, "isMale": true, "isAnimal": true, "isDisney": true}},
-  {"name": "Harry Potter", "image": "⚡", "traits": {"isReal": false, "isMale": true, "hasMagic": true, "isMovieCharacter": true}},
-  {"name": "Hermione Granger", "image": "📖", "traits": {"isReal": false, "isMale": false, "hasMagic": true, "isMovieCharacter": true}},
-  {"name": "Darth Vader", "image": "🌑", "traits": {"isReal": false, "isMale": true, "isMovieCharacter": true, "isSciFi": true, "isVillain": true}},
-  {"name": "Pikachu", "image": "⚡", "traits": {"isReal": false, "isAnimal": true, "isAnime": true, "isVideoGame": true}},
-  {"name": "Mario", "image": "🍄", "traits": {"isReal": false, "isMale": true, "isVideoGame": true, "isNintendo": true}},
-  {"name": "Goku", "image": "🐉", "traits": {"isReal": false, "isMale": true, "isAnime": true, "hasSuperpowers": true}},
-  {"name": "Naruto", "image": "🦊", "traits": {"isReal": false, "isMale": true, "isAnime": true, "hasSuperpowers": true, "isNinja": true}},
-  {"name": "Michael Jackson", "image": "🕺", "traits": {"isReal": true, "isMale": true, "isMusician": true, "isAlive": false}},
-  {"name": "Cristiano Ronaldo", "image": "⚽", "traits": {"isReal": true, "isMale": true, "isAthlete": true, "isSoccer": true}},
-  {"name": "Lionel Messi", "image": "🏆", "traits": {"isReal": true, "isMale": true, "isAthlete": true, "isSoccer": true, "isArgentine": true}},
-  {"name": "Steve Jobs", "image": "📱", "traits": {"isReal": true, "isMale": true, "isTech": true, "isAlive": false}},
-  {"name": "Sherlock Holmes", "image": "🔍", "traits": {"isReal": false, "isMale": true, "isDetective": true}},
-  {"name": "SpongeBob SquarePants", "image": "🧽", "traits": {"isReal": false, "isMale": true, "isCartoon": true, "livesInWater": true}},
-  {"name": "Shrek", "image": "🧅", "traits": {"isReal": false, "isMale": true, "isMovieCharacter": true, "isGreen": true}},
-  {"name": "Bill Gates", "image": "💻", "traits": {"isReal": true, "isMale": true, "isTech": true, "isBillionaire": true}},
-  {"name": "Mark Zuckerberg", "image": "🌐", "traits": {"isReal": true, "isMale": true, "isTech": true, "isBillionaire": true}}
+  {
+    "name": "Superman",
+    "image": "\ud83e\uddb8\u200d\u2642\ufe0f",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "hasSuperpowers": true,
+      "wearsCape": true,
+      "isDC": true,
+      "isMarvel": false,
+      "isAlien": true,
+      "wearsGlasses": true
+    }
+  },
+  {
+    "name": "Batman",
+    "image": "\ud83e\udd87",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "hasSuperpowers": false,
+      "wearsCape": true,
+      "isDC": true,
+      "isMarvel": false,
+      "isBillionaire": true,
+      "isOrphan": true
+    }
+  },
+  {
+    "name": "Spider-Man",
+    "image": "\ud83d\udd77\ufe0f",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "hasSuperpowers": true,
+      "wearsCape": false,
+      "isDC": false,
+      "isMarvel": true,
+      "isTeenager": true,
+      "isOrphan": true
+    }
+  },
+  {
+    "name": "Wonder Woman",
+    "image": "\ud83e\uddb8\u200d\u2640\ufe0f",
+    "traits": {
+      "isReal": false,
+      "isFemale": true,
+      "hasSuperpowers": true,
+      "wearsCape": false,
+      "isDC": true,
+      "isMarvel": false,
+      "usesWeapons": true,
+      "isGod": true
+    }
+  },
+  {
+    "name": "Taylor Swift",
+    "image": "\ud83c\udfa4",
+    "traits": {
+      "isReal": true,
+      "isFemale": true,
+      "isMusician": true,
+      "isAmerican": true,
+      "isActor": false,
+      "isBlonde": true
+    }
+  },
+  {
+    "name": "Elon Musk",
+    "image": "\ud83d\ude80",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isBillionaire": true,
+      "isTech": true,
+      "isMusician": false,
+      "isAmerican": false,
+      "isAfrican": true
+    }
+  },
+  {
+    "name": "Barack Obama",
+    "image": "\ud83c\uddfa\ud83c\uddf8",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isPolitician": true,
+      "isAmerican": true,
+      "isBlack": true,
+      "isPresident": true
+    }
+  },
+  {
+    "name": "Donald Trump",
+    "image": "\ud83c\uddfa\ud83c\uddf8",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isPolitician": true,
+      "isAmerican": true,
+      "isBillionaire": true,
+      "isPresident": true,
+      "isBlonde": true
+    }
+  },
+  {
+    "name": "Albert Einstein",
+    "image": "\ud83e\udde0",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isScientist": true,
+      "isAlive": false,
+      "isGerman": true,
+      "hasMustache": true
+    }
+  },
+  {
+    "name": "Mickey Mouse",
+    "image": "\ud83d\udc2d",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isAnimal": true,
+      "isDisney": true,
+      "wearsGloves": true
+    }
+  },
+  {
+    "name": "Harry Potter",
+    "image": "\u26a1",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "hasMagic": true,
+      "isMovieCharacter": true,
+      "isBritish": true,
+      "wearsGlasses": true,
+      "isOrphan": true
+    }
+  },
+  {
+    "name": "Hermione Granger",
+    "image": "\ud83d\udcd6",
+    "traits": {
+      "isReal": false,
+      "isFemale": true,
+      "hasMagic": true,
+      "isMovieCharacter": true,
+      "isBritish": true,
+      "isSmart": true
+    }
+  },
+  {
+    "name": "Darth Vader",
+    "image": "\ud83c\udf11",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isMovieCharacter": true,
+      "isSciFi": true,
+      "isVillain": true,
+      "wearsCape": true,
+      "wearsHelmet": true,
+      "isFather": true
+    }
+  },
+  {
+    "name": "Luke Skywalker",
+    "image": "\u2694\ufe0f",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isMovieCharacter": true,
+      "isSciFi": true,
+      "usesWeapons": true,
+      "hasMagic": true
+    }
+  },
+  {
+    "name": "Pikachu",
+    "image": "\u26a1",
+    "traits": {
+      "isReal": false,
+      "isAnimal": true,
+      "isAnime": true,
+      "isVideoGame": true,
+      "isYellow": true,
+      "hasSuperpowers": true
+    }
+  },
+  {
+    "name": "Mario",
+    "image": "\ud83c\udf44",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isVideoGame": true,
+      "isNintendo": true,
+      "hasMustache": true,
+      "wearsHat": true,
+      "isItalian": true
+    }
+  },
+  {
+    "name": "Luigi",
+    "image": "\ud83c\udf44",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isVideoGame": true,
+      "isNintendo": true,
+      "hasMustache": true,
+      "wearsHat": true,
+      "isGreen": true,
+      "isItalian": true
+    }
+  },
+  {
+    "name": "Sonic the Hedgehog",
+    "image": "\ud83e\udd94",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isVideoGame": true,
+      "isAnimal": true,
+      "isBlue": true,
+      "hasSuperpowers": true
+    }
+  },
+  {
+    "name": "Goku",
+    "image": "\ud83d\udc09",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isAnime": true,
+      "hasSuperpowers": true,
+      "isAlien": true,
+      "isFather": true
+    }
+  },
+  {
+    "name": "Naruto",
+    "image": "\ud83e\udd8a",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isAnime": true,
+      "hasSuperpowers": true,
+      "isNinja": true,
+      "isBlonde": true,
+      "isOrphan": true
+    }
+  },
+  {
+    "name": "Michael Jackson",
+    "image": "\ud83d\udd7a",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isMusician": true,
+      "isAlive": false,
+      "isAmerican": true,
+      "isBlack": true
+    }
+  },
+  {
+    "name": "Cristiano Ronaldo",
+    "image": "\u26bd",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isAthlete": true,
+      "isSoccer": true,
+      "isPortuguese": true
+    }
+  },
+  {
+    "name": "Lionel Messi",
+    "image": "\ud83c\udfc6",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isAthlete": true,
+      "isSoccer": true,
+      "isArgentine": true,
+      "hasBeard": true
+    }
+  },
+  {
+    "name": "LeBron James",
+    "image": "\ud83c\udfc0",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isAthlete": true,
+      "isBasketball": true,
+      "isAmerican": true,
+      "isBlack": true
+    }
+  },
+  {
+    "name": "Steve Jobs",
+    "image": "\ud83d\udcf1",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isTech": true,
+      "isAlive": false,
+      "isAmerican": true,
+      "wearsGlasses": true
+    }
+  },
+  {
+    "name": "Sherlock Holmes",
+    "image": "\ud83d\udd0d",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isDetective": true,
+      "isBritish": true,
+      "isSmart": true
+    }
+  },
+  {
+    "name": "SpongeBob SquarePants",
+    "image": "\ud83e\uddfd",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isCartoon": true,
+      "livesInWater": true,
+      "isYellow": true
+    }
+  },
+  {
+    "name": "Shrek",
+    "image": "\ud83e\uddc5",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isMovieCharacter": true,
+      "isGreen": true,
+      "isOgre": true
+    }
+  },
+  {
+    "name": "Bill Gates",
+    "image": "\ud83d\udcbb",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isTech": true,
+      "isBillionaire": true,
+      "isAmerican": true,
+      "wearsGlasses": true
+    }
+  },
+  {
+    "name": "Mark Zuckerberg",
+    "image": "\ud83c\udf10",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isTech": true,
+      "isBillionaire": true,
+      "isAmerican": true
+    }
+  },
+  {
+    "name": "MrBeast",
+    "image": "\ud83c\udfa5",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isYouTuber": true,
+      "isAmerican": true,
+      "isPhilanthropist": true
+    }
+  },
+  {
+    "name": "PewDiePie",
+    "image": "\ud83c\udfae",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isYouTuber": true,
+      "isSwedish": true,
+      "isVideoGamePlayer": true
+    }
+  },
+  {
+    "name": "Gordon Ramsay",
+    "image": "\ud83c\udf73",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isChef": true,
+      "isBritish": true,
+      "isTvPersonality": true
+    }
+  },
+  {
+    "name": "Iron Man",
+    "image": "\ud83e\uddbe",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isMarvel": true,
+      "isBillionaire": true,
+      "usesWeapons": true,
+      "isScientist": true,
+      "hasArmor": true
+    }
+  },
+  {
+    "name": "Captain America",
+    "image": "\ud83d\udee1\ufe0f",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isMarvel": true,
+      "isSoldier": true,
+      "usesWeapons": true,
+      "isAmerican": true
+    }
+  },
+  {
+    "name": "Thanos",
+    "image": "\ud83c\udf0c",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isMarvel": true,
+      "isVillain": true,
+      "isAlien": true,
+      "isPurple": true
+    }
+  },
+  {
+    "name": "Joker",
+    "image": "\ud83e\udd21",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isDC": true,
+      "isVillain": true,
+      "isCrazy": true,
+      "hasFacePaint": true
+    }
+  },
+  {
+    "name": "Homer Simpson",
+    "image": "\ud83c\udf69",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isCartoon": true,
+      "isYellow": true,
+      "isFather": true,
+      "isAmerican": true
+    }
+  },
+  {
+    "name": "Peter Griffin",
+    "image": "\ud83c\udf7a",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isCartoon": true,
+      "isFather": true,
+      "isAmerican": true,
+      "wearsGlasses": true
+    }
+  },
+  {
+    "name": "Kanye West",
+    "image": "\ud83d\udc3b",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isMusician": true,
+      "isAmerican": true,
+      "isBlack": true
+    }
+  },
+  {
+    "name": "Eminem",
+    "image": "\ud83c\udfa4",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isMusician": true,
+      "isAmerican": true
+    }
+  },
+  {
+    "name": "Drake",
+    "image": "\ud83e\udd89",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isMusician": true,
+      "isCanadian": true,
+      "isBlack": true
+    }
+  },
+  {
+    "name": "Wolverine",
+    "image": "\ud83d\udc3a",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isMarvel": true,
+      "hasSuperpowers": true,
+      "isCanadian": true,
+      "usesWeapons": true
+    }
+  },
+  {
+    "name": "Deadpool",
+    "image": "\u2694\ufe0f",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isMarvel": true,
+      "hasSuperpowers": true,
+      "usesWeapons": true,
+      "isCanadian": true,
+      "wearsMask": true
+    }
+  },
+  {
+    "name": "Link",
+    "image": "\ud83d\udde1\ufe0f",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isVideoGame": true,
+      "isNintendo": true,
+      "usesWeapons": true,
+      "isElf": true,
+      "isGreen": true
+    }
+  },
+  {
+    "name": "Zelda",
+    "image": "\ud83d\udc51",
+    "traits": {
+      "isReal": false,
+      "isFemale": true,
+      "isVideoGame": true,
+      "isNintendo": true,
+      "hasMagic": true,
+      "isPrincess": true
+    }
+  },
+  {
+    "name": "Samus Aran",
+    "image": "\ud83d\ude80",
+    "traits": {
+      "isReal": false,
+      "isFemale": true,
+      "isVideoGame": true,
+      "isNintendo": true,
+      "hasArmor": true,
+      "isSciFi": true
+    }
+  },
+  {
+    "name": "Master Chief",
+    "image": "\ud83d\udfe2",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isVideoGame": true,
+      "isSciFi": true,
+      "hasArmor": true,
+      "isSoldier": true,
+      "isGreen": true
+    }
+  },
+  {
+    "name": "Kratos",
+    "image": "\ud83e\ude93",
+    "traits": {
+      "isReal": false,
+      "isMale": true,
+      "isVideoGame": true,
+      "usesWeapons": true,
+      "isGod": true,
+      "isBald": true,
+      "hasBeard": true
+    }
+  },
+  {
+    "name": "Keanu Reeves",
+    "image": "\ud83d\udd76\ufe0f",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isActor": true,
+      "isCanadian": true,
+      "hasBeard": true
+    }
+  },
+  {
+    "name": "Tom Cruise",
+    "image": "\u2708\ufe0f",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isActor": true,
+      "isAmerican": true
+    }
+  },
+  {
+    "name": "Leonardo DiCaprio",
+    "image": "\ud83c\udfac",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isActor": true,
+      "isAmerican": true
+    }
+  },
+  {
+    "name": "Johnny Depp",
+    "image": "\ud83c\udff4\u200d\u2620\ufe0f",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isActor": true,
+      "isAmerican": true
+    }
+  },
+  {
+    "name": "Will Smith",
+    "image": "\ud83d\udc7d",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isActor": true,
+      "isAmerican": true,
+      "isBlack": true,
+      "isMusician": true
+    }
+  },
+  {
+    "name": "Queen Elizabeth II",
+    "image": "\ud83d\udc51",
+    "traits": {
+      "isReal": true,
+      "isFemale": true,
+      "isBritish": true,
+      "isAlive": false,
+      "isQueen": true
+    }
+  },
+  {
+    "name": "William Shakespeare",
+    "image": "\ud83d\udcdc",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isWriter": true,
+      "isBritish": true,
+      "isAlive": false
+    }
+  },
+  {
+    "name": "Abraham Lincoln",
+    "image": "\ud83c\udfa9",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isPresident": true,
+      "isAmerican": true,
+      "isAlive": false,
+      "hasBeard": true
+    }
+  },
+  {
+    "name": "George Washington",
+    "image": "\ud83c\uddfa\ud83c\uddf8",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isPresident": true,
+      "isAmerican": true,
+      "isAlive": false,
+      "isSoldier": true
+    }
+  },
+  {
+    "name": "Nelson Mandela",
+    "image": "\ud83c\uddff\ud83c\udde6",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isPolitician": true,
+      "isAfrican": true,
+      "isAlive": false,
+      "isBlack": true
+    }
+  },
+  {
+    "name": "Cleopatra",
+    "image": "\ud83c\uddea\ud83c\uddec",
+    "traits": {
+      "isReal": true,
+      "isFemale": true,
+      "isAfrican": true,
+      "isQueen": true,
+      "isAlive": false
+    }
+  },
+  {
+    "name": "Marilyn Monroe",
+    "image": "\ud83d\udc57",
+    "traits": {
+      "isReal": true,
+      "isFemale": true,
+      "isActor": true,
+      "isAmerican": true,
+      "isBlonde": true,
+      "isAlive": false
+    }
+  },
+  {
+    "name": "Muhammad Ali",
+    "image": "\ud83e\udd4a",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isAthlete": true,
+      "isAmerican": true,
+      "isBlack": true,
+      "isAlive": false
+    }
+  },
+  {
+    "name": "Bruce Lee",
+    "image": "\ud83e\udd4b",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isActor": true,
+      "isAthlete": true,
+      "isAsian": true,
+      "isAlive": false
+    }
+  },
+  {
+    "name": "Jackie Chan",
+    "image": "\ud83d\udc09",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isActor": true,
+      "isAsian": true,
+      "isAlive": true
+    }
+  },
+  {
+    "name": "John Cena",
+    "image": "\ud83d\udcaa",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isAthlete": true,
+      "isActor": true,
+      "isAmerican": true
+    }
+  },
+  {
+    "name": "The Rock (Dwayne Johnson)",
+    "image": "\ud83e\udea8",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isAthlete": true,
+      "isActor": true,
+      "isAmerican": true,
+      "isBald": true
+    }
+  },
+  {
+    "name": "Arnold Schwarzenegger",
+    "image": "\ud83e\udd16",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isActor": true,
+      "isPolitician": true,
+      "isAthlete": true
+    }
+  },
+  {
+    "name": "Oprah Winfrey",
+    "image": "\ud83d\udcfa",
+    "traits": {
+      "isReal": true,
+      "isFemale": true,
+      "isTvPersonality": true,
+      "isAmerican": true,
+      "isBillionaire": true,
+      "isBlack": true
+    }
+  },
+  {
+    "name": "Snoop Dogg",
+    "image": "\ud83c\udf3f",
+    "traits": {
+      "isReal": true,
+      "isMale": true,
+      "isMusician": true,
+      "isAmerican": true,
+      "isBlack": true
+    }
+  },
+  {
+    "name": "Rihanna",
+    "image": "\u2602\ufe0f",
+    "traits": {
+      "isReal": true,
+      "isFemale": true,
+      "isMusician": true,
+      "isBlack": true,
+      "isBillionaire": true
+    }
+  },
+  {
+    "name": "Beyonce",
+    "image": "\ud83d\udc1d",
+    "traits": {
+      "isReal": true,
+      "isFemale": true,
+      "isMusician": true,
+      "isAmerican": true,
+      "isBlack": true
+    }
+  },
+  {
+    "name": "Elsa",
+    "image": "\u2744\ufe0f",
+    "traits": {
+      "isReal": false,
+      "isFemale": true,
+      "isDisney": true,
+      "hasMagic": true,
+      "isPrincess": true,
+      "isBlonde": true
+    }
+  },
+  {
+    "name": "Anna",
+    "image": "\u26c4",
+    "traits": {
+      "isReal": false,
+      "isFemale": true,
+      "isDisney": true,
+      "isPrincess": true
+    }
+  },
+  {
+    "name": "Moana",
+    "image": "\ud83c\udf0a",
+    "traits": {
+      "isReal": false,
+      "isFemale": true,
+      "isDisney": true,
+      "isPrincess": true,
+      "livesInWater": false
+    }
+  },
+  {
+    "name": "Ariel",
+    "image": "\ud83e\udddc\u200d\u2640\ufe0f",
+    "traits": {
+      "isReal": false,
+      "isFemale": true,
+      "isDisney": true,
+      "isPrincess": true,
+      "livesInWater": true,
+      "hasMagic": false
+    }
+  }
 ]

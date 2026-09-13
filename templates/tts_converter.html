@@ -1,0 +1,311 @@
+{% extends "base.html" %}
+
+{% block title %}{{ tool.seo_title }} | Free Qube{% endblock %}
+{% block meta_desc %}{{ tool.seo_desc }}{% endblock %}
+
+{% block content %}
+<article class="tool-interface" style="max-width: 900px; margin: 0 auto;">
+    
+    <div class="text-center mb-4">
+        <div class="icon-wrapper mx-auto mb-3" style="color: #0dcaf0;"><i class="fas {{ tool.icon }} fa-2x"></i></div>
+        <h1 class="fw-bold text-dark fs-2">Free Online Text to Speech Converter</h1>
+        <p class="text-muted">{{ tool.desc }}</p>
+        <span class="badge bg-success bg-opacity-10 text-success border border-success fw-semibold p-2 shadow-sm rounded-pill">
+            <i class="fas fa-lock me-1"></i> 100% Client-Side: Your text and audio are processed entirely in your browser.
+        </span>
+    </div>
+
+    <!-- Main Tool Container -->
+    <section class="card shadow-sm border-0 mb-5" style="border-radius: 15px;">
+        <div class="card-body p-4 p-md-5">
+            
+            <!-- Input Area -->
+            <div class="mb-4">
+                <div class="d-flex justify-content-between align-items-end mb-2">
+                    <label class="fw-bold">Enter Text Here</label>
+                    <span id="charCount" class="badge bg-secondary rounded-pill">0 / 5000</span>
+                </div>
+                <textarea id="ttsInput" class="form-control bg-light" rows="6" maxlength="5000" placeholder="Type or paste the text you want to convert to speech..."></textarea>
+            </div>
+
+            <!-- Emotion Presets -->
+            <div class="mb-4">
+                <label class="fw-bold mb-2">Quick Emotion Presets</label>
+                <div class="d-flex flex-wrap gap-2">
+                    <button class="btn btn-outline-primary btn-sm rounded-pill emotion-btn" data-rate="1.2" data-pitch="1.3"><i class="fas fa-grin-stars me-1"></i> Excited</button>
+                    <button class="btn btn-outline-info btn-sm rounded-pill emotion-btn" data-rate="0.9" data-pitch="1.0"><i class="fas fa-user-tie me-1"></i> News Anchor</button>
+                    <button class="btn btn-outline-dark btn-sm rounded-pill emotion-btn" data-rate="0.85" data-pitch="0.7"><i class="fas fa-microphone-alt me-1"></i> Deep / Boss</button>
+                    <button class="btn btn-outline-warning btn-sm rounded-pill emotion-btn" data-rate="1.35" data-pitch="1.1"><i class="fas fa-bolt me-1"></i> Fast Storyteller</button>
+                    <button class="btn btn-outline-secondary btn-sm rounded-pill emotion-btn" data-rate="1.0" data-pitch="1.0"><i class="fas fa-undo me-1"></i> Default</button>
+                </div>
+            </div>
+
+            <hr class="text-muted opacity-25 mb-4">
+
+            <!-- Controls Panel -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-6">
+                    <label class="fw-bold mb-2"><i class="fas fa-comment-dots text-primary me-2"></i>Select Voice</label>
+                    <select id="voiceSelect" class="form-select shadow-sm bg-light">
+                        <option value="">Loading system voices...</option>
+                    </select>
+                </div>
+                
+                <div class="col-md-6">
+                    <label class="fw-bold mb-2"><i class="fas fa-volume-up text-primary me-2"></i>Volume (<span id="volVal">1.0</span>)</label>
+                    <input type="range" class="form-range" id="volSlider" min="0" max="1" step="0.1" value="1">
+                </div>
+
+                <div class="col-md-6">
+                    <label class="fw-bold mb-2"><i class="fas fa-tachometer-alt text-primary me-2"></i>Speed / Rate (<span id="rateVal">1.0</span>)</label>
+                    <input type="range" class="form-range" id="rateSlider" min="0.5" max="2.0" step="0.05" value="1.0">
+                </div>
+
+                <div class="col-md-6">
+                    <label class="fw-bold mb-2"><i class="fas fa-wave-square text-primary me-2"></i>Pitch (<span id="pitchVal">1.0</span>)</label>
+                    <input type="range" class="form-range" id="pitchSlider" min="0.5" max="1.5" step="0.05" value="1.0">
+                </div>
+            </div>
+
+            <!-- Playback & Download -->
+            <div class="d-flex flex-column flex-md-row gap-3 mt-5">
+                <button id="btnPreview" class="btn btn-primary btn-lg rounded-pill fw-bold px-4 shadow-sm flex-grow-1">
+                    <i class="fas fa-play me-2"></i> Play / Preview
+                </button>
+                <button id="btnStop" class="btn btn-danger btn-lg rounded-pill fw-bold px-4 shadow-sm" style="display: none;">
+                    <i class="fas fa-stop me-2"></i> Stop
+                </button>
+                <button id="btnDownload" class="btn btn-success btn-lg rounded-pill fw-bold px-4 shadow-sm flex-grow-1">
+                    <i class="fas fa-download me-2"></i> Capture & Download Audio
+                </button>
+            </div>
+
+            <!-- Audio Player Preview -->
+            <div id="audioPreviewContainer" class="mt-4 text-center p-3 bg-light rounded" style="display: none;">
+                <h6 class="fw-bold text-muted mb-2">Captured Audio Preview</h6>
+                <audio id="audioPreview" controls class="w-100 shadow-sm rounded"></audio>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SEO & Documentation Block -->
+    <section class="container bg-white p-4 p-md-5 rounded shadow-sm mb-5 text-start">
+        <h2 class="h4 fw-bold">Convert Text to Speech and Download MP3s</h2>
+        <p class="text-muted">Our free online Text to Speech (TTS) converter transforms any written text into natural, lifelike speech instantly. Whether you are generating voiceovers for YouTube videos, creating study materials, or building accessibility features, this tool gives you granular control over vocal pitch, speed, and emotion. Because it runs 100% locally using your browser's native Web Speech API, there are absolutely no server delays, hidden costs, or data privacy risks.</p>
+        
+        <h3 class="h5 fw-bold mt-4">How to Use the TTS Converter</h3>
+        <ol class="text-muted">
+            <li><strong>Enter your text:</strong> Paste up to 5,000 characters into the input box above.</li>
+            <li><strong>Choose a voice:</strong> Select from a list of high-quality natural voices provided by your operating system (Google, Apple, Microsoft).</li>
+            <li><strong>Tweak the tone:</strong> Use the Quick Emotion Presets (Excited, Calm, Boss) or manually adjust the Pitch and Speed sliders to perfect the vocal delivery.</li>
+            <li><strong>Preview and Download:</strong> Click "Play" to test the voice. To save it, click "Capture & Download". <em>(Note: You may be prompted to share your tab's audio to allow the browser to record the system stream)</em>.</li>
+        </ol>
+
+        <h3 class="h5 fw-bold mt-4">Frequently Asked Questions</h3>
+        
+        <div class="mt-3">
+            <h4 class="h6 fw-bold">Is the MP3 download free for commercial use?</h4>
+            <p class="small text-muted">Yes, our tool is completely free. However, the commercial rights to the actual voices depend on your operating system (e.g., Apple macOS voices vs Microsoft Windows natural voices). Most built-in OS voices are free for standard content creation.</p>
+        </div>
+        
+        <div class="mt-3">
+            <h4 class="h6 fw-bold">Why do I need to "Share Tab Audio" to download?</h4>
+            <p class="small text-muted">For strict security reasons, modern web browsers do not allow websites to silently download system voice data. To generate an audio file securely on your own device, we use the WebRTC MediaRecorder API to listen to the tab's output. This guarantees your data never leaves your computer.</p>
+        </div>
+
+        <div class="mt-3">
+            <h4 class="h6 fw-bold">Can I generate audio in other languages?</h4>
+            <p class="small text-muted">Absolutely! The Voice Dropdown automatically populates with every language pack installed on your device (Spanish, French, Japanese, etc.).</p>
+        </div>
+    </section>
+
+</article>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const ttsInput = document.getElementById('ttsInput');
+        const charCount = document.getElementById('charCount');
+        const voiceSelect = document.getElementById('voiceSelect');
+        const volSlider = document.getElementById('volSlider');
+        const rateSlider = document.getElementById('rateSlider');
+        const pitchSlider = document.getElementById('pitchSlider');
+        
+        const volVal = document.getElementById('volVal');
+        const rateVal = document.getElementById('rateVal');
+        const pitchVal = document.getElementById('pitchVal');
+        
+        const btnPreview = document.getElementById('btnPreview');
+        const btnStop = document.getElementById('btnStop');
+        const btnDownload = document.getElementById('btnDownload');
+        const audioPreviewContainer = document.getElementById('audioPreviewContainer');
+        const audioPreview = document.getElementById('audioPreview');
+        
+        let voices = [];
+
+        // 1. Initialize Voices
+        function populateVoices() {
+            voices = window.speechSynthesis.getVoices();
+            voiceSelect.innerHTML = '';
+            
+            if (voices.length === 0) {
+                voiceSelect.innerHTML = '<option value="">No voices available...</option>';
+                return;
+            }
+            
+            // Group and sort
+            voices.forEach((voice, index) => {
+                const option = document.createElement('option');
+                option.textContent = `${voice.name} (${voice.lang})`;
+                option.value = index;
+                if (voice.default) option.selected = true;
+                voiceSelect.appendChild(option);
+            });
+        }
+
+        populateVoices();
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = populateVoices;
+        }
+
+        // 2. UI Listeners
+        ttsInput.addEventListener('input', () => {
+            charCount.textContent = `${ttsInput.value.length} / 5000`;
+        });
+
+        volSlider.addEventListener('input', e => volVal.textContent = parseFloat(e.target.value).toFixed(1));
+        rateSlider.addEventListener('input', e => rateVal.textContent = parseFloat(e.target.value).toFixed(2));
+        pitchSlider.addEventListener('input', e => pitchVal.textContent = parseFloat(e.target.value).toFixed(2));
+
+        document.querySelectorAll('.emotion-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                rateSlider.value = btn.getAttribute('data-rate');
+                pitchSlider.value = btn.getAttribute('data-pitch');
+                rateVal.textContent = parseFloat(rateSlider.value).toFixed(2);
+                pitchVal.textContent = parseFloat(pitchSlider.value).toFixed(2);
+            });
+        });
+
+        // 3. Playback Engine
+        function createUtterance() {
+            const text = ttsInput.value.trim();
+            if (!text) {
+                Swal.fire('Empty', 'Please enter some text to convert.', 'warning');
+                return null;
+            }
+            
+            const utterance = new SpeechSynthesisUtterance(text);
+            const selectedVoice = voices[voiceSelect.value];
+            if (selectedVoice) utterance.voice = selectedVoice;
+            
+            utterance.volume = parseFloat(volSlider.value);
+            utterance.rate = parseFloat(rateSlider.value);
+            utterance.pitch = parseFloat(pitchSlider.value);
+            
+            return utterance;
+        }
+
+        btnPreview.addEventListener('click', () => {
+            const utterance = createUtterance();
+            if (!utterance) return;
+            
+            window.speechSynthesis.cancel(); // Stop anything playing
+            
+            btnPreview.style.display = 'none';
+            btnStop.style.display = 'inline-block';
+            
+            utterance.onend = () => {
+                btnPreview.style.display = 'inline-block';
+                btnStop.style.display = 'none';
+            };
+            
+            window.speechSynthesis.speak(utterance);
+        });
+
+        btnStop.addEventListener('click', () => {
+            window.speechSynthesis.cancel();
+            btnPreview.style.display = 'inline-block';
+            btnStop.style.display = 'none';
+        });
+
+        // 4. Capture & Download Engine (Using MediaRecorder)
+        btnDownload.addEventListener('click', async () => {
+            const utterance = createUtterance();
+            if (!utterance) return;
+            
+            if (!('getDisplayMedia' in navigator.mediaDevices)) {
+                Swal.fire('Unsupported Browser', 'Your browser does not support audio capture. Please use the Preview button or upgrade your browser.', 'error');
+                return;
+            }
+
+            Swal.fire({
+                title: 'Capture Audio',
+                text: 'To download the audio securely without a server, we must record the tab. When prompted, select "This Tab" and make sure "Share audio" is toggled ON.',
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonText: 'Start Capture'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    try {
+                        const stream = await navigator.mediaDevices.getDisplayMedia({
+                            video: true,
+                            audio: true
+                        });
+                        
+                        const audioTracks = stream.getAudioTracks();
+                        if (audioTracks.length === 0) {
+                            Swal.fire('Error', 'No audio track found. Make sure you toggle "Share audio" in the popup.', 'error');
+                            stream.getTracks().forEach(t => t.stop());
+                            return;
+                        }
+                        
+                        const audioStream = new MediaStream(audioTracks);
+                        const mediaRecorder = new MediaRecorder(audioStream);
+                        const chunks = [];
+                        
+                        mediaRecorder.ondataavailable = e => {
+                            if(e.data.size > 0) chunks.push(e.data);
+                        };
+                        
+                        mediaRecorder.onstop = () => {
+                            // Compile to WebM/OGG depending on browser
+                            const blob = new Blob(chunks, { type: 'audio/webm' });
+                            const url = URL.createObjectURL(blob);
+                            
+                            // Show player
+                            audioPreview.src = url;
+                            audioPreviewContainer.style.display = 'block';
+                            
+                            // Trigger Download
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = `tts_export_${Date.now()}.webm`;
+                            a.click();
+                            
+                            // Cleanup
+                            stream.getTracks().forEach(t => t.stop());
+                            btnDownload.innerHTML = '<i class="fas fa-download me-2"></i> Capture & Download Audio';
+                            btnDownload.disabled = false;
+                        };
+                        
+                        mediaRecorder.start();
+                        btnDownload.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Recording...';
+                        btnDownload.disabled = true;
+                        
+                        // Play the audio!
+                        window.speechSynthesis.cancel();
+                        utterance.onend = () => mediaRecorder.stop();
+                        window.speechSynthesis.speak(utterance);
+                        
+                    } catch (err) {
+                        console.error('Capture error:', err);
+                        Swal.fire('Permission Denied', 'Audio capture was denied. Please allow tab capture to download.', 'error');
+                    }
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
