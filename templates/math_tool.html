@@ -177,6 +177,7 @@
                     <div class="mb-4">
                         <label class="form-label fw-bold text-secondary">Select Conversion Type</label>
                         <select id="unitCategory" class="form-select form-select-lg" onchange="populateUnitDropdowns()">
+                            <option value="area" selected>Area</option>
                             <option value="length">Length</option>
                             <option value="weight">Weight / Mass</option>
                             <option value="temperature">Temperature</option>
@@ -334,6 +335,19 @@
                 yard: { name: 'Yards (yd)', factor: 0.9144 },
                 foot: { name: 'Feet (ft)', factor: 0.3048 },
                 inch: { name: 'Inches (in)', factor: 0.0254 }
+            }
+        },
+        area: {
+            base: 'square_meter',
+            units: {
+                square_meter: { name: 'Square Meters (m²)', factor: 1 },
+                square_kilometer: { name: 'Square Kilometers (km²)', factor: 1000000 },
+                square_centimeter: { name: 'Square Centimeters (cm²)', factor: 0.0001 },
+                square_millimeter: { name: 'Square Millimeters (mm²)', factor: 0.000001 },
+                hectare: { name: 'Hectares (ha)', factor: 10000 },
+                acre: { name: 'Acres', factor: 4046.8564224 },
+                square_foot: { name: 'Square Feet (ft²)', factor: 0.09290304 },
+                square_inch: { name: 'Square Inches (in²)', factor: 0.00064516 }
             }
         },
         weight: {
