@@ -1,4 +1,6 @@
-from flask import Blueprint, render_template, request
+import sys
+
+new_content = """from flask import Blueprint, render_template, request
 
 video_bp = Blueprint('video', __name__, url_prefix='/video')
 
@@ -32,3 +34,7 @@ def tool_mute():
 def tool_extract_audio():
     tool = next((t for t in VIDEO_TOOLS if t['id'] == 'extract_audio'), None)
     return render_template('video_tool.html', tool=tool)
+"""
+
+with open('routes/video.py', 'w') as f:
+    f.write(new_content)
