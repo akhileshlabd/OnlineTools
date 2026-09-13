@@ -80,16 +80,16 @@ def contact_page():
 @app.route('/sitemap.xml')
 def sitemap():
     from flask import make_response
-    template = render_template('sitemap.xml', 
-                               pdf_tools=PDF_TOOLS, 
-                               image_tools=IMAGE_TOOLS, 
-                               finance_tools=FINANCE_TOOLS, 
-                               code_tools=CODE_TOOLS, 
-                               text_tools=TEXT_TOOLS, 
-                               health_tools=HEALTH_TOOLS, 
+    template = render_template('sitemap.xml',
+                               pdf_tools=PDF_TOOLS,
+                               image_tools=IMAGE_TOOLS,
+                               finance_tools=FINANCE_TOOLS,
+                               code_tools=CODE_TOOLS,
+                               text_tools=TEXT_TOOLS,
+                               health_tools=HEALTH_TOOLS,
                                math_tools=MATH_TOOLS,
                                network_tools=NETWORK_TOOLS,
-                               games_tools=GAMES_TOOLS,
+                               games_tools=GAMES_TOOLS)
 
     response = make_response(template)
     response.headers["Content-Type"] = "application/xml"
