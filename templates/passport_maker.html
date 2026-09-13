@@ -52,15 +52,16 @@
 
                     <div class="mb-4">
                         <label class="form-label fw-bold"><i class="fas fa-print text-primary me-2"></i>Output Format</label>
-                        <select class="form-select shadow-sm" disabled>
-                            <option>4x6" Photo Print (2x3 Grid)</option>
+                        <select class="form-select shadow-sm" id="outputFormat">
+                            <option value="single">Single Digital Photo (600x600 px)</option>
+                            <option value="grid">4x6" Printable Sheet (2x3 Grid)</option>
                         </select>
-                        <small class="text-muted mt-2 d-block">Generates a standard 4x6 inch printable sheet at 300 DPI containing exactly six 2x2 inch passport photos with cut lines.</small>
+                        <small class="text-muted mt-2 d-block" id="formatHelperText">Generates a standard 2x2 inch digital photo for online applications.</small>
                     </div>
 
                     <div class="d-grid gap-2 mt-5">
                         <a href="#" id="downloadBtn" class="btn btn-primary btn-lg rounded-pill fw-bold shadow-sm" download>
-                            <i class="fas fa-download me-2"></i>Download 4x6" Sheet
+                            <i class="fas fa-download me-2"></i><span id="downloadBtnText">Download Single Photo</span>
                         </a>
                         <button class="btn btn-outline-secondary rounded-pill mt-2" onclick="window.location.reload()">
                             <i class="fas fa-redo me-1"></i> Start Over
@@ -70,7 +71,7 @@
 
                 <!-- Preview Canvas (Right) -->
                 <div class="col-md-8 text-center bg-light rounded d-flex flex-column align-items-center justify-content-center p-4">
-                    <h6 class="fw-bold text-muted mb-3">Printable 4x6" Sheet Preview</h6>
+                    <h6 class="fw-bold text-muted mb-3" id="previewTitle">Photo Preview</h6>
                     <!-- Scaled down via CSS, but internally 1200x1800 -->
                     <canvas id="previewCanvas" class="img-fluid shadow-lg rounded" style="max-height: 500px; border: 1px solid #dee2e6;"></canvas>
                 </div>
@@ -275,40 +276,55 @@
 
         pCtx.drawImage(cutoutCanvas, offsetX, offsetY, sw, sh);
 
-        // Printable 4x6" Sheet (1200x1800 px @ 300 DPI)
-        previewCanvas.width = 1200;
-        previewCanvas.height = 1800;
+        const format = document.getElementById('outputFormat').value;
         const ctx = previewCanvas.getContext('2d');
-        
-        // Fill white base
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fillRect(0, 0, 1200, 1800);
 
-        // Draw 2x3 Grid with crop marks
-        for(let row = 0; row < 3; row++) {
-            for(let col = 0; col < 2; col++) {
-                const x = col * 600;
-                const y = row * 600;
-                
-                ctx.drawImage(photoCanvas, x, y, 600, 600);
-                
-                // Crop marks
-                ctx.strokeStyle = '#CCCCCC';
-                ctx.setLineDash([5, 5]);
-                ctx.lineWidth = 2;
-                ctx.strokeRect(x, y, 600, 600);
+        if (format === 'single') {
+            previewCanvas.width = 600;
+            previewCanvas.height = 600;
+            ctx.drawImage(photoCanvas, 0, 0);
+            
+            downloadBtn.href = previewCanvas.toDataURL('image/jpeg', 1.0);
+            downloadBtn.download = `passport_photo_single_${Date.now()}.jpg`;
+            document.getElementById('downloadBtnText').textContent = 'Download Single Photo';
+            document.getElementById('previewTitle').textContent = 'Single Digital Photo Preview';
+            document.getElementById('formatHelperText').textContent = 'Generates a standard 2x2 inch (600x600 px) digital photo perfectly sized for online applications and forms.';
+        } else {
+            // Printable 4x6" Sheet (1200x1800 px @ 300 DPI)
+            previewCanvas.width = 1200;
+            previewCanvas.height = 1800;
+            
+            // Fill white base
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, 1200, 1800);
+
+            // Draw 2x3 Grid with crop marks
+            for(let row = 0; row < 3; row++) {
+                for(let col = 0; col < 2; col++) {
+                    const x = col * 600;
+                    const y = row * 600;
+                    
+                    ctx.drawImage(photoCanvas, x, y, 600, 600);
+                    
+                    // Crop marks
+                    ctx.strokeStyle = '#CCCCCC';
+                    ctx.setLineDash([5, 5]);
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(x, y, 600, 600);
+                }
             }
+            
+            downloadBtn.href = previewCanvas.toDataURL('image/jpeg', 1.0);
+            downloadBtn.download = `passport_sheet_4x6_${Date.now()}.jpg`;
+            document.getElementById('downloadBtnText').textContent = 'Download 4x6" Sheet';
+            document.getElementById('previewTitle').textContent = 'Printable 4x6" Sheet Preview';
+            document.getElementById('formatHelperText').textContent = 'Generates a standard 4x6 inch printable sheet at 300 DPI containing exactly six 2x2 inch passport photos with cut lines.';
         }
-        
-        // Update Download Link
-        downloadBtn.href = previewCanvas.toDataURL('image/jpeg', 1.0);
-        downloadBtn.download = `passport_sheet_4x6_${Date.now()}.jpg`;
     }
 
-    // Instantly reactive background color
-    bgColorPicker.addEventListener('input', () => {
-        updateCanvas();
-    });
+    // Instantly reactive UI
+    bgColorPicker.addEventListener('input', () => updateCanvas());
+    document.getElementById('outputFormat').addEventListener('change', () => updateCanvas());
 
 </script>
 {% endblock %}
