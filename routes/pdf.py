@@ -22,6 +22,10 @@ def excel_to_pdf():
 def image_to_pdf():  
     return render_template('image_to_pdf.html')
 
+@pdf_bp.route('/pdf-editor', methods=['GET'])
+def pdf_editor():
+    return render_template('pdf_editor.html')
+
 
 import io
 import PyPDF2
