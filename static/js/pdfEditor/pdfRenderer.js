@@ -1,7 +1,6 @@
 class PDFRenderer {
-    constructor(containerId, thumbnailContainerId) {
+    constructor(containerId) {
         this.container = document.getElementById(containerId);
-        this.thumbContainer = document.getElementById(thumbnailContainerId);
         this.pdfDoc = null;
         this.pdfBytes = null;
         this.scale = 1.5;
@@ -12,7 +11,6 @@ class PDFRenderer {
         this.pdfBytes = await file.arrayBuffer();
         this.pdfDoc = await pdfjsLib.getDocument({ data: this.pdfBytes.slice(0) }).promise;
         this.container.innerHTML = '';
-        this.thumbContainer.innerHTML = '';
         this.pages = [];
 
         for (let i = 1; i <= this.pdfDoc.numPages; i++) {
@@ -135,36 +133,12 @@ class PDFRenderer {
         wrapper.appendChild(overlayCanvas);
         this.container.appendChild(wrapper);
 
-        // Thumbnail
-        this.renderThumbnail(page, pageNum);
-
         this.pages.push({
             pageNum,
             viewport,
             originalWidth: viewport.width / this.scale,
             originalHeight: viewport.height / this.scale
         });
-    }
-
-    async renderThumbnail(page, pageNum) {
-        const thumbScale = 0.2;
-        const viewport = page.getViewport({ scale: thumbScale });
-        const canvas = document.createElement('canvas');
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
-        canvas.className = 'pdf-thumb-canvas';
-        canvas.onclick = () => {
-            document.querySelector(`.pdf-page-wrapper[data-page="${pageNum}"]`).scrollIntoView({ behavior: 'smooth' });
-        };
-        await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
-        
-        const wrap = document.createElement('div');
-        wrap.className = 'thumb-wrap';
-        wrap.appendChild(canvas);
-        const lbl = document.createElement('div');
-        lbl.textContent = pageNum;
-        wrap.appendChild(lbl);
-        this.thumbContainer.appendChild(wrap);
     }
 }
 window.PDFRenderer = PDFRenderer;
