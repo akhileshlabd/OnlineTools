@@ -153,6 +153,8 @@ IMAGE_TOOLS = {
 def dynamic_image_tool(tool_id):
     tool = IMAGE_TOOLS.get(tool_id)
     if not tool: return "Tool not found", 404
+    if tool_id == 'bg_remover':
+        return render_template('bg_remover.html', tool=tool)
     return render_template('dynamic_tool.html', tool=tool)
 
 @image_bp.route('/image-process/<tool_id>', methods=['POST'])
@@ -200,3 +202,5 @@ def qr_generator():
 @image_bp.route('/image')
 def image_hub():
     return render_template('hub_image.html', image_tools=IMAGE_TOOLS)
+
+
