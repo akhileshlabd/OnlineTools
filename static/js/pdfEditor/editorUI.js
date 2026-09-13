@@ -151,12 +151,136 @@ class EditorUI {
                 a.href = url;
                 a.download = 'edited.pdf';
                 a.click();
+                URL.revokeObjectURL(url);
             } catch (e) {
                 console.error(e);
                 alert('Error generating PDF');
             }
             this.hideLoading();
         });
+
+        // Properties bindings
+        const btnDelete = document.getElementById('btnDelete');
+        if (btnDelete) btnDelete.addEventListener('click', () => {
+            this.fabricCanvases.forEach(fc => {
+                const obj = fc.getActiveObject();
+                if (obj) { fc.remove(obj); fc.discardActiveObject(); fc.renderAll(); }
+            });
+        });
+
+        const colorPicker = document.getElementById('colorPicker');
+        if (colorPicker) colorPicker.addEventListener('input', e => {
+            const color = e.target.value;
+            this.fabricCanvases.forEach(fc => {
+                if (fc.freeDrawingBrush) fc.freeDrawingBrush.color = color;
+                const obj = fc.getActiveObject();
+                if (obj) {
+                    if (obj.type === 'i-text' || obj.type === 'text') obj.set('fill', color);
+                    else obj.set('stroke', color);
+                    fc.renderAll();
+                }
+            });
+        });
+
+        const sizePicker = document.getElementById('sizePicker');
+        if (sizePicker) sizePicker.addEventListener('input', e => {
+            const sz = parseInt(e.target.value);
+            this.fabricCanvases.forEach(fc => {
+                if (fc.freeDrawingBrush) fc.freeDrawingBrush.width = sz;
+                const obj = fc.getActiveObject();
+                if (obj) {
+                    if (obj.type === 'i-text' || obj.type === 'text') obj.set('fontSize', sz);
+                    else obj.set('strokeWidth', sz);
+                    fc.renderAll();
+                }
+            });
+        });
+
+        const fontFamily = document.getElementById('fontFamily');
+        if (fontFamily) fontFamily.addEventListener('change', e => {
+            this.fabricCanvases.forEach(fc => {
+                const obj = fc.getActiveObject();
+                if (obj && (obj.type === 'i-text' || obj.type === 'text')) {
+                    obj.set('fontFamily', e.target.value);
+                    fc.renderAll();
+                }
+            });
+        });
+        
+        const btnNewFile = document.getElementById('btnNewFile');
+        const pdfFileInput2 = document.getElementById('pdfFileInput2');
+        if (btnNewFile && pdfFileInput2) {
+            btnNewFile.addEventListener('click', () => pdfFileInput2.click());
+            pdfFileInput2.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    document.getElementById('pdfFileInput').files = e.target.files;
+                    document.getElementById('pdfFileInput').dispatchEvent(new Event('change'));
+                }
+            });
+        }
+
+        const btnUndo = document.getElementById('btnUndo');
+        if (btnUndo) {
+            btnUndo.addEventListener('click', () => {
+                this.fabricCanvases.forEach(fc => {
+                    const objs = fc.getObjects();
+                    if(objs.length > 0) { fc.remove(objs[objs.length - 1]); }
+                });
+            });
+        }
+
+        const btnBold = document.getElementById('btnBold');
+        if (btnBold) {
+            btnBold.addEventListener('click', () => {
+                btnBold.classList.toggle('active');
+                const weight = btnBold.classList.contains('active') ? 'bold' : 'normal';
+                this.fabricCanvases.forEach(fc => {
+                    const obj = fc.getActiveObject();
+                    if (obj) { obj.set('fontWeight', weight); fc.renderAll(); }
+                });
+            });
+        }
+
+        const btnItalic = document.getElementById('btnItalic');
+        if (btnItalic) {
+            btnItalic.addEventListener('click', () => {
+                btnItalic.classList.toggle('active');
+                const style = btnItalic.classList.contains('active') ? 'italic' : 'normal';
+                this.fabricCanvases.forEach(fc => {
+                    const obj = fc.getActiveObject();
+                    if (obj) { obj.set('fontStyle', style); fc.renderAll(); }
+                });
+            });
+        }
+
+        const btnImage = document.querySelector('[data-tool="image"]');
+        if (btnImage) {
+            btnImage.addEventListener('click', () => {
+                this.setTool('image');
+                const imgInput = document.createElement('input');
+                imgInput.type = 'file';
+                imgInput.accept = 'image/*';
+                imgInput.onchange = ev => {
+                    const file = ev.target.files[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = e => {
+                        fabric.Image.fromURL(e.target.result, img => {
+                            img.scaleToWidth(200);
+                            if (this.fabricCanvases.length > 0) {
+                                img.set({ left: 50, top: 50 });
+                                this.fabricCanvases[0].add(img);
+                                this.fabricCanvases[0].setActiveObject(img);
+                                this.fabricCanvases[0].renderAll();
+                            }
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                };
+                imgInput.click();
+            });
+        }
     }
 
     setTool(tool) {

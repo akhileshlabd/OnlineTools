@@ -58,21 +58,49 @@
     <input type="file" id="pdfFileInput" accept="application/pdf">
 </div>
 
-<div id="editorScreen" style="display:none; margin: -12px;">
+<div id="editorScreen" style="display:none; margin: 0 -12px;">
+    <!-- Top Toolbar -->
     <div id="editorTopbar">
-        <button class="tb-btn active" data-tool="select"><i class="fas fa-mouse-pointer"></i>Select</button>
+        <!-- Tool buttons -->
+        <button class="tb-btn active" data-tool="select" title="Select / Move (V)"><i class="fas fa-mouse-pointer"></i> Select</button>
         <div class="tool-sep"></div>
-        <button class="tb-btn" data-tool="text"><i class="fas fa-font"></i>Text</button>
-        <button class="tb-btn" data-tool="draw"><i class="fas fa-pencil-alt"></i>Draw</button>
+        <button class="tb-btn" data-tool="text" title="Add Text (T)"><i class="fas fa-font"></i> Text</button>
+        <button class="tb-btn" data-tool="draw" title="Draw / Signature (D)"><i class="fas fa-pencil-alt"></i> Draw</button>
+        <button class="tb-btn" data-tool="image" title="Add Image (I)"><i class="fas fa-image"></i> Image</button>
         <div class="tool-sep"></div>
-        <button class="tb-btn" data-tool="whiteout"><i class="fas fa-eraser"></i>Whiteout</button>
-        <button class="tb-btn" data-tool="rect"><i class="far fa-square"></i>Rect</button>
-        <button class="tb-btn" data-tool="ellipse"><i class="far fa-circle"></i>Ellipse</button>
-        
+        <button class="tb-btn" data-tool="highlight" title="Highlight (H)"><i class="fas fa-highlighter"></i> Highlight</button>
+        <button class="tb-btn" data-tool="whiteout" title="Whiteout / Redact (W)"><i class="fas fa-eraser"></i> Whiteout</button>
+        <div class="tool-sep"></div>
+        <button class="tb-btn" data-tool="rect" title="Rectangle"><i class="far fa-square"></i> Rect</button>
+        <button class="tb-btn" data-tool="ellipse" title="Ellipse"><i class="far fa-circle"></i> Ellipse</button>
+        <button class="tb-btn" data-tool="line" title="Line"><i class="fas fa-slash"></i> Line</button>
+        <div class="tool-sep"></div>
+
+        <!-- Colour & size controls -->
+        <span class="tb-label" id="colorLabel">Color</span>
+        <input type="color" class="tb-color" id="colorPicker" value="#2563eb" title="Color">
+        <span class="tb-label" id="sizeLabel">Size</span>
+        <input type="range" class="tb-range" id="sizePicker" min="1" max="80" value="16" title="Size / Stroke Width">
+        <select class="tb-select" id="fontFamily" title="Font">
+            <option value="Arial">Arial</option>
+            <option value="Georgia">Georgia</option>
+            <option value="Courier New">Courier New</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Verdana">Verdana</option>
+        </select>
+        <button class="tb-btn" id="btnBold" title="Bold"><i class="fas fa-bold"></i></button>
+        <button class="tb-btn" id="btnItalic" title="Italic"><i class="fas fa-italic"></i></button>
+
+        <div class="tool-sep"></div>
+        <button class="tb-btn" id="btnUndo" title="Undo (Ctrl+Z)"><i class="fas fa-undo-alt"></i> Undo</button>
+        <button class="tb-btn" id="btnDelete" title="Delete selected (Del)"><i class="fas fa-trash-alt"></i> Delete</button>
         <div style="flex:1"></div>
-        <span class="badge bg-success bg-opacity-10 text-success me-3"><i class="fas fa-lock"></i> 100% Client-Side</span>
-        <button id="btnDownload" class="btn btn-success btn-sm"><i class="fas fa-download"></i> Apply & Download</button>
+        <button id="btnNewFile" class="btn btn-outline-light btn-sm me-2" title="Open another file"><i class="fas fa-folder-open me-1"></i> Open</button>
+        <input type="file" id="pdfFileInput2" accept="application/pdf" style="display:none;">
+        <button id="btnDownload" class="btn btn-success btn-sm"><i class="fas fa-download me-1"></i> Download PDF</button>
     </div>
+
+    <!-- Workspace -->
     <div id="workspace">
         <div id="sidebar"></div>
         <div id="pagesArea"></div>
