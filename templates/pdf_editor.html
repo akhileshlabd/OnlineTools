@@ -6,7 +6,8 @@
 {% block styles %}
 <style>
 /* ── Layout ─────────────────────────────────────────── */
-#editorScreen { position: fixed; top: 60px; left: 0; right: 0; bottom: 0; z-index: 1000; display: flex; flex-direction: column; background: white; margin: 0 !important; }
+body.editor-open { overflow: hidden !important; }
+#editorScreen { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 99999; display: flex; flex-direction: column; background: #525659; margin: 0 !important; }
 #editorTopbar { display: flex; align-items: center; padding: 6px 16px; background: #ffffff; color: #333; flex-shrink: 0; box-shadow: 0 1px 4px rgba(0,0,0,0.08); border-bottom: 1px solid #e2e8f0; overflow-x: auto; }
 #workspace { display: flex; flex: 1; overflow: hidden; background: #525659; justify-content: center; }
 #pagesArea { flex: 1; overflow-y: auto; padding: 40px; display: flex; flex-direction: column; align-items: center; gap: 40px; }
@@ -71,6 +72,10 @@
 <div id="editorScreen" style="display:none;">
     <!-- Top Toolbar -->
     <div id="editorTopbar">
+        <!-- Close button -->
+        <button id="btnCloseEditor" class="tb-btn text-danger" title="Close Editor"><i class="fas fa-times"></i> Close</button>
+        <div class="tool-sep"></div>
+        
         <!-- Tool buttons -->
         <button class="tb-btn" data-tool="select" title="Select / Move (V)"><i class="fas fa-mouse-pointer"></i> Select</button>
         <div class="tool-sep"></div>
@@ -139,6 +144,7 @@ document.getElementById('pdfFileInput').addEventListener('change', async (e) => 
     const file = e.target.files[0];
     if (!file) return;
     
+    document.body.classList.add('editor-open');
     document.getElementById('uploadScreen').style.display = 'none';
     document.getElementById('editorScreen').style.display = 'flex';
     document.getElementById('loadingOverlay').style.display = 'flex';
@@ -147,6 +153,14 @@ document.getElementById('pdfFileInput').addEventListener('change', async (e) => 
     ui.initFabricCanvases(numPages);
     
     document.getElementById('loadingOverlay').style.display = 'none';
+});
+
+document.getElementById('btnCloseEditor').addEventListener('click', () => {
+    document.body.classList.remove('editor-open');
+    document.getElementById('editorScreen').style.display = 'none';
+    document.getElementById('uploadScreen').style.display = 'block';
+    document.getElementById('pdfFileInput').value = '';
+    renderer.container.innerHTML = '';
 });
 </script>
 {% endblock %}
