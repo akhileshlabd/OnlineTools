@@ -20,6 +20,7 @@ class EditorUI {
             this.bindCanvasEvents(fc, i);
         }
         this.bindTextLayerEvents();
+        this.setTool(this.activeTool);
     }
 
     bindCanvasEvents(fc, pageNum) {
@@ -127,6 +128,7 @@ class EditorUI {
                     });
                     fc.add(t);
                     fc.setActiveObject(t);
+                    fc.renderAll();
                     t.enterEditing();
                     t.selectAll();
                     this.setTool('select'); // revert to select to manipulate the text
@@ -145,6 +147,7 @@ class EditorUI {
                     });
                     fc.add(t);
                     fc.setActiveObject(t);
+                    fc.renderAll();
                     t.enterEditing();
                     t.selectAll();
                     this.setTool('select'); // revert to select
