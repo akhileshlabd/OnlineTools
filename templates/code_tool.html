@@ -43,6 +43,8 @@
                 <div class="card-header bg-light fw-bold border-bottom-0 pt-3">Input JSON</div>
                 <div class="card-body p-0">
                     <textarea id="jsonInput" class="form-control font-monospace border-0 h-100 p-3" rows="15" placeholder='{"name": "Developer"}'></textarea>
+                    <div class="mt-2 d-flex justify-content-between">
+                        <button class="btn btn-sm btn-outline-danger" onclick="document.getElementById('jsonInput').value=''"><i class="fas fa-trash"></i> Clear</button></div>
                 </div>
             </div>
         </div>
@@ -50,7 +52,7 @@
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-header bg-light fw-bold border-bottom-0 pt-3 d-flex justify-content-between align-items-center">
                     Formatted JSON
-                    <button class="btn btn-primary btn-sm fw-bold px-3" onclick="formatJSON()">Format</button>
+                    <button class="btn btn-primary btn-sm fw-bold px-3" onclick="formatJSON()">Format</button> <button class="btn btn-outline-secondary btn-sm fw-bold px-3 ms-2" onclick="copyResult('jsonOutput')"><i class="fas fa-copy"></i> Copy</button>
                 </div>
                 <div class="card-body p-0">
                     <textarea id="jsonOutput" class="form-control font-monospace bg-dark text-light border-0 h-100 p-3" rows="15" readonly></textarea>
@@ -103,7 +105,7 @@
     </div>
     <div class="card shadow-sm border-0">
         <div class="card-body p-4 bg-light rounded">
-            <label class="form-label fw-bold">Result</label>
+            <label class="form-label fw-bold d-flex justify-content-between">Result <button class="btn btn-sm btn-outline-secondary py-0" onclick="copyResult('b64Output')"><i class="fas fa-copy"></i> Copy</button></label>
             <textarea id="b64Output" class="form-control font-monospace" rows="5" readonly></textarea>
         </div>
     </div>
@@ -118,15 +120,15 @@
     </div>
     <div class="row g-3">
         <div class="col-md-12">
-            <label class="form-label fw-bold text-muted small">MD5 HASH</label>
+            <label class="form-label fw-bold text-muted small d-flex justify-content-between">MD5 HASH <button class="btn btn-sm text-secondary p-0" onclick="copyResult('hashMD5')"><i class="fas fa-copy"></i></button></label>
             <input type="text" id="hashMD5" class="form-control form-control-lg font-monospace text-primary bg-white" readonly>
         </div>
         <div class="col-md-12">
-            <label class="form-label fw-bold text-muted small">SHA-1 HASH</label>
+            <label class="form-label fw-bold text-muted small d-flex justify-content-between">SHA-1 HASH <button class="btn btn-sm text-secondary p-0" onclick="copyResult('hashSHA1')"><i class="fas fa-copy"></i></button></label>
             <input type="text" id="hashSHA1" class="form-control form-control-lg font-monospace text-primary bg-white" readonly>
         </div>
         <div class="col-md-12">
-            <label class="form-label fw-bold text-muted small">SHA-256 HASH</label>
+            <label class="form-label fw-bold text-muted small d-flex justify-content-between">SHA-256 HASH <button class="btn btn-sm text-secondary p-0" onclick="copyResult('hashSHA256')"><i class="fas fa-copy"></i></button></label>
             <input type="text" id="hashSHA256" class="form-control form-control-lg font-monospace text-primary bg-white" readonly>
         </div>
     </div>
@@ -329,7 +331,7 @@
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-header bg-white border-bottom-0 pt-4 pb-0 d-flex justify-content-between align-items-center">
                     <h5 class="fw-bold mb-0"><i class="fab fa-markdown text-primary me-2"></i> Markdown</h5>
-                    <button class="btn btn-sm btn-outline-danger" onclick="document.getElementById('mdInput').value=''; updateMarkdown();"><i class="fas fa-trash"></i> Clear</button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="document.getElementById('mdInput').value=''; updateMarkdown();"><i class="fas fa-trash"></i> Clear</button></div>
                 </div>
                 <div class="card-body">
                     <textarea id="mdInput" class="form-control font-monospace" rows="15" placeholder="# Hello World\n\nWrite your **markdown** here..." oninput="updateMarkdown()" style="border: none; box-shadow: none; resize: vertical;"></textarea>

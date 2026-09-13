@@ -1,38 +1,15 @@
 {% extends "base.html" %}
 
-{% block title %}{{ tool.seo_title }} - Free Qube{% endblock %}
-{% block meta_desc %}{{ tool.seo_desc }}{% endblock %}
-{% block meta_keywords %}{{ tool.name | lower }}, free {{ tool.name | lower }}, online {{ tool.name | lower }}, free qube, {{ tool.type }} tools{% endblock %}
+{% block title %}{{ tool.name }} - Free Qube{% endblock %}
+{% block meta_desc %}{{ tool.desc }} Fast, free, and secure client-side processing.{% endblock %}
 
-{% block schema %}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "{{ t(tool.name) }}",
-  "operatingSystem": "All",
-  "applicationCategory": "UtilitiesApplication",
-  "description": "{{ t(tool.desc) }}",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.8",
-      "ratingCount": "1250"
-    }
-  }
-}
-</script>
-{% endblock %}
 {% block content %}
-<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-<div class="tool-interface" style="max-width: 700px;">
+<div class="tool-interface" style="max-width: 800px; margin: 0 auto;">
+    
     <div class="text-center mb-4">
-        <h2 class="fw-bold">{{ t(tool.name) }}</h2>
-        <p class="text-muted">{{ t(tool.desc) }}</p>
+        <div class="icon-wrapper mx-auto mb-3 text-primary"><i class="fas {{ tool.icon }} fa-2x"></i></div>
+        <h2 class="fw-bold">{{ tool.name }}</h2>
+        <p class="text-muted">{{ tool.desc }}</p>
     </div>
 
     <form id="dynamicForm">
@@ -45,13 +22,21 @@
         </div>
         
         <!-- Enhanced Preview & Remove Section -->
-        <div id="filePreviewSection" class="text-center mb-4 p-3 bg-light rounded shadow-sm border position-relative" style="display:none;">
+        <div id="filePreviewSection" class="text-center mb-4 p-4 bg-light rounded shadow-sm border position-relative" style="display:none;">
             <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 rounded-circle shadow" onclick="removeFile()" title="Remove File" style="z-index: 10;">
                 <i class="fas fa-times"></i>
             </button>
             <div class="d-flex justify-content-center align-items-center flex-column w-100">
-                <img id="imagePreview" class="img-fluid rounded shadow-sm mb-3" style="max-height: 200px; object-fit: contain; display: none;">
-                <iframe id="pdfPreviewFrame" class="rounded shadow-sm mb-3 w-100 border" style="height: 350px; display: none;"></iframe>
+                <img id="imagePreview" class="img-fluid rounded shadow-sm mb-3 bg-white border" style="max-height: 250px; object-fit: contain; display: none;">
+                
+                {% if tool.type == 'image' %}
+                <!-- Real-time download button for images -->
+                <a href="#" id="downloadLiveImageBtn" class="btn btn-success rounded-pill px-4 fw-bold shadow-sm mb-3" style="display:none;" download>
+                    <i class="fas fa-download me-2"></i>Download Result
+                </a>
+                {% endif %}
+
+                <iframe id="pdfPreviewFrame" class="rounded shadow-sm mb-3 w-100 border bg-white" style="height: 350px; display: none;"></iframe>
                 <i id="pdfPreviewIcon" class="fas fa-file-pdf text-danger mb-3" style="font-size: 4rem; display: none;"></i>
                 <h5 id="previewFileName" class="mb-1 text-truncate w-100 px-3"></h5>
                 <small id="previewFileSize" class="text-muted"></small>
@@ -65,64 +50,46 @@
             <div class="col-md-6">
                 <label class="form-label fw-bold">{{ input.label }}</label>
                 {% if input.type == 'textarea' %}
-                <textarea class="form-control" name="{{ input.name }}" rows="4" required></textarea>
+                <textarea class="form-control input-live" id="input_{{ input.name }}" name="{{ input.name }}" rows="4" required></textarea>
                 {% else %}
-                <input type="{{ input.type }}" class="form-control" name="{{ input.name }}" id="input_{{ input.name }}" {% if input.min %}min="{{ input.min }}"{% endif %} {% if input.max %}max="{{ input.max }}"{% endif %} required>
+                <input type="{{ input.type }}" class="form-control input-live" id="input_{{ input.name }}" name="{{ input.name }}" {% if input.min is defined %}min="{{ input.min }}"{% endif %} {% if input.max is defined %}max="{{ input.max }}"{% endif %} value="{% if input.min is defined %}{{ input.min }}{% endif %}" required>
                 {% endif %}
             </div>
             {% endfor %}
         </div>
         {% endif %}
 
-        <div class="text-center">
+        <!-- Only show process button for PDFs since Images are real-time -->
+        {% if tool.type == 'pdf' %}
+        <div class="text-center" id="processBtnContainer">
             <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5 fw-bold shadow-sm" id="submitBtn">
-                <i class="fas fa-magic me-2"></i>Process
+                <i class="fas fa-magic me-2"></i>Process PDF
             </button>
         </div>
         
         <div class="text-center mt-3" id="spinnerContainer" style="display: none;">
             <div class="spinner-border text-primary" role="status"></div>
-            <p class="mt-2 text-muted" id="spinnerText">Processing, please wait...</p>
+            <p class="mt-2 text-muted" id="spinnerText">Processing securely...</p>
         </div>
+        {% endif %}
     </form>
     
-    <!-- Preview & Download Section -->
-    <div id="resultSection" class="text-center mt-4 p-4 bg-light rounded shadow-sm border" style="display:none;">
-        <h4 class="text-primary mb-3"><i class="fas fa-check-circle me-2"></i>Processing Complete!</h4>
-        <p class="text-muted">Preview your processed image below before downloading.</p>
-        <img id="resultImagePreview" class="img-fluid rounded shadow-sm mb-3 border" style="max-height: 300px; object-fit: contain;">
-        <div class="d-flex justify-content-center gap-3 mt-3">
-            <button class="btn btn-outline-secondary px-4" type="button" onclick="modifySettings()">
-                <i class="fas fa-sliders-h me-1"></i> Modify Settings
-            </button>
-            <a id="downloadResultBtn" class="btn btn-primary fw-bold px-4">
-                <i class="fas fa-download me-1"></i> Download Image
-            </a>
-        </div>
+    <div class="alert alert-primary border-0 shadow-sm mt-4">
+        <i class="fas fa-info-circle me-2"></i> <strong>Private & Secure:</strong> All file processing happens entirely on your device inside your browser. No files are uploaded to our servers.
     </div>
-</div>
-
-<!-- SEO & Instructions Content for AdSense Compliance -->
-<div class="container bg-white p-4 rounded shadow-sm mt-5 mb-4" style="max-width: 800px; margin: 0 auto;">
-    <h3 class="h4 fw-bold">How to Use the {{ t(tool.name) }} Tool</h3>
-    <p>Using our <strong>{{ t(tool.name) }}</strong> utility is designed to be as straightforward and secure as possible. To get started, simply drag and drop your file into the designated upload area above, or click the "Select File" button to browse your device. Once your file is loaded, you will see a preview indicating that the file is ready for processing.</p>
-    
-    <h3 class="h5 fw-bold mt-4">Why Choose Free Qube for Your Document Needs?</h3>
-    <p>Free Qube is dedicated to providing premium-level utilities without the premium price tag. Here are a few reasons why thousands of users trust our platform:</p>
-    <ul>
-        <li><strong>Completely Free:</strong> There are no hidden fees, subscription plans, or paywalls. Every feature is available to you at absolutely no cost.</li>
-        <li><strong>No Watermarks:</strong> Unlike many other free services, we never stamp our logo or any watermark onto your processed files. Your documents remain clean and professional.</li>
-        <li><strong>Browser-First Privacy:</strong> Whenever technically possible, our tools utilize advanced HTML5 and JavaScript technologies to process your files directly inside your web browser. This means your sensitive data never leaves your computer.</li>
-        <li><strong>Secure Server Processing:</strong> For tasks that require heavy computational power, files are uploaded securely via encrypted HTTPS connections. We guarantee that these files are automatically deleted from our servers immediately after the process is completed. We do not store, view, or share your data.</li>
-    </ul>
-
-    <h3 class="h5 fw-bold mt-4">Best Practices for File Processing</h3>
-    <p>To ensure the best results when using the {{ t(tool.name) }} feature, please make sure your uploaded files are not corrupted and do not exceed our 50MB file size limit. If you are processing images, using standard formats like JPG, PNG, or WEBP will yield the fastest processing times. For PDF documents, ensure the file is not heavily encrypted or damaged before attempting to apply modifications. If you encounter any issues, simply refresh the page and try again.</p>
 </div>
 {% endblock %}
 
 {% block scripts %}
+{% if tool.type == 'pdf' %}
+<!-- PDF-lib for client-side PDF processing -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+{% endif %}
+
 <script>
+const toolType = "{{ tool.type }}";
+const toolId = "{{ tool.id }}";
+
 const form = document.getElementById('dynamicForm');
 const fileInput = document.getElementById('fileInput');
 const dropArea = document.getElementById('dropArea');
@@ -132,10 +99,13 @@ const spinnerText = document.getElementById('spinnerText');
 
 const filePreviewSection = document.getElementById('filePreviewSection');
 const imagePreview = document.getElementById('imagePreview');
+const downloadLiveImageBtn = document.getElementById('downloadLiveImageBtn');
 const pdfPreviewFrame = document.getElementById('pdfPreviewFrame');
 const pdfPreviewIcon = document.getElementById('pdfPreviewIcon');
 const previewFileName = document.getElementById('previewFileName');
 const previewFileSize = document.getElementById('previewFileSize');
+
+let originalImageBlob = null;
 
 function removeFile() {
     fileInput.value = '';
@@ -143,6 +113,7 @@ function removeFile() {
     dropArea.style.display = 'block';
     imagePreview.src = '';
     if (pdfPreviewFrame) pdfPreviewFrame.src = '';
+    if (downloadLiveImageBtn) downloadLiveImageBtn.style.display = 'none';
 }
 
 if (dropArea && fileInput) {
@@ -171,10 +142,17 @@ if (dropArea && fileInput) {
                 imagePreview.style.display = 'block';
                 if (pdfPreviewFrame) pdfPreviewFrame.style.display = 'none';
                 pdfPreviewIcon.style.display = 'none';
+                
+                dropArea.style.display = 'none';
+                filePreviewSection.style.display = 'block';
+                
+                // Immediately process for live preview
+                if (toolType === 'image') {
+                    triggerLiveImageUpdate();
+                }
             } else if (file.type === 'application/pdf') {
                 const url = URL.createObjectURL(file);
                 imagePreview.style.display = 'none';
-                // Use a real visual iframe preview if possible
                 if (pdfPreviewFrame) {
                     pdfPreviewFrame.src = url + "#toolbar=0&navpanes=0&scrollbar=0";
                     pdfPreviewFrame.style.display = 'block';
@@ -182,12 +160,40 @@ if (dropArea && fileInput) {
                 } else {
                     pdfPreviewIcon.style.display = 'block';
                 }
+                dropArea.style.display = 'none';
+                filePreviewSection.style.display = 'block';
             }
-            
-            dropArea.style.display = 'none';
-            filePreviewSection.style.display = 'block';
         }
     }
+}
+
+// Attach Live Update Listeners
+const liveInputs = document.querySelectorAll('.input-live');
+liveInputs.forEach(input => {
+    input.addEventListener('input', () => {
+        if (toolType === 'image') triggerLiveImageUpdate();
+    });
+});
+
+let liveProcessTimeout;
+function triggerLiveImageUpdate() {
+    clearTimeout(liveProcessTimeout);
+    liveProcessTimeout = setTimeout(async () => {
+        if (!fileInput.files || fileInput.files.length === 0) return;
+        try {
+            const blob = await processImageClientSide(fileInput.files[0], toolId);
+            const url = URL.createObjectURL(blob);
+            imagePreview.src = url;
+            
+            if (downloadLiveImageBtn) {
+                downloadLiveImageBtn.href = url;
+                downloadLiveImageBtn.download = `processed_${fileInput.files[0].name}`;
+                downloadLiveImageBtn.style.display = 'inline-block';
+            }
+        } catch (e) {
+            console.error("Live update error", e);
+        }
+    }, 150);
 }
 
 // Client-Side Canvas Image Processing Engine
@@ -220,7 +226,6 @@ function processImageClientSide(file, toolId) {
             
             ctx.save();
             
-            // Center context for transformations
             if (toolId === 'rotate_tool' || toolId === 'flip_h' || toolId === 'flip_v') {
                 ctx.translate(canvas.width / 2, canvas.height / 2);
             }
@@ -251,7 +256,6 @@ function processImageClientSide(file, toolId) {
                 ctx.rotate(angle * Math.PI / 180);
                 ctx.drawImage(img, -width / 2, -height / 2, width, height);
             } else {
-                // Fallback
                 ctx.drawImage(img, 0, 0, width, height);
             }
             
@@ -271,9 +275,8 @@ function processImageClientSide(file, toolId) {
 // Client-Side PDF Processing Engine
 async function processPdfClientSide(file, toolId) {
     if (typeof PDFLib === 'undefined') {
-        throw new Error("PDF processing library not loaded. Please check your internet connection.");
+        throw new Error("PDF processing library not loaded.");
     }
-    
     const { PDFDocument, rgb, degrees, StandardFonts } = PDFLib;
     const arrayBuffer = await file.arrayBuffer();
     const pdfDoc = await PDFDocument.load(arrayBuffer);
@@ -318,85 +321,40 @@ async function processPdfClientSide(file, toolId) {
     return new Blob([pdfBytes], { type: 'application/pdf' });
 }
 
+// Only handle submit for PDFs now
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    if (toolType !== 'pdf') return;
     
-    const toolType = "{{ tool.type }}";
-    const toolId = "{{ tool.id }}";
-    
-    // Explicit manual validation (HTML5 native validation fails on hidden inputs)
-    if (['image', 'pdf'].includes(toolType)) {
-        if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
-            Swal.fire("Wait!", "Please select or drag-and-drop a file first!", "warning");
-            return;
-        }
+    if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+        Swal.fire("Wait!", "Please select a PDF file first!", "warning");
+        return;
     }
     
     spinnerContainer.style.display = 'block';
     submitBtn.disabled = true;
+    spinnerText.innerText = "Processing PDF securely on your device...";
     
-    // JS-Side Processing for Images
-    if (toolType === 'image' && fileInput && fileInput.files.length > 0) {
-        spinnerText.innerText = "Processing locally in your browser...";
-        try {
-            const blob = await processImageClientSide(fileInput.files[0], toolId);
-            const url = URL.createObjectURL(blob);
-            
-            document.getElementById('resultImagePreview').src = url;
-            document.getElementById('downloadResultBtn').href = url;
-            document.getElementById('downloadResultBtn').download = `processed_${fileInput.files[0].name}`;
-            
-            form.style.display = 'none';
-            document.getElementById('resultSection').style.display = 'block';
-            
-            spinnerContainer.style.display = 'none';
-            submitBtn.disabled = false;
-            return;
-        } catch (error) {
-            console.error(error);
-            Swal.fire("Error", "Local browser processing failed. Please try again.", "error");
-            spinnerContainer.style.display = 'none';
-            submitBtn.disabled = false;
-            return;
-        }
+    try {
+        const blob = await processPdfClientSide(fileInput.files[0], toolId);
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `processed_${fileInput.files[0].name}`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        spinnerContainer.style.display = 'none';
+        submitBtn.disabled = false;
+    } catch (error) {
+        console.error(error);
+        Swal.fire("Error", error.message || "Local PDF processing failed.", "error");
+        spinnerContainer.style.display = 'none';
+        submitBtn.disabled = false;
     }
-    
-    // JS-Side Processing for PDFs
-    if (toolType === 'pdf' && fileInput && fileInput.files.length > 0) {
-        spinnerText.innerText = "Processing PDF securely on your device...";
-        try {
-            const blob = await processPdfClientSide(fileInput.files[0], toolId);
-            const url = URL.createObjectURL(blob);
-            
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `processed_${fileInput.files[0].name}`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            spinnerContainer.style.display = 'none';
-            submitBtn.disabled = false;
-            return;
-        } catch (error) {
-            console.error(error);
-            Swal.fire("Error", error.message || "Local PDF processing failed. Please try again.", "error");
-            spinnerContainer.style.display = 'none';
-            submitBtn.disabled = false;
-            return;
-        }
-    }
-    
-    // Fallback for non-file tools if any exist
-    spinnerContainer.style.display = 'none';
-    submitBtn.disabled = false;
 });
-
-function modifySettings() {
-    form.style.display = 'block';
-    const resultSection = document.getElementById('resultSection');
-    if(resultSection) resultSection.style.display = 'none';
-}
 </script>
 {% endblock %}
