@@ -28,31 +28,26 @@ class EditorUI {
         let tempShape = null;
 
         fc.on('mouse:down', (o) => {
-            if (this.activeTool === 'select' || this.activeTool === 'draw') return;
+            if (this.activeTool === 'select' || this.activeTool === 'draw' || this.activeTool === 'text') return;
             const pt = fc.getPointer(o.e);
-            
-            if (this.activeTool === 'text') {
-                const t = new fabric.IText('New Text', {
-                    left: pt.x, top: pt.y,
-                    fontFamily: 'Arial', fontSize: 20, fill: '#000000',
-                    editable: true
-                });
-                fc.add(t);
-                fc.setActiveObject(t);
-                t.enterEditing();
-                this.setTool('select'); // revert to select
-                return;
-            }
 
-            if (['whiteout', 'rect', 'ellipse'].includes(this.activeTool)) {
+            if (['whiteout', 'rect', 'ellipse', 'line'].includes(this.activeTool)) {
                 isDrawing = true;
                 startPt = pt;
+                
+                const colorInput = document.getElementById('colorPicker');
+                const strokeColor = colorInput ? colorInput.value : '#000000';
+                const sizeInput = document.getElementById('sizePicker');
+                const strokeW = sizeInput ? parseInt(sizeInput.value) : 2;
+
                 if (this.activeTool === 'whiteout') {
                     tempShape = new fabric.Rect({ left: pt.x, top: pt.y, width: 0, height: 0, fill: '#ffffff', selectable: false });
                 } else if (this.activeTool === 'rect') {
-                    tempShape = new fabric.Rect({ left: pt.x, top: pt.y, width: 0, height: 0, fill: 'transparent', stroke: '#000000', strokeWidth: 2, selectable: false });
+                    tempShape = new fabric.Rect({ left: pt.x, top: pt.y, width: 0, height: 0, fill: 'transparent', stroke: strokeColor, strokeWidth: strokeW, selectable: false });
                 } else if (this.activeTool === 'ellipse') {
-                    tempShape = new fabric.Ellipse({ left: pt.x, top: pt.y, rx: 0, ry: 0, fill: 'transparent', stroke: '#000000', strokeWidth: 2, selectable: false });
+                    tempShape = new fabric.Ellipse({ left: pt.x, top: pt.y, rx: 0, ry: 0, fill: 'transparent', stroke: strokeColor, strokeWidth: strokeW, selectable: false });
+                } else if (this.activeTool === 'line') {
+                    tempShape = new fabric.Line([pt.x, pt.y, pt.x, pt.y], { stroke: strokeColor, strokeWidth: strokeW, selectable: false });
                 }
                 fc.add(tempShape);
             }
@@ -61,15 +56,19 @@ class EditorUI {
         fc.on('mouse:move', (o) => {
             if (!isDrawing || !tempShape) return;
             const pt = fc.getPointer(o.e);
-            const w = Math.abs(pt.x - startPt.x);
-            const h = Math.abs(pt.y - startPt.y);
-            const l = Math.min(pt.x, startPt.x);
-            const t = Math.min(pt.y, startPt.y);
-            
-            if (this.activeTool === 'ellipse') {
-                tempShape.set({ left: l, top: t, rx: w/2, ry: h/2 });
+            if (this.activeTool === 'line') {
+                tempShape.set({ x2: pt.x, y2: pt.y });
             } else {
-                tempShape.set({ left: l, top: t, width: w, height: h });
+                const w = Math.abs(pt.x - startPt.x);
+                const h = Math.abs(pt.y - startPt.y);
+                const l = Math.min(pt.x, startPt.x);
+                const t = Math.min(pt.y, startPt.y);
+                
+                if (this.activeTool === 'ellipse') {
+                    tempShape.set({ left: l, top: t, rx: w/2, ry: h/2 });
+                } else {
+                    tempShape.set({ left: l, top: t, width: w, height: h });
+                }
             }
             fc.renderAll();
         });
@@ -84,48 +83,72 @@ class EditorUI {
     }
 
     bindTextLayerEvents() {
-        // Text patching workflow
-        document.querySelectorAll('.pdf-text-layer span').forEach(span => {
-            span.style.cursor = 'text';
-            span.addEventListener('click', (e) => {
-                if (this.activeTool !== 'select') return;
-                const rect = span.getBoundingClientRect();
-                const wrapper = span.closest('.pdf-page-wrapper');
+        document.querySelectorAll('.pdf-text-layer').forEach(layer => {
+            layer.addEventListener('click', (e) => {
+                if (this.activeTool !== 'text') return;
+                
+                const wrapper = layer.closest('.pdf-page-wrapper');
                 const wrapperRect = wrapper.getBoundingClientRect();
                 const pageNum = parseInt(wrapper.dataset.page);
-                
-                // Calculate position relative to the canvas
-                const x = rect.left - wrapperRect.left;
-                const y = rect.top - wrapperRect.top;
-                const w = rect.width;
-                const h = rect.height;
-
-                // 1. Record the whiteout patch for the engine
-                this.patches[pageNum].push({ x, y, w, h });
-                
-                // 2. Hide original text visually in DOM
-                span.style.opacity = '0';
-                
-                // 3. Add editable fabric text directly over it
                 const fc = this.fabricCanvases[pageNum - 1];
                 
-                // Add a visual white background to the fabric canvas to hide it in UI immediately
-                const whiteBg = new fabric.Rect({
-                    left: x, top: y, width: w, height: h, fill: '#ffffff', selectable: false
-                });
-                fc.add(whiteBg);
+                if (e.target.tagName === 'SPAN') {
+                    // Inline editing (Patching)
+                    const span = e.target;
+                    const rect = span.getBoundingClientRect();
+                    
+                    const x = rect.left - wrapperRect.left;
+                    const y = rect.top - wrapperRect.top;
+                    const w = rect.width;
+                    const h = rect.height;
 
-                const t = new fabric.IText(span.textContent, {
-                    left: x, top: y,
-                    fontFamily: span.style.fontFamily || 'Arial',
-                    fontSize: parseFloat(span.style.fontSize) || 16,
-                    fill: span.style.color || '#000000',
-                    editable: true
-                });
-                fc.add(t);
-                fc.setActiveObject(t);
-                t.enterEditing();
-                t.selectAll();
+                    // 1. Record the whiteout patch for the engine
+                    this.patches[pageNum].push({ x, y, w, h });
+                    
+                    // 2. Hide original text visually in DOM
+                    span.style.opacity = '0';
+                    span.style.pointerEvents = 'none'; // Prevent double clicking
+                    
+                    // 3. Add visual white background to the fabric canvas to hide it in UI immediately
+                    const whiteBg = new fabric.Rect({
+                        left: x, top: y, width: w, height: h, fill: '#ffffff', selectable: false
+                    });
+                    fc.add(whiteBg);
+                    
+                    const colorInput = document.getElementById('colorPicker');
+                    const textColor = colorInput ? colorInput.value : '#000000';
+
+                    const t = new fabric.IText(span.textContent, {
+                        left: x, top: y,
+                        fontFamily: 'Arial',
+                        fontSize: parseFloat(span.style.fontSize) || 16,
+                        fill: textColor,
+                        editable: true
+                    });
+                    fc.add(t);
+                    fc.setActiveObject(t);
+                    t.enterEditing();
+                    t.selectAll();
+                    this.setTool('select'); // revert to select to manipulate the text
+                } else {
+                    // Add new text at clicked coordinates
+                    const x = e.clientX - wrapperRect.left;
+                    const y = e.clientY - wrapperRect.top;
+                    
+                    const colorInput = document.getElementById('colorPicker');
+                    const textColor = colorInput ? colorInput.value : '#000000';
+                    
+                    const t = new fabric.IText('New Text', {
+                        left: x, top: y,
+                        fontFamily: 'Arial', fontSize: 20, fill: textColor,
+                        editable: true
+                    });
+                    fc.add(t);
+                    fc.setActiveObject(t);
+                    t.enterEditing();
+                    t.selectAll();
+                    this.setTool('select'); // revert to select
+                }
             });
         });
     }
@@ -287,8 +310,31 @@ class EditorUI {
         this.activeTool = tool;
         document.querySelectorAll('[data-tool]').forEach(b => b.classList.toggle('active', b.dataset.tool === tool));
         this.fabricCanvases.forEach(fc => {
-            fc.isDrawingMode = (tool === 'draw');
+            fc.isDrawingMode = (tool === 'draw' || tool === 'highlight');
             fc.selection = (tool === 'select');
+            
+            if (fc.isDrawingMode) {
+                const colorInput = document.getElementById('colorPicker');
+                const sizeInput = document.getElementById('sizePicker');
+                if (tool === 'highlight') {
+                    fc.freeDrawingBrush.color = 'rgba(255, 255, 0, 0.4)';
+                    fc.freeDrawingBrush.width = 24;
+                } else {
+                    fc.freeDrawingBrush.color = colorInput ? colorInput.value : '#000000';
+                    fc.freeDrawingBrush.width = sizeInput ? parseInt(sizeInput.value) : 2;
+                }
+            }
+        });
+        
+        // Allow clicking PDF text when tool is 'text'
+        document.querySelectorAll('.pdf-text-layer').forEach(layer => {
+            if (tool === 'text') {
+                layer.style.zIndex = '3';
+                layer.style.pointerEvents = 'auto';
+            } else {
+                layer.style.zIndex = '1';
+                layer.style.pointerEvents = 'none';
+            }
         });
     }
     

@@ -48,12 +48,23 @@ class PDFRenderer {
         textLayerDiv.style.height = viewport.height + 'px';
         
         const textContent = await page.getTextContent();
-        pdfjsLib.renderTextLayer({
-            textContentSource: textContent,
-            container: textLayerDiv,
-            viewport: viewport,
-            textDivs: []
-        });
+        for (const item of textContent.items) {
+            const span = document.createElement('span');
+            span.textContent = item.str;
+            
+            // Item transform is [scaleX, skewY, skewX, scaleY, tx, ty]
+            const tx = item.transform[4] * this.scale;
+            const ty = viewport.height - (item.transform[5] * this.scale); // Y is inverted in PDF
+            const fontSize = Math.sqrt(item.transform[0] * item.transform[0] + item.transform[1] * item.transform[1]) * this.scale;
+            
+            // Basic approximation of text rendering
+            span.style.left = tx + 'px';
+            span.style.top = (ty - fontSize) + 'px'; // Adjust top by font size
+            span.style.fontSize = fontSize + 'px';
+            span.style.fontFamily = item.fontName || 'sans-serif';
+            
+            textLayerDiv.appendChild(span);
+        }
 
         // Overlay for Fabric.js (handled by EditorUI)
         const overlayCanvas = document.createElement('canvas');
