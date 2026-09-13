@@ -3,7 +3,7 @@ class EditorUI {
         this.renderer = renderer;
         this.engine = engine;
         this.fabricCanvases = [];
-        this.activeTool = 'select';
+        this.activeTool = 'text';
         this.patches = {}; // pageNum -> array of patches
         
         this.setupToolbar();

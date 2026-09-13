@@ -6,7 +6,7 @@
 {% block styles %}
 <style>
 /* ── Layout ─────────────────────────────────────────── */
-#editorScreen { display: flex; flex-direction: column; height: calc(100vh - 60px); }
+#editorScreen { position: fixed; top: 60px; left: 0; right: 0; bottom: 0; z-index: 1000; display: flex; flex-direction: column; background: white; margin: 0 !important; }
 #editorTopbar { display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: #1e293b; color: white; flex-shrink: 0; }
 #workspace { display: flex; flex: 1; overflow: hidden; background: #cbd5e1; }
 #sidebar { width: 220px; background: #334155; overflow-y: auto; padding: 16px 0; border-right: 1px solid #0f172a; flex-shrink: 0; }
@@ -23,6 +23,7 @@
 .pdf-render-canvas, .pdf-fabric-canvas, .pdf-text-layer { position: absolute; top: 0; left: 0; }
 .pdf-text-layer { opacity: 1; z-index: 1; }
 .pdf-text-layer span { color: transparent; cursor: text; position: absolute; transform-origin: 0% 0%; }
+.pdf-text-layer span:hover { background: rgba(59, 130, 246, 0.2); outline: 1px dashed #3b82f6; border-radius: 2px; }
 .pdf-fabric-canvas { z-index: 2; pointer-events: none; } /* managed by fabric wrapper */
 .canvas-container { position: absolute !important; top: 0 !important; left: 0 !important; z-index: 2; }
 
@@ -58,13 +59,13 @@
     <input type="file" id="pdfFileInput" accept="application/pdf">
 </div>
 
-<div id="editorScreen" style="display:none; margin: 0 -12px;">
+<div id="editorScreen" style="display:none;">
     <!-- Top Toolbar -->
     <div id="editorTopbar">
         <!-- Tool buttons -->
-        <button class="tb-btn active" data-tool="select" title="Select / Move (V)"><i class="fas fa-mouse-pointer"></i> Select</button>
+        <button class="tb-btn" data-tool="select" title="Select / Move (V)"><i class="fas fa-mouse-pointer"></i> Select</button>
         <div class="tool-sep"></div>
-        <button class="tb-btn" data-tool="text" title="Add Text (T)"><i class="fas fa-font"></i> Text</button>
+        <button class="tb-btn active" data-tool="text" title="Add Text (T)"><i class="fas fa-font"></i> Text</button>
         <button class="tb-btn" data-tool="draw" title="Draw / Signature (D)"><i class="fas fa-pencil-alt"></i> Draw</button>
         <button class="tb-btn" data-tool="image" title="Add Image (I)"><i class="fas fa-image"></i> Image</button>
         <div class="tool-sep"></div>
@@ -113,9 +114,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
 <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 
-<script src="{{ url_for('static', filename='js/pdfEditor/pdfRenderer.js') }}?v=2"></script>
-<script src="{{ url_for('static', filename='js/pdfEditor/pdfEngine.js') }}?v=2"></script>
-<script src="{{ url_for('static', filename='js/pdfEditor/editorUI.js') }}?v=2"></script>
+<script src="{{ url_for('static', filename='js/pdfEditor/pdfRenderer.js') }}?v=3"></script>
+<script src="{{ url_for('static', filename='js/pdfEditor/pdfEngine.js') }}?v=3"></script>
+<script src="{{ url_for('static', filename='js/pdfEditor/editorUI.js') }}?v=3"></script>
 
 <script>
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
