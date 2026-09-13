@@ -27,26 +27,20 @@
         </div>
     </div>
 
+    
     <!-- Processing Section -->
     <div class="card shadow-sm border-0 mb-4" id="processCard" style="display: none;">
         <div class="card-body p-4 p-md-5 text-center">
-            <h4 class="fw-bold mb-3" id="processStatus">Initializing...</h4>
-            
-            <div class="progress mb-3" style="height: 25px;">
-                <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-            </div>
-            <p class="text-muted small" id="processLog">Loading FFmpeg core...</p>
-
             
             {% if tool.id == 'trim' %}
             <div class="row g-3 justify-content-center mb-4 text-start">
                 <div class="col-md-5">
                     <label class="form-label fw-bold">Start Time</label>
-                    <input type="text" class="form-control" id="trimStart" placeholder="00:00:00" value="00:00:00">
+                    <input type="text" class="form-control input-live" id="trimStart" placeholder="00:00:00" value="00:00:00">
                 </div>
                 <div class="col-md-5">
                     <label class="form-label fw-bold">End Time</label>
-                    <input type="text" class="form-control" id="trimEnd" placeholder="00:00:10" value="00:00:10">
+                    <input type="text" class="form-control input-live" id="trimEnd" placeholder="00:00:10" value="00:00:10">
                 </div>
             </div>
             {% endif %}
@@ -54,35 +48,30 @@
             <div class="row g-3 justify-content-center mb-4 text-start">
                 <div class="col-md-6">
                     <label class="form-label fw-bold">Snapshot Time (Seconds)</label>
-                    <input type="number" class="form-control" id="thumbTime" placeholder="e.g. 5" value="1" min="0" step="0.1">
+                    <input type="number" class="form-control input-live" id="thumbTime" placeholder="e.g. 5" value="1" min="0" step="0.1">
                 </div>
             </div>
             {% endif %}
 
-            <button class="btn btn-primary btn-lg rounded-pill px-5 fw-bold shadow-sm mt-3" id="startBtn">
-                Start Processing
-            </button>
-        </div>
-    </div>
-
-    <!-- Result Section -->
-    <div class="card shadow-sm border-0 mb-4" id="resultCard" style="display: none;">
-        <div class="card-body p-4 p-md-5 text-center">
-            <i class="fas fa-check-circle text-success mb-3" style="font-size: 4rem;"></i>
-            <h3 class="fw-bold text-success mb-3">Processing Complete!</h3>
-            <p class="text-muted mb-4">Your file has been processed locally and is ready to download.</p>
+            <h4 class="fw-bold mb-3" id="processStatus">Initializing...</h4>
             
-            <div class="d-flex justify-content-center gap-3">
-                <a href="#" id="downloadBtn" class="btn btn-success btn-lg rounded-pill px-4 fw-bold shadow-sm" download>
-                    <i class="fas fa-download me-2"></i> Download File
+            <div class="progress mb-3" style="height: 25px;">
+                <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+            </div>
+            <p class="text-muted small" id="processLog">Loading FFmpeg core...</p>
+
+            <div class="mt-4">
+                <a href="#" class="btn btn-success btn-lg rounded-pill px-5 fw-bold shadow-sm" id="downloadBtn" style="display: none;" download>
+                    <i class="fas fa-download me-2"></i>Download Result
                 </a>
-                <button class="btn btn-outline-secondary btn-lg rounded-pill px-4 fw-bold shadow-sm" onclick="location.reload()">
-                    <i class="fas fa-redo me-2"></i> Start Over
+                <button class="btn btn-outline-secondary btn-lg rounded-pill px-4 ms-2" id="startOverBtn" style="display: none;" onclick="window.location.reload()">
+                    <i class="fas fa-redo me-1"></i> Start Over
                 </button>
             </div>
         </div>
     </div>
-    
+
+
     <div class="alert alert-info border-0 shadow-sm">
         <i class="fas fa-shield-alt me-2"></i> <strong>Privacy Guarantee:</strong> This tool runs completely on your device using WebAssembly. Your video files are <strong>never</strong> uploaded to our servers.
     </div>
@@ -125,17 +114,19 @@
     const fileSizeEl = document.getElementById('fileSize');
     
     const uploadCard = document.getElementById('uploadCard');
-    const processCard = document.getElementById('processCard');
-    const resultCard = document.getElementById('resultCard');
     
-    const startBtn = document.getElementById('startBtn');
+    const processCard = document.getElementById('processCard');
+    
     const progressBar = document.getElementById('progressBar');
     const processStatus = document.getElementById('processStatus');
     const processLog = document.getElementById('processLog');
     const downloadBtn = document.getElementById('downloadBtn');
+    const startOverBtn = document.getElementById('startOverBtn');
 
     let selectedFile = null;
     let ffmpeg = null;
+    let isProcessing = false;
+    let queuedRun = false;
     const { createFFmpeg, fetchFile } = FFmpeg;
 
     dropZone.addEventListener('click', () => fileInput.click());
@@ -150,6 +141,13 @@
         if (fileInput.files.length) handleFile(fileInput.files[0]);
     });
 
+    const liveInputs = document.querySelectorAll('.input-live');
+    liveInputs.forEach(input => {
+        input.addEventListener('change', () => {
+            triggerRun();
+        });
+    });
+
     function handleFile(file) {
         if (!file.type.startsWith('video/')) {
             Swal.fire('Error', 'Please select a valid video file.', 'error');
@@ -162,23 +160,43 @@
         
         uploadCard.style.display = 'none';
         processCard.style.display = 'block';
+        startOverBtn.style.display = 'inline-block';
+        
+        triggerRun();
     }
 
-    startBtn.addEventListener('click', async () => {
+    async function triggerRun() {
         if (!selectedFile) return;
-        startBtn.disabled = true;
+        if (isProcessing) {
+            queuedRun = true;
+            return;
+        }
         
+        isProcessing = true;
+        downloadBtn.style.display = 'none';
+        progressBar.classList.add('progress-bar-animated');
+        progressBar.classList.remove('bg-success');
+        progressBar.classList.add('bg-primary');
+        liveInputs.forEach(i => i.disabled = true);
+
         try {
             await runFFmpeg();
         } catch (error) {
             console.error(error);
             const errMsg = error && error.message ? error.message : error.toString();
             Swal.fire('Error', 'An error occurred during processing: ' + errMsg, 'error');
-            startBtn.disabled = false;
+        } finally {
+            isProcessing = false;
+            liveInputs.forEach(i => i.disabled = false);
+            if (queuedRun) {
+                queuedRun = false;
+                triggerRun();
+            }
         }
-    });
+    }
 
     async function runFFmpeg() {
+
         processStatus.textContent = 'Loading FFmpeg Engine...';
         progressBar.style.width = '10%';
         progressBar.textContent = '10%';
@@ -264,14 +282,18 @@
         downloadBtn.download = prefix + selectedFile.name.replace(/\.[^/.]+$/, "") + ext;
 
 
+        
         // Cleanup virtual FS
         try {
             ffmpeg.FS('unlink', safeInputName);
             ffmpeg.FS('unlink', outputName);
         } catch(e) {}
+        
+        progressBar.classList.remove('progress-bar-animated');
+        progressBar.classList.remove('bg-primary');
+        progressBar.classList.add('bg-success');
+        processStatus.textContent = 'Processing Complete!';
 
-        processCard.style.display = 'none';
-        resultCard.style.display = 'block';
     }
 </script>
 {% endblock %}
