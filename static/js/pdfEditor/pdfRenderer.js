@@ -48,20 +48,77 @@ class PDFRenderer {
         textLayerDiv.style.height = viewport.height + 'px';
         
         const textContent = await page.getTextContent();
+        
+        // Cluster text items into lines (rows)
+        const lines = [];
         for (const item of textContent.items) {
-            const span = document.createElement('span');
-            span.textContent = item.str;
-            
-            // Item transform is [scaleX, skewY, skewX, scaleY, tx, ty]
+            // PDF.js transform: [scaleX, skewY, skewX, scaleY, tx, ty]
             const tx = item.transform[4] * this.scale;
-            const ty = viewport.height - (item.transform[5] * this.scale); // Y is inverted in PDF
+            const ty = viewport.height - (item.transform[5] * this.scale); // Invert Y
             const fontSize = Math.sqrt(item.transform[0] * item.transform[0] + item.transform[1] * item.transform[1]) * this.scale;
+            const width = item.width * this.scale;
             
-            // Basic approximation of text rendering
-            span.style.left = tx + 'px';
-            span.style.top = (ty - fontSize) + 'px'; // Adjust top by font size
-            span.style.fontSize = fontSize + 'px';
-            span.style.fontFamily = item.fontName || 'sans-serif';
+            // Skip empty items but keep spaces
+            if (item.str.trim() === '' && item.str.length === 0) continue; 
+
+            let foundLine = null;
+            for (const line of lines) {
+                // Group if Y-coordinate is within 30% of the font size (same row)
+                if (Math.abs(line.ty - ty) < fontSize * 0.3) {
+                    foundLine = line;
+                    break;
+                }
+            }
+            
+            if (foundLine) {
+                foundLine.items.push({ str: item.str, tx, ty, width, fontSize, fontName: item.fontName });
+            } else {
+                lines.push({
+                    ty: ty,
+                    items: [{ str: item.str, tx, ty, width, fontSize, fontName: item.fontName }]
+                });
+            }
+        }
+        
+        // Render clustered lines
+        for (const line of lines) {
+            // Sort items in this row from left to right
+            line.items.sort((a, b) => a.tx - b.tx);
+            
+            let combinedStr = '';
+            let minX = line.items[0].tx;
+            let maxX = minX;
+            let maxFontSize = 0;
+            let fontName = line.items[0].fontName;
+            
+            let lastItem = null;
+            for (const item of line.items) {
+                if (lastItem) {
+                    // Add space if there's a significant visual gap between fragments
+                    const gap = item.tx - (lastItem.tx + lastItem.width);
+                    if (gap > item.fontSize * 0.2 && !lastItem.str.endsWith(' ') && !item.str.startsWith(' ')) {
+                        combinedStr += ' ';
+                    }
+                }
+                combinedStr += item.str;
+                maxX = Math.max(maxX, item.tx + item.width);
+                maxFontSize = Math.max(maxFontSize, item.fontSize);
+                lastItem = item;
+            }
+            
+            // Skip purely empty lines
+            if (combinedStr.trim() === '') continue;
+
+            const span = document.createElement('span');
+            span.textContent = combinedStr;
+            span.style.left = minX + 'px';
+            span.style.top = (line.ty - maxFontSize) + 'px';
+            span.style.width = (maxX - minX) + 'px';
+            span.style.height = (maxFontSize * 1.2) + 'px'; // 1.2 line height for better bounding box
+            span.style.fontSize = maxFontSize + 'px';
+            span.style.fontFamily = fontName || 'sans-serif';
+            span.style.lineHeight = '1.2';
+            span.style.display = 'block'; // Ensure width/height are respected
             
             textLayerDiv.appendChild(span);
         }
