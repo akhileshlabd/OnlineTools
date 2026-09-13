@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Free Video Tools - Extract Audio & Mute Video | Free Qube{% endblock %}
+{% block meta_desc %}Fast, secure, and 100% free client-side video tools. Extract audio to MP3 or mute videos directly in your browser without uploading files.{% endblock %}
+
+{% block content %}
+<div class="text-center mb-5">
+    <div class="icon-wrapper mx-auto mb-3" style="color: #6f42c1; width: 80px; height: 80px; font-size: 2.5rem;"><i class="fas fa-video"></i></div>
+    <h1 class="fw-bold text-dark mb-3">Free Video Tools</h1>
+    <p class="text-muted fs-5">Fast and private client-side video processing. No uploads, no watermarks.</p>
+</div>
+
+<div class="row g-4 justify-content-center">
+    {% for tool in tools %}
+    <div class="col-md-6 col-lg-4 d-flex">
+        <a href="{{ url_for(tool.url) }}" class="tool-card w-100 p-4 shadow-sm text-decoration-none">
+            <div class="icon-wrapper mx-auto mb-3" style="color: #6f42c1; width: 60px; height: 60px; font-size: 1.5rem;"><i class="fas {{ tool.icon }}"></i></div>
+            <h4 class="fw-bold text-dark fs-5">{{ tool.name }}</h4>
+            <p class="text-muted mb-0">{{ tool.desc }}</p>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- SEO Content for AdSense Compliance -->
+<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
+    <h2 class="fw-bold mb-3">Private Video Processing</h2>
+    <p>Welcome to our free online video utility hub. Our video tools are built using cutting-edge WebAssembly technology (FFmpeg.wasm). This means that when you mute a video or extract audio to MP3, the processing happens 100% inside your web browser. Your video files are never uploaded to any remote server, ensuring absolute privacy and security for your media. By running on a single thread, we also ensure compatibility with your browser's ad-blockers and security policies without requiring special cross-origin isolation headers. Enjoy fast, free, and secure video editing right here!</p>
+</div>
+{% endblock %}

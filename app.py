@@ -13,6 +13,8 @@ from routes.math import math_bp, MATH_TOOLS
 from routes.network import network_bp, NETWORK_TOOLS
 from routes.games import games_bp, GAMES_TOOLS
 from routes.kids import kids_bp, KIDS_TOOLS
+from routes.video import video_bp, VIDEO_TOOLS
+
 
 
 
@@ -64,13 +66,15 @@ app.register_blueprint(math_bp)
 app.register_blueprint(network_bp)
 app.register_blueprint(games_bp)
 app.register_blueprint(kids_bp)
+app.register_blueprint(video_bp)
+
 
 
 
 # ---------------- Home ----------------
 @app.route('/')
 def home():
-    return render_template('index.html', image_tools=IMAGE_TOOLS, pdf_tools=PDF_TOOLS, finance_tools=FINANCE_TOOLS, code_tools=CODE_TOOLS, text_tools=TEXT_TOOLS, health_tools=HEALTH_TOOLS, math_tools=MATH_TOOLS, network_tools=NETWORK_TOOLS, games_tools=GAMES_TOOLS, kids_tools=KIDS_TOOLS)
+    return render_template('index.html', image_tools=IMAGE_TOOLS, pdf_tools=PDF_TOOLS, finance_tools=FINANCE_TOOLS, code_tools=CODE_TOOLS, text_tools=TEXT_TOOLS, health_tools=HEALTH_TOOLS, math_tools=MATH_TOOLS, network_tools=NETWORK_TOOLS, games_tools=GAMES_TOOLS, kids_tools=KIDS_TOOLS, video_tools=VIDEO_TOOLS)
 
 # ---------------- Legal / Policies (AdSense Compliance) ----------------
 @app.route('/contact')
@@ -89,7 +93,9 @@ def sitemap():
                                health_tools=HEALTH_TOOLS,
                                math_tools=MATH_TOOLS,
                                network_tools=NETWORK_TOOLS,
-                               games_tools=GAMES_TOOLS)
+                               games_tools=GAMES_TOOLS,
+                               video_tools=VIDEO_TOOLS)
+
 
     response = make_response(template)
     response.headers["Content-Type"] = "application/xml"
