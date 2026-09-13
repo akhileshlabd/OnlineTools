@@ -51,7 +51,7 @@ def games_tool_page(tool_id):
     tool = GAMES_TOOLS.get(tool_id)
     if not tool:
         return "Game not found", 404
-        if tool_id == 'sudoku-game':
+    if tool_id == 'sudoku-game':
         return render_template('sudoku.html', tool=tool)
     return render_template('games_tool.html', tool=tool)
 
