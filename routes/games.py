@@ -3,13 +3,13 @@ from flask import Blueprint, render_template
 games_bp = Blueprint('games', __name__, url_prefix='/games')
 
 GAMES_TOOLS = {
-    'akinator-game': {
-        'id': 'akinator-game',
-        'name': 'Mind Reader (Akinator)',
-        'desc': 'Think of a character and our client-side AI will guess who it is by asking 20 questions!',
-        'icon': 'fa-brain',
-        'seo_title': 'Play Mind Reader Guessing Game Online for Free',
-        'seo_desc': 'Play our 100% client-side Mind Reader game. Think of any character and our zero-server AI will guess it instantly.'
+    'sudoku-game': {
+        'id': 'sudoku-game',
+        'name': 'Sudoku (Easy Mode)',
+        'desc': 'Play classic Sudoku online. Designed with a relaxing easy mode for casual puzzle solving.',
+        'icon': 'fa-th',
+        'seo_title': 'Play Free Online Sudoku (Easy Mode)',
+        'seo_desc': 'Play classic Sudoku online for free. Clean interface, responsive design, and perfect for beginners looking for a relaxing brain puzzle.'
     },
 
     'tetris-game': {
@@ -51,8 +51,8 @@ def games_tool_page(tool_id):
     tool = GAMES_TOOLS.get(tool_id)
     if not tool:
         return "Game not found", 404
-    if tool_id == 'akinator-game':
-        return render_template('akinator.html', tool=tool)
+        if tool_id == 'sudoku-game':
+        return render_template('sudoku.html', tool=tool)
     return render_template('games_tool.html', tool=tool)
 
 @games_bp.route('/')
