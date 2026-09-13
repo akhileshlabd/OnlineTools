@@ -37,6 +37,18 @@
         <h3>Image to PDF</h3>
         <p>Convert JPG, PNG, or GIF images to PDF in seconds.</p>
     </a>
+    
+    <a href="{{ url_for('pdf.lock_pdf') }}" class="tool-card">
+        <div class="icon-wrapper pdf-icon"><i class="fas fa-lock"></i></div>
+        <h3>Lock PDF</h3>
+        <p>Secure your PDF documents by adding strong password protection.</p>
+    </a>
+    <a href="{{ url_for('pdf.unlock_pdf') }}" class="tool-card">
+        <div class="icon-wrapper pdf-icon"><i class="fas fa-unlock"></i></div>
+        <h3>Unlock PDF</h3>
+        <p>Remove passwords and encryption from protected PDF files.</p>
+    </a>
+
     {% for key, tool in pdf_tools.items() %}
     <a href="{{ url_for('pdf.dynamic_pdf_tool', tool_id=tool.id) }}" class="tool-card">
         <div class="icon-wrapper pdf-icon"><i class="fas {{ tool.icon }}"></i></div>
