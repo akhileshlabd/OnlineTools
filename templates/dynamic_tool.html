@@ -37,6 +37,14 @@
                 {% endif %}
 
                 <iframe id="pdfPreviewFrame" class="rounded shadow-sm mb-3 w-100 border bg-white" style="height: 350px; display: none;"></iframe>
+                
+                {% if tool.type == 'pdf' and tool.id == 'rotate_pdf' %}
+                <!-- Real-time download button for rotated PDFs -->
+                <a href="#" id="downloadLivePdfBtn" class="btn btn-success rounded-pill px-4 fw-bold shadow-sm mb-3" style="display:none;" download>
+                    <i class="fas fa-download me-2"></i>Download PDF
+                </a>
+                {% endif %}
+
                 <i id="pdfPreviewIcon" class="fas fa-file-pdf text-danger mb-3" style="font-size: 4rem; display: none;"></i>
                 <h5 id="previewFileName" class="mb-1 text-truncate w-100 px-3"></h5>
                 <small id="previewFileSize" class="text-muted"></small>
@@ -46,32 +54,45 @@
 
         {% if tool.inputs %}
         <div class="row g-3 justify-content-center mb-4" id="optionsContainer">
-            {% for input in tool.inputs %}
-            <div class="col-md-6">
-                <label class="form-label fw-bold">{{ input.label }}</label>
-                {% if input.type == 'textarea' %}
-                <textarea class="form-control input-live" id="input_{{ input.name }}" name="{{ input.name }}" rows="4" required></textarea>
-                {% else %}
-                <input type="{{ input.type }}" class="form-control input-live" id="input_{{ input.name }}" name="{{ input.name }}" {% if input.min is defined %}min="{{ input.min }}"{% endif %} {% if input.max is defined %}max="{{ input.max }}"{% endif %} value="{% if input.min is defined %}{{ input.min }}{% endif %}" required>
-                {% endif %}
-            </div>
-            {% endfor %}
+            {% if tool.id in ['rotate_tool', 'rotate_pdf'] %}
+                <!-- Special UI for rotation tools -->
+                <div class="col-md-12 text-center">
+                    <input type="hidden" id="input_angle" name="angle" value="0" class="input-live">
+                    <button type="button" class="btn btn-outline-primary btn-lg mx-2 fw-bold shadow-sm" onclick="window.rotatePreview(-90)">
+                        <i class="fas fa-undo"></i> Anti-Clockwise
+                    </button>
+                    <button type="button" class="btn btn-outline-primary btn-lg mx-2 fw-bold shadow-sm" onclick="window.rotatePreview(90)">
+                        <i class="fas fa-redo"></i> Clockwise
+                    </button>
+                </div>
+            {% else %}
+                {% for input in tool.inputs %}
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">{{ input.label }}</label>
+                    {% if input.type == 'textarea' %}
+                    <textarea class="form-control input-live" id="input_{{ input.name }}" name="{{ input.name }}" rows="4" required></textarea>
+                    {% else %}
+                    <input type="{{ input.type }}" class="form-control input-live" id="input_{{ input.name }}" name="{{ input.name }}" {% if input.min is defined %}min="{{ input.min }}"{% endif %} {% if input.max is defined %}max="{{ input.max }}"{% endif %} value="{% if input.min is defined %}{{ input.min }}{% endif %}" required>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% endif %}
         </div>
         {% endif %}
 
-        <!-- Only show process button for PDFs since Images are real-time -->
-        {% if tool.type == 'pdf' %}
+        <!-- Only show process button for PDFs if NOT rotate_pdf -->
+        {% if tool.type == 'pdf' and tool.id != 'rotate_pdf' %}
         <div class="text-center" id="processBtnContainer">
             <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5 fw-bold shadow-sm" id="submitBtn">
                 <i class="fas fa-magic me-2"></i>Process PDF
             </button>
         </div>
+        {% endif %}
         
         <div class="text-center mt-3" id="spinnerContainer" style="display: none;">
             <div class="spinner-border text-primary" role="status"></div>
             <p class="mt-2 text-muted" id="spinnerText">Processing securely...</p>
         </div>
-        {% endif %}
     </form>
     
     <div class="alert alert-primary border-0 shadow-sm mt-4">
@@ -100,6 +121,7 @@ const spinnerText = document.getElementById('spinnerText');
 const filePreviewSection = document.getElementById('filePreviewSection');
 const imagePreview = document.getElementById('imagePreview');
 const downloadLiveImageBtn = document.getElementById('downloadLiveImageBtn');
+const downloadLivePdfBtn = document.getElementById('downloadLivePdfBtn');
 const pdfPreviewFrame = document.getElementById('pdfPreviewFrame');
 const pdfPreviewIcon = document.getElementById('pdfPreviewIcon');
 const previewFileName = document.getElementById('previewFileName');
@@ -114,6 +136,8 @@ function removeFile() {
     imagePreview.src = '';
     if (pdfPreviewFrame) pdfPreviewFrame.src = '';
     if (downloadLiveImageBtn) downloadLiveImageBtn.style.display = 'none';
+    if (downloadLivePdfBtn) downloadLivePdfBtn.style.display = 'none';
+    if (document.getElementById('input_angle')) document.getElementById('input_angle').value = 0;
 }
 
 if (dropArea && fileInput) {
@@ -162,12 +186,34 @@ if (dropArea && fileInput) {
                 }
                 dropArea.style.display = 'none';
                 filePreviewSection.style.display = 'block';
+                
+                // Set up initial download link if it's the live rotate tool
+                if (toolId === 'rotate_pdf' && downloadLivePdfBtn) {
+                    triggerLivePdfUpdate();
+                }
             }
         }
     }
 }
 
-// Attach Live Update Listeners
+// Special function for Rotate buttons
+window.rotatePreview = function(degrees) {
+    const angleInput = document.getElementById('input_angle');
+    if (!angleInput) return;
+    
+    let current = parseInt(angleInput.value) || 0;
+    // Keep angle bounded for cleanliness
+    current = (current + degrees) % 360;
+    angleInput.value = current;
+    
+    if (toolType === 'image') {
+        triggerLiveImageUpdate();
+    } else if (toolType === 'pdf') {
+        triggerLivePdfUpdate();
+    }
+};
+
+// Attach Live Update Listeners (for other dynamic inputs)
 const liveInputs = document.querySelectorAll('.input-live');
 liveInputs.forEach(input => {
     input.addEventListener('input', () => {
@@ -196,6 +242,40 @@ function triggerLiveImageUpdate() {
     }, 150);
 }
 
+let livePdfProcessTimeout;
+function triggerLivePdfUpdate() {
+    clearTimeout(livePdfProcessTimeout);
+    livePdfProcessTimeout = setTimeout(async () => {
+        if (!fileInput.files || fileInput.files.length === 0) return;
+        
+        if (spinnerContainer) {
+            spinnerContainer.style.display = 'block';
+            spinnerText.innerText = "Applying rotation...";
+        }
+        
+        try {
+            const blob = await processPdfClientSide(fileInput.files[0], toolId);
+            const url = URL.createObjectURL(blob);
+            
+            if (pdfPreviewFrame) {
+                pdfPreviewFrame.src = url + "#toolbar=0&navpanes=0&scrollbar=0";
+            }
+            
+            if (downloadLivePdfBtn) {
+                downloadLivePdfBtn.href = url;
+                downloadLivePdfBtn.download = `processed_${fileInput.files[0].name}`;
+                downloadLivePdfBtn.style.display = 'inline-block';
+            }
+            
+            if (spinnerContainer) spinnerContainer.style.display = 'none';
+        } catch (e) {
+            console.error("Live PDF update error", e);
+            if (spinnerContainer) spinnerContainer.style.display = 'none';
+        }
+    }, 300);
+}
+
+
 // Client-Side Canvas Image Processing Engine
 function processImageClientSide(file, toolId) {
     return new Promise((resolve, reject) => {
@@ -211,7 +291,7 @@ function processImageClientSide(file, toolId) {
             
             // Handle rotate dimensions
             if (toolId === 'rotate_tool') {
-                const angle = parseInt(document.getElementById('input_angle').value) || 90;
+                const angle = parseInt(document.getElementById('input_angle').value) || 0;
                 if (Math.abs(angle) % 180 === 90) {
                     canvas.width = height;
                     canvas.height = width;
@@ -252,7 +332,7 @@ function processImageClientSide(file, toolId) {
                 ctx.scale(1, -1);
                 ctx.drawImage(img, -width / 2, -height / 2, width, height);
             } else if (toolId === 'rotate_tool') {
-                const angle = parseInt(document.getElementById('input_angle').value) || 90;
+                const angle = parseInt(document.getElementById('input_angle').value) || 0;
                 ctx.rotate(angle * Math.PI / 180);
                 ctx.drawImage(img, -width / 2, -height / 2, width, height);
             } else {
@@ -282,9 +362,12 @@ async function processPdfClientSide(file, toolId) {
     const pdfDoc = await PDFDocument.load(arrayBuffer);
     
     if (toolId === 'rotate_pdf') {
-        const angle = parseInt(document.getElementById('input_angle').value) || 90;
+        const angle = parseInt(document.getElementById('input_angle').value) || 0;
         const pages = pdfDoc.getPages();
         pages.forEach(page => {
+            // Re-evaluating rotation from base. 
+            // The file.arrayBuffer() is always the ORIGINAL uploaded file. 
+            // So we add 'angle' to the ORIGINAL rotation.
             const currentRotation = page.getRotation().angle;
             page.setRotation(degrees(currentRotation + angle));
         });
@@ -321,19 +404,21 @@ async function processPdfClientSide(file, toolId) {
     return new Blob([pdfBytes], { type: 'application/pdf' });
 }
 
-// Only handle submit for PDFs now
+// Only handle submit for PDFs (except rotate_pdf which is live)
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    if (toolType !== 'pdf') return;
+    if (toolType !== 'pdf' || toolId === 'rotate_pdf') return;
     
     if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
         Swal.fire("Wait!", "Please select a PDF file first!", "warning");
         return;
     }
     
-    spinnerContainer.style.display = 'block';
-    submitBtn.disabled = true;
-    spinnerText.innerText = "Processing PDF securely on your device...";
+    if (spinnerContainer) {
+        spinnerContainer.style.display = 'block';
+        spinnerText.innerText = "Processing PDF securely on your device...";
+    }
+    if (submitBtn) submitBtn.disabled = true;
     
     try {
         const blob = await processPdfClientSide(fileInput.files[0], toolId);
@@ -347,13 +432,13 @@ form.addEventListener('submit', async (e) => {
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
         
-        spinnerContainer.style.display = 'none';
-        submitBtn.disabled = false;
+        if (spinnerContainer) spinnerContainer.style.display = 'none';
+        if (submitBtn) submitBtn.disabled = false;
     } catch (error) {
         console.error(error);
         Swal.fire("Error", error.message || "Local PDF processing failed.", "error");
-        spinnerContainer.style.display = 'none';
-        submitBtn.disabled = false;
+        if (spinnerContainer) spinnerContainer.style.display = 'none';
+        if (submitBtn) submitBtn.disabled = false;
     }
 });
 </script>
