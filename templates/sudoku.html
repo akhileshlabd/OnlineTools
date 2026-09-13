@@ -566,7 +566,7 @@ document.getElementById('btnPrint').addEventListener('click', () => {
 // ── Init ──────────────────────────────────────────────────────
 document.getElementById('btnNewGame').addEventListener('click', () => startGame());
 window.addEventListener('resize', resize);
-resize();
-startGame();
+startGame(); // generate puzzle data first
+resize();    // then size canvas and draw
 </script>
 {% endblock %}
