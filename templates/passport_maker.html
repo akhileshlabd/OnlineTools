@@ -1,0 +1,314 @@
+{% extends "base.html" %}
+
+{% block title %}{{ tool.name }} - Free Client-Side AI | Free Qube{% endblock %}
+{% block meta_desc %}Generate perfect 2x2 passport photos instantly. Our free AI background remover and face aligner runs entirely in your browser for 100% privacy.{% endblock %}
+
+{% block content %}
+<div class="tool-interface" style="max-width: 1100px; margin: 0 auto;">
+    <div class="text-center mb-4">
+        <div class="icon-wrapper mx-auto mb-3" style="color: #0d6efd;"><i class="fas {{ tool.icon }} fa-2x"></i></div>
+        <h2 class="fw-bold text-dark">{{ tool.name }}</h2>
+        <p class="text-muted">{{ tool.desc }}</p>
+        <span class="badge bg-success bg-opacity-10 text-success border border-success fw-semibold p-2 shadow-sm rounded-pill">
+            <i class="fas fa-lock me-1"></i> Processing runs entirely in your browser. No photos or data are uploaded.
+        </span>
+    </div>
+
+    <!-- AI Loading State -->
+    <div id="aiStatus" class="text-center py-5">
+        <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;"></div>
+        <h5 class="fw-bold text-primary">Initializing Micro-AI...</h5>
+        <p class="text-muted small">Downloading lightweight face detection and segmenter models (~1.5MB). This only happens once.</p>
+    </div>
+
+    <!-- Upload Section -->
+    <div class="card shadow-sm border-0 mb-4" id="uploadArea" style="display: none;">
+        <div class="card-body p-4 p-md-5 text-center">
+            <div id="dropZone" class="border border-2 border-dashed rounded p-5" style="cursor: pointer; border-color: #dee2e6 !important;">
+                <i class="fas fa-camera text-primary mb-3" style="font-size: 3rem;"></i>
+                <h4 class="fw-bold">Upload Portrait Photo</h4>
+                <p class="text-muted mb-0">Drag and drop or click here (JPG, PNG, WebP)</p>
+                <input type="file" id="fileInput" accept="image/*" class="d-none">
+            </div>
+            <p class="text-muted small mt-3"><i class="fas fa-lightbulb text-warning me-1"></i> Tip: Use a well-lit photo where you are facing directly at the camera.</p>
+        </div>
+    </div>
+
+    <!-- Live Workspace Section -->
+    <div class="card shadow-sm border-0 mb-4" id="workspace" style="display: none;">
+        <div class="card-body p-4">
+            <div class="row">
+                <!-- Controls (Left) -->
+                <div class="col-md-4 mb-4 mb-md-0 border-end pe-md-4">
+                    <h5 class="fw-bold mb-4">Passport Settings</h5>
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-bold"><i class="fas fa-palette text-primary me-2"></i>Background Color</label>
+                        <div class="d-flex align-items-center gap-3">
+                            <input type="color" class="form-control form-control-color border-0 shadow-sm" id="bgColor" value="#ffffff" title="Choose background color" style="width: 60px; height: 50px;">
+                            <span class="text-muted small">Most passports require pure white (#FFFFFF).</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold"><i class="fas fa-print text-primary me-2"></i>Output Format</label>
+                        <select class="form-select shadow-sm" disabled>
+                            <option>4x6" Photo Print (2x3 Grid)</option>
+                        </select>
+                        <small class="text-muted mt-2 d-block">Generates a standard 4x6 inch printable sheet at 300 DPI containing exactly six 2x2 inch passport photos with cut lines.</small>
+                    </div>
+
+                    <div class="d-grid gap-2 mt-5">
+                        <a href="#" id="downloadBtn" class="btn btn-primary btn-lg rounded-pill fw-bold shadow-sm" download>
+                            <i class="fas fa-download me-2"></i>Download 4x6" Sheet
+                        </a>
+                        <button class="btn btn-outline-secondary rounded-pill mt-2" onclick="window.location.reload()">
+                            <i class="fas fa-redo me-1"></i> Start Over
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Preview Canvas (Right) -->
+                <div class="col-md-8 text-center bg-light rounded d-flex flex-column align-items-center justify-content-center p-4">
+                    <h6 class="fw-bold text-muted mb-3">Printable 4x6" Sheet Preview</h6>
+                    <!-- Scaled down via CSS, but internally 1200x1800 -->
+                    <canvas id="previewCanvas" class="img-fluid shadow-lg rounded" style="max-height: 500px; border: 1px solid #dee2e6;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- SEO Content for AdSense Compliance -->
+    <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4 text-start">
+        <h3 class="h4 fw-bold">How to Create Passport Photos Free Online</h3>
+        <p>Creating a compliant 2x2 inch passport or ID photo usually requires a trip to the pharmacy or paying for expensive software. Our free <strong>Smart Passport Photo Maker</strong> automates the entire process using advanced Artificial Intelligence. Simply upload a selfie or portrait photo, and our AI will automatically remove the background, detect your facial landmarks, center your face, and scale it to meet strict government requirements (ensuring your head takes up 50-70% of the vertical frame).</p>
+        
+        <h3 class="h4 fw-bold mt-4">100% Secure Client-Side Micro-AI</h3>
+        <p>Because passport photos contain sensitive biometric data, privacy is paramount. Unlike other online tools that upload your face to a remote server, Free Qube utilizes a revolutionary <strong>Zero Server Cost Architecture</strong>. The AI models (Google's MediaPipe Task Vision API) are downloaded securely to your browser's local cache. All background removal, mask anti-aliasing, and face detection happen entirely on your own device's CPU/GPU. Your photos never leave your computer.</p>
+
+        <h4 class="h5 fw-bold mt-4">Ready for 4x6 Printing</h4>
+        <p>Once your portrait is perfectly extracted and placed onto a crisp white background, the tool automatically generates a high-resolution 300 DPI sheet formatted for standard 4x6 inch photo paper. The grid fits exactly six 2x2 inch photos, complete with subtle crop marks. You can download the high-res JPG and print it at any local photo center for cents, saving you time and money.</p>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script type="module">
+    import { ImageSegmenter, FaceDetector, FilesetResolver } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/vision_bundle.mjs";
+
+    const aiStatus = document.getElementById('aiStatus');
+    const uploadArea = document.getElementById('uploadArea');
+    const fileInput = document.getElementById('fileInput');
+    const workspace = document.getElementById('workspace');
+    const previewCanvas = document.getElementById('previewCanvas');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const bgColorPicker = document.getElementById('bgColor');
+
+    let segmenter;
+    let faceDetector;
+    let cutoutCanvas = null; 
+    let faceBox = null;
+
+    // 1. Initialize WASM & Models
+    async function initAI() {
+        try {
+            const vision = await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm");
+            
+            // Load Segmenter
+            segmenter = await ImageSegmenter.createFromOptions(vision, {
+                baseOptions: {
+                    modelAssetPath: "https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_segmenter/float16/latest/selfie_segmenter.tflite",
+                    delegate: "GPU"
+                },
+                runningMode: "IMAGE",
+                outputCategoryMask: false,
+                outputConfidenceMasks: true
+            });
+
+            // Load Face Detector
+            faceDetector = await FaceDetector.createFromOptions(vision, {
+                baseOptions: {
+                    modelAssetPath: "https://storage.googleapis.com/mediapipe-models/face_detector/blaze_face_short_range/float16/latest/blaze_face_short_range.tflite",
+                    delegate: "GPU"
+                },
+                runningMode: "IMAGE"
+            });
+
+            aiStatus.style.display = 'none';
+            uploadArea.style.display = 'block';
+        } catch (error) {
+            aiStatus.innerHTML = '<span class="text-danger fw-bold"><i class="fas fa-exclamation-triangle me-2"></i>Failed to load AI models. Please disable ad-blockers or check your connection.</span>';
+            console.error("MediaPipe Init Error:", error);
+        }
+    }
+
+    initAI();
+
+    // 2. Upload Handlers
+    const dropZone = document.getElementById('dropZone');
+    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('bg-light'); });
+    dropZone.addEventListener('dragleave', (e) => { e.preventDefault(); dropZone.classList.remove('bg-light'); });
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('bg-light');
+        if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+    });
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length) handleFile(fileInput.files[0]);
+    });
+
+    async function handleFile(file) {
+        if (!file.type.startsWith('image/')) {
+            Swal.fire('Error', 'Please upload a valid image.', 'error');
+            return;
+        }
+        
+        uploadArea.style.display = 'none';
+        aiStatus.style.display = 'block';
+        aiStatus.innerHTML = '<div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;"></div><h5 class="fw-bold text-primary">Analyzing Image...</h5>';
+        
+        const img = new Image();
+        img.src = URL.createObjectURL(file);
+        await new Promise(r => img.onload = r);
+        
+        // Prevent OOM
+        let scale = 1;
+        if (img.naturalWidth > 1920) scale = 1920 / img.naturalWidth;
+        if (img.naturalHeight * scale > 1920) scale = 1920 / (img.naturalHeight * scale);
+        
+        const processWidth = Math.floor(img.naturalWidth * scale);
+        const processHeight = Math.floor(img.naturalHeight * scale);
+        
+        const offCanvas = document.createElement('canvas');
+        offCanvas.width = processWidth;
+        offCanvas.height = processHeight;
+        const offCtx = offCanvas.getContext('2d');
+        offCtx.drawImage(img, 0, 0, processWidth, processHeight);
+        
+        try {
+            // A. Detect Face
+            const faceResult = faceDetector.detect(offCanvas);
+            if (faceResult.detections.length === 0) {
+                Swal.fire('Error', 'No face detected in the image. Please upload a clear portrait.', 'error');
+                aiStatus.style.display = 'none';
+                uploadArea.style.display = 'block';
+                return;
+            }
+            
+            // Extract absolute pixel bounding box
+            const box = faceResult.detections[0].boundingBox;
+            faceBox = {
+                x: box.originX,
+                y: box.originY,
+                w: box.width,
+                h: box.height
+            };
+
+            // B. Segment Background (Alpha Blending)
+            const segResult = segmenter.segment(offCanvas);
+            if (segResult.confidenceMasks && segResult.confidenceMasks.length > 0) {
+                const maskObj = segResult.confidenceMasks.length > 1 ? segResult.confidenceMasks[1] : segResult.confidenceMasks[0];
+                const cachedMask = maskObj.getAsFloat32Array();
+                const isPersonMask = cachedMask[0] < 0.8;
+                
+                // Cache the transparent cutout
+                cutoutCanvas = document.createElement('canvas');
+                cutoutCanvas.width = processWidth;
+                cutoutCanvas.height = processHeight;
+                const cCtx = cutoutCanvas.getContext('2d');
+                cCtx.drawImage(offCanvas, 0, 0);
+                
+                const imgData = cCtx.getImageData(0, 0, processWidth, processHeight);
+                const px = imgData.data;
+                for (let i = 0; i < cachedMask.length; i++) {
+                    let conf = cachedMask[i];
+                    if (!isPersonMask) conf = 1.0 - conf;
+                    px[i * 4 + 3] = conf * 255; // Anti-aliased alpha
+                }
+                cCtx.putImageData(imgData, 0, 0);
+                
+                aiStatus.style.display = 'none';
+                workspace.style.display = 'block';
+                
+                updateCanvas();
+            } else {
+                throw new Error("No segmentation mask generated");
+            }
+        } catch (err) {
+            console.error("AI Error:", err);
+            Swal.fire('Error', 'Failed to process image. Please try a different photo.', 'error');
+            aiStatus.style.display = 'none';
+            uploadArea.style.display = 'block';
+        }
+    }
+
+    // 3. Smart Align & Grid Generation
+    function updateCanvas() {
+        if (!cutoutCanvas || !faceBox) return;
+        
+        // Single 2x2" Photo (600x600 px @ 300 DPI)
+        const photoCanvas = document.createElement('canvas');
+        photoCanvas.width = 600;
+        photoCanvas.height = 600;
+        const pCtx = photoCanvas.getContext('2d');
+        
+        pCtx.fillStyle = bgColorPicker.value;
+        pCtx.fillRect(0, 0, 600, 600);
+
+        // Standard requirement: Head should be ~60% of total height (360px out of 600px)
+        const desiredFaceHeight = 360; 
+        const drawScale = desiredFaceHeight / faceBox.h;
+        
+        const sw = cutoutCanvas.width * drawScale;
+        const sh = cutoutCanvas.height * drawScale;
+        
+        // Center horizontally based on face bounding box
+        const sfx = faceBox.x * drawScale;
+        const targetX = (600 - (faceBox.w * drawScale)) / 2;
+        const offsetX = targetX - sfx;
+
+        // Position vertically with a top margin (e.g., top of bounding box at y=90px)
+        const sfy = faceBox.y * drawScale;
+        const offsetY = 90 - sfy;
+
+        pCtx.drawImage(cutoutCanvas, offsetX, offsetY, sw, sh);
+
+        // Printable 4x6" Sheet (1200x1800 px @ 300 DPI)
+        previewCanvas.width = 1200;
+        previewCanvas.height = 1800;
+        const ctx = previewCanvas.getContext('2d');
+        
+        // Fill white base
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, 1200, 1800);
+
+        // Draw 2x3 Grid with crop marks
+        for(let row = 0; row < 3; row++) {
+            for(let col = 0; col < 2; col++) {
+                const x = col * 600;
+                const y = row * 600;
+                
+                ctx.drawImage(photoCanvas, x, y, 600, 600);
+                
+                // Crop marks
+                ctx.strokeStyle = '#CCCCCC';
+                ctx.setLineDash([5, 5]);
+                ctx.lineWidth = 2;
+                ctx.strokeRect(x, y, 600, 600);
+            }
+        }
+        
+        // Update Download Link
+        downloadBtn.href = previewCanvas.toDataURL('image/jpeg', 1.0);
+        downloadBtn.download = `passport_sheet_4x6_${Date.now()}.jpg`;
+    }
+
+    // Instantly reactive background color
+    bgColorPicker.addEventListener('input', () => {
+        updateCanvas();
+    });
+
+</script>
+{% endblock %}

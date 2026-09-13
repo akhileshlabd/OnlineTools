@@ -140,6 +140,7 @@ def convert_image():
         return jsonify({'error': f"Failed to convert image: {str(e)}"}), 500
 
 IMAGE_TOOLS = {
+    'passport_maker': {'id': 'passport_maker', 'type': 'image', 'name': 'Passport Photo Maker', 'desc': 'Create standard 2x2 passport photos with auto-alignment and background removal.', 'icon': 'fa-id-badge', 'endpoint': '/image-process/passport_maker', 'inputs': []},
     'bg_remover': {'id': 'bg_remover', 'type': 'image', 'name': 'Remove Background', 'desc': 'Instantly remove or change image backgrounds locally using AI.', 'icon': 'fa-user-slash', 'endpoint': '/image-process/bg_remover', 'inputs': []},
     'grayscale': {'id': 'grayscale', 'type': 'image', 'name': 'Grayscale Image', 'desc': 'Convert your image to black and white.', 'icon': 'fa-adjust', 'endpoint': '/image-process/grayscale', 'inputs': []},
     'blur': {'id': 'blur', 'type': 'image', 'name': 'Blur Image', 'desc': 'Apply a gaussian blur to your image.', 'icon': 'fa-tint', 'endpoint': '/image-process/blur', 'inputs': [{'name': 'radius', 'type': 'number', 'label': 'Blur Radius', 'min': 1, 'max': 50}]},
@@ -156,6 +157,8 @@ def dynamic_image_tool(tool_id):
     if not tool: return "Tool not found", 404
     if tool_id == 'bg_remover':
         return render_template('bg_remover.html', tool=tool)
+    if tool_id == 'passport_maker':
+        return render_template('passport_maker.html', tool=tool)
     return render_template('dynamic_tool.html', tool=tool)
 
 @image_bp.route('/image-process/<tool_id>', methods=['POST'])
