@@ -5,136 +5,231 @@
 
 {% block styles %}
 <style>
-    .sudoku-container {
-        max-width: 420px;
-        margin: 0 auto;
-    }
+/* ── Layout ─────────────────────────────────────────────────── */
+.sudoku-wrapper {
+    max-width: 480px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
 
-    /* ── Grid: use a real TABLE so borders are pixel-perfect ── */
-    #sudokuTable {
-        border-collapse: collapse;
-        width: 100%;
-        aspect-ratio: 1;
-        table-layout: fixed;
-        user-select: none;
-    }
+/* ── Top Bar ─────────────────────────────────────────────────── */
+.sudoku-topbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+}
+.sudoku-topbar .badge-easy {
+    background: #dcfce7;
+    color: #16a34a;
+    border: 1px solid #86efac;
+    padding: 5px 14px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+.sudoku-timer {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #374151;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 1px;
+}
+.btn-newgame {
+    background: #3b82f6;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 7px 16px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background .15s;
+}
+.btn-newgame:hover { background: #2563eb; }
 
-    #sudokuTable td {
-        border: 1px solid #9ca3af;
-        text-align: center;
-        vertical-align: middle;
-        font-size: clamp(0.9rem, 3vw, 1.4rem);
-        font-weight: 500;
-        cursor: pointer;
-        background: #fff;
-        color: #2563eb;
-        transition: background 0.1s;
-        padding: 0;
-    }
+/* ── Canvas grid ─────────────────────────────────────────────── */
+#sudokuCanvas {
+    width: 100%;
+    max-width: 450px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    cursor: pointer;
+    display: block;
+}
 
-    /* Thicker lines every 3rd column/row = 3×3 block boundaries */
-    #sudokuTable td:nth-child(3n) {
-        border-right: 3px solid #1f2937;
-    }
-    #sudokuTable tr:nth-child(3n) td {
-        border-bottom: 3px solid #1f2937;
-    }
-    /* Outer border */
-    #sudokuTable {
-        border: 3px solid #1f2937;
-    }
+/* ── Action row (Undo / Erase / Notes) ───────────────────────── */
+.action-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    width: 100%;
+}
+.action-btn {
+    flex: 1;
+    max-width: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #374151;
+    font-size: 0.75rem;
+    font-weight: 700;
+    transition: color .15s;
+    padding: 4px;
+}
+.action-btn i {
+    font-size: 1.4rem;
+    color: #6b7280;
+    transition: color .15s;
+}
+.action-btn:hover i, .action-btn:hover { color: #3b82f6; }
+.action-btn.active-notes i { color: #f59e0b; }
+.action-btn.active-notes   { color: #f59e0b; }
 
-    /* States */
-    #sudokuTable td.prefilled {
-        color: #1f2937;
-        font-weight: 700;
-        background: #f3f4f6;
-        cursor: default;
-    }
-    #sudokuTable td.selected  { background: #bfdbfe !important; }
-    #sudokuTable td.highlight { background: #dbeafe; }
-    #sudokuTable td.error     { color: #dc2626 !important; background: #fee2e2 !important; }
+/* ── Number pad ──────────────────────────────────────────────── */
+.num-pad {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 6px;
+    width: 100%;
+}
+.num-btn {
+    aspect-ratio: 1;
+    border: none;
+    border-radius: 12px;
+    background: #f3f4f6;
+    color: #1f2937;
+    font-size: clamp(1rem, 3.5vw, 1.5rem);
+    font-weight: 800;
+    cursor: pointer;
+    transition: background .12s, transform .1s;
+    touch-action: manipulation;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.num-btn:hover   { background: #dbeafe; color: #1d4ed8; }
+.num-btn:active  { transform: scale(0.92); background: #bfdbfe; }
 
-    /* Number Pad */
-    .num-pad {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 8px;
-        margin-top: 18px;
+/* ── Print ───────────────────────────────────────────────────── */
+.btn-print {
+    width: 100%;
+    padding: 10px;
+    background: #f9fafb;
+    border: 1.5px solid #d1d5db;
+    border-radius: 12px;
+    color: #374151;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all .15s;
+}
+.btn-print:hover { background: #fee2e2; border-color: #fca5a5; color: #dc2626; }
+
+/* Puzzle ID tag */
+.puzzle-tag {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    text-align: center;
+}
+
+/* ── Print media ─────────────────────────────────────────────── */
+@media print {
+    body * { visibility: hidden; }
+    #printArea, #printArea * { visibility: visible; }
+    #printArea {
+        position: fixed; inset: 0;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
     }
-    .num-btn {
-        padding: 14px 0;
-        font-size: 1.2rem;
-        font-weight: bold;
-        border-radius: 10px;
-        background: #f8f9fa;
-        border: 1px solid #dee2e6;
-        color: #333;
-        transition: all 0.15s;
-        touch-action: manipulation;
-    }
-    .num-btn:active { background: #e9ecef; transform: scale(0.95); }
-    .num-btn.erase  { background: #fee2e2; color: #dc2626; border-color: #fca5a5; }
+    #sudokuCanvas { width: 160mm !important; height: 160mm !important; }
+}
 </style>
 {% endblock %}
 
 {% block content %}
-<article class="tool-interface" style="max-width: 860px; margin: 0 auto;">
+<article class="tool-interface" style="max-width:860px; margin:0 auto;">
 
-    <div class="text-center mb-4">
-        <div class="icon-wrapper mx-auto mb-3" style="color: #0dcaf0;">
-            <i class="fas {{ tool.icon }} fa-2x"></i>
-        </div>
-        <h1 class="fw-bold text-dark fs-2">Classic Sudoku — Easy Mode</h1>
-        <p class="text-muted">Fill every row, column &amp; 3×3 box with digits 1–9.</p>
+    <div class="text-center mb-3">
+        <h1 class="fw-bold text-dark fs-2">Classic Sudoku</h1>
+        <p class="text-muted small">Easy Mode · Every refresh generates a new unique puzzle</p>
     </div>
 
-    <section class="card shadow-sm border-0 mb-5" style="border-radius:15px;">
-        <div class="card-body p-3 p-md-4">
+    <div id="printArea">
+    <div class="sudoku-wrapper">
 
-            <div class="d-flex justify-content-between align-items-center mb-3 sudoku-container">
-                <span class="badge bg-success bg-opacity-10 text-success border border-success">Easy</span>
-                <button id="btnNewGame" class="btn btn-sm btn-outline-primary fw-bold">
-                    <i class="fas fa-redo me-1"></i> New Game
-                </button>
-            </div>
-
-            <div class="sudoku-container">
-                <!-- TABLE-based grid — guaranteed correct borders -->
-                <table id="sudokuTable">
-                    <tbody id="sudokuBody"></tbody>
-                </table>
-
-                <!-- Number Pad -->
-                <div class="num-pad">
-                    <button class="num-btn" data-val="1">1</button>
-                    <button class="num-btn" data-val="2">2</button>
-                    <button class="num-btn" data-val="3">3</button>
-                    <button class="num-btn" data-val="4">4</button>
-                    <button class="num-btn" data-val="5">5</button>
-                    <button class="num-btn" data-val="6">6</button>
-                    <button class="num-btn" data-val="7">7</button>
-                    <button class="num-btn" data-val="8">8</button>
-                    <button class="num-btn" data-val="9">9</button>
-                    <button class="num-btn erase" data-val="0">
-                        <i class="fas fa-eraser"></i>
-                    </button>
-                </div>
-            </div><!-- /.sudoku-container -->
-
+        <!-- Top bar -->
+        <div class="sudoku-topbar">
+            <span class="badge-easy">Easy</span>
+            <span class="sudoku-timer" id="timerDisplay">00:00</span>
+            <button class="btn-newgame" id="btnNewGame">
+                <i class="fas fa-redo me-1"></i> New Game
+            </button>
         </div>
-    </section>
 
-    <!-- SEO -->
-    <section class="container bg-white p-4 rounded shadow-sm mb-5 text-start">
+        <!-- Canvas grid -->
+        <canvas id="sudokuCanvas"></canvas>
+
+        <!-- Action buttons -->
+        <div class="action-row no-print">
+            <button class="action-btn" id="btnUndo">
+                <i class="fas fa-undo-alt"></i>
+                Undo
+            </button>
+            <button class="action-btn" id="btnErase">
+                <i class="fas fa-eraser"></i>
+                Erase
+            </button>
+            <button class="action-btn" id="btnNotes">
+                <i class="fas fa-pencil-alt"></i>
+                Notes
+            </button>
+            <button class="action-btn" id="btnHint">
+                <i class="fas fa-lightbulb"></i>
+                Hint
+            </button>
+        </div>
+
+        <!-- Number pad -->
+        <div class="num-pad no-print">
+            <button class="num-btn" data-n="1">1</button>
+            <button class="num-btn" data-n="2">2</button>
+            <button class="num-btn" data-n="3">3</button>
+            <button class="num-btn" data-n="4">4</button>
+            <button class="num-btn" data-n="5">5</button>
+            <button class="num-btn" data-n="6">6</button>
+            <button class="num-btn" data-n="7">7</button>
+            <button class="num-btn" data-n="8">8</button>
+            <button class="num-btn" data-n="9">9</button>
+        </div>
+
+        <!-- Print button -->
+        <button class="btn-print no-print" id="btnPrint">
+            <i class="fas fa-print me-2"></i> Print Puzzle / Save as PDF
+        </button>
+
+        <p class="puzzle-tag no-print" id="puzzleTag"></p>
+
+    </div><!-- /.sudoku-wrapper -->
+    </div><!-- /#printArea -->
+
+    <!-- SEO Block -->
+    <section class="container bg-white p-4 rounded shadow-sm mt-5 mb-5 text-start">
         <h2 class="h4 fw-bold">Play Free Sudoku Online</h2>
-        <p class="text-muted">Enjoy classic Sudoku right in your browser — no download needed. Easy Mode leaves 43 numbers pre-filled so it's perfect for beginners.</p>
+        <p class="text-muted">Fill the 9×9 grid so every row, column, and 3×3 box contains the digits 1 through 9. Every puzzle is uniquely generated from the current timestamp — no two refreshes give you the same game. Print any puzzle or save it as PDF for offline solving.</p>
         <h3 class="h5 fw-bold mt-4">How to Play</h3>
         <ul class="text-muted">
-            <li><strong>Tap/click</strong> an empty cell, then press a digit on your keyboard or the number pad below.</li>
-            <li>Every <strong>row, column, and 3×3 box</strong> must contain 1–9 with no repeats.</li>
-            <li>Wrong numbers are <span style="color:#dc2626;">highlighted in red</span> automatically.</li>
-            <li>Hit <strong>New Game</strong> for a freshly generated puzzle any time.</li>
+            <li>Click or tap a cell to select it — your row, column &amp; box are highlighted automatically.</li>
+            <li>Tap a number on the pad or press a key to fill in the digit.</li>
+            <li>Errors are shown in red instantly. Use <strong>Erase</strong> to clear a cell.</li>
+            <li>Toggle <strong>Notes</strong> to pencil in candidate numbers (like sudoku.com).</li>
+            <li>Stuck? Use <strong>Hint</strong> to reveal one correct cell.</li>
         </ul>
     </section>
 
@@ -143,159 +238,335 @@
 
 {% block scripts %}
 <script>
-// ── Sudoku Generator (Backtracking) ─────────────────────────────────────────
-class SudokuGenerator {
-    constructor() { this.board = Array.from({length:9}, () => Array(9).fill(0)); }
+// ════════════════════════════════════════════════════════════
+//  SEEDED PRNG — Mulberry32
+// ════════════════════════════════════════════════════════════
+function mulberry32(seed) {
+    return () => {
+        seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+        let z = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+        z = (z + Math.imul(z ^ (z >>> 7), 61 | z)) ^ z;
+        return ((z ^ (z >>> 14)) >>> 0) / 4294967296;
+    };
+}
+function buildSeed() {
+    const n = new Date();
+    return n.getFullYear()*10000000000 + (n.getMonth()+1)*100000000 +
+           n.getDate()*1000000 + n.getHours()*10000 + n.getMinutes()*100 + n.getSeconds();
+}
 
-    _safe(r, c, n) {
-        for (let i = 0; i < 9; i++) {
-            if (this.board[r][i] === n || this.board[i][c] === n) return false;
-        }
-        const br = r - r%3, bc = c - c%3;
-        for (let i = 0; i < 3; i++)
-            for (let j = 0; j < 3; j++)
-                if (this.board[br+i][bc+j] === n) return false;
+// ════════════════════════════════════════════════════════════
+//  SUDOKU GENERATOR (Backtracker + seeded shuffle)
+// ════════════════════════════════════════════════════════════
+class SudokuGen {
+    constructor(seed) {
+        this.rng = mulberry32(seed);
+        this.b   = Array.from({length:9}, () => new Array(9).fill(0));
+    }
+    sh(a) {
+        for (let i=a.length-1;i>0;i--){const j=Math.floor(this.rng()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+        return a;
+    }
+    ok(r,c,n) {
+        for(let i=0;i<9;i++) if(this.b[r][i]===n||this.b[i][c]===n) return false;
+        const br=r-r%3,bc=c-c%3;
+        for(let i=0;i<3;i++) for(let j=0;j<3;j++) if(this.b[br+i][bc+j]===n) return false;
         return true;
     }
-
-    _solve(pos = 0) {
-        if (pos === 81) return true;
-        const r = Math.floor(pos/9), c = pos%9;
-        if (this.board[r][c] !== 0) return this._solve(pos+1);
-        const nums = [1,2,3,4,5,6,7,8,9].sort(() => Math.random()-0.5);
-        for (const n of nums) {
-            if (this._safe(r, c, n)) {
-                this.board[r][c] = n;
-                if (this._solve(pos+1)) return true;
-                this.board[r][c] = 0;
-            }
+    solve(p=0) {
+        if(p===81) return true;
+        const r=Math.floor(p/9),c=p%9;
+        if(this.b[r][c]!==0) return this.solve(p+1);
+        for(const n of this.sh([1,2,3,4,5,6,7,8,9])) {
+            if(this.ok(r,c,n)){this.b[r][c]=n;if(this.solve(p+1))return true;this.b[r][c]=0;}
         }
         return false;
     }
-
-    generate(holes = 38) {
-        this._solve();
-        const solution = this.board.map(r => [...r]);
-        let removed = 0;
-        while (removed < holes) {
-            const r = Math.floor(Math.random()*9), c = Math.floor(Math.random()*9);
-            if (this.board[r][c] !== 0) { this.board[r][c] = 0; removed++; }
+    gen(holes=38) {
+        this.solve();
+        const sol = this.b.map(r=>[...r]);
+        let rem=0,tries=0;
+        while(rem<holes&&tries<300){
+            const r=Math.floor(this.rng()*9),c=Math.floor(this.rng()*9);
+            if(this.b[r][c]!==0){this.b[r][c]=0;rem++;}tries++;
         }
-        return { puzzle: this.board.map(r => [...r]), solution };
+        return {puzzle:this.b.map(r=>[...r]),solution:sol};
     }
 }
 
-// ── Game Controller ──────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-    const tbody        = document.getElementById('sudokuBody');
-    const btnNewGame   = document.getElementById('btnNewGame');
+// ════════════════════════════════════════════════════════════
+//  CANVAS RENDERER + GAME ENGINE
+// ════════════════════════════════════════════════════════════
+const canvas = document.getElementById('sudokuCanvas');
+const ctx    = canvas.getContext('2d');
 
-    let gameState = [], solution = [], prefilled = [], selectedTd = null;
+// State
+let puzzle   = [], solution = [], given = [], notes = [],
+    selected = null, isNotes = false, history = [],
+    timerSec = 0, timerInterval = null, currentSeed = 0;
 
-    // Build the table DOM once
-    for (let r = 0; r < 9; r++) {
-        const tr = document.createElement('tr');
-        for (let c = 0; c < 9; c++) {
-            const td = document.createElement('td');
-            td.dataset.r = r; td.dataset.c = c;
-            td.addEventListener('click', () => onCellClick(td));
-            tr.appendChild(td);
+// Colours (sudoku.com palette)
+const C = {
+    bg:         '#ffffff',
+    gridLine:   '#c9d9e8',
+    blockLine:  '#344861',
+    cellSel:    '#bbdefb',   // selected cell
+    cellPeer:   '#e2ebf3',   // same row/col/box
+    cellSame:   '#c3d7ea',   // same number
+    numGiven:   '#344861',
+    numUser:    '#325aaf',
+    numError:   '#e55c6c',
+    noteColor:  '#8795a7',
+    hintColor:  '#6abf69',
+};
+
+function resize() {
+    const size = Math.min(canvas.parentElement.clientWidth, 450);
+    canvas.width  = size;
+    canvas.height = size;
+    draw();
+}
+
+// ── Drawing ─────────────────────────────────────────────────
+function draw() {
+    const S = canvas.width;
+    const cell = S / 9;
+    ctx.clearRect(0, 0, S, S);
+
+    // Background
+    ctx.fillStyle = C.bg;
+    ctx.fillRect(0, 0, S, S);
+
+    // ── Highlights ──────────────────────────────────────────
+    if (selected) {
+        const [sr, sc] = selected;
+        const selVal   = puzzle[sr][sc];
+
+        for (let r=0; r<9; r++) {
+            for (let c=0; c<9; c++) {
+                const sameBox = (Math.floor(r/3)===Math.floor(sr/3) && Math.floor(c/3)===Math.floor(sc/3));
+                const peer    = r===sr || c===sc || sameBox;
+                const sameNum = selVal !== 0 && puzzle[r][c] === selVal && !(r===sr && c===sc);
+
+                if (r===sr && c===sc)    { ctx.fillStyle = C.cellSel; }
+                else if (sameNum)        { ctx.fillStyle = C.cellSame; }
+                else if (peer)           { ctx.fillStyle = C.cellPeer; }
+                else                     { continue; }
+
+                ctx.fillRect(c*cell+1, r*cell+1, cell-1, cell-1);
+            }
         }
-        tbody.appendChild(tr);
     }
 
-    function allCells() { return tbody.querySelectorAll('td'); }
+    // ── Numbers ─────────────────────────────────────────────
+    ctx.textAlign    = 'center';
+    ctx.textBaseline = 'middle';
 
-    function renderBoard() {
-        allCells().forEach(td => {
-            const r = +td.dataset.r, c = +td.dataset.c;
-            const v = gameState[r][c];
-            td.textContent  = v || '';
-            td.className    = '';
-            if (prefilled[r][c]) td.classList.add('prefilled');
-        });
-    }
+    for (let r=0; r<9; r++) {
+        for (let c=0; c<9; c++) {
+            const v = puzzle[r][c];
+            const x = c*cell + cell/2;
+            const y = r*cell + cell/2;
 
-    function clearHighlights() {
-        allCells().forEach(td => td.classList.remove('selected','highlight','error'));
-    }
-
-    function onCellClick(td) {
-        if (td.classList.contains('prefilled')) return;
-        clearHighlights();
-        selectedTd = td;
-        td.classList.add('selected');
-        highlightSame(td.textContent);
-        checkErrors();
-    }
-
-    function highlightSame(val) {
-        if (!val) return;
-        allCells().forEach(td => {
-            if (td.textContent === val && !td.classList.contains('selected'))
-                td.classList.add('highlight');
-        });
-    }
-
-    function setNumber(n) {
-        if (!selectedTd) return;
-        const r = +selectedTd.dataset.r, c = +selectedTd.dataset.c;
-        gameState[r][c] = n;
-        selectedTd.textContent = n || '';
-        clearHighlights();
-        selectedTd.classList.add('selected');
-        highlightSame(selectedTd.textContent);
-        checkErrors();
-        checkWin();
-    }
-
-    function checkErrors() {
-        allCells().forEach(td => td.classList.remove('error'));
-        for (let r = 0; r < 9; r++)
-            for (let c = 0; c < 9; c++) {
-                const v = gameState[r][c];
-                if (v && v !== solution[r][c]) {
-                    const td = tbody.rows[r].cells[c];
-                    if (!prefilled[r][c]) td.classList.add('error');
+            if (v !== 0) {
+                const isErr = !given[r][c] && v !== solution[r][c];
+                ctx.font      = `bold ${Math.floor(cell*0.52)}px Arial,sans-serif`;
+                ctx.fillStyle = given[r][c] ? C.numGiven : (isErr ? C.numError : C.numUser);
+                ctx.fillText(v, x, y);
+            } else if (notes[r][c] && notes[r][c].size > 0) {
+                // Notes: draw small numbers in 3x3 sub-grid
+                ctx.font      = `${Math.floor(cell*0.22)}px Arial,sans-serif`;
+                ctx.fillStyle = C.noteColor;
+                const ns = cell / 3;
+                for (let n=1; n<=9; n++) {
+                    if (notes[r][c].has(n)) {
+                        const nr = Math.floor((n-1)/3);
+                        const nc = (n-1)%3;
+                        ctx.fillText(n, c*cell + nc*ns + ns/2, r*cell + nr*ns + ns/2);
+                    }
                 }
             }
+        }
     }
 
-    function checkWin() {
-        for (let r = 0; r < 9; r++)
-            for (let c = 0; c < 9; c++)
-                if (gameState[r][c] !== solution[r][c]) return;
-        setTimeout(() => {
-            Swal.fire({
-                title: '🎉 Solved!', text: 'You completed the puzzle!',
-                icon: 'success', confirmButtonText: 'Play Again'
-            }).then(() => startGame());
-        }, 200);
+    // ── Grid lines ──────────────────────────────────────────
+    for (let i=0; i<=9; i++) {
+        const isBlock = i%3 === 0;
+        ctx.strokeStyle = isBlock ? C.blockLine : C.gridLine;
+        ctx.lineWidth   = isBlock ? (S > 360 ? 2.5 : 2) : 0.8;
+        ctx.beginPath();
+        ctx.moveTo(i*cell, 0); ctx.lineTo(i*cell, S);
+        ctx.moveTo(0, i*cell); ctx.lineTo(S, i*cell);
+        ctx.stroke();
     }
 
-    function startGame() {
-        selectedTd = null;
-        const gen  = new SudokuGenerator();
-        const data = gen.generate(38);
-        gameState  = data.puzzle;
-        solution   = data.solution;
-        prefilled  = Array.from({length:9}, (_,r) => Array.from({length:9}, (_,c) => gameState[r][c] !== 0));
-        renderBoard();
-    }
+    // outer border
+    ctx.strokeStyle = C.blockLine;
+    ctx.lineWidth   = 3;
+    ctx.strokeRect(0, 0, S, S);
+}
 
-    // Number pad
-    document.querySelectorAll('.num-btn').forEach(btn =>
-        btn.addEventListener('click', () => setNumber(+btn.dataset.val))
-    );
+// ── Cell from click ──────────────────────────────────────────
+function cellAt(x, y) {
+    const cell = canvas.width / 9;
+    return [Math.floor(y/cell), Math.floor(x/cell)];
+}
 
-    // Keyboard
-    document.addEventListener('keydown', e => {
-        if (e.key >= '1' && e.key <= '9') setNumber(+e.key);
-        else if (e.key === 'Backspace' || e.key === 'Delete') setNumber(0);
-    });
-
-    btnNewGame.addEventListener('click', startGame);
-    startGame();
+canvas.addEventListener('click', e => {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width  / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const [r, c] = cellAt((e.clientX - rect.left)*scaleX, (e.clientY - rect.top)*scaleY);
+    if (r>=0 && r<9 && c>=0 && c<9) { selected = [r,c]; draw(); }
 });
+
+// ── Touch support ────────────────────────────────────────────
+canvas.addEventListener('touchstart', e => {
+    e.preventDefault();
+    const t    = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width  / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const [r,c] = cellAt((t.clientX-rect.left)*scaleX, (t.clientY-rect.top)*scaleY);
+    if (r>=0 && r<9 && c>=0 && c<9) { selected=[r,c]; draw(); }
+}, {passive:false});
+
+// ── Input a number ───────────────────────────────────────────
+function input(n) {
+    if (!selected) return;
+    const [r,c] = selected;
+    if (given[r][c]) return;
+
+    if (isNotes) {
+        if (n === 0) { notes[r][c] = new Set(); }
+        else {
+            if (!notes[r][c]) notes[r][c] = new Set();
+            if (notes[r][c].has(n)) notes[r][c].delete(n);
+            else                    notes[r][c].add(n);
+        }
+        draw();
+        return;
+    }
+
+    // Save to history for undo
+    history.push({ r, c, old: puzzle[r][c], oldNotes: notes[r][c] ? new Set(notes[r][c]) : null });
+
+    puzzle[r][c]  = n;
+    notes[r][c]   = new Set();  // clear notes when number placed
+    draw();
+    checkWin();
+}
+
+// ── Keyboard input ────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+    if (!selected) return;
+    const [r,c] = selected;
+    if (e.key >= '1' && e.key <= '9') input(parseInt(e.key));
+    else if (e.key === 'Backspace' || e.key === 'Delete' || e.key === '0') input(0);
+    else if (e.key === 'ArrowUp'    && r>0) { selected=[r-1,c]; draw(); }
+    else if (e.key === 'ArrowDown'  && r<8) { selected=[r+1,c]; draw(); }
+    else if (e.key === 'ArrowLeft'  && c>0) { selected=[r,c-1]; draw(); }
+    else if (e.key === 'ArrowRight' && c<8) { selected=[r,c+1]; draw(); }
+});
+
+// ── Number pad ────────────────────────────────────────────────
+document.querySelectorAll('.num-btn').forEach(btn =>
+    btn.addEventListener('click', () => input(+btn.dataset.n))
+);
+
+// ── Action buttons ────────────────────────────────────────────
+document.getElementById('btnErase').addEventListener('click', () => input(0));
+
+document.getElementById('btnUndo').addEventListener('click', () => {
+    const last = history.pop();
+    if (!last) return;
+    puzzle[last.r][last.c] = last.old;
+    notes[last.r][last.c]  = last.oldNotes || new Set();
+    draw();
+});
+
+const btnNotes = document.getElementById('btnNotes');
+btnNotes.addEventListener('click', () => {
+    isNotes = !isNotes;
+    btnNotes.classList.toggle('active-notes', isNotes);
+});
+
+document.getElementById('btnHint').addEventListener('click', () => {
+    // Find a random unfilled correct cell and reveal it
+    const empty = [];
+    for(let r=0;r<9;r++) for(let c=0;c<9;c++)
+        if(!given[r][c] && puzzle[r][c]!==solution[r][c]) empty.push([r,c]);
+    if (!empty.length) return;
+    const [r,c] = empty[Math.floor(Math.random()*empty.length)];
+    history.push({r,c,old:puzzle[r][c],oldNotes:notes[r][c]?new Set(notes[r][c]):null});
+    puzzle[r][c] = solution[r][c];
+    notes[r][c]  = new Set();
+    selected     = [r,c];
+    draw();
+    checkWin();
+});
+
+// ── Win check ─────────────────────────────────────────────────
+function checkWin() {
+    for(let r=0;r<9;r++) for(let c=0;c<9;c++)
+        if(puzzle[r][c]!==solution[r][c]) return;
+    clearInterval(timerInterval);
+    const mins = String(Math.floor(timerSec/60)).padStart(2,'0');
+    const secs = String(timerSec%60).padStart(2,'0');
+    setTimeout(() => Swal.fire({
+        title: '🎉 Solved!',
+        html: `You completed the puzzle in <strong>${mins}:${secs}</strong>!`,
+        icon: 'success',
+        confirmButtonText: 'Play Again'
+    }).then(() => startGame()), 150);
+}
+
+// ── Timer ─────────────────────────────────────────────────────
+function startTimer() {
+    clearInterval(timerInterval);
+    timerSec = 0;
+    timerInterval = setInterval(() => {
+        timerSec++;
+        const m = String(Math.floor(timerSec/60)).padStart(2,'0');
+        const s = String(timerSec%60).padStart(2,'0');
+        document.getElementById('timerDisplay').textContent = `${m}:${s}`;
+    }, 1000);
+}
+
+// ── New game ──────────────────────────────────────────────────
+function startGame(seed) {
+    currentSeed = seed !== undefined ? seed : buildSeed();
+    const gen   = new SudokuGen(currentSeed);
+    const data  = gen.gen(38);
+
+    puzzle   = data.puzzle;
+    solution = data.solution;
+    given    = Array.from({length:9}, (_,r) => Array.from({length:9}, (_,c) => puzzle[r][c]!==0));
+    notes    = Array.from({length:9}, () => Array.from({length:9}, () => new Set()));
+    history  = [];
+    selected = null;
+    isNotes  = false;
+    document.getElementById('btnNotes').classList.remove('active-notes');
+
+    const now = new Date();
+    document.getElementById('puzzleTag').textContent =
+        `Puzzle #${currentSeed % 100000} · ${now.toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'})}`;
+
+    startTimer();
+    draw();
+}
+
+// ── Print ─────────────────────────────────────────────────────
+document.getElementById('btnPrint').addEventListener('click', () => {
+    // Deselect so no highlight in print
+    selected = null; draw();
+    window.print();
+});
+
+// ── Init ──────────────────────────────────────────────────────
+document.getElementById('btnNewGame').addEventListener('click', () => startGame());
+window.addEventListener('resize', resize);
+resize();
+startGame();
 </script>
 {% endblock %}
