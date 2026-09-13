@@ -247,6 +247,17 @@
         progressBar.classList.remove('bg-primary');
         progressBar.classList.add('bg-success');
         processStatus.textContent = 'Processing Complete!';
+        
+        // Make button visible, auto-download, and show success message
+        downloadBtn.style.display = 'inline-block';
+        downloadBtn.click();
+        
+        Swal.fire({
+            title: 'Success!',
+            text: 'Your file has been processed successfully and is downloading automatically.',
+            icon: 'success',
+            confirmButtonColor: '#3b82f6'
+        });
 
     }
 </script>
