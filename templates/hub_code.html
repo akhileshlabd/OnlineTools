@@ -12,12 +12,14 @@
 
 <div class="tool-grid mb-4">
     {% for key, tool in code_tools.items() %}
+{% if features['feature_dev_' ~ tool.id] %}
     <a href="{{ url_for('code.code_tool_page', tool_id=tool.id) }}" class="tool-card">
         <div class="icon-wrapper img-icon text-dark"><i class="fas {{ tool.icon }}"></i></div>
         <h3>{{ t(tool.name) }}</h3>
         <p>{{ t(tool.desc) }}</p>
     </a>
-    {% endfor %}
+    {% endif %}
+{% endfor %}
 </div>
 
 <!-- SEO Block -->

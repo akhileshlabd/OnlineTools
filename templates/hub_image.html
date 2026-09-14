@@ -14,28 +14,36 @@
 
 <div class="tool-grid mb-4">
     
-    <a href="{{ url_for('image.resizer') }}" class="tool-card">
+    {% if features['feature_image_resizer'] %}
+<a href="{{ url_for('image.resizer') }}" class="tool-card">
         <div class="icon-wrapper img-icon"><i class="fas fa-expand-arrows-alt"></i></div>
         <h3>Resize Image</h3>
         <p>Change image dimensions with aspect ratio lock. 100% browser-side.</p>
     </a>
-    <a href="{{ url_for('image.image_converter_page') }}" class="tool-card">
+{% endif %}
+    {% if features['feature_image_converter'] %}
+<a href="{{ url_for('image.image_converter_page') }}" class="tool-card">
         <div class="icon-wrapper img-icon"><i class="fas fa-exchange-alt"></i></div>
         <h3>Convert Image</h3>
         <p>Convert and compress images to JPG, PNG, or WEBP. 100% browser-side.</p>
     </a>
-    <a href="{{ url_for('image.qr_generator') }}" class="tool-card">
+{% endif %}
+    {% if features['feature_image_qr'] %}
+<a href="{{ url_for('image.qr_generator') }}" class="tool-card">
         <div class="icon-wrapper img-icon"><i class="fas fa-qrcode"></i></div>
         <h3>QR Generator</h3>
         <p>Create custom QR codes for URLs, Text, WiFi and more. 100% browser-side.</p>
     </a>
+{% endif %}
     {% for key, tool in image_tools.items() %}
+{% if features['feature_image_' ~ tool.id] %}
     <a href="{{ url_for('image.dynamic_image_tool', tool_id=tool.id) }}" class="tool-card">
         <div class="icon-wrapper img-icon"><i class="fas {{ tool.icon }}"></i></div>
         <h3>{{ t(tool.name) }}</h3>
         <p>{{ t(tool.desc) }}</p>
     </a>
-    {% endfor %}
+    {% endif %}
+{% endfor %}
 </div>
 
 <!-- SEO Block -->

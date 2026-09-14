@@ -15,51 +15,67 @@
 <div class="tool-grid mb-4">
 
 
-    <a href="{{ url_for('pdf.pdf_merger') }}" class="tool-card">
+    {% if features['feature_pdf_merger'] %}
+<a href="{{ url_for('pdf.pdf_merger') }}" class="tool-card">
         <div class="icon-wrapper pdf-icon"><i class="fas fa-object-group"></i></div>
         <h3>Merge PDF</h3>
         <p>Combine multiple PDFs into one unified document easily.</p>
     </a>
-    <a href="{{ url_for('pdf.pdf_splitter') }}" class="tool-card">
+{% endif %}
+    {% if features['feature_pdf_splitter'] %}
+<a href="{{ url_for('pdf.pdf_splitter') }}" class="tool-card">
         <div class="icon-wrapper pdf-icon"><i class="fas fa-file-export"></i></div>
         <h3>Split PDF</h3>
         <p>Extract specific pages from your PDF file securely.</p>
     </a>
-    <a href="{{ url_for('pdf.word_to_pdf') }}" class="tool-card">
+{% endif %}
+    {% if features['feature_pdf_word_to_pdf'] %}
+<a href="{{ url_for('pdf.word_to_pdf') }}" class="tool-card">
         <div class="icon-wrapper pdf-icon"><i class="fas fa-file-word"></i></div>
         <h3>Word to PDF</h3>
         <p>Convert DOCX documents to PDF directly in your browser.</p>
     </a>
-    <a href="{{ url_for('pdf.excel_to_pdf') }}" class="tool-card">
+{% endif %}
+    {% if features['feature_pdf_excel_to_pdf'] %}
+<a href="{{ url_for('pdf.excel_to_pdf') }}" class="tool-card">
         <div class="icon-wrapper pdf-icon"><i class="fas fa-file-excel"></i></div>
         <h3>Excel to PDF</h3>
         <p>Convert XLSX spreadsheets to PDF tables securely.</p>
     </a>
+{% endif %}
 
-    <a href="{{ url_for('pdf.image_to_pdf') }}" class="tool-card">
+    {% if features['feature_pdf_image_to_pdf'] %}
+<a href="{{ url_for('pdf.image_to_pdf') }}" class="tool-card">
         <div class="icon-wrapper pdf-icon"><i class="fas fa-file-image"></i></div>
         <h3>Image to PDF</h3>
         <p>Convert JPG, PNG, or GIF images to PDF in seconds.</p>
     </a>
+{% endif %}
     
-    <a href="{{ url_for('pdf.lock_pdf') }}" class="tool-card">
+    {% if features['feature_pdf_lock'] %}
+<a href="{{ url_for('pdf.lock_pdf') }}" class="tool-card">
         <div class="icon-wrapper pdf-icon"><i class="fas fa-lock"></i></div>
         <h3>Lock PDF</h3>
         <p>Secure your PDF documents by adding strong password protection.</p>
     </a>
-    <a href="{{ url_for('pdf.unlock_pdf') }}" class="tool-card">
+{% endif %}
+    {% if features['feature_pdf_unlock'] %}
+<a href="{{ url_for('pdf.unlock_pdf') }}" class="tool-card">
         <div class="icon-wrapper pdf-icon"><i class="fas fa-unlock"></i></div>
         <h3>Unlock PDF</h3>
         <p>Remove passwords and encryption from protected PDF files.</p>
     </a>
+{% endif %}
 
     {% for key, tool in pdf_tools.items() %}
+{% if features['feature_pdf_' ~ tool.id] %}
     <a href="{{ url_for('pdf.dynamic_pdf_tool', tool_id=tool.id) }}" class="tool-card">
         <div class="icon-wrapper pdf-icon"><i class="fas {{ tool.icon }}"></i></div>
         <h3>{{ t(tool.name) }}</h3>
         <p>{{ t(tool.desc) }}</p>
     </a>
-    {% endfor %}
+    {% endif %}
+{% endfor %}
 </div>
 
 <!-- SEO Block -->
