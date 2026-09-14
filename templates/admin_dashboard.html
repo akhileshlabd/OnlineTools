@@ -21,8 +21,6 @@
         
         /* Cards & Grids */
         .admin-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); padding: 25px; margin-bottom: 25px; border: 1px solid #e2e8f0; }
-        .admin-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .admin-title { font-weight: 800; font-size: 1.2rem; color: #0f172a; margin: 0; }
         
         /* Controls Bar */
         .controls-bar { background: #f8fafc; padding: 15px; border-radius: 8px; display: flex; gap: 15px; align-items: center; flex-wrap: wrap; margin-bottom: 25px; border: 1px solid #e2e8f0; }
@@ -49,7 +47,6 @@
     <div class="sidebar-brand">FREE QUBE<span style="color:#3b82f6;">.ADMIN</span></div>
     <div style="flex-grow: 1; margin-top: 20px;">
         <a href="#" class="nav-item active">Blog Management</a>
-        <!-- Future proofing tabs -->
         <a href="#" class="nav-item">Analytics (Soon)</a>
         <a href="#" class="nav-item">Users (Soon)</a>
     </div>
@@ -123,7 +120,7 @@
                 <p style="color: #475569; font-size: 0.95rem; margin-bottom: 15px;">{{ blog.content[:200] }}...</p>
                 
                 <div class="blog-actions">
-                    <button class="btn btn-sm btn-outline-primary" style="font-weight: 600;" onclick="openEditModal({{ blog.id }}, '{{ blog.title | escape }}', '{{ blog.content | replace('\n', '\\n') | escape }}')">Edit</button>
+                    <button class="btn btn-sm btn-outline-primary" style="font-weight: 600;" onclick="openEditModal({{ blog.id }}, '{{ blog.title | escape }}', '{{ blog.content | replace('\n', '\\n') | escape }}', '{{ blog.image_path or '' }}')">Edit</button>
                     <button class="btn btn-sm {{ 'btn-outline-success' if blog.is_hidden else 'btn-outline-warning' }}" style="font-weight: 600;" onclick="toggleVisibility({{ blog.id }})">
                         {{ 'Publish Post' if blog.is_hidden else 'Hide Post' }}
                     </button>
@@ -136,7 +133,7 @@
                     </button>
                 </div>
 
-                <!-- Comments List (Accordion style) -->
+                <!-- Comments List -->
                 <div class="mt-3" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px;">
                     <h6 style="font-weight: 800; color: #334155; margin-bottom: 15px;">Comments ({{ blog.comments|length }})</h6>
                     {% for comment in blog.comments %}
@@ -211,6 +208,25 @@
                 <label class="form-label" style="font-weight: 700;">Content</label>
                 <textarea class="form-control" id="edit_content" rows="8" required></textarea>
             </div>
+            
+            <div class="mb-3">
+                <label class="form-label" style="font-weight: 700;">Cover Image</label>
+                <div id="current_image_container" style="display: none; margin-bottom: 15px; padding: 15px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    <div style="font-size: 0.85rem; font-weight: 600; color: #64748b; margin-bottom: 10px;">CURRENT IMAGE</div>
+                    <div class="d-flex align-items-center">
+                        <img id="edit_image_preview" src="" style="max-height: 80px; border-radius: 8px; margin-right: 15px; border: 1px solid #cbd5e1;">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="remove_image_check">
+                            <label class="form-check-label text-danger" for="remove_image_check" style="font-weight: 600;">
+                                Remove current image
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <input type="file" class="form-control" id="edit_image" accept="image/*">
+                <small class="text-muted">Upload a new image to replace the current one. (Leave blank to keep existing)</small>
+            </div>
+            
             <button type="submit" class="btn btn-primary w-100" style="font-weight: 700;">Save Changes</button>
         </form>
       </div>
@@ -234,10 +250,27 @@
     });
 
     // Edit Modal Prep
-    function openEditModal(id, title, content) {
+    function openEditModal(id, title, content, imagePath) {
         document.getElementById('edit_id').value = id;
         document.getElementById('edit_title').value = title;
         document.getElementById('edit_content').value = content;
+        
+        const imgContainer = document.getElementById('current_image_container');
+        const imgPreview = document.getElementById('edit_image_preview');
+        const removeCheck = document.getElementById('remove_image_check');
+        const fileInput = document.getElementById('edit_image');
+        
+        // Reset state
+        fileInput.value = '';
+        removeCheck.checked = false;
+        
+        if (imagePath && imagePath !== 'None') {
+            imgPreview.src = imagePath;
+            imgContainer.style.display = 'block';
+        } else {
+            imgContainer.style.display = 'none';
+        }
+        
         new bootstrap.Modal(document.getElementById('editBlogModal')).show();
     }
 
@@ -248,6 +281,16 @@
         const fd = new FormData();
         fd.append('title', document.getElementById('edit_title').value);
         fd.append('content', document.getElementById('edit_content').value);
+        
+        const removeCheck = document.getElementById('remove_image_check');
+        if (removeCheck && removeCheck.checked) {
+            fd.append('remove_image', 'true');
+        }
+        
+        const img = document.getElementById('edit_image').files[0];
+        if (img) {
+            fd.append('image', img);
+        }
         
         const res = await fetch(`/admin/api/edit-blog/${id}`, { method: 'POST', body: fd });
         if (res.ok) window.location.reload();

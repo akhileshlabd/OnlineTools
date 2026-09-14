@@ -129,10 +129,25 @@ def edit_blog(blog_id):
     if not session.get('admin_logged_in'): return jsonify({"success": False, "message": "Unauthorized"}), 401
     title = request.form.get('title')
     content = request.form.get('content')
+    remove_image = request.form.get('remove_image') == 'true'
+    image = request.files.get('image')
     
     conn = get_db_connection()
     c = conn.cursor()
-    c.execute("UPDATE blogs SET title = ?, content = ? WHERE id = ?", (title, content, blog_id))
+    
+    if remove_image:
+        c.execute("UPDATE blogs SET title = ?, content = ?, image_path = NULL WHERE id = ?", (title, content, blog_id))
+    elif image and image.filename != '':
+        filename = secure_filename(image.filename)
+        upload_dir = os.path.join('static', 'uploads', 'blogs')
+        os.makedirs(upload_dir, exist_ok=True)
+        full_path = os.path.join(upload_dir, filename)
+        image.save(full_path)
+        image_path = f"/static/uploads/blogs/{filename}"
+        c.execute("UPDATE blogs SET title = ?, content = ?, image_path = ? WHERE id = ?", (title, content, image_path, blog_id))
+    else:
+        c.execute("UPDATE blogs SET title = ?, content = ? WHERE id = ?", (title, content, blog_id))
+        
     conn.commit()
     conn.close()
     return jsonify({"success": True, "message": "Blog updated successfully!"})
