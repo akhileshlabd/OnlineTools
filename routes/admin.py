@@ -110,7 +110,13 @@ FEATURE_GROUPS = [
     },
 ]
 
+
+def make_slug(title):
+    import re
+    return re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')
+
 def get_db_connection():
+
     conn = sqlite3.connect('blogs.db')
     conn.row_factory = sqlite3.Row
     return conn

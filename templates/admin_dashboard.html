@@ -359,7 +359,7 @@
         if (img) fd.append('image', img);
         
         const res = await fetch('/admin/api/add-blog', { method: 'POST', body: fd });
-        if (res.ok) window.location.reload();
+        if (res.ok) { window.location.reload(); } else { alert('Error: ' + await res.text()); }
     });
 
     function openEditModal(id, title, content, imagePath) {
@@ -399,37 +399,37 @@
         if (img) fd.append('image', img);
         
         const res = await fetch(`/admin/api/edit-blog/${id}`, { method: 'POST', body: fd });
-        if (res.ok) window.location.reload();
+        if (res.ok) { window.location.reload(); } else { alert('Error: ' + await res.text()); }
     });
 
     async function toggleVisibility(id) {
         const res = await fetch(`/admin/api/toggle-visibility/${id}`, { method: 'POST' });
-        if (res.ok) window.location.reload();
+        if (res.ok) { window.location.reload(); } else { alert('Error: ' + await res.text()); }
     }
     
     async function deleteBlog(id) {
         if(confirm("DANGER: Are you sure you want to permanently delete this blog?")) {
             const res = await fetch(`/admin/api/delete-blog/${id}`, { method: 'POST' });
-            if (res.ok) window.location.reload();
+            if (res.ok) { window.location.reload(); } else { alert('Error: ' + await res.text()); }
         }
     }
     
     async function toggleComments(id) {
         const res = await fetch(`/admin/api/toggle-blog-comments/${id}`, { method: 'POST' });
-        if (res.ok) window.location.reload();
+        if (res.ok) { window.location.reload(); } else { alert('Error: ' + await res.text()); }
     }
     
     async function deleteComment(id) {
         if(confirm("Delete this comment?")) {
             const res = await fetch(`/admin/api/delete-comment/${id}`, { method: 'POST' });
-            if (res.ok) window.location.reload();
+            if (res.ok) { window.location.reload(); } else { alert('Error: ' + await res.text()); }
         }
     }
     
     async function toggleGlobalComments() {
         if(confirm("Change global comment setting?")) {
             const res = await fetch('/admin/api/toggle-global-comments', { method: 'POST' });
-            if (res.ok) window.location.reload();
+            if (res.ok) { window.location.reload(); } else { alert('Error: ' + await res.text()); }
         }
     }
 </script>
