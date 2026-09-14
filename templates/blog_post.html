@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ blog.title }} - Free Qube</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f0f2f5; font-family: 'Inter', system-ui, sans-serif; color: #050505; }
+        .post-container { max-width: 680px; margin: 40px auto; padding: 0 15px; }
+        .fb-card { background: white; border: none; border-radius: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); padding: 20px; margin-bottom: 20px; }
+        
+        .post-header { display: flex; align-items: center; margin-bottom: 12px; }
+        .avatar { width: 40px; height: 40px; border-radius: 50%; background: #1877f2; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 12px; }
+        .post-author { font-weight: 600; font-size: 0.95rem; }
+        .post-date { font-size: 0.8rem; color: #65676b; }
+        
+        .post-title { font-weight: 800; font-size: 1.75rem; margin-bottom: 15px; }
+        .post-content { font-size: 1.05rem; line-height: 1.6; margin-bottom: 20px; white-space: pre-line; }
+        .post-image { width: 100%; border-radius: 0; margin-left: -20px; width: calc(100% + 40px); margin-bottom: 20px; }
+        
+        /* Comments Section */
+        .comments-section { border-top: 1px solid #ced0d4; padding-top: 20px; }
+        .comment-box { display: flex; margin-bottom: 15px; }
+        .comment-avatar { width: 32px; height: 32px; border-radius: 50%; background: #e4e6eb; margin-right: 10px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; }
+        .comment-content { background: #f0f2f5; padding: 8px 12px; border-radius: 18px; display: inline-block; max-width: calc(100% - 45px); }
+        .comment-author { font-weight: 600; font-size: 0.85rem; margin-bottom: 2px; }
+        .comment-text { font-size: 0.9rem; }
+        
+        .add-comment { display: flex; align-items: flex-start; margin-top: 20px; }
+        .form-control { border-radius: 20px; background: #f0f2f5; border: none; padding: 10px 15px; }
+        .btn-comment { background: transparent; color: #1877f2; border: none; font-weight: 600; padding: 10px 15px; }
+    </style>
+</head>
+<body>
+
+<div class="post-container">
+    <div class="fb-card">
+        <div class="post-header">
+            <div class="avatar">A</div>
+            <div>
+                <div class="post-author">Free Qube Admin</div>
+                <div class="post-date">{{ blog.created_at }}</div>
+            </div>
+        </div>
+        
+        <h1 class="post-title">{{ blog.title }}</h1>
+        <div class="post-content">{{ blog.content }}</div>
+        
+        {% if blog.image_path %}
+        <img src="{{ blog.image_path }}" class="post-image" alt="Blog Image">
+        {% endif %}
+        
+        <div class="comments-section">
+            <h6 style="font-weight: 700; margin-bottom: 15px; color: #65676b;">Comments</h6>
+            
+            {% for comment in comments %}
+            <div class="comment-box">
+                <div class="comment-avatar">U</div>
+                <div class="comment-content">
+                    <div class="comment-author">Anonymous User</div>
+                    <div class="comment-text">{{ comment.content }}</div>
+                </div>
+            </div>
+            {% else %}
+            <p style="color: #65676b; font-size: 0.9rem;">No comments yet. Be the first!</p>
+            {% endfor %}
+            
+            <form class="add-comment" method="POST" action="/blog/{{ blog.slug }}">
+                <div class="comment-avatar">Y</div>
+                <input type="hidden" name="blog_id" value="{{ blog.id }}">
+                <div class="flex-grow-1">
+                    <input type="text" name="content" class="form-control" placeholder="Write an anonymous comment..." required>
+                </div>
+                <button type="submit" class="btn-comment">Post</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

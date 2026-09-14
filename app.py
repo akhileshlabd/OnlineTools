@@ -15,11 +15,14 @@ from routes.games import games_bp, GAMES_TOOLS
 from routes.kids import kids_bp, KIDS_TOOLS
 from routes.video import video_bp, VIDEO_TOOLS
 from routes.mobiles import mobiles_bp
+from routes.admin import admin_bp
+from routes.blogs import blogs_bp
 
 
 
 
 app = Flask(__name__)
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "default-secret-key-for-admin-otp")
 
 # Global configs & Best Practices
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -69,6 +72,8 @@ app.register_blueprint(games_bp)
 app.register_blueprint(kids_bp)
 app.register_blueprint(video_bp)
 app.register_blueprint(mobiles_bp)
+app.register_blueprint(admin_bp)
+app.register_blueprint(blogs_bp)
 
 
 
