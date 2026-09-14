@@ -41,5 +41,26 @@
         <p>Check back later for updates!</p>
     </div>
     {% endfor %}
+
+    {% if total_pages and total_pages > 1 %}
+    <nav aria-label="Blog pagination" class="mt-5">
+        <ul class="pagination justify-content-center">
+            <li class="page-item {% if page == 1 %}disabled{% endif %}">
+                <a class="page-link" href="{{ url_for('blogs.index', page=page-1) }}" tabindex="-1" style="border-radius: 8px 0 0 8px; font-weight: 600;">Previous</a>
+            </li>
+            
+            {% for p in range(1, total_pages + 1) %}
+            <li class="page-item {% if p == page %}active{% endif %}">
+                <a class="page-link" href="{{ url_for('blogs.index', page=p) }}" style="font-weight: 600;">{{ p }}</a>
+            </li>
+            {% endfor %}
+            
+            <li class="page-item {% if page == total_pages %}disabled{% endif %}">
+                <a class="page-link" href="{{ url_for('blogs.index', page=page+1) }}" style="border-radius: 0 8px 8px 0; font-weight: 600;">Next</a>
+            </li>
+        </ul>
+    </nav>
+    {% endif %}
 </div>
+
 {% endblock %}

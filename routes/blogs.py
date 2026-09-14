@@ -10,13 +10,24 @@ def get_db_connection():
 
 @blogs_bp.route('/', methods=['GET'])
 def index():
+    page = request.args.get('page', 1, type=int)
+    per_page = 6
+    offset = (page - 1) * per_page
+    
     conn = get_db_connection()
     c = conn.cursor()
-    # Only show blogs that are not hidden
-    c.execute("SELECT * FROM blogs WHERE is_hidden = 0 ORDER BY created_at DESC")
+    
+    # Get total count
+    c.execute("SELECT COUNT(*) as count FROM blogs WHERE is_hidden = 0")
+    total_blogs = c.fetchone()['count']
+    total_pages = (total_blogs + per_page - 1) // per_page
+    
+    # Get paginated blogs
+    c.execute("SELECT * FROM blogs WHERE is_hidden = 0 ORDER BY created_at DESC LIMIT ? OFFSET ?", (per_page, offset))
     blogs = c.fetchall()
     conn.close()
-    return render_template('blog_hub.html', blogs=blogs)
+    
+    return render_template('blog_hub.html', blogs=blogs, page=page, total_pages=total_pages)
 
 @blogs_bp.route('/<slug>', methods=['GET', 'POST'])
 def view_blog(slug):
