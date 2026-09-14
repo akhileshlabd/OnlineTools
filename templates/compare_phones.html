@@ -1,0 +1,236 @@
+{% extends "base.html" %}
+
+{% block title %}Compare Mobile Phones (PoC) | Free Qube{% endblock %}
+{% block meta_desc %}Side-by-side comparison of mobile phones. Proof of Concept page.{% endblock %}
+
+{% block styles %}
+<style>
+    .phone-col {
+        width: 40%;
+        text-align: center;
+    }
+    .spec-label {
+        width: 20%;
+        font-weight: 600;
+        text-align: right;
+        background-color: #f8f9fa;
+        vertical-align: middle;
+    }
+    .phone-img {
+        max-height: 200px;
+        object-fit: contain;
+        margin-bottom: 15px;
+    }
+    .search-box {
+        position: relative;
+    }
+    .search-results {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border: 1px solid #ddd;
+        border-top: none;
+        z-index: 1000;
+        max-height: 200px;
+        overflow-y: auto;
+        display: none;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .search-item {
+        padding: 10px;
+        cursor: pointer;
+        border-bottom: 1px solid #eee;
+    }
+    .search-item:hover {
+        background-color: #f0f8ff;
+    }
+    .search-item:last-child {
+        border-bottom: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold mb-0"><i class="fas fa-mobile-alt text-primary me-2"></i>Mobile Comparison</h2>
+        <button id="downloadPdfBtn" class="btn btn-danger"><i class="fas fa-file-pdf me-2"></i>Export PDF</button>
+    </div>
+    
+    <div class="alert alert-warning mb-4">
+        <i class="fas fa-flask me-2"></i> <strong>Proof of Concept:</strong> This is a hidden page. Data is provided by a read-only SQLite database powered by Free Qube.
+    </div>
+
+    <!-- Selectors -->
+    <div class="row mb-5">
+        <div class="col-md-2"></div>
+        <div class="col-md-5">
+            <div class="search-box">
+                <input type="text" id="searchPhone1" class="form-control form-control-lg" placeholder="Search Phone 1 (e.g., iPhone 15)" autocomplete="off">
+                <div id="results1" class="search-results"></div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="search-box">
+                <input type="text" id="searchPhone2" class="form-control form-control-lg" placeholder="Search Phone 2 (e.g., Galaxy S24)" autocomplete="off">
+                <div id="results2" class="search-results"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comparison Table -->
+    <div id="comparisonContainer" class="bg-white p-4 rounded shadow-sm">
+        <table class="table table-bordered align-middle">
+            <thead>
+                <tr>
+                    <th class="spec-label border-0"></th>
+                    <th class="phone-col border-0">
+                        <div id="img1-container">
+                            <i class="fas fa-mobile text-muted" style="font-size: 5rem;"></i>
+                        </div>
+                        <h4 id="title1" class="mt-3 text-primary">Select Phone 1</h4>
+                    </th>
+                    <th class="phone-col border-0">
+                        <div id="img2-container">
+                            <i class="fas fa-mobile text-muted" style="font-size: 5rem;"></i>
+                        </div>
+                        <h4 id="title2" class="mt-3 text-primary">Select Phone 2</h4>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="spec-label">Brand</td>
+                    <td id="brand1" class="text-center text-muted">-</td>
+                    <td id="brand2" class="text-center text-muted">-</td>
+                </tr>
+                <tr>
+                    <td class="spec-label">Price</td>
+                    <td id="price1" class="text-center fw-bold text-success">-</td>
+                    <td id="price2" class="text-center fw-bold text-success">-</td>
+                </tr>
+                <tr>
+                    <td class="spec-label">Display</td>
+                    <td id="display1" class="text-center">-</td>
+                    <td id="display2" class="text-center">-</td>
+                </tr>
+                <tr>
+                    <td class="spec-label">Processor</td>
+                    <td id="processor1" class="text-center">-</td>
+                    <td id="processor2" class="text-center">-</td>
+                </tr>
+                <tr>
+                    <td class="spec-label">RAM</td>
+                    <td id="ram1" class="text-center">-</td>
+                    <td id="ram2" class="text-center">-</td>
+                </tr>
+                <tr>
+                    <td class="spec-label">Storage</td>
+                    <td id="storage1" class="text-center">-</td>
+                    <td id="storage2" class="text-center">-</td>
+                </tr>
+                <tr>
+                    <td class="spec-label">Main Camera</td>
+                    <td id="camera_main1" class="text-center">-</td>
+                    <td id="camera_main2" class="text-center">-</td>
+                </tr>
+                <tr>
+                    <td class="spec-label">Selfie Camera</td>
+                    <td id="camera_selfie1" class="text-center">-</td>
+                    <td id="camera_selfie2" class="text-center">-</td>
+                </tr>
+                <tr>
+                    <td class="spec-label">Battery</td>
+                    <td id="battery1" class="text-center">-</td>
+                    <td id="battery2" class="text-center">-</td>
+                </tr>
+                <tr>
+                    <td class="spec-label">OS</td>
+                    <td id="os1" class="text-center">-</td>
+                    <td id="os2" class="text-center">-</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+    function setupSearch(inputId, resultsId, colIndex) {
+        const input = document.getElementById(inputId);
+        const results = document.getElementById(resultsId);
+        
+        let timeout = null;
+        
+        input.addEventListener('input', (e) => {
+            clearTimeout(timeout);
+            const q = e.target.value;
+            if (q.length < 2) {
+                results.style.display = 'none';
+                return;
+            }
+            
+            timeout = setTimeout(async () => {
+                const res = await fetch(`/mobiles/api/search?q=${encodeURIComponent(q)}`);
+                const data = await res.json();
+                
+                results.innerHTML = '';
+                if (data.length > 0) {
+                    data.forEach(phone => {
+                        const div = document.createElement('div');
+                        div.className = 'search-item';
+                        div.innerHTML = `<strong>${phone.brand}</strong> ${phone.model}`;
+                        div.onclick = () => {
+                            input.value = `${phone.brand} ${phone.model}`;
+                            results.style.display = 'none';
+                            loadPhoneData(phone.id, colIndex);
+                        };
+                        results.appendChild(div);
+                    });
+                    results.style.display = 'block';
+                } else {
+                    results.style.display = 'none';
+                }
+            }, 300);
+        });
+        
+        document.addEventListener('click', (e) => {
+            if (e.target !== input && e.target !== results) {
+                results.style.display = 'none';
+            }
+        });
+    }
+
+    async function loadPhoneData(id, colIndex) {
+        const res = await fetch(`/mobiles/api/phone/${id}`);
+        const data = await res.json();
+        
+        document.getElementById(`title${colIndex}`).textContent = data.model;
+        document.getElementById(`img${colIndex}-container`).innerHTML = `<img src="${data.image_url}" class="phone-img" crossorigin="anonymous">`;
+        
+        const fields = ['brand', 'display', 'processor', 'ram', 'storage', 'camera_main', 'camera_selfie', 'battery', 'os', 'price'];
+        fields.forEach(field => {
+            document.getElementById(`${field}${colIndex}`).textContent = data[field];
+        });
+    }
+
+    setupSearch('searchPhone1', 'results1', 1);
+    setupSearch('searchPhone2', 'results2', 2);
+    
+    document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+        const element = document.getElementById('comparisonContainer');
+        const opt = {
+            margin:       10,
+            filename:     'mobile-comparison.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
+        };
+        html2pdf().set(opt).from(element).save();
+    });
+</script>
+{% endblock %}

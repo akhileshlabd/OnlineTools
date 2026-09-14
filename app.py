@@ -14,6 +14,7 @@ from routes.network import network_bp, NETWORK_TOOLS
 from routes.games import games_bp, GAMES_TOOLS
 from routes.kids import kids_bp, KIDS_TOOLS
 from routes.video import video_bp, VIDEO_TOOLS
+from routes.mobiles import mobiles_bp
 
 
 
@@ -67,6 +68,7 @@ app.register_blueprint(network_bp)
 app.register_blueprint(games_bp)
 app.register_blueprint(kids_bp)
 app.register_blueprint(video_bp)
+app.register_blueprint(mobiles_bp)
 
 
 
