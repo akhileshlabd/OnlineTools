@@ -11,16 +11,104 @@ ADMIN_USER = "dhwaniakhilesh@gmail.com"
 ADMIN_PASS = "itsformyfamily"
 
 
-FEATURE_GROUPS = {
-    "PDF Tools": "feature_nav_pdf",
-    "Image Tools": "feature_nav_image",
-    "Free Games": "feature_nav_games",
-    "Finance Tools": "feature_nav_finance",
-    "Health Tools": "feature_nav_health",
-    "Text Tools": "feature_nav_text",
-    "Network Tools": "feature_nav_network",
-    "Code & Dev Tools": "feature_nav_dev",
-}
+FEATURE_GROUPS = [
+    {
+        "key": "feature_nav_pdf",
+        "label": "PDF Tools",
+        "icon": "fa-file-pdf",
+        "children": [
+            {"key": "feature_pdf_merger", "label": "PDF Merger"},
+            {"key": "feature_pdf_splitter", "label": "PDF Splitter"},
+            {"key": "feature_pdf_word_to_pdf", "label": "Word to PDF"},
+            {"key": "feature_pdf_excel_to_pdf", "label": "Excel to PDF"},
+            {"key": "feature_pdf_image_to_pdf", "label": "Image to PDF"},
+            {"key": "feature_pdf_lock", "label": "Lock PDF"},
+            {"key": "feature_pdf_unlock", "label": "Unlock PDF"},
+            {"key": "feature_pdf_rotate_pdf", "label": "Rotate PDF"},
+            {"key": "feature_pdf_remove_page", "label": "Remove Page"},
+            {"key": "feature_pdf_add_blank", "label": "Add Blank Page"},
+            {"key": "feature_pdf_watermark", "label": "Add Watermark"},
+        ]
+    },
+    {
+        "key": "feature_nav_image",
+        "label": "Image Tools",
+        "icon": "fa-image",
+        "children": [
+            {"key": "feature_image_resizer", "label": "Image Resizer"},
+            {"key": "feature_image_converter", "label": "Image Converter"},
+            {"key": "feature_image_qr", "label": "QR Generator"},
+            {"key": "feature_image_passport_maker", "label": "Passport Maker"},
+            {"key": "feature_image_bg_remover", "label": "Background Remover"},
+            {"key": "feature_image_grayscale", "label": "Grayscale Image"},
+            {"key": "feature_image_blur", "label": "Blur Image"},
+            {"key": "feature_image_flip_h", "label": "Flip Horizontal"},
+            {"key": "feature_image_flip_v", "label": "Flip Vertical"},
+            {"key": "feature_image_rotate_tool", "label": "Rotate Image"},
+            {"key": "feature_image_brightness", "label": "Adjust Brightness"},
+            {"key": "feature_image_contrast", "label": "Adjust Contrast"},
+        ]
+    },
+    {
+        "key": "feature_nav_games",
+        "label": "Free Games",
+        "icon": "fa-gamepad",
+        "children": [
+            {"key": "feature_game_sudoku-game", "label": "Sudoku"},
+            {"key": "feature_game_tetris-game", "label": "Tetris"},
+            {"key": "feature_game_brick-breaker", "label": "Brick Breaker"},
+            {"key": "feature_game_snake-game", "label": "Snake"},
+            {"key": "feature_game_neon-qube", "label": "Neon Qube"},
+        ]
+    },
+    {
+        "key": "feature_nav_finance",
+        "label": "Finance Tools",
+        "icon": "fa-calculator",
+        "children": [
+            {"key": "feature_fin_emi", "label": "EMI Calculator"},
+            {"key": "feature_fin_sip", "label": "SIP Calculator"},
+            {"key": "feature_fin_fd", "label": "FD Calculator"},
+        ]
+    },
+    {
+        "key": "feature_nav_health",
+        "label": "Health Tools",
+        "icon": "fa-heartbeat",
+        "children": [
+            {"key": "feature_health_bmi", "label": "BMI Calculator"},
+            {"key": "feature_health_macro", "label": "Macro Calculator"},
+        ]
+    },
+    {
+        "key": "feature_nav_text",
+        "label": "Text Tools",
+        "icon": "fa-font",
+        "children": [
+            {"key": "feature_text_counter", "label": "Word Counter"},
+            {"key": "feature_text_case", "label": "Case Converter"},
+            {"key": "feature_text_tts", "label": "Text to Speech"},
+        ]
+    },
+    {
+        "key": "feature_nav_network",
+        "label": "Network Tools",
+        "icon": "fa-network-wired",
+        "children": [
+            {"key": "feature_net_ip", "label": "My IP Address"},
+            {"key": "feature_net_ping", "label": "Ping Tester"},
+        ]
+    },
+    {
+        "key": "feature_nav_dev",
+        "label": "Code & Dev Tools",
+        "icon": "fa-code",
+        "children": [
+            {"key": "feature_dev_json", "label": "JSON Formatter"},
+            {"key": "feature_dev_b64", "label": "Base64 Encode/Decode"},
+        ]
+    },
+]
 
 def get_db_connection():
     conn = sqlite3.connect('blogs.db')
@@ -65,12 +153,17 @@ def dashboard():
     f_rows = c.fetchall()
     feature_dict = {r['key']: (r['value'] == '1') for r in f_rows}
     
-    features_grouped = {}
-    for label, key in FEATURE_GROUPS.items():
-        features_grouped[label] = {
-            "key": key,
-            "is_enabled": feature_dict.get(key, True)
-        }
+    features_grouped = []
+    for group in FEATURE_GROUPS:
+        grp = dict(group)
+        grp['is_enabled'] = feature_dict.get(grp['key'], True)
+        grp_children = []
+        for child in grp.get('children', []):
+            child_dict = dict(child) # VERY IMPORTANT: DO NOT USE 'c'
+            child_dict['is_enabled'] = feature_dict.get(child_dict['key'], True)
+            grp_children.append(child_dict)
+        grp['children'] = grp_children
+        features_grouped.append(grp)
     
     # Blog Filters
     date_from = request.args.get('date_from')
