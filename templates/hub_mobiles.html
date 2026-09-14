@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Mobile Phone Tools & Comparisons | Free Qube{% endblock %}
+{% block meta_desc %}Compare the latest smartphones, check specifications side-by-side, and make the right choice with Free Qube's mobile tools.{% endblock %}
+
+{% block styles %}
+<style>
+    :root {
+        --text-primary: #1d1d1f;
+        --text-secondary: #86868b;
+        --border-color: #f2f2f7;
+        --bg-gray: #fbfbfd;
+        --accent-blue: #0071e3;
+    }
+    
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+
+    .hero-section {
+        background: linear-gradient(180deg, #fbfbfd 0%, #ffffff 100%);
+        padding: 80px 20px;
+        text-align: center;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .hero-title {
+        font-weight: 800;
+        font-size: 3rem;
+        letter-spacing: -0.04em;
+        color: var(--text-primary);
+        margin-bottom: 20px;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.25rem;
+        color: var(--text-secondary);
+        max-width: 600px;
+        margin: 0 auto 40px auto;
+        line-height: 1.5;
+    }
+
+    .tool-card {
+        background: #fff;
+        border-radius: 24px;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+        padding: 40px;
+        text-align: center;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: block;
+        color: inherit;
+    }
+    
+    .tool-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+        color: inherit;
+    }
+
+    .tool-icon {
+        width: 80px;
+        height: 80px;
+        background: #f2fcf7;
+        color: #00a260;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin: 0 auto 24px auto;
+    }
+
+    .tool-card h3 {
+        font-weight: 700;
+        font-size: 1.5rem;
+        margin-bottom: 12px;
+        color: var(--text-primary);
+    }
+
+    .tool-card p {
+        color: var(--text-secondary);
+        margin-bottom: 0;
+        line-height: 1.5;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <h1 class="hero-title">Mobile Intelligence.</h1>
+        <p class="hero-subtitle">Discover, compare, and analyze the latest smartphones side-by-side with our premium data tools.</p>
+        
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6 col-lg-4">
+                <a href="/mobiles/compare" class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3>Compare Phones</h3>
+                    <p>Put two phones head-to-head. Compare specs, battery life, cameras, and prices instantly.</p>
+                </a>
+            </div>
+            <!-- Future tools can go here, e.g., Phone Finder, Spec Sheet Viewer -->
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+    <h3 class="fw-bold mb-4 text-center">Popular Comparisons</h3>
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="d-flex justify-content-center flex-wrap gap-3">
+                <a href="/mobiles/compare/apple-iphone-15-pro-max-vs-samsung-galaxy-s24-ultra" class="btn btn-lg btn-light rounded-pill px-4 py-3 fw-medium text-secondary" style="border:1px solid var(--border-color);">iPhone 15 Pro Max <span style="color:#d2d2d7;" class="mx-1">vs</span> Galaxy S24 Ultra</a>
+                <a href="/mobiles/compare/google-pixel-8-pro-vs-samsung-galaxy-s24-ultra" class="btn btn-lg btn-light rounded-pill px-4 py-3 fw-medium text-secondary" style="border:1px solid var(--border-color);">Pixel 8 Pro <span style="color:#d2d2d7;" class="mx-1">vs</span> Galaxy S24 Ultra</a>
+                <a href="/mobiles/compare/apple-iphone-15-vs-nothing-phone-2-" class="btn btn-lg btn-light rounded-pill px-4 py-3 fw-medium text-secondary" style="border:1px solid var(--border-color);">iPhone 15 <span style="color:#d2d2d7;" class="mx-1">vs</span> Nothing Phone 2</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
