@@ -12,6 +12,7 @@
 
 <div class="row g-4 justify-content-center">
     {% for key, tool in games_tools.items() %}
+    {% if features["feature_game_" ~ tool.id] %}
     <div class="col-md-6 col-lg-4 d-flex">
         <a href="{{ url_for('games.games_tool_page', tool_id=tool.id) }}" class="tool-card w-100 p-4 shadow-sm text-center">
             <div class="icon-wrapper mx-auto mb-3" style="color: #e83e8c; width: 60px; height: 60px; font-size: 1.5rem;"><i class="fas {{ tool.icon }}"></i></div>
@@ -19,6 +20,7 @@
             <p class="text-muted small mb-0">{{ t(tool.desc) }}</p>
         </a>
     </div>
+    {% endif %}
     {% endfor %}
 </div>
 

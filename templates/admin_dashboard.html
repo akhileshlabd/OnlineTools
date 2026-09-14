@@ -11,7 +11,7 @@
         /* Sidebar */
         .sidebar { width: 260px; background: #1e293b; color: #fff; display: flex; flex-direction: column; }
         .sidebar-brand { padding: 20px; font-weight: 900; font-size: 1.25rem; letter-spacing: 0.05em; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .nav-item { padding: 15px 20px; color: #cbd5e1; text-decoration: none; font-weight: 600; display: flex; align-items: center; border-left: 3px solid transparent; transition: 0.2s; }
+        .nav-item { padding: 15px 20px; color: #cbd5e1; text-decoration: none; font-weight: 600; display: flex; align-items: center; border-left: 3px solid transparent; transition: 0.2s; cursor: pointer; }
         .nav-item:hover, .nav-item.active { background: #334155; color: white; border-left-color: #3b82f6; }
         
         /* Main Content */
@@ -19,6 +19,9 @@
         .topbar { background: #fff; padding: 15px 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
         .content-area { padding: 30px; }
         
+        .tab-section { display: none; }
+        .tab-section.active { display: block; }
+
         /* Cards & Grids */
         .admin-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); padding: 25px; margin-bottom: 25px; border: 1px solid #e2e8f0; }
         
@@ -39,16 +42,22 @@
         /* Modal */
         .modal-content { border-radius: 12px; border: none; }
         .modal-header { background: #f8fafc; border-bottom: 1px solid #e2e8f0; border-radius: 12px 12px 0 0; }
+        
+        /* Toggle Switches */
+        .feature-switch { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #e2e8f0; }
+        .feature-switch:last-child { border-bottom: none; }
+        
     </style>
 </head>
 <body>
 
 <div class="sidebar">
     <div class="sidebar-brand">FREE QUBE<span style="color:#3b82f6;">.ADMIN</span></div>
-    <div style="flex-grow: 1; margin-top: 20px;">
-        <a href="#" class="nav-item active">Blog Management</a>
-        <a href="#" class="nav-item">Analytics (Soon)</a>
-        <a href="#" class="nav-item">Users (Soon)</a>
+    <div style="flex-grow: 1; margin-top: 20px;" id="sidebarNav">
+        <a class="nav-item {{ 'active' if active_tab == 'blogs' else '' }}" onclick="switchTab('blogs', this)">Blog Management</a>
+        <a class="nav-item {{ 'active' if active_tab == 'features' else '' }}" onclick="switchTab('features', this)">Feature Management</a>
+        <a class="nav-item">Analytics (Soon)</a>
+        <a class="nav-item">Users (Soon)</a>
     </div>
     <div style="padding: 20px;">
         <a href="/admin/logout" class="btn btn-outline-light w-100" style="font-weight: 600;">Log Out</a>
@@ -56,108 +65,152 @@
 </div>
 
 <div class="main-content">
-    <div class="topbar">
-        <h4 style="margin: 0; font-weight: 800; color: #0f172a;">Blog Management</h4>
-        <div>
-            <button class="btn btn-dark" style="font-weight: 600;" data-bs-toggle="modal" data-bs-target="#createBlogModal">+ New Post</button>
-        </div>
-    </div>
     
-    <div class="content-area">
-        
-        <!-- Global Settings -->
-        <div class="admin-card" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: white; border: none;">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <h5 class="mb-1" style="font-weight: 800;">Global Comments Override</h5>
-                    <p class="mb-0" style="font-size: 0.9rem; color: #cbd5e1;">Master switch to completely disable or enable comments globally.</p>
-                </div>
-                <button onclick="toggleGlobalComments()" class="btn btn-light" style="font-weight: 700; color: {{ '#3b82f6' if global_comments_enabled else '#ef4444' }}">
-                    {{ 'Disable Everywhere' if global_comments_enabled else 'Enable Everywhere' }}
-                </button>
+    <!-- BLOGS TAB -->
+    <div id="tab-blogs" class="tab-section {{ 'active' if active_tab == 'blogs' else '' }}">
+        <div class="topbar">
+            <h4 style="margin: 0; font-weight: 800; color: #0f172a;">Blog Management</h4>
+            <div>
+                <button class="btn btn-dark" style="font-weight: 600;" data-bs-toggle="modal" data-bs-target="#createBlogModal">+ New Post</button>
             </div>
         </div>
-
-        <!-- Filter & Sort Bar -->
-        <div class="controls-bar">
-            <form method="GET" action="/admin/dashboard" class="d-flex gap-3 align-items-center w-100">
-                <div>
-                    <label class="form-label" style="font-size: 0.75rem; font-weight: 700; color: #64748b; margin-bottom: 2px;">FROM DATE</label>
-                    <input type="date" name="date_from" class="form-control form-control-sm" value="{{ date_from }}">
-                </div>
-                <div>
-                    <label class="form-label" style="font-size: 0.75rem; font-weight: 700; color: #64748b; margin-bottom: 2px;">TO DATE</label>
-                    <input type="date" name="date_to" class="form-control form-control-sm" value="{{ date_to }}">
-                </div>
-                <div>
-                    <label class="form-label" style="font-size: 0.75rem; font-weight: 700; color: #64748b; margin-bottom: 2px;">SORT</label>
-                    <select name="sort" class="form-select form-select-sm">
-                        <option value="DESC" {% if sort == 'DESC' %}selected{% endif %}>Newest First</option>
-                        <option value="ASC" {% if sort == 'ASC' %}selected{% endif %}>Oldest First</option>
-                    </select>
-                </div>
-                <div class="mt-4">
-                    <button type="submit" class="btn btn-sm btn-primary" style="font-weight: 600;">Apply Filters</button>
-                    <a href="/admin/dashboard" class="btn btn-sm btn-outline-secondary" style="font-weight: 600;">Clear</a>
-                </div>
-            </form>
-        </div>
-
-        <!-- Blog Feed -->
-        <div class="blog-row">
-            {% for blog in blogs %}
-            <div class="blog-item {{ 'hidden-blog' if blog.is_hidden else '' }}">
-                <div class="d-flex justify-content-between align-items-start mb-2">
+        
+        <div class="content-area">
+            <!-- Global Settings -->
+            <div class="admin-card" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: white; border: none;">
+                <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <span class="badge-custom {{ 'badge-hidden' if blog.is_hidden else 'badge-visible' }} mb-2 d-inline-block">
-                            {{ 'HIDDEN' if blog.is_hidden else 'PUBLISHED' }}
-                        </span>
-                        <h4 style="font-weight: 800; color: #0f172a; margin-bottom: 5px;">{{ blog.title }}</h4>
-                        <div style="font-size: 0.85rem; color: #64748b; font-weight: 600;">Posted: {{ blog.created_at }}</div>
+                        <h5 class="mb-1" style="font-weight: 800;">Global Comments Override</h5>
+                        <p class="mb-0" style="font-size: 0.9rem; color: #cbd5e1;">Master switch to completely disable or enable comments globally.</p>
                     </div>
-                </div>
-                
-                <p style="color: #475569; font-size: 0.95rem; margin-bottom: 15px;">{{ blog.content[:200] }}...</p>
-                
-                <div class="blog-actions">
-                    <button class="btn btn-sm btn-outline-primary" style="font-weight: 600;" onclick="openEditModal({{ blog.id }}, '{{ blog.title | escape }}', '{{ blog.content | replace('\n', '\\n') | escape }}', '{{ blog.image_path or '' }}')">Edit</button>
-                    <button class="btn btn-sm {{ 'btn-outline-success' if blog.is_hidden else 'btn-outline-warning' }}" style="font-weight: 600;" onclick="toggleVisibility({{ blog.id }})">
-                        {{ 'Publish Post' if blog.is_hidden else 'Hide Post' }}
-                    </button>
-                    <button class="btn btn-sm btn-outline-danger" style="font-weight: 600;" onclick="deleteBlog({{ blog.id }})">Delete Permanently</button>
-                    
-                    <div style="width: 1px; background: #cbd5e1; margin: 0 10px;"></div>
-                    
-                    <button class="btn btn-sm {{ 'btn-outline-danger' if blog.comments_enabled else 'btn-outline-success' }}" style="font-weight: 600;" onclick="toggleComments({{ blog.id }})">
-                        {{ 'Disable Comments' if blog.comments_enabled else 'Enable Comments' }}
+                    <button onclick="toggleGlobalComments()" class="btn btn-light" style="font-weight: 700; color: {{ '#3b82f6' if global_comments_enabled else '#ef4444' }}">
+                        {{ 'Disable Everywhere' if global_comments_enabled else 'Enable Everywhere' }}
                     </button>
                 </div>
+            </div>
 
-                <!-- Comments List -->
-                <div class="mt-3" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px;">
-                    <h6 style="font-weight: 800; color: #334155; margin-bottom: 15px;">Comments ({{ blog.comments|length }})</h6>
-                    {% for comment in blog.comments %}
-                    <div class="d-flex justify-content-between align-items-center mb-2 pb-2" style="border-bottom: 1px solid #e2e8f0;">
-                        <div style="font-size: 0.9rem;">
-                            <strong style="color: #0f172a;">{{ comment.author_name }}:</strong> <span style="color: #475569;">{{ comment.content }}</span>
-                            <div style="font-size: 0.75rem; color: #94a3b8;">{{ comment.created_at }}</div>
-                        </div>
-                        <button class="btn btn-sm btn-link text-danger" style="font-weight: 700; text-decoration: none;" onclick="deleteComment({{ comment.id }})">Delete</button>
+            <!-- Filter & Sort Bar -->
+            <div class="controls-bar">
+                <form method="GET" action="/admin/dashboard" class="d-flex gap-3 align-items-center w-100">
+                    <input type="hidden" name="tab" value="blogs">
+                    <div>
+                        <label class="form-label" style="font-size: 0.75rem; font-weight: 700; color: #64748b; margin-bottom: 2px;">FROM DATE</label>
+                        <input type="date" name="date_from" class="form-control form-control-sm" value="{{ date_from }}">
                     </div>
-                    {% else %}
-                    <div style="font-size: 0.85rem; color: #94a3b8;">No comments yet.</div>
-                    {% endfor %}
+                    <div>
+                        <label class="form-label" style="font-size: 0.75rem; font-weight: 700; color: #64748b; margin-bottom: 2px;">TO DATE</label>
+                        <input type="date" name="date_to" class="form-control form-control-sm" value="{{ date_to }}">
+                    </div>
+                    <div>
+                        <label class="form-label" style="font-size: 0.75rem; font-weight: 700; color: #64748b; margin-bottom: 2px;">SORT</label>
+                        <select name="sort" class="form-select form-select-sm">
+                            <option value="DESC" {% if sort == 'DESC' %}selected{% endif %}>Newest First</option>
+                            <option value="ASC" {% if sort == 'ASC' %}selected{% endif %}>Oldest First</option>
+                        </select>
+                    </div>
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-sm btn-primary" style="font-weight: 600;">Apply Filters</button>
+                        <a href="/admin/dashboard?tab=blogs" class="btn btn-sm btn-outline-secondary" style="font-weight: 600;">Clear</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Blog Feed -->
+            <div class="blog-row">
+                {% for blog in blogs %}
+                <div class="blog-item {{ 'hidden-blog' if blog.is_hidden else '' }}">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <div>
+                            <span class="badge-custom {{ 'badge-hidden' if blog.is_hidden else 'badge-visible' }} mb-2 d-inline-block">
+                                {{ 'HIDDEN' if blog.is_hidden else 'PUBLISHED' }}
+                            </span>
+                            <h4 style="font-weight: 800; color: #0f172a; margin-bottom: 5px;">{{ blog.title }}</h4>
+                            <div style="font-size: 0.85rem; color: #64748b; font-weight: 600;">Posted: {{ blog.created_at }}</div>
+                        </div>
+                    </div>
+                    
+                    <p style="color: #475569; font-size: 0.95rem; margin-bottom: 15px;">{{ blog.content[:200] }}...</p>
+                    
+                    <div class="blog-actions">
+                        <button class="btn btn-sm btn-outline-primary" style="font-weight: 600;" onclick="openEditModal({{ blog.id }}, '{{ blog.title | escape }}', '{{ blog.content | replace('\n', '\\n') | escape }}', '{{ blog.image_path or '' }}')">Edit</button>
+                        <button class="btn btn-sm {{ 'btn-outline-success' if blog.is_hidden else 'btn-outline-warning' }}" style="font-weight: 600;" onclick="toggleVisibility({{ blog.id }})">
+                            {{ 'Publish Post' if blog.is_hidden else 'Hide Post' }}
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" style="font-weight: 600;" onclick="deleteBlog({{ blog.id }})">Delete Permanently</button>
+                        
+                        <div style="width: 1px; background: #cbd5e1; margin: 0 10px;"></div>
+                        
+                        <button class="btn btn-sm {{ 'btn-outline-danger' if blog.comments_enabled else 'btn-outline-success' }}" style="font-weight: 600;" onclick="toggleComments({{ blog.id }})">
+                            {{ 'Disable Comments' if blog.comments_enabled else 'Enable Comments' }}
+                        </button>
+                    </div>
+
+                    <!-- Comments List -->
+                    <div class="mt-3" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px;">
+                        <h6 style="font-weight: 800; color: #334155; margin-bottom: 15px;">Comments ({{ blog.comments|length }})</h6>
+                        {% for comment in blog.comments %}
+                        <div class="d-flex justify-content-between align-items-center mb-2 pb-2" style="border-bottom: 1px solid #e2e8f0;">
+                            <div style="font-size: 0.9rem;">
+                                <strong style="color: #0f172a;">{{ comment.author_name }}:</strong> <span style="color: #475569;">{{ comment.content }}</span>
+                                <div style="font-size: 0.75rem; color: #94a3b8;">{{ comment.created_at }}</div>
+                            </div>
+                            <button class="btn btn-sm btn-link text-danger" style="font-weight: 700; text-decoration: none;" onclick="deleteComment({{ comment.id }})">Delete</button>
+                        </div>
+                        {% else %}
+                        <div style="font-size: 0.85rem; color: #94a3b8;">No comments yet.</div>
+                        {% endfor %}
+                    </div>
                 </div>
+                {% else %}
+                <div class="text-center" style="padding: 60px; color: #64748b; border: 2px dashed #cbd5e1; border-radius: 12px;">
+                    <h5>No blogs found.</h5>
+                </div>
+                {% endfor %}
             </div>
-            {% else %}
-            <div class="text-center" style="padding: 60px; color: #64748b; border: 2px dashed #cbd5e1; border-radius: 12px;">
-                <h5>No blogs found.</h5>
-                <p>Try adjusting your filters or create a new post.</p>
-            </div>
-            {% endfor %}
+        </div>
+    </div>
+
+    <!-- FEATURES TAB -->
+    <div id="tab-features" class="tab-section {{ 'active' if active_tab == 'features' else '' }}">
+        <div class="topbar">
+            <h4 style="margin: 0; font-weight: 800; color: #0f172a;">Feature Management</h4>
         </div>
         
+        <div class="content-area">
+            <div class="alert alert-info" style="border: none; border-radius: 8px; font-weight: 600;">
+                Turn off individual features or entirely hide navigation menus across the live site.
+            </div>
+            
+            <div class="row">
+                {% for category, items in features_grouped.items() %}
+                <div class="col-md-6 mb-4">
+                    <div class="admin-card p-0 h-100">
+                        <div class="admin-card-header" style="padding: 20px 20px 0 20px; margin-bottom: 0;">
+                            <h5 class="admin-title">{{ category }}</h5>
+                        </div>
+                        <div class="p-3">
+                            {% for f in items %}
+                            <div class="feature-switch">
+                                <div>
+                                    <h6 style="margin:0; font-weight: 700; color: #1e293b;">{{ f.label }}</h6>
+                                    <small style="color: #64748b;">Key: <code>{{ f.key }}</code></small>
+                                </div>
+                                <div class="form-check form-switch fs-5">
+                                    <input class="form-check-input" type="checkbox" 
+                                           {{ 'checked' if f.is_enabled else '' }} 
+                                           onchange="toggleFeature('{{ f.key }}')">
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+        </div>
     </div>
+
 </div>
 
 <!-- Create Blog Modal -->
@@ -224,7 +277,7 @@
                     </div>
                 </div>
                 <input type="file" class="form-control" id="edit_image" accept="image/*">
-                <small class="text-muted">Upload a new image to replace the current one. (Leave blank to keep existing)</small>
+                <small class="text-muted">Upload a new image to replace the current one.</small>
             </div>
             
             <button type="submit" class="btn btn-primary w-100" style="font-weight: 700;">Save Changes</button>
@@ -236,7 +289,28 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Create
+    // Tab Switcher
+    function switchTab(tabId, el) {
+        document.querySelectorAll('.tab-section').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.sidebar .nav-item').forEach(n => n.classList.remove('active'));
+        document.getElementById('tab-' + tabId).classList.add('active');
+        el.classList.add('active');
+        
+        // Update URL cleanly without reloading
+        const url = new URL(window.location);
+        url.searchParams.set('tab', tabId);
+        window.history.pushState({}, '', url);
+    }
+
+    // Toggle Feature
+    async function toggleFeature(key) {
+        const fd = new FormData();
+        fd.append('key', key);
+        const res = await fetch('/admin/api/toggle-feature', { method: 'POST', body: fd });
+        if (!res.ok) alert("Error toggling feature.");
+    }
+
+    // Blogs...
     document.getElementById('createBlogForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const fd = new FormData();
@@ -249,7 +323,6 @@
         if (res.ok) window.location.reload();
     });
 
-    // Edit Modal Prep
     function openEditModal(id, title, content, imagePath) {
         document.getElementById('edit_id').value = id;
         document.getElementById('edit_title').value = title;
@@ -260,7 +333,6 @@
         const removeCheck = document.getElementById('remove_image_check');
         const fileInput = document.getElementById('edit_image');
         
-        // Reset state
         fileInput.value = '';
         removeCheck.checked = false;
         
@@ -274,7 +346,6 @@
         new bootstrap.Modal(document.getElementById('editBlogModal')).show();
     }
 
-    // Edit Submit
     document.getElementById('editBlogForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const id = document.getElementById('edit_id').value;
@@ -283,27 +354,22 @@
         fd.append('content', document.getElementById('edit_content').value);
         
         const removeCheck = document.getElementById('remove_image_check');
-        if (removeCheck && removeCheck.checked) {
-            fd.append('remove_image', 'true');
-        }
+        if (removeCheck && removeCheck.checked) fd.append('remove_image', 'true');
         
         const img = document.getElementById('edit_image').files[0];
-        if (img) {
-            fd.append('image', img);
-        }
+        if (img) fd.append('image', img);
         
         const res = await fetch(`/admin/api/edit-blog/${id}`, { method: 'POST', body: fd });
         if (res.ok) window.location.reload();
     });
 
-    // Actions
     async function toggleVisibility(id) {
         const res = await fetch(`/admin/api/toggle-visibility/${id}`, { method: 'POST' });
         if (res.ok) window.location.reload();
     }
     
     async function deleteBlog(id) {
-        if(confirm("DANGER: Are you sure you want to permanently delete this blog and all its comments?")) {
+        if(confirm("DANGER: Are you sure you want to permanently delete this blog?")) {
             const res = await fetch(`/admin/api/delete-blog/${id}`, { method: 'POST' });
             if (res.ok) window.location.reload();
         }
@@ -322,7 +388,7 @@
     }
     
     async function toggleGlobalComments() {
-        if(confirm("Change global comment setting for the whole site?")) {
+        if(confirm("Change global comment setting?")) {
             const res = await fetch('/admin/api/toggle-global-comments', { method: 'POST' });
             if (res.ok) window.location.reload();
         }

@@ -10,6 +10,26 @@ admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 ADMIN_USER = "dhwaniakhilesh@gmail.com"
 ADMIN_PASS = "itsformyfamily"
 
+AVAILABLE_FEATURES = [
+    {"key": "feature_nav_pdf", "label": "PDF Tools", "category": "Navigation & Modules"},
+    {"key": "feature_nav_image", "label": "Image Tools", "category": "Navigation & Modules"},
+    {"key": "feature_nav_finance", "label": "Finance Tools", "category": "Navigation & Modules"},
+    {"key": "feature_nav_text", "label": "Text Tools", "category": "Navigation & Modules"},
+    {"key": "feature_nav_health", "label": "Health", "category": "Navigation & Modules"},
+    {"key": "feature_nav_math", "label": "Math Tools", "category": "Navigation & Modules"},
+    {"key": "feature_nav_network", "label": "Network Tools", "category": "Navigation & Modules"},
+    {"key": "feature_nav_dev", "label": "Code/Dev Tools", "category": "Navigation & Modules"},
+    {"key": "feature_nav_video", "label": "Video Tools", "category": "Navigation & Modules"},
+    {"key": "feature_nav_games", "label": "Free Games", "category": "Navigation & Modules"},
+    {"key": "feature_nav_kids", "label": "Kids Zone", "category": "Navigation & Modules"},
+    
+    {"key": "feature_game_sudoku-game", "label": "Sudoku", "category": "Games Settings"},
+    {"key": "feature_game_tetris-game", "label": "Tetris", "category": "Games Settings"},
+    {"key": "feature_game_brick-breaker", "label": "Brick Breaker", "category": "Games Settings"},
+    {"key": "feature_game_snake-game", "label": "Snake", "category": "Games Settings"},
+    {"key": "feature_game_neon-qube", "label": "Neon Qube", "category": "Games Settings"},
+]
+
 def get_db_connection():
     conn = sqlite3.connect('blogs.db')
     conn.row_factory = sqlite3.Row
@@ -53,15 +73,31 @@ def dashboard():
     conn = get_db_connection()
     c = conn.cursor()
     
-    # Settings
+    # Settings (Global Comments)
     c.execute("SELECT value FROM settings WHERE key = 'global_comments_enabled'")
     row = c.fetchone()
     global_comments_enabled = (row['value'] == '1') if row else True
     
-    # Filter and Sort params
+    # Feature Toggles
+    c.execute("SELECT key, value FROM settings WHERE key LIKE 'feature_%'")
+    f_rows = c.fetchall()
+    feature_dict = {r['key']: (r['value'] == '1') for r in f_rows}
+    
+    features_list = []
+    for f in AVAILABLE_FEATURES:
+        f_copy = dict(f)
+        f_copy['is_enabled'] = feature_dict.get(f['key'], True)
+        features_list.append(f_copy)
+        
+    # Group features by category
+    features_grouped = {}
+    for f in features_list:
+        features_grouped.setdefault(f['category'], []).append(f)
+    
+    # Blog Filters
     date_from = request.args.get('date_from')
     date_to = request.args.get('date_to')
-    sort = request.args.get('sort', 'DESC') # DESC or ASC
+    sort = request.args.get('sort', 'DESC')
     if sort not in ['ASC', 'DESC']: sort = 'DESC'
     
     query = "SELECT * FROM blogs"
@@ -92,7 +128,16 @@ def dashboard():
         
     conn.close()
     
-    return render_template('admin_dashboard.html', blogs=blogs, global_comments_enabled=global_comments_enabled, sort=sort, date_from=date_from or '', date_to=date_to or '')
+    active_tab = request.args.get('tab', 'blogs')
+    
+    return render_template('admin_dashboard.html', 
+                           blogs=blogs, 
+                           global_comments_enabled=global_comments_enabled, 
+                           features_grouped=features_grouped,
+                           sort=sort, 
+                           date_from=date_from or '', 
+                           date_to=date_to or '',
+                           active_tab=active_tab)
 
 @admin_bp.route('/api/add-blog', methods=['POST'])
 def add_blog():
@@ -185,7 +230,7 @@ def toggle_global_comments():
     row = c.fetchone()
     current_val = row['value'] if row else '1'
     new_val = '0' if current_val == '1' else '1'
-    c.execute("UPDATE settings SET value = ? WHERE key = 'global_comments_enabled'", (new_val,))
+    c.execute("INSERT INTO settings (key, value) VALUES ('global_comments_enabled', ?) ON CONFLICT(key) DO UPDATE SET value = ?", (new_val, new_val))
     conn.commit()
     conn.close()
     return jsonify({"success": True})
@@ -212,3 +257,20 @@ def delete_comment(comment_id):
     conn.commit()
     conn.close()
     return jsonify({"success": True})
+
+@admin_bp.route('/api/toggle-feature', methods=['POST'])
+def toggle_feature():
+    if not session.get('admin_logged_in'): return jsonify({"success": False, "message": "Unauthorized"}), 401
+    feature_key = request.form.get('key')
+    
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute("SELECT value FROM settings WHERE key = ?", (feature_key,))
+    row = c.fetchone()
+    current_val = row['value'] if row else '1'
+    new_val = '0' if current_val == '1' else '1'
+    
+    c.execute("INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = ?", (feature_key, new_val, new_val))
+    conn.commit()
+    conn.close()
+    return jsonify({"success": True, "new_val": new_val})

@@ -136,6 +136,28 @@ def sw():
     response.headers['Cache-Control'] = 'no-cache'
     return response
 
+
+import sqlite3
+from collections import defaultdict
+
+@app.context_processor
+def inject_features():
+    try:
+        conn = sqlite3.connect('blogs.db')
+        conn.row_factory = sqlite3.Row
+        c = conn.cursor()
+        c.execute("SELECT key, value FROM settings WHERE key LIKE 'feature_%'")
+        rows = c.fetchall()
+        conn.close()
+        
+        features = defaultdict(lambda: True)
+        for r in rows:
+            features[r['key']] = (r['value'] == '1')
+        return dict(features=features)
+    except:
+        return dict(features=defaultdict(lambda: True))
+
+
 if __name__ == '__main__':
     # Ensure upload folder exists just in case it's used elsewhere
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)

@@ -108,18 +108,40 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto fs-6">
-                    <li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('pdf.pdf_hub') }}"><i class="fas fa-file-pdf text-danger me-1"></i> {{ t('nav_pdf') }}</a></li>
-                    <li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('image.image_hub') }}"><i class="fas fa-image text-success me-1"></i> {{ t('nav_image') }}</a></li>
-                    <li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('finance.finance_hub') }}"><i class="fas fa-calculator text-primary me-1"></i> {{ t('nav_finance') }}</a></li>
-                    <li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('text.text_hub') }}"><i class="fas fa-font text-info me-1"></i> {{ t('nav_text') }}</a></li>
-                    <li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('health.health_hub') }}"><i class="fas fa-heartbeat text-danger me-1"></i> {{ t('nav_health') }}</a></li>
-                    <li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('math.math_hub') }}"><i class="fas fa-calculator text-warning me-1"></i> {{ t('nav_math') }}</a></li>
-                    <li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('network.network_hub') }}"><i class="fas fa-network-wired text-secondary me-1"></i> {{ t('nav_network') }}</a></li>
-                    <li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('code.code_hub') }}"><i class="fas fa-code text-dark me-1"></i> {{ t('nav_dev') }}</a></li>
-                    <li class="nav-item"><a class="nav-link fw-semibold px-2" style="color: #6f42c1;" href="{{ url_for('video.video_hub') }}"><i class="fas fa-video me-1"></i> Video</a></li>
+                    {% if features['feature_nav_pdf'] %}
+<li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('pdf.pdf_hub') }}"><i class="fas fa-file-pdf text-danger me-1"></i> {{ t('nav_pdf') }}</a></li>
+{% endif %}
+                    {% if features['feature_nav_image'] %}
+<li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('image.image_hub') }}"><i class="fas fa-image text-success me-1"></i> {{ t('nav_image') }}</a></li>
+{% endif %}
+                    {% if features['feature_nav_finance'] %}
+<li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('finance.finance_hub') }}"><i class="fas fa-calculator text-primary me-1"></i> {{ t('nav_finance') }}</a></li>
+{% endif %}
+                    {% if features['feature_nav_text'] %}
+<li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('text.text_hub') }}"><i class="fas fa-font text-info me-1"></i> {{ t('nav_text') }}</a></li>
+{% endif %}
+                    {% if features['feature_nav_health'] %}
+<li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('health.health_hub') }}"><i class="fas fa-heartbeat text-danger me-1"></i> {{ t('nav_health') }}</a></li>
+{% endif %}
+                    {% if features['feature_nav_math'] %}
+<li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('math.math_hub') }}"><i class="fas fa-calculator text-warning me-1"></i> {{ t('nav_math') }}</a></li>
+{% endif %}
+                    {% if features['feature_nav_network'] %}
+<li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('network.network_hub') }}"><i class="fas fa-network-wired text-secondary me-1"></i> {{ t('nav_network') }}</a></li>
+{% endif %}
+                    {% if features['feature_nav_dev'] %}
+<li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('code.code_hub') }}"><i class="fas fa-code text-dark me-1"></i> {{ t('nav_dev') }}</a></li>
+{% endif %}
+                    {% if features['feature_nav_video'] %}
+<li class="nav-item"><a class="nav-link fw-semibold px-2" style="color: #6f42c1;" href="{{ url_for('video.video_hub') }}"><i class="fas fa-video me-1"></i> Video</a></li>
+{% endif %}
 
-                    <li class="nav-item"><a class="nav-link fw-bold px-2 text-danger" href="{{ url_for('games.games_hub') }}"><i class="fas fa-gamepad text-danger me-1"></i> {{ t('nav_games') }}</a></li>
-                    <li class="nav-item"><a class="nav-link fw-bold px-2" style="color: #ffbc00;" href="{{ url_for('kids.kids_hub') }}"><i class="fas fa-child me-1"></i> Kids</a></li>
+                    {% if features['feature_nav_games'] %}
+<li class="nav-item"><a class="nav-link fw-bold px-2 text-danger" href="{{ url_for('games.games_hub') }}"><i class="fas fa-gamepad text-danger me-1"></i> {{ t('nav_games') }}</a></li>
+{% endif %}
+                    {% if features['feature_nav_kids'] %}
+<li class="nav-item"><a class="nav-link fw-bold px-2" style="color: #ffbc00;" href="{{ url_for('kids.kids_hub') }}"><i class="fas fa-child me-1"></i> Kids</a></li>
+{% endif %}
                     
                     <!-- Language Switcher -->
                     <li class="nav-item dropdown ms-2 border-start ps-2">
