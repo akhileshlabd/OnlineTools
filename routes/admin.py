@@ -55,11 +55,26 @@ def dashboard():
         
     conn = get_db_connection()
     c = conn.cursor()
+    
+    # Get global comment setting
+    c.execute("SELECT value FROM settings WHERE key = 'global_comments_enabled'")
+    row = c.fetchone()
+    global_comments_enabled = (row['value'] == '1') if row else True
+    
     c.execute("SELECT * FROM blogs ORDER BY created_at DESC")
-    blogs = c.fetchall()
+    blogs_raw = c.fetchall()
+    
+    blogs = []
+    # Attach comments to each blog for admin viewing
+    for b in blogs_raw:
+        blog_dict = dict(b)
+        c.execute("SELECT * FROM comments WHERE blog_id = ? ORDER BY created_at ASC", (b['id'],))
+        blog_dict['comments'] = c.fetchall()
+        blogs.append(blog_dict)
+        
     conn.close()
     
-    return render_template('admin_dashboard.html', blogs=blogs)
+    return render_template('admin_dashboard.html', blogs=blogs, global_comments_enabled=global_comments_enabled)
 
 @admin_bp.route('/api/add-blog', methods=['POST'])
 def add_blog():
@@ -78,7 +93,6 @@ def add_blog():
     
     if image and image.filename != '':
         filename = secure_filename(image.filename)
-        # Ensure directory exists
         upload_dir = os.path.join('static', 'uploads', 'blogs')
         os.makedirs(upload_dir, exist_ok=True)
         
@@ -89,7 +103,7 @@ def add_blog():
     try:
         conn = get_db_connection()
         c = conn.cursor()
-        c.execute("INSERT INTO blogs (title, slug, content, image_path) VALUES (?, ?, ?, ?)", 
+        c.execute("INSERT INTO blogs (title, slug, content, image_path, comments_enabled) VALUES (?, ?, ?, ?, 1)", 
                   (title, slug, content, image_path))
         conn.commit()
         conn.close()
@@ -98,3 +112,50 @@ def add_blog():
         return jsonify({"success": False, "message": "A blog with this title/slug already exists."})
     except Exception as e:
         return jsonify({"success": False, "message": str(e)})
+
+@admin_bp.route('/api/toggle-global-comments', methods=['POST'])
+def toggle_global_comments():
+    if not session.get('admin_logged_in'):
+        return jsonify({"success": False, "message": "Unauthorized"}), 401
+    
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute("SELECT value FROM settings WHERE key = 'global_comments_enabled'")
+    row = c.fetchone()
+    current_val = row['value'] if row else '1'
+    new_val = '0' if current_val == '1' else '1'
+    
+    c.execute("UPDATE settings SET value = ? WHERE key = 'global_comments_enabled'", (new_val,))
+    conn.commit()
+    conn.close()
+    return jsonify({"success": True, "new_status": new_val})
+
+@admin_bp.route('/api/toggle-blog-comments/<int:blog_id>', methods=['POST'])
+def toggle_blog_comments(blog_id):
+    if not session.get('admin_logged_in'):
+        return jsonify({"success": False, "message": "Unauthorized"}), 401
+        
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute("SELECT comments_enabled FROM blogs WHERE id = ?", (blog_id,))
+    row = c.fetchone()
+    if not row:
+        return jsonify({"success": False, "message": "Blog not found"}), 404
+        
+    new_val = 0 if row['comments_enabled'] else 1
+    c.execute("UPDATE blogs SET comments_enabled = ? WHERE id = ?", (new_val, blog_id))
+    conn.commit()
+    conn.close()
+    return jsonify({"success": True, "new_status": new_val})
+
+@admin_bp.route('/api/delete-comment/<int:comment_id>', methods=['POST'])
+def delete_comment(comment_id):
+    if not session.get('admin_logged_in'):
+        return jsonify({"success": False, "message": "Unauthorized"}), 401
+        
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute("DELETE FROM comments WHERE id = ?", (comment_id,))
+    conn.commit()
+    conn.close()
+    return jsonify({"success": True})

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Free Qube Blog - News & Updates{% endblock %}
+
+{% block head %}
+<style>
+    .blog-hub { max-width: 800px; margin: 60px auto; padding: 0 20px; }
+    .page-title { font-size: 3rem; font-weight: 900; letter-spacing: -0.04em; color: #0f172a; margin-bottom: 8px; }
+    .page-subtitle { font-size: 1.25rem; color: #64748b; margin-bottom: 40px; }
+    
+    .blog-card { background: white; border-radius: 16px; border: 1px solid #e2e8f0; overflow: hidden; margin-bottom: 30px; transition: transform 0.2s, box-shadow 0.2s; display: block; text-decoration: none; color: inherit; }
+    .blog-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); }
+    
+    .blog-image { width: 100%; height: 250px; object-fit: cover; }
+    .blog-content { padding: 30px; }
+    .blog-date { font-size: 0.875rem; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+    .blog-title { font-size: 1.75rem; font-weight: 800; color: #0f172a; margin-bottom: 15px; }
+    .blog-excerpt { font-size: 1.05rem; color: #475569; line-height: 1.6; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="blog-hub">
+    <h1 class="page-title">Free Qube Blog</h1>
+    <p class="page-subtitle">The latest news, updates, and tech insights.</p>
+    
+    {% for blog in blogs %}
+    <a href="/blog/{{ blog.slug }}" class="blog-card">
+        {% if blog.image_path %}
+        <img src="{{ blog.image_path }}" class="blog-image" alt="{{ blog.title }}">
+        {% endif %}
+        <div class="blog-content">
+            <div class="blog-date">{{ blog.created_at.split(' ')[0] if blog.created_at else '' }}</div>
+            <h2 class="blog-title">{{ blog.title }}</h2>
+            <div class="blog-excerpt">{{ blog.content[:150] }}...</div>
+        </div>
+    </a>
+    {% else %}
+    <div class="text-center" style="padding: 60px 0; color: #64748b;">
+        <h4>No blogs published yet.</h4>
+        <p>Check back later for updates!</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

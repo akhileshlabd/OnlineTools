@@ -15,6 +15,9 @@
         .feed-container { max-width: 680px; margin: 30px auto; padding: 0 15px; }
         .fb-card { background: white; border: none; border-radius: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); padding: 20px; margin-bottom: 20px; }
         
+        /* Master Switch */
+        .master-switch-card { background: linear-gradient(135deg, #1877f2 0%, #166fe5 100%); color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        
         /* Create Post area */
         .create-post-header { display: flex; align-items: center; margin-bottom: 15px; }
         .avatar { width: 40px; height: 40px; border-radius: 50%; background: #1877f2; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 12px; }
@@ -24,15 +27,18 @@
         .btn-post:hover { background: #166fe5; }
         
         /* Post Feed */
-        .post-header { display: flex; align-items: center; margin-bottom: 12px; }
+        .post-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
         .post-author { font-weight: 600; font-size: 0.95rem; }
         .post-date { font-size: 0.8rem; color: #65676b; }
         .post-title { font-weight: 700; font-size: 1.25rem; margin-bottom: 8px; }
         .post-content { font-size: 0.95rem; margin-bottom: 15px; white-space: pre-line; }
         .post-image { width: 100%; border-radius: 0; margin-left: -20px; width: calc(100% + 40px); margin-bottom: 15px; }
-        .post-footer { border-top: 1px solid #ced0d4; padding-top: 12px; display: flex; gap: 20px; }
-        .action-btn { color: #65676b; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 6px; }
-        .action-btn:hover { color: #1877f2; }
+        
+        /* Admin Comments section */
+        .admin-comments { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-top: 15px; }
+        .comment-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .comment-item:last-child { border-bottom: none; }
+        .delete-btn { color: #dc3545; cursor: pointer; background: none; border: none; font-size: 0.9rem; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -44,6 +50,19 @@
 
 <div class="feed-container">
     
+    <!-- Master Comments Switch -->
+    <div class="master-switch-card shadow-sm">
+        <div>
+            <h5 class="mb-1" style="font-weight: 700;">Global Comments</h5>
+            <p class="mb-0" style="font-size: 0.9rem; opacity: 0.9;">Master override for all posts on the site.</p>
+        </div>
+        <div>
+            <button id="toggleGlobalBtn" class="btn btn-light" style="font-weight: bold; color: {{ '#1877f2' if global_comments_enabled else '#dc3545' }}">
+                {{ 'Disable Everywhere' if global_comments_enabled else 'Enable Everywhere' }}
+            </button>
+        </div>
+    </div>
+
     <!-- Create Post Card -->
     <div class="fb-card">
         <div class="create-post-header">
@@ -65,10 +84,17 @@
     {% for blog in blogs %}
     <div class="fb-card" style="padding-bottom: 10px;">
         <div class="post-header">
-            <div class="avatar">A</div>
+            <div class="d-flex">
+                <div class="avatar">A</div>
+                <div>
+                    <div class="post-author">Free Qube Admin</div>
+                    <div class="post-date">{{ blog.created_at }}</div>
+                </div>
+            </div>
             <div>
-                <div class="post-author">Free Qube Admin</div>
-                <div class="post-date">{{ blog.created_at }}</div>
+                <button class="btn btn-sm {{ 'btn-outline-danger' if blog.comments_enabled else 'btn-outline-success' }}" onclick="toggleBlogComments({{ blog.id }})">
+                    {{ 'Disable Comments' if blog.comments_enabled else 'Enable Comments' }}
+                </button>
             </div>
         </div>
         
@@ -79,12 +105,24 @@
         <img src="{{ blog.image_path }}" class="post-image" alt="Blog Image">
         {% endif %}
         
-        <div class="post-footer">
-            <a href="/blog/{{ blog.slug }}" target="_blank" class="action-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                View Public Post & Comments
-            </a>
+        <a href="/blog/{{ blog.slug }}" target="_blank" style="font-size: 0.9rem; font-weight: 600; text-decoration: none;">View Public Page</a>
+        
+        <!-- Manage Comments -->
+        <div class="admin-comments">
+            <h6 style="font-weight: 700; color: #65676b; margin-bottom: 10px;">Manage Comments ({{ blog.comments|length }})</h6>
+            {% for comment in blog.comments %}
+            <div class="comment-item">
+                <div style="font-size: 0.9rem;">
+                    <strong>Anonymous:</strong> {{ comment.content }} <br>
+                    <small style="color: #999;">{{ comment.created_at }}</small>
+                </div>
+                <button class="delete-btn" onclick="deleteComment({{ comment.id }})">Delete</button>
+            </div>
+            {% else %}
+            <div style="font-size: 0.85rem; color: #888;">No comments on this post yet.</div>
+            {% endfor %}
         </div>
+        
     </div>
     {% else %}
     <div class="text-center mt-5" style="color: #65676b;">
@@ -95,36 +133,42 @@
 </div>
 
 <script>
+    // Blog Posting
     document.getElementById('blogForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        
         const formData = new FormData();
         formData.append('title', document.getElementById('title').value);
         formData.append('content', document.getElementById('content').value);
-        
         const imageFile = document.getElementById('image').files[0];
-        if (imageFile) {
-            formData.append('image', imageFile);
-        }
+        if (imageFile) formData.append('image', imageFile);
         
-        const btn = document.querySelector('.btn-post');
-        btn.disabled = true;
-        btn.innerText = "Posting...";
-        
-        const res = await fetch('/admin/api/add-blog', {
-            method: 'POST',
-            body: formData
-        });
-        
+        const res = await fetch('/admin/api/add-blog', { method: 'POST', body: formData });
         const data = await res.json();
-        if (data.success) {
-            window.location.reload();
-        } else {
-            alert(data.message);
-            btn.disabled = false;
-            btn.innerText = "Post";
+        if (data.success) window.location.reload();
+        else alert(data.message);
+    });
+
+    // Global Comments Toggle
+    document.getElementById('toggleGlobalBtn').addEventListener('click', async () => {
+        if(confirm("Are you sure you want to change the global comment setting for the entire site?")) {
+            const res = await fetch('/admin/api/toggle-global-comments', { method: 'POST' });
+            if (res.ok) window.location.reload();
         }
     });
+
+    // Per-Blog Comments Toggle
+    async function toggleBlogComments(blogId) {
+        const res = await fetch(`/admin/api/toggle-blog-comments/${blogId}`, { method: 'POST' });
+        if (res.ok) window.location.reload();
+    }
+
+    // Delete Comment
+    async function deleteComment(commentId) {
+        if(confirm("Permanently delete this comment?")) {
+            const res = await fetch(`/admin/api/delete-comment/${commentId}`, { method: 'POST' });
+            if (res.ok) window.location.reload();
+        }
+    }
 </script>
 
 </body>
