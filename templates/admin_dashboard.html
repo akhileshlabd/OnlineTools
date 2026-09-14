@@ -365,7 +365,7 @@
     function openEditModal(id, title, content, imagePath) {
         document.getElementById('edit_id').value = id;
         document.getElementById('edit_title').value = title;
-        $('#edit_content').summernote('code') = content;
+        $('#edit_content').summernote('code', content);
         
         const imgContainer = document.getElementById('current_image_container');
         const imgPreview = document.getElementById('edit_image_preview');
