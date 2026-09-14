@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}Compare Mobile Phones (PoC) | Free Qube{% endblock %}
-{% block meta_desc %}Side-by-side comparison of mobile phones. Proof of Concept page.{% endblock %}
+{% block meta_desc %}Side-by-side comparison of mobile phones with automatic feature highlighting.{% endblock %}
 
 {% block styles %}
 <style>
@@ -49,32 +49,37 @@
     .search-item:last-child {
         border-bottom: none;
     }
+    .winner-tick {
+        color: #198754;
+        margin-left: 8px;
+        font-size: 1.1em;
+    }
+    .spec-value {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold mb-0"><i class="fas fa-mobile-alt text-primary me-2"></i>Mobile Comparison</h2>
+        <h2 class="fw-bold mb-0"><i class="fas fa-balance-scale text-primary me-2"></i>Mobile Comparison</h2>
         <button id="downloadPdfBtn" class="btn btn-danger"><i class="fas fa-file-pdf me-2"></i>Export PDF</button>
     </div>
     
-    <div class="alert alert-warning mb-4">
-        <i class="fas fa-flask me-2"></i> <strong>Proof of Concept:</strong> This is a hidden page. Data is provided by a read-only SQLite database powered by Free Qube.
-    </div>
-
-    <!-- Selectors -->
     <div class="row mb-5">
         <div class="col-md-2"></div>
         <div class="col-md-5">
             <div class="search-box">
-                <input type="text" id="searchPhone1" class="form-control form-control-lg" placeholder="Search Phone 1 (e.g., iPhone 15)" autocomplete="off">
+                <input type="text" id="searchPhone1" class="form-control form-control-lg border-primary" placeholder="Search Phone 1 (e.g., iPhone 15)" autocomplete="off">
                 <div id="results1" class="search-results"></div>
             </div>
         </div>
         <div class="col-md-5">
             <div class="search-box">
-                <input type="text" id="searchPhone2" class="form-control form-control-lg" placeholder="Search Phone 2 (e.g., Galaxy S24)" autocomplete="off">
+                <input type="text" id="searchPhone2" class="form-control form-control-lg border-primary" placeholder="Search Phone 2 (e.g., Galaxy S24)" autocomplete="off">
                 <div id="results2" class="search-results"></div>
             </div>
         </div>
@@ -103,53 +108,98 @@
             <tbody>
                 <tr>
                     <td class="spec-label">Brand</td>
-                    <td id="brand1" class="text-center text-muted">-</td>
-                    <td id="brand2" class="text-center text-muted">-</td>
+                    <td class="text-center text-muted"><span id="brand1" class="spec-value">-</span></td>
+                    <td class="text-center text-muted"><span id="brand2" class="spec-value">-</span></td>
                 </tr>
                 <tr>
                     <td class="spec-label">Price</td>
-                    <td id="price1" class="text-center fw-bold text-success">-</td>
-                    <td id="price2" class="text-center fw-bold text-success">-</td>
+                    <td class="text-center fw-bold"><span id="price1" class="spec-value">-</span></td>
+                    <td class="text-center fw-bold"><span id="price2" class="spec-value">-</span></td>
+                </tr>
+                
+                <!-- Display -->
+                <tr class="table-light"><td colspan="3" class="fw-bold text-center text-uppercase" style="font-size: 0.85em; letter-spacing: 1px;">Display</td></tr>
+                <tr>
+                    <td class="spec-label">Screen Size</td>
+                    <td class="text-center"><span id="screen_size1" class="spec-value">-</span></td>
+                    <td class="text-center"><span id="screen_size2" class="spec-value">-</span></td>
                 </tr>
                 <tr>
-                    <td class="spec-label">Display</td>
-                    <td id="display1" class="text-center">-</td>
-                    <td id="display2" class="text-center">-</td>
+                    <td class="spec-label">Display Type</td>
+                    <td class="text-center"><span id="display_type1" class="spec-value">-</span></td>
+                    <td class="text-center"><span id="display_type2" class="spec-value">-</span></td>
                 </tr>
+                <tr>
+                    <td class="spec-label">Refresh Rate</td>
+                    <td class="text-center"><span id="refresh_rate1" class="spec-value">-</span></td>
+                    <td class="text-center"><span id="refresh_rate2" class="spec-value">-</span></td>
+                </tr>
+
+                <!-- Performance -->
+                <tr class="table-light"><td colspan="3" class="fw-bold text-center text-uppercase" style="font-size: 0.85em; letter-spacing: 1px;">Performance</td></tr>
                 <tr>
                     <td class="spec-label">Processor</td>
-                    <td id="processor1" class="text-center">-</td>
-                    <td id="processor2" class="text-center">-</td>
+                    <td class="text-center"><span id="processor1" class="spec-value">-</span></td>
+                    <td class="text-center"><span id="processor2" class="spec-value">-</span></td>
                 </tr>
                 <tr>
                     <td class="spec-label">RAM</td>
-                    <td id="ram1" class="text-center">-</td>
-                    <td id="ram2" class="text-center">-</td>
+                    <td class="text-center"><span id="ram1" class="spec-value">-</span></td>
+                    <td class="text-center"><span id="ram2" class="spec-value">-</span></td>
                 </tr>
                 <tr>
                     <td class="spec-label">Storage</td>
-                    <td id="storage1" class="text-center">-</td>
-                    <td id="storage2" class="text-center">-</td>
+                    <td class="text-center"><span id="storage1" class="spec-value">-</span></td>
+                    <td class="text-center"><span id="storage2" class="spec-value">-</span></td>
                 </tr>
+
+                <!-- Camera -->
+                <tr class="table-light"><td colspan="3" class="fw-bold text-center text-uppercase" style="font-size: 0.85em; letter-spacing: 1px;">Cameras</td></tr>
                 <tr>
                     <td class="spec-label">Main Camera</td>
-                    <td id="camera_main1" class="text-center">-</td>
-                    <td id="camera_main2" class="text-center">-</td>
+                    <td class="text-center"><span id="camera_main1" class="spec-value">-</span></td>
+                    <td class="text-center"><span id="camera_main2" class="spec-value">-</span></td>
                 </tr>
                 <tr>
                     <td class="spec-label">Selfie Camera</td>
-                    <td id="camera_selfie1" class="text-center">-</td>
-                    <td id="camera_selfie2" class="text-center">-</td>
+                    <td class="text-center"><span id="camera_selfie1" class="spec-value">-</span></td>
+                    <td class="text-center"><span id="camera_selfie2" class="spec-value">-</span></td>
+                </tr>
+
+                <!-- Battery -->
+                <tr class="table-light"><td colspan="3" class="fw-bold text-center text-uppercase" style="font-size: 0.85em; letter-spacing: 1px;">Battery</td></tr>
+                <tr>
+                    <td class="spec-label">Capacity</td>
+                    <td class="text-center"><span id="battery1" class="spec-value">-</span></td>
+                    <td class="text-center"><span id="battery2" class="spec-value">-</span></td>
                 </tr>
                 <tr>
-                    <td class="spec-label">Battery</td>
-                    <td id="battery1" class="text-center">-</td>
-                    <td id="battery2" class="text-center">-</td>
+                    <td class="spec-label">Fast Charging</td>
+                    <td class="text-center"><span id="fast_charging1" class="spec-value">-</span></td>
+                    <td class="text-center"><span id="fast_charging2" class="spec-value">-</span></td>
+                </tr>
+
+                <!-- Physical -->
+                <tr class="table-light"><td colspan="3" class="fw-bold text-center text-uppercase" style="font-size: 0.85em; letter-spacing: 1px;">Design & Features</td></tr>
+                <tr>
+                    <td class="spec-label">Weight</td>
+                    <td class="text-center"><span id="weight1" class="spec-value">-</span></td>
+                    <td class="text-center"><span id="weight2" class="spec-value">-</span></td>
+                </tr>
+                <tr>
+                    <td class="spec-label">Water Resistance</td>
+                    <td class="text-center"><span id="water_resistance1" class="spec-value">-</span></td>
+                    <td class="text-center"><span id="water_resistance2" class="spec-value">-</span></td>
+                </tr>
+                <tr>
+                    <td class="spec-label">5G Support</td>
+                    <td class="text-center"><span id="network_5g1" class="spec-value">-</span></td>
+                    <td class="text-center"><span id="network_5g2" class="spec-value">-</span></td>
                 </tr>
                 <tr>
                     <td class="spec-label">OS</td>
-                    <td id="os1" class="text-center">-</td>
-                    <td id="os2" class="text-center">-</td>
+                    <td class="text-center"><span id="os1" class="spec-value">-</span></td>
+                    <td class="text-center"><span id="os2" class="spec-value">-</span></td>
                 </tr>
             </tbody>
         </table>
@@ -160,6 +210,76 @@
 {% block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
+    let phoneData = { 1: null, 2: null };
+
+    const specRules = {
+        'price': { extractNum: (val) => parseFloat(val.replace(/[^0-9.]/g, '')), higherIsBetter: false },
+        'screen_size': { extractNum: (val) => parseFloat(val.replace(/[^0-9.]/g, '')), higherIsBetter: true },
+        'refresh_rate': { extractNum: (val) => parseInt(val.replace(/[^0-9]/g, '')), higherIsBetter: true },
+        'ram': { extractNum: (val) => parseInt(val.replace(/[^0-9]/g, '')), higherIsBetter: true },
+        'storage': { extractNum: (val) => parseInt(val.replace(/[^0-9]/g, '')), higherIsBetter: true },
+        'camera_main': { extractNum: (val) => parseInt(val.replace(/[^0-9]/g, '')), higherIsBetter: true },
+        'camera_selfie': { extractNum: (val) => parseInt(val.replace(/[^0-9]/g, '')), higherIsBetter: true },
+        'battery': { extractNum: (val) => parseInt(val.replace(/[^0-9]/g, '')), higherIsBetter: true },
+        'fast_charging': { extractNum: (val) => parseInt(val.replace(/[^0-9]/g, '')), higherIsBetter: true },
+        'weight': { extractNum: (val) => parseInt(val.replace(/[^0-9]/g, '')), higherIsBetter: false },
+        // Boolean or textual matching where we can't extract simple numbers
+        'network_5g': { type: 'boolean' },
+        'water_resistance': { type: 'text' }
+    };
+
+    function evaluateWinner() {
+        if (!phoneData[1] || !phoneData[2]) return; // Only evaluate if both are loaded
+
+        const p1 = phoneData[1];
+        const p2 = phoneData[2];
+
+        // Clear existing ticks first
+        document.querySelectorAll('.winner-tick').forEach(el => el.remove());
+
+        for (const [key, rule] of Object.entries(specRules)) {
+            const v1 = p1[key];
+            const v2 = p2[key];
+
+            if (!v1 || !v2 || v1 === '-' || v2 === '-') continue;
+
+            let winner1 = false;
+            let winner2 = false;
+
+            if (rule.extractNum) {
+                const n1 = rule.extractNum(v1);
+                const n2 = rule.extractNum(v2);
+                
+                if (!isNaN(n1) && !isNaN(n2)) {
+                    if (n1 === n2) {
+                        winner1 = true;
+                        winner2 = true;
+                    } else if ((n1 > n2 && rule.higherIsBetter) || (n1 < n2 && !rule.higherIsBetter)) {
+                        winner1 = true;
+                    } else {
+                        winner2 = true;
+                    }
+                }
+            } else if (rule.type === 'boolean' || rule.type === 'text') {
+                // If they are strictly equal and not empty, they both get ticks.
+                if (v1.toLowerCase() === v2.toLowerCase()) {
+                    winner1 = true;
+                    winner2 = true;
+                } else if (key === 'water_resistance') {
+                    // Quick hack for IP ratings (IP68 > IP65)
+                    const n1 = parseInt(v1.replace(/[^0-9]/g, '')) || 0;
+                    const n2 = parseInt(v2.replace(/[^0-9]/g, '')) || 0;
+                    if (n1 > n2) winner1 = true;
+                    else if (n2 > n1) winner2 = true;
+                }
+            }
+
+            const tickHtml = '<i class="fas fa-check-circle winner-tick"></i>';
+            if (winner1) document.getElementById(`${key}1`).innerHTML += tickHtml;
+            if (winner2) document.getElementById(`${key}2`).innerHTML += tickHtml;
+        }
+    }
+
     function setupSearch(inputId, resultsId, colIndex) {
         const input = document.getElementById(inputId);
         const results = document.getElementById(resultsId);
@@ -209,13 +329,24 @@
         const res = await fetch(`/mobiles/api/phone/${id}`);
         const data = await res.json();
         
+        phoneData[colIndex] = data; // Save to global state
+
         document.getElementById(`title${colIndex}`).textContent = data.model;
         document.getElementById(`img${colIndex}-container`).innerHTML = `<img src="${data.image_url}" class="phone-img" crossorigin="anonymous">`;
         
-        const fields = ['brand', 'display', 'processor', 'ram', 'storage', 'camera_main', 'camera_selfie', 'battery', 'os', 'price'];
+        const fields = [
+            'brand', 'price', 'screen_size', 'display_type', 'refresh_rate', 
+            'processor', 'ram', 'storage', 'camera_main', 'camera_selfie', 
+            'battery', 'fast_charging', 'weight', 'water_resistance', 'network_5g', 'os'
+        ];
+        
         fields.forEach(field => {
-            document.getElementById(`${field}${colIndex}`).textContent = data[field];
+            const el = document.getElementById(`${field}${colIndex}`);
+            if (el) el.textContent = data[field] || '-';
         });
+
+        // Evaluate Winner if both are loaded
+        evaluateWinner();
     }
 
     setupSearch('searchPhone1', 'results1', 1);
