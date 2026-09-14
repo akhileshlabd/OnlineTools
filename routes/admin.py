@@ -11,24 +11,16 @@ ADMIN_USER = "dhwaniakhilesh@gmail.com"
 ADMIN_PASS = "itsformyfamily"
 
 
-FEATURE_GROUPS = [
-    {
-        "key": "feature_nav_pdf",
-        "label": "PDF Tools",
-        "icon": "fa-file-pdf",
-        "children": [
-            {"key": "feature_pdf_merger", "label": "PDF Merger"},
-            {"key": "feature_pdf_splitter", "label": "PDF Splitter"},
-            {"key": "feature_pdf_word_to_pdf", "label": "Word to PDF"},
-            {"key": "feature_pdf_excel_to_pdf", "label": "Excel to PDF"},
-            {"key": "feature_pdf_image_to_pdf", "label": "Image to PDF"},
-            {"key": "feature_pdf_lock", "label": "Lock PDF"},
-            {"key": "feature_pdf_unlock", "label": "Unlock PDF"},
-            {"key": "feature_pdf_rotate_pdf", "label": "Rotate PDF"},
-            {"key": "feature_pdf_remove_page", "label": "Remove Page"},
-            {"key": "feature_pdf_add_blank", "label": "Add Blank Page"},
-            {"key": "feature_pdf_watermark", "label": "Add Watermark"},
-        ]
+FEATURE_GROUPS = {
+    "PDF Tools": "feature_nav_pdf",
+    "Image Tools": "feature_nav_image",
+    "Free Games": "feature_nav_games",
+    "Finance Tools": "feature_nav_finance",
+    "Health Tools": "feature_nav_health",
+    "Text Tools": "feature_nav_text",
+    "Network Tools": "feature_nav_network",
+    "Code & Dev Tools": "feature_nav_dev",
+}
     },
     {
         "key": "feature_nav_image",
@@ -185,17 +177,12 @@ def dashboard():
     f_rows = c.fetchall()
     feature_dict = {r['key']: (r['value'] == '1') for r in f_rows}
     
-    features_grouped = []
-    for group in FEATURE_GROUPS:
-        grp = dict(group)
-        grp['is_enabled'] = feature_dict.get(grp['key'], True)
-        grp_children = []
-        for child in grp.get('children', []):
-            child_dict = dict(child)
-            child_dict['is_enabled'] = feature_dict.get(c['key'], True)
-            grp_children.append(child_dict)
-        grp['children'] = grp_children
-        features_grouped.append(grp)
+    features_grouped = {}
+    for label, key in FEATURE_GROUPS.items():
+        features_grouped[label] = {
+            "key": key,
+            "is_enabled": feature_dict.get(key, True)
+        }
     
     # Blog Filters
     date_from = request.args.get('date_from')
