@@ -1,185 +1,64 @@
 {% extends "base.html" %}
 
-{% block title %}Compare Mobile Phones | Free Qube{% endblock %}
-{% block meta_desc %}Side-by-side comparison of mobile phones with automatic feature highlighting.{% endblock %}
+{% block title %}
+    {% if p1 and p2 %}
+        Compare {{ p1.model }} vs {{ p2.model }} | Free Qube
+    {% else %}
+        Compare Mobile Phones | Free Qube
+    {% endif %}
+{% endblock %}
+{% block meta_desc %}
+    {% if p1 and p2 %}
+        Detailed side-by-side comparison of {{ p1.brand }} {{ p1.model }} vs {{ p2.brand }} {{ p2.model }}. See which phone is better in battery, camera, processor, and price.
+    {% else %}
+        Side-by-side comparison of mobile phones with automatic feature highlighting.
+    {% endif %}
+{% endblock %}
 
 {% block styles %}
 <style>
-    /* Premium International Level UI Styles */
-    .compare-container {
-        max-width: 1100px;
-        margin: 0 auto;
-    }
+    .compare-container { max-width: 1100px; margin: 0 auto; }
     .search-wrapper {
-        position: relative;
-        background: #fff;
-        border-radius: 50px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-        padding: 5px 15px;
-        display: flex;
-        align-items: center;
-        border: 1px solid #eaeaea;
+        position: relative; background: #fff; border-radius: 50px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05); padding: 5px 15px;
+        display: flex; align-items: center; border: 1px solid #eaeaea;
         transition: all 0.3s ease;
     }
-    .search-wrapper:focus-within {
-        box-shadow: 0 6px 25px rgba(13, 110, 253, 0.15);
-        border-color: #0d6efd;
-    }
-    .search-wrapper i {
-        color: #adb5bd;
-        font-size: 1.2rem;
-        margin-right: 10px;
-    }
-    .search-input {
-        border: none;
-        box-shadow: none;
-        background: transparent;
-        padding: 12px 0;
-        font-size: 1.1rem;
-        width: 100%;
-    }
-    .search-input:focus {
-        outline: none;
-        box-shadow: none;
-    }
+    .search-wrapper:focus-within { box-shadow: 0 6px 25px rgba(13, 110, 253, 0.15); border-color: #0d6efd; }
+    .search-wrapper i { color: #adb5bd; font-size: 1.2rem; margin-right: 10px; }
+    .search-input { border: none; box-shadow: none; background: transparent; padding: 12px 0; font-size: 1.1rem; width: 100%; }
+    .search-input:focus { outline: none; box-shadow: none; }
     
     .search-results {
-        position: absolute;
-        top: calc(100% + 10px);
-        left: 0;
-        right: 0;
-        background: white;
-        border-radius: 15px;
-        z-index: 1000;
-        max-height: 250px;
-        overflow-y: auto;
-        display: none;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        border: 1px solid #eaeaea;
-        padding: 10px 0;
+        position: absolute; top: calc(100% + 10px); left: 0; right: 0; background: white;
+        border-radius: 15px; z-index: 1000; max-height: 250px; overflow-y: auto;
+        display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #eaeaea; padding: 10px 0;
     }
-    .search-item {
-        padding: 12px 20px;
-        cursor: pointer;
-        transition: background-color 0.2s;
-        display: flex;
-        align-items: center;
-    }
-    .search-item:hover {
-        background-color: #f8f9fa;
-    }
-    .search-item i {
-        color: #6c757d;
-        margin-right: 15px;
-    }
+    .search-item { padding: 12px 20px; cursor: pointer; transition: background-color 0.2s; display: flex; align-items: center; }
+    .search-item:hover { background-color: #f8f9fa; }
+    .search-item i { color: #6c757d; margin-right: 15px; }
 
-    .comparison-card {
-        background: #fff;
-        border-radius: 20px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.04);
-        border: 1px solid #f0f0f0;
-        overflow: hidden;
-    }
-    
-    .table-compare {
-        margin-bottom: 0;
-    }
-    .table-compare th, .table-compare td {
-        padding: 18px 20px;
-        vertical-align: middle;
-        border-bottom: 1px solid #f0f0f0;
-        border-top: none;
-    }
-    
-    .spec-label {
-        width: 24%;
-        font-weight: 600;
-        text-align: right;
-        color: #495057;
-        font-size: 0.95rem;
-        background-color: #fafbfc;
-        border-right: 1px solid #f0f0f0;
-    }
-    .phone-col {
-        width: 38%;
-        text-align: center;
-        position: relative;
-    }
-    .phone-col:first-of-type {
-        border-right: 1px solid #f0f0f0;
-    }
+    .comparison-card { background: #fff; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); border: 1px solid #f0f0f0; overflow: hidden; }
+    .table-compare th, .table-compare td { padding: 18px 20px; vertical-align: middle; border-bottom: 1px solid #f0f0f0; border-top: none; }
+    .spec-label { width: 24%; font-weight: 600; text-align: right; color: #495057; font-size: 0.95rem; background-color: #fafbfc; border-right: 1px solid #f0f0f0; }
+    .phone-col { width: 38%; text-align: center; position: relative; }
+    .phone-col:first-of-type { border-right: 1px solid #f0f0f0; }
+    .category-header { background-color: #f8f9fa; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1.5px; color: #6c757d; font-weight: 700; text-align: center; }
 
-    .category-header {
-        background-color: #f8f9fa;
-        text-transform: uppercase;
-        font-size: 0.8rem;
-        letter-spacing: 1.5px;
-        color: #6c757d;
-        font-weight: 700;
-        text-align: center;
-    }
-
-    .phone-img-wrapper {
-        height: 220px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 20px;
-        position: relative;
-    }
-    .phone-img {
-        max-height: 100%;
-        max-width: 100%;
-        object-fit: contain;
-        filter: drop-shadow(0 15px 15px rgba(0,0,0,0.1));
-        transition: transform 0.3s ease;
-    }
-    .phone-img:hover {
-        transform: translateY(-5px);
-    }
+    .phone-img-wrapper { height: 220px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; position: relative; }
+    .phone-img { max-height: 100%; max-width: 100%; object-fit: contain; filter: drop-shadow(0 15px 15px rgba(0,0,0,0.1)); transition: transform 0.3s ease; }
     
     .vs-badge {
-        position: absolute;
-        top: 45%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: linear-gradient(135deg, #0d6efd, #6610f2);
-        color: white;
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 800;
-        font-size: 1rem;
-        box-shadow: 0 4px 15px rgba(13, 110, 253, 0.4);
-        border: 3px solid #fff;
-        z-index: 10;
+        position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%);
+        background: linear-gradient(135deg, #0d6efd, #6610f2); color: white; width: 45px; height: 45px;
+        border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        font-weight: 800; font-size: 1rem; box-shadow: 0 4px 15px rgba(13, 110, 253, 0.4);
+        border: 3px solid #fff; z-index: 10;
     }
-
-    .winner-cell {
-        background-color: rgba(25, 135, 84, 0.04);
-        position: relative;
-    }
-    .winner-tick {
-        color: #198754;
-        margin-left: 8px;
-        font-size: 1.1em;
-        filter: drop-shadow(0 2px 4px rgba(25, 135, 84, 0.2));
-    }
-    
-    .placeholder-icon {
-        font-size: 6rem;
-        color: #e9ecef;
-    }
-    
-    .phone-title {
-        font-weight: 800;
-        font-size: 1.4rem;
-        color: #212529;
-        margin-bottom: 5px;
-    }
+    .winner-cell { background-color: rgba(25, 135, 84, 0.04); }
+    .winner-tick { color: #198754; margin-left: 8px; font-size: 1.1em; filter: drop-shadow(0 2px 4px rgba(25, 135, 84, 0.2)); }
+    .placeholder-icon { font-size: 6rem; color: #e9ecef; }
+    .phone-title { font-weight: 800; font-size: 1.4rem; color: #212529; margin-bottom: 5px; }
 </style>
 {% endblock %}
 
@@ -187,7 +66,11 @@
 <div class="compare-container py-5">
     <div class="d-flex justify-content-between align-items-center mb-5">
         <div>
-            <h1 class="fw-bold mb-2 text-dark" style="font-size: 2.2rem;">Compare Phones</h1>
+            {% if p1 and p2 %}
+                <h1 class="fw-bold mb-2 text-dark" style="font-size: 2.2rem;">{{ p1.model }} vs {{ p2.model }}</h1>
+            {% else %}
+                <h1 class="fw-bold mb-2 text-dark" style="font-size: 2.2rem;">Compare Phones</h1>
+            {% endif %}
             <p class="text-muted mb-0">See specs side-by-side to make the right choice.</p>
         </div>
         <button id="downloadPdfBtn" class="btn btn-outline-dark rounded-pill px-4 shadow-sm border-2">
@@ -200,14 +83,14 @@
         <div class="col-md-6">
             <div class="search-wrapper">
                 <i class="fas fa-search"></i>
-                <input type="text" id="searchPhone1" class="search-input" placeholder="Search first phone (e.g., iPhone 15)" autocomplete="off">
+                <input type="text" id="searchPhone1" class="search-input" placeholder="Change Phone 1" value="{{ p1.brand ~ ' ' ~ p1.model if p1 else '' }}" autocomplete="off">
             </div>
             <div style="position:relative;"><div id="results1" class="search-results"></div></div>
         </div>
         <div class="col-md-6 mt-3 mt-md-0">
             <div class="search-wrapper">
                 <i class="fas fa-search"></i>
-                <input type="text" id="searchPhone2" class="search-input" placeholder="Search second phone (e.g., Galaxy S24)" autocomplete="off">
+                <input type="text" id="searchPhone2" class="search-input" placeholder="Change Phone 2" value="{{ p2.brand ~ ' ' ~ p2.model if p2 else '' }}" autocomplete="off">
             </div>
             <div style="position:relative;"><div id="results2" class="search-results"></div></div>
         </div>
@@ -220,115 +103,83 @@
                 <tr>
                     <th class="spec-label border-0"></th>
                     <th class="phone-col border-0 pt-5 pb-4">
-                        <div class="phone-img-wrapper" id="img1-container">
-                            <i class="fas fa-mobile placeholder-icon"></i>
+                        <div class="phone-img-wrapper">
+                            {% if p1 %}
+                                <img src="{{ p1.image_url }}" class="phone-img" crossorigin="anonymous">
+                            {% else %}
+                                <i class="fas fa-mobile placeholder-icon"></i>
+                            {% endif %}
                         </div>
-                        <h3 id="title1" class="phone-title">Select Phone</h3>
-                        <p id="brand1" class="text-muted text-uppercase" style="font-size:0.85rem; letter-spacing:1px;">-</p>
+                        <h3 class="phone-title">{{ p1.model if p1 else "Select Phone" }}</h3>
+                        <p class="text-muted text-uppercase" style="font-size:0.85rem; letter-spacing:1px;">{{ p1.brand if p1 else "-" }}</p>
                     </th>
                     <th class="phone-col border-0 pt-5 pb-4">
                         <div class="vs-badge d-none d-md-flex">VS</div>
-                        <div class="phone-img-wrapper" id="img2-container">
-                            <i class="fas fa-mobile placeholder-icon"></i>
+                        <div class="phone-img-wrapper">
+                            {% if p2 %}
+                                <img src="{{ p2.image_url }}" class="phone-img" crossorigin="anonymous">
+                            {% else %}
+                                <i class="fas fa-mobile placeholder-icon"></i>
+                            {% endif %}
                         </div>
-                        <h3 id="title2" class="phone-title">Select Phone</h3>
-                        <p id="brand2" class="text-muted text-uppercase" style="font-size:0.85rem; letter-spacing:1px;">-</p>
+                        <h3 class="phone-title">{{ p2.model if p2 else "Select Phone" }}</h3>
+                        <p class="text-muted text-uppercase" style="font-size:0.85rem; letter-spacing:1px;">{{ p2.brand if p2 else "-" }}</p>
                     </th>
                 </tr>
             </thead>
             <tbody>
+                {% macro spec_row(label, key) %}
                 <tr>
-                    <td class="spec-label">Launch Price</td>
-                    <td id="cell_price1" class="text-center fw-bold text-dark fs-5"><span id="price1">-</span></td>
-                    <td id="cell_price2" class="text-center fw-bold text-dark fs-5"><span id="price2">-</span></td>
+                    <td class="spec-label">{{ label }}</td>
+                    <td class="text-center {% if w1 and w1[key] %}winner-cell{% endif %}">
+                        <span class="{% if key == 'price' %}fw-bold text-dark fs-5{% endif %}">{{ p1[key] if p1 else "-" }}</span>
+                        {% if w1 and w1[key] %}<i class="fas fa-check-circle winner-tick"></i>{% endif %}
+                    </td>
+                    <td class="text-center {% if w2 and w2[key] %}winner-cell{% endif %}">
+                        <span class="{% if key == 'price' %}fw-bold text-dark fs-5{% endif %}">{{ p2[key] if p2 else "-" }}</span>
+                        {% if w2 and w2[key] %}<i class="fas fa-check-circle winner-tick"></i>{% endif %}
+                    </td>
                 </tr>
+                {% endmacro %}
+
+                {{ spec_row('Launch Price', 'price') }}
                 
-                <!-- Display -->
                 <tr><td colspan="3" class="category-header"><i class="fas fa-tv me-2"></i> Display</td></tr>
-                <tr>
-                    <td class="spec-label">Screen Size</td>
-                    <td id="cell_screen_size1" class="text-center"><span id="screen_size1">-</span></td>
-                    <td id="cell_screen_size2" class="text-center"><span id="screen_size2">-</span></td>
-                </tr>
-                <tr>
-                    <td class="spec-label">Display Type</td>
-                    <td id="cell_display_type1" class="text-center"><span id="display_type1">-</span></td>
-                    <td id="cell_display_type2" class="text-center"><span id="display_type2">-</span></td>
-                </tr>
-                <tr>
-                    <td class="spec-label">Refresh Rate</td>
-                    <td id="cell_refresh_rate1" class="text-center"><span id="refresh_rate1">-</span></td>
-                    <td id="cell_refresh_rate2" class="text-center"><span id="refresh_rate2">-</span></td>
-                </tr>
+                {{ spec_row('Screen Size', 'screen_size') }}
+                {{ spec_row('Display Type', 'display_type') }}
+                {{ spec_row('Refresh Rate', 'refresh_rate') }}
 
-                <!-- Performance -->
                 <tr><td colspan="3" class="category-header"><i class="fas fa-microchip me-2"></i> Performance</td></tr>
-                <tr>
-                    <td class="spec-label">Processor</td>
-                    <td id="cell_processor1" class="text-center"><span id="processor1">-</span></td>
-                    <td id="cell_processor2" class="text-center"><span id="processor2">-</span></td>
-                </tr>
-                <tr>
-                    <td class="spec-label">RAM</td>
-                    <td id="cell_ram1" class="text-center"><span id="ram1">-</span></td>
-                    <td id="cell_ram2" class="text-center"><span id="ram2">-</span></td>
-                </tr>
-                <tr>
-                    <td class="spec-label">Storage</td>
-                    <td id="cell_storage1" class="text-center"><span id="storage1">-</span></td>
-                    <td id="cell_storage2" class="text-center"><span id="storage2">-</span></td>
-                </tr>
+                {{ spec_row('Processor', 'processor') }}
+                {{ spec_row('RAM', 'ram') }}
+                {{ spec_row('Storage', 'storage') }}
 
-                <!-- Camera -->
                 <tr><td colspan="3" class="category-header"><i class="fas fa-camera me-2"></i> Cameras</td></tr>
-                <tr>
-                    <td class="spec-label">Main Camera</td>
-                    <td id="cell_camera_main1" class="text-center"><span id="camera_main1">-</span></td>
-                    <td id="cell_camera_main2" class="text-center"><span id="camera_main2">-</span></td>
-                </tr>
-                <tr>
-                    <td class="spec-label">Selfie Camera</td>
-                    <td id="cell_camera_selfie1" class="text-center"><span id="camera_selfie1">-</span></td>
-                    <td id="cell_camera_selfie2" class="text-center"><span id="camera_selfie2">-</span></td>
-                </tr>
+                {{ spec_row('Main Camera', 'camera_main') }}
+                {{ spec_row('Selfie Camera', 'camera_selfie') }}
 
-                <!-- Battery -->
                 <tr><td colspan="3" class="category-header"><i class="fas fa-battery-full me-2"></i> Battery</td></tr>
-                <tr>
-                    <td class="spec-label">Capacity</td>
-                    <td id="cell_battery1" class="text-center"><span id="battery1">-</span></td>
-                    <td id="cell_battery2" class="text-center"><span id="battery2">-</span></td>
-                </tr>
-                <tr>
-                    <td class="spec-label">Fast Charging</td>
-                    <td id="cell_fast_charging1" class="text-center"><span id="fast_charging1">-</span></td>
-                    <td id="cell_fast_charging2" class="text-center"><span id="fast_charging2">-</span></td>
-                </tr>
+                {{ spec_row('Capacity', 'battery') }}
+                {{ spec_row('Fast Charging', 'fast_charging') }}
 
-                <!-- Physical -->
                 <tr><td colspan="3" class="category-header"><i class="fas fa-tools me-2"></i> Design & Features</td></tr>
-                <tr>
-                    <td class="spec-label">Weight</td>
-                    <td id="cell_weight1" class="text-center"><span id="weight1">-</span></td>
-                    <td id="cell_weight2" class="text-center"><span id="weight2">-</span></td>
-                </tr>
-                <tr>
-                    <td class="spec-label">Water Resistance</td>
-                    <td id="cell_water_resistance1" class="text-center"><span id="water_resistance1">-</span></td>
-                    <td id="cell_water_resistance2" class="text-center"><span id="water_resistance2">-</span></td>
-                </tr>
-                <tr>
-                    <td class="spec-label">5G Support</td>
-                    <td id="cell_network_5g1" class="text-center"><span id="network_5g1">-</span></td>
-                    <td id="cell_network_5g2" class="text-center"><span id="network_5g2">-</span></td>
-                </tr>
-                <tr>
-                    <td class="spec-label">OS</td>
-                    <td id="cell_os1" class="text-center"><span id="os1">-</span></td>
-                    <td id="cell_os2" class="text-center"><span id="os2">-</span></td>
-                </tr>
+                {{ spec_row('Weight', 'weight') }}
+                {{ spec_row('Water Resistance', 'water_resistance') }}
+                {{ spec_row('5G Support', 'network_5g') }}
+                {{ spec_row('OS', 'os') }}
             </tbody>
         </table>
+        
+        {% if p1 and p2 %}
+        <div class="bg-light p-4 text-center mt-3 border-top">
+            <h5 class="fw-bold mb-3">Popular Comparisons</h5>
+            <div class="d-flex justify-content-center flex-wrap gap-2">
+                <a href="/mobiles/compare/apple-iphone-15-pro-max-vs-samsung-galaxy-s24-ultra" class="btn btn-sm btn-outline-secondary rounded-pill">iPhone 15 Pro Max vs Galaxy S24 Ultra</a>
+                <a href="/mobiles/compare/google-pixel-8-pro-vs-samsung-galaxy-s24-ultra" class="btn btn-sm btn-outline-secondary rounded-pill">Pixel 8 Pro vs Galaxy S24 Ultra</a>
+                <a href="/mobiles/compare/apple-iphone-15-vs-nothing-phone-2-" class="btn btn-sm btn-outline-secondary rounded-pill">iPhone 15 vs Nothing Phone 2</a>
+            </div>
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
@@ -336,67 +187,12 @@
 {% block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
-    let phoneData = { 1: null, 2: null };
+    let currentSlug1 = "{{ p1.slug if p1 else '' }}";
+    let currentSlug2 = "{{ p2.slug if p2 else '' }}";
 
-    const specRules = {
-        'price': { extractNum: (val) => parseFloat(val.replace(/[^0-9.]/g, '')), higherIsBetter: false },
-        'screen_size': { extractNum: (val) => parseFloat(val.replace(/[^0-9.]/g, '')), higherIsBetter: true },
-        'refresh_rate': { extractNum: (val) => parseInt(val.replace(/[^0-9]/g, '')), higherIsBetter: true },
-        'ram': { extractNum: (val) => parseInt(val.replace(/[^0-9]/g, '')), higherIsBetter: true },
-        'storage': { extractNum: (val) => parseInt(val.replace(/[^0-9]/g, '')), higherIsBetter: true },
-        'camera_main': { extractNum: (val) => parseInt(val.replace(/[^0-9]/g, '')), higherIsBetter: true },
-        'camera_selfie': { extractNum: (val) => parseInt(val.replace(/[^0-9]/g, '')), higherIsBetter: true },
-        'battery': { extractNum: (val) => parseInt(val.replace(/[^0-9]/g, '')), higherIsBetter: true },
-        'fast_charging': { extractNum: (val) => parseInt(val.replace(/[^0-9]/g, '')), higherIsBetter: true },
-        'weight': { extractNum: (val) => parseInt(val.replace(/[^0-9]/g, '')), higherIsBetter: false },
-        'network_5g': { type: 'boolean' },
-        'water_resistance': { type: 'text' }
-    };
-
-    function evaluateWinner() {
-        if (!phoneData[1] || !phoneData[2]) return;
-
-        const p1 = phoneData[1];
-        const p2 = phoneData[2];
-
-        // Clear existing ticks and backgrounds
-        document.querySelectorAll('.winner-tick').forEach(el => el.remove());
-        document.querySelectorAll('.winner-cell').forEach(el => el.classList.remove('winner-cell'));
-
-        for (const [key, rule] of Object.entries(specRules)) {
-            const v1 = p1[key];
-            const v2 = p2[key];
-            if (!v1 || !v2 || v1 === '-' || v2 === '-') continue;
-
-            let winner1 = false;
-            let winner2 = false;
-
-            if (rule.extractNum) {
-                const n1 = rule.extractNum(v1);
-                const n2 = rule.extractNum(v2);
-                if (!isNaN(n1) && !isNaN(n2)) {
-                    if (n1 === n2) { winner1 = true; winner2 = true; } 
-                    else if ((n1 > n2 && rule.higherIsBetter) || (n1 < n2 && !rule.higherIsBetter)) { winner1 = true; } 
-                    else { winner2 = true; }
-                }
-            } else if (rule.type === 'boolean' || rule.type === 'text') {
-                if (v1.toLowerCase() === v2.toLowerCase()) { winner1 = true; winner2 = true; } 
-                else if (key === 'water_resistance') {
-                    const n1 = parseInt(v1.replace(/[^0-9]/g, '')) || 0;
-                    const n2 = parseInt(v2.replace(/[^0-9]/g, '')) || 0;
-                    if (n1 > n2) winner1 = true; else if (n2 > n1) winner2 = true;
-                }
-            }
-
-            const tickHtml = '<i class="fas fa-check-circle winner-tick"></i>';
-            if (winner1) {
-                document.getElementById(key + '1').innerHTML += tickHtml;
-                document.getElementById('cell_' + key + '1').classList.add('winner-cell');
-            }
-            if (winner2) {
-                document.getElementById(key + '2').innerHTML += tickHtml;
-                document.getElementById('cell_' + key + '2').classList.add('winner-cell');
-            }
+    function navigateIfReady() {
+        if (currentSlug1 && currentSlug2) {
+            window.location.href = `/mobiles/compare/${currentSlug1}-vs-${currentSlug2}`;
         }
     }
 
@@ -420,9 +216,12 @@
                         div.className = 'search-item';
                         div.innerHTML = `<i class="fas fa-mobile-alt"></i><div><strong class="text-dark">${phone.brand}</strong> <span class="text-muted">${phone.model}</span></div>`;
                         div.onclick = () => {
+                            if (colIndex === 1) currentSlug1 = phone.slug;
+                            else currentSlug2 = phone.slug;
+                            
                             input.value = `${phone.brand} ${phone.model}`;
                             results.style.display = 'none';
-                            loadPhoneData(phone.id, colIndex);
+                            navigateIfReady();
                         };
                         results.appendChild(div);
                     });
@@ -436,29 +235,6 @@
         document.addEventListener('click', (e) => {
             if (e.target !== input && e.target !== results) results.style.display = 'none';
         });
-    }
-
-    async function loadPhoneData(id, colIndex) {
-        const res = await fetch(`/mobiles/api/phone/${id}`);
-        const data = await res.json();
-        phoneData[colIndex] = data;
-
-        document.getElementById(`title${colIndex}`).textContent = data.model;
-        document.getElementById(`brand${colIndex}`).textContent = data.brand;
-        document.getElementById(`img${colIndex}-container`).innerHTML = `<img src="${data.image_url}" class="phone-img" crossorigin="anonymous">`;
-        
-        const fields = [
-            'price', 'screen_size', 'display_type', 'refresh_rate', 
-            'processor', 'ram', 'storage', 'camera_main', 'camera_selfie', 
-            'battery', 'fast_charging', 'weight', 'water_resistance', 'network_5g', 'os'
-        ];
-        
-        fields.forEach(field => {
-            const el = document.getElementById(`${field}${colIndex}`);
-            if (el) el.textContent = data[field] || '-';
-        });
-
-        evaluateWinner();
     }
 
     setupSearch('searchPhone1', 'results1', 1);
