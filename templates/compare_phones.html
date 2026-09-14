@@ -17,77 +17,196 @@
 
 {% block styles %}
 <style>
-    .compare-container { max-width: 1100px; margin: 0 auto; }
-    .search-wrapper {
-        position: relative; background: #fff; border-radius: 50px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.05); padding: 5px 15px;
-        display: flex; align-items: center; border: 1px solid #eaeaea;
-        transition: all 0.3s ease;
+    /* International Standard Minimalist Aesthetic */
+    :root {
+        --text-primary: #1d1d1f;
+        --text-secondary: #86868b;
+        --border-color: #f2f2f7;
+        --bg-gray: #fbfbfd;
+        --winner-green: #00a260;
+        --winner-bg: #f2fcf7;
+        --accent-blue: #0071e3;
     }
-    .search-wrapper:focus-within { box-shadow: 0 6px 25px rgba(13, 110, 253, 0.15); border-color: #0d6efd; }
-    .search-wrapper i { color: #adb5bd; font-size: 1.2rem; margin-right: 10px; }
-    .search-input { border: none; box-shadow: none; background: transparent; padding: 12px 0; font-size: 1.1rem; width: 100%; }
-    .search-input:focus { outline: none; box-shadow: none; }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        color: var(--text-primary);
+    }
+
+    .compare-container { 
+        max-width: 1040px; 
+        margin: 0 auto; 
+    }
+
+    /* Search Component */
+    .search-wrapper {
+        position: relative;
+        background: #f5f5f7;
+        border-radius: 12px;
+        padding: 6px 16px;
+        display: flex;
+        align-items: center;
+        border: 2px solid transparent;
+        transition: all 0.2s ease;
+    }
+    .search-wrapper:focus-within {
+        background: #fff;
+        border-color: var(--accent-blue);
+        box-shadow: 0 4px 12px rgba(0, 113, 227, 0.1);
+    }
+    .search-wrapper i { 
+        color: var(--text-secondary); 
+        font-size: 1.1rem; 
+        margin-right: 12px; 
+    }
+    .search-input { 
+        border: none; 
+        background: transparent; 
+        padding: 10px 0; 
+        font-size: 1.05rem; 
+        width: 100%; 
+        color: var(--text-primary);
+        font-weight: 500;
+    }
+    .search-input:focus { outline: none; }
+    .search-input::placeholder { color: #a1a1a6; font-weight: 400; }
     
     .search-results {
-        position: absolute; top: calc(100% + 10px); left: 0; right: 0; background: white;
-        border-radius: 15px; z-index: 1000; max-height: 250px; overflow-y: auto;
-        display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #eaeaea; padding: 10px 0;
+        position: absolute; top: calc(100% + 8px); left: 0; right: 0; background: white;
+        border-radius: 12px; z-index: 1000; max-height: 300px; overflow-y: auto;
+        display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 1px solid var(--border-color);
+        padding: 8px 0;
     }
-    .search-item { padding: 12px 20px; cursor: pointer; transition: background-color 0.2s; display: flex; align-items: center; }
-    .search-item:hover { background-color: #f8f9fa; }
-    .search-item i { color: #6c757d; margin-right: 15px; }
+    .search-item { 
+        padding: 12px 20px; cursor: pointer; transition: background 0.1s; 
+        display: flex; align-items: center; font-size: 0.95rem;
+    }
+    .search-item:hover { background-color: var(--bg-gray); }
+    .search-item i { color: var(--text-secondary); margin-right: 12px; }
 
-    .comparison-card { background: #fff; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); border: 1px solid #f0f0f0; overflow: hidden; }
-    .table-compare th, .table-compare td { padding: 18px 20px; vertical-align: middle; border-bottom: 1px solid #f0f0f0; border-top: none; }
-    .spec-label { width: 24%; font-weight: 600; text-align: right; color: #495057; font-size: 0.95rem; background-color: #fafbfc; border-right: 1px solid #f0f0f0; }
-    .phone-col { width: 38%; text-align: center; position: relative; }
-    .phone-col:first-of-type { border-right: 1px solid #f0f0f0; }
-    .category-header { background-color: #f8f9fa; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1.5px; color: #6c757d; font-weight: 700; text-align: center; }
+    /* Comparison Table */
+    .comparison-card { 
+        background: #fff; 
+        border-radius: 24px; 
+        box-shadow: 0 4px 24px rgba(0,0,0,0.04); 
+        border: 1px solid var(--border-color); 
+        overflow: hidden; 
+    }
+    
+    .table-compare { margin-bottom: 0; table-layout: fixed; }
+    .table-compare th, .table-compare td { 
+        padding: 18px 24px; 
+        vertical-align: middle; 
+        border-bottom: 1px solid var(--border-color); 
+        border-top: none; 
+    }
+    
+    .spec-label { 
+        width: 26%; 
+        font-weight: 500; 
+        text-align: left; 
+        color: var(--text-secondary); 
+        font-size: 0.9rem; 
+        background-color: var(--bg-gray); 
+    }
+    .phone-col { 
+        width: 37%; 
+        text-align: center; 
+        position: relative; 
+    }
+    .phone-col:first-of-type { border-right: 1px solid var(--border-color); }
 
-    .phone-img-wrapper { height: 220px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; position: relative; }
-    .phone-img { max-height: 100%; max-width: 100%; object-fit: contain; filter: drop-shadow(0 15px 15px rgba(0,0,0,0.1)); transition: transform 0.3s ease; }
+    .category-header { 
+        background-color: #fff; 
+        text-transform: uppercase; 
+        font-size: 0.75rem; 
+        letter-spacing: 1.2px; 
+        color: var(--text-primary); 
+        font-weight: 700; 
+        text-align: center; 
+        padding-top: 32px !important;
+        padding-bottom: 12px !important;
+    }
+
+    /* Imagery */
+    .phone-img-wrapper { 
+        height: 240px; display: flex; align-items: center; justify-content: center; 
+        margin-bottom: 24px; position: relative; padding: 10px;
+    }
+    .phone-img { 
+        max-height: 100%; max-width: 100%; object-fit: contain; 
+        mix-blend-mode: multiply; /* Removes white backgrounds cleanly */
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+    }
+    .phone-img:hover { transform: scale(1.04); }
     
     .vs-badge {
-        position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%);
-        background: linear-gradient(135deg, #0d6efd, #6610f2); color: white; width: 45px; height: 45px;
+        position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);
+        background: #fff; color: var(--text-secondary); width: 40px; height: 40px;
         border-radius: 50%; display: flex; align-items: center; justify-content: center;
-        font-weight: 800; font-size: 1rem; box-shadow: 0 4px 15px rgba(13, 110, 253, 0.4);
-        border: 3px solid #fff; z-index: 10;
+        font-weight: 700; font-size: 0.85rem; box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        border: 1px solid var(--border-color); z-index: 10;
     }
-    .winner-cell { background-color: rgba(25, 135, 84, 0.04); }
-    .winner-tick { color: #198754; margin-left: 8px; font-size: 1.1em; filter: drop-shadow(0 2px 4px rgba(25, 135, 84, 0.2)); }
-    .placeholder-icon { font-size: 6rem; color: #e9ecef; }
-    .phone-title { font-weight: 800; font-size: 1.4rem; color: #212529; margin-bottom: 5px; }
+
+    /* Winner Styling */
+    .winner-cell { 
+        background-color: var(--winner-bg); 
+    }
+    .winner-tick { 
+        color: var(--winner-green); 
+        margin-left: 6px; 
+        font-size: 1rem; 
+    }
+    
+    .placeholder-icon { font-size: 5rem; color: #e5e5ea; }
+    
+    .phone-title { 
+        font-weight: 700; font-size: 1.3rem; color: var(--text-primary); 
+        margin-bottom: 4px; letter-spacing: -0.02em;
+    }
+    .phone-brand {
+        font-size: 0.8rem; letter-spacing: 0.5px; color: var(--text-secondary); text-transform: uppercase; font-weight: 600;
+    }
+
+    /* Base Typography Tweaks */
+    .page-title {
+        font-weight: 800; font-size: 2.5rem; letter-spacing: -0.03em;
+    }
+    .btn-download {
+        background: #fff; color: var(--text-primary); font-weight: 600; 
+        border: 1px solid #d2d2d7; border-radius: 20px; padding: 8px 20px;
+        transition: all 0.2s;
+    }
+    .btn-download:hover { background: #f5f5f7; }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="compare-container py-5">
-    <div class="d-flex justify-content-between align-items-center mb-5">
+    <div class="d-flex justify-content-between align-items-end mb-5">
         <div>
             {% if p1 and p2 %}
-                <h1 class="fw-bold mb-2 text-dark" style="font-size: 2.2rem;">{{ p1.model }} vs {{ p2.model }}</h1>
+                <h1 class="page-title text-dark">{{ p1.model }} <span style="color:#d2d2d7; font-weight:400;">vs</span> {{ p2.model }}</h1>
             {% else %}
-                <h1 class="fw-bold mb-2 text-dark" style="font-size: 2.2rem;">Compare Phones</h1>
+                <h1 class="page-title text-dark">Compare Phones</h1>
             {% endif %}
-            <p class="text-muted mb-0">See specs side-by-side to make the right choice.</p>
+            <p class="text-muted mb-0 mt-2" style="font-size: 1.1rem;">See specifications side-by-side to make the right choice.</p>
         </div>
-        <button id="downloadPdfBtn" class="btn btn-outline-dark rounded-pill px-4 shadow-sm border-2">
-            <i class="fas fa-arrow-down me-2"></i>Download PDF
+        <button id="downloadPdfBtn" class="btn btn-download shadow-sm">
+            <i class="fas fa-arrow-down me-2" style="color:var(--text-secondary);"></i>Export PDF
         </button>
     </div>
 
     <!-- Selectors -->
-    <div class="row mb-5 gx-5">
-        <div class="col-md-6">
+    <div class="row mb-5 gx-4">
+        <div class="col-md-6 mb-3 mb-md-0">
             <div class="search-wrapper">
                 <i class="fas fa-search"></i>
                 <input type="text" id="searchPhone1" class="search-input" placeholder="Change Phone 1" value="{{ p1.brand ~ ' ' ~ p1.model if p1 else '' }}" autocomplete="off">
             </div>
             <div style="position:relative;"><div id="results1" class="search-results"></div></div>
         </div>
-        <div class="col-md-6 mt-3 mt-md-0">
+        <div class="col-md-6">
             <div class="search-wrapper">
                 <i class="fas fa-search"></i>
                 <input type="text" id="searchPhone2" class="search-input" placeholder="Change Phone 2" value="{{ p2.brand ~ ' ' ~ p2.model if p2 else '' }}" autocomplete="off">
@@ -110,8 +229,8 @@
                                 <i class="fas fa-mobile placeholder-icon"></i>
                             {% endif %}
                         </div>
+                        <p class="phone-brand">{{ p1.brand if p1 else "-" }}</p>
                         <h3 class="phone-title">{{ p1.model if p1 else "Select Phone" }}</h3>
-                        <p class="text-muted text-uppercase" style="font-size:0.85rem; letter-spacing:1px;">{{ p1.brand if p1 else "-" }}</p>
                     </th>
                     <th class="phone-col border-0 pt-5 pb-4">
                         <div class="vs-badge d-none d-md-flex">VS</div>
@@ -122,61 +241,61 @@
                                 <i class="fas fa-mobile placeholder-icon"></i>
                             {% endif %}
                         </div>
+                        <p class="phone-brand">{{ p2.brand if p2 else "-" }}</p>
                         <h3 class="phone-title">{{ p2.model if p2 else "Select Phone" }}</h3>
-                        <p class="text-muted text-uppercase" style="font-size:0.85rem; letter-spacing:1px;">{{ p2.brand if p2 else "-" }}</p>
                     </th>
                 </tr>
             </thead>
             <tbody>
-                {% macro spec_row(label, key) %}
+                {% macro spec_row(label, key, is_price=False) %}
                 <tr>
                     <td class="spec-label">{{ label }}</td>
                     <td class="text-center {% if w1 and w1[key] %}winner-cell{% endif %}">
-                        <span class="{% if key == 'price' %}fw-bold text-dark fs-5{% endif %}">{{ p1[key] if p1 else "-" }}</span>
+                        <span class="{% if is_price %}fw-bold text-dark fs-5{% endif %}" style="{% if w1 and w1[key] %}font-weight:600; color:var(--text-primary);{% endif %}">{{ p1[key] if p1 else "-" }}</span>
                         {% if w1 and w1[key] %}<i class="fas fa-check-circle winner-tick"></i>{% endif %}
                     </td>
                     <td class="text-center {% if w2 and w2[key] %}winner-cell{% endif %}">
-                        <span class="{% if key == 'price' %}fw-bold text-dark fs-5{% endif %}">{{ p2[key] if p2 else "-" }}</span>
+                        <span class="{% if is_price %}fw-bold text-dark fs-5{% endif %}" style="{% if w2 and w2[key] %}font-weight:600; color:var(--text-primary);{% endif %}">{{ p2[key] if p2 else "-" }}</span>
                         {% if w2 and w2[key] %}<i class="fas fa-check-circle winner-tick"></i>{% endif %}
                     </td>
                 </tr>
                 {% endmacro %}
 
-                {{ spec_row('Launch Price', 'price') }}
+                {{ spec_row('Launch Price', 'price', True) }}
                 
-                <tr><td colspan="3" class="category-header"><i class="fas fa-tv me-2"></i> Display</td></tr>
+                <tr><td colspan="3" class="category-header">Display</td></tr>
                 {{ spec_row('Screen Size', 'screen_size') }}
                 {{ spec_row('Display Type', 'display_type') }}
                 {{ spec_row('Refresh Rate', 'refresh_rate') }}
 
-                <tr><td colspan="3" class="category-header"><i class="fas fa-microchip me-2"></i> Performance</td></tr>
+                <tr><td colspan="3" class="category-header">Performance</td></tr>
                 {{ spec_row('Processor', 'processor') }}
                 {{ spec_row('RAM', 'ram') }}
                 {{ spec_row('Storage', 'storage') }}
 
-                <tr><td colspan="3" class="category-header"><i class="fas fa-camera me-2"></i> Cameras</td></tr>
+                <tr><td colspan="3" class="category-header">Cameras</td></tr>
                 {{ spec_row('Main Camera', 'camera_main') }}
                 {{ spec_row('Selfie Camera', 'camera_selfie') }}
 
-                <tr><td colspan="3" class="category-header"><i class="fas fa-battery-full me-2"></i> Battery</td></tr>
+                <tr><td colspan="3" class="category-header">Battery</td></tr>
                 {{ spec_row('Capacity', 'battery') }}
                 {{ spec_row('Fast Charging', 'fast_charging') }}
 
-                <tr><td colspan="3" class="category-header"><i class="fas fa-tools me-2"></i> Design & Features</td></tr>
+                <tr><td colspan="3" class="category-header">Design & Features</td></tr>
                 {{ spec_row('Weight', 'weight') }}
                 {{ spec_row('Water Resistance', 'water_resistance') }}
                 {{ spec_row('5G Support', 'network_5g') }}
-                {{ spec_row('OS', 'os') }}
+                {{ spec_row('Operating System', 'os') }}
             </tbody>
         </table>
         
         {% if p1 and p2 %}
-        <div class="bg-light p-4 text-center mt-3 border-top">
-            <h5 class="fw-bold mb-3">Popular Comparisons</h5>
-            <div class="d-flex justify-content-center flex-wrap gap-2">
-                <a href="/mobiles/compare/apple-iphone-15-pro-max-vs-samsung-galaxy-s24-ultra" class="btn btn-sm btn-outline-secondary rounded-pill">iPhone 15 Pro Max vs Galaxy S24 Ultra</a>
-                <a href="/mobiles/compare/google-pixel-8-pro-vs-samsung-galaxy-s24-ultra" class="btn btn-sm btn-outline-secondary rounded-pill">Pixel 8 Pro vs Galaxy S24 Ultra</a>
-                <a href="/mobiles/compare/apple-iphone-15-vs-nothing-phone-2-" class="btn btn-sm btn-outline-secondary rounded-pill">iPhone 15 vs Nothing Phone 2</a>
+        <div class="bg-white p-5 text-center border-top">
+            <h5 class="fw-bold mb-4 text-dark">Popular Comparisons</h5>
+            <div class="d-flex justify-content-center flex-wrap gap-3">
+                <a href="/mobiles/compare/apple-iphone-15-pro-max-vs-samsung-galaxy-s24-ultra" class="btn btn-sm btn-light rounded-pill px-3 py-2 fw-medium text-secondary" style="border:1px solid var(--border-color);">iPhone 15 Pro Max <span style="color:#d2d2d7;">vs</span> Galaxy S24 Ultra</a>
+                <a href="/mobiles/compare/google-pixel-8-pro-vs-samsung-galaxy-s24-ultra" class="btn btn-sm btn-light rounded-pill px-3 py-2 fw-medium text-secondary" style="border:1px solid var(--border-color);">Pixel 8 Pro <span style="color:#d2d2d7;">vs</span> Galaxy S24 Ultra</a>
+                <a href="/mobiles/compare/apple-iphone-15-vs-nothing-phone-2-" class="btn btn-sm btn-light rounded-pill px-3 py-2 fw-medium text-secondary" style="border:1px solid var(--border-color);">iPhone 15 <span style="color:#d2d2d7;">vs</span> Nothing Phone 2</a>
             </div>
         </div>
         {% endif %}
@@ -214,7 +333,7 @@
                     data.forEach(phone => {
                         const div = document.createElement('div');
                         div.className = 'search-item';
-                        div.innerHTML = `<i class="fas fa-mobile-alt"></i><div><strong class="text-dark">${phone.brand}</strong> <span class="text-muted">${phone.model}</span></div>`;
+                        div.innerHTML = `<i class="fas fa-search"></i><div><strong class="text-dark" style="font-weight:600;">${phone.brand}</strong> <span style="color:var(--text-secondary);">${phone.model}</span></div>`;
                         div.onclick = () => {
                             if (colIndex === 1) currentSlug1 = phone.slug;
                             else currentSlug2 = phone.slug;
