@@ -141,7 +141,7 @@
     .phone-img:hover { transform: scale(1.04); }
     
     .vs-badge {
-        position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);
+        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
         background: #fff; color: var(--text-secondary); width: 40px; height: 40px;
         border-radius: 50%; display: flex; align-items: center; justify-content: center;
         font-weight: 700; font-size: 0.85rem; box-shadow: 0 4px 12px rgba(0,0,0,0.06);
@@ -221,26 +221,12 @@
             <thead>
                 <tr>
                     <th class="spec-label border-0"></th>
-                    <th class="phone-col border-0 pt-5 pb-4">
-                        <div class="phone-img-wrapper">
-                            {% if p1 %}
-                                <img src="{{ p1.image_url }}" class="phone-img" crossorigin="anonymous">
-                            {% else %}
-                                <i class="fas fa-mobile placeholder-icon"></i>
-                            {% endif %}
-                        </div>
+                    <th class="phone-col border-0 py-4">
                         <p class="phone-brand">{{ p1.brand if p1 else "-" }}</p>
                         <h3 class="phone-title">{{ p1.model if p1 else "Select Phone" }}</h3>
                     </th>
-                    <th class="phone-col border-0 pt-5 pb-4">
+                    <th class="phone-col border-0 py-4">
                         <div class="vs-badge d-none d-md-flex">VS</div>
-                        <div class="phone-img-wrapper">
-                            {% if p2 %}
-                                <img src="{{ p2.image_url }}" class="phone-img" crossorigin="anonymous">
-                            {% else %}
-                                <i class="fas fa-mobile placeholder-icon"></i>
-                            {% endif %}
-                        </div>
                         <p class="phone-brand">{{ p2.brand if p2 else "-" }}</p>
                         <h3 class="phone-title">{{ p2.model if p2 else "Select Phone" }}</h3>
                     </th>
