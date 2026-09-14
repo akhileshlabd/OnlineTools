@@ -3,169 +3,284 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Free Qube</title>
+    <title>Free Qube | Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background-color: #f0f2f5; font-family: 'Inter', system-ui, sans-serif; color: #050505; }
-        .navbar { background: white; padding: 10px 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
-        .navbar-brand { color: #1877f2; font-weight: 800; font-size: 1.5rem; }
-        .logout-btn { background: #e4e6eb; color: #050505; border: none; padding: 8px 16px; border-radius: 20px; font-weight: 600; text-decoration: none; }
-        .logout-btn:hover { background: #d8dadf; color: #050505; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: #f4f6f9; color: #333; margin: 0; display: flex; height: 100vh; overflow: hidden; }
         
-        .feed-container { max-width: 680px; margin: 30px auto; padding: 0 15px; }
-        .fb-card { background: white; border: none; border-radius: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); padding: 20px; margin-bottom: 20px; }
+        /* Sidebar */
+        .sidebar { width: 260px; background: #1e293b; color: #fff; display: flex; flex-direction: column; }
+        .sidebar-brand { padding: 20px; font-weight: 900; font-size: 1.25rem; letter-spacing: 0.05em; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .nav-item { padding: 15px 20px; color: #cbd5e1; text-decoration: none; font-weight: 600; display: flex; align-items: center; border-left: 3px solid transparent; transition: 0.2s; }
+        .nav-item:hover, .nav-item.active { background: #334155; color: white; border-left-color: #3b82f6; }
         
-        /* Master Switch */
-        .master-switch-card { background: linear-gradient(135deg, #1877f2 0%, #166fe5 100%); color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        /* Main Content */
+        .main-content { flex-grow: 1; display: flex; flex-direction: column; overflow-y: auto; }
+        .topbar { background: #fff; padding: 15px 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
+        .content-area { padding: 30px; }
         
-        /* Create Post area */
-        .create-post-header { display: flex; align-items: center; margin-bottom: 15px; }
-        .avatar { width: 40px; height: 40px; border-radius: 50%; background: #1877f2; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 12px; }
-        .form-control { border-radius: 20px; background: #f0f2f5; border: none; padding: 12px 20px; }
-        .form-control:focus { background: white; box-shadow: none; border: 1px solid #1877f2; }
-        .btn-post { background: #1877f2; color: white; border: none; padding: 10px 0; border-radius: 6px; font-weight: 600; width: 100%; margin-top: 15px; }
-        .btn-post:hover { background: #166fe5; }
+        /* Cards & Grids */
+        .admin-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); padding: 25px; margin-bottom: 25px; border: 1px solid #e2e8f0; }
+        .admin-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .admin-title { font-weight: 800; font-size: 1.2rem; color: #0f172a; margin: 0; }
         
-        /* Post Feed */
-        .post-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-        .post-author { font-weight: 600; font-size: 0.95rem; }
-        .post-date { font-size: 0.8rem; color: #65676b; }
-        .post-title { font-weight: 700; font-size: 1.25rem; margin-bottom: 8px; }
-        .post-content { font-size: 0.95rem; margin-bottom: 15px; white-space: pre-line; }
-        .post-image { width: 100%; border-radius: 0; margin-left: -20px; width: calc(100% + 40px); margin-bottom: 15px; }
+        /* Controls Bar */
+        .controls-bar { background: #f8fafc; padding: 15px; border-radius: 8px; display: flex; gap: 15px; align-items: center; flex-wrap: wrap; margin-bottom: 25px; border: 1px solid #e2e8f0; }
         
-        /* Admin Comments section */
-        .admin-comments { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-top: 15px; }
-        .comment-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
-        .comment-item:last-child { border-bottom: none; }
-        .delete-btn { color: #dc3545; cursor: pointer; background: none; border: none; font-size: 0.9rem; font-weight: bold; }
+        /* Blog List */
+        .blog-row { display: flex; flex-direction: column; gap: 20px; }
+        .blog-item { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; transition: 0.2s; position: relative; }
+        .blog-item:hover { border-color: #cbd5e1; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .blog-item.hidden-blog { background: #f8fafc; opacity: 0.7; }
+        .blog-actions { display: flex; gap: 10px; margin-top: 15px; }
+        
+        .badge-custom { padding: 5px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
+        .badge-visible { background: #dcfce7; color: #166534; }
+        .badge-hidden { background: #fee2e2; color: #991b1b; }
+        
+        /* Modal */
+        .modal-content { border-radius: 12px; border: none; }
+        .modal-header { background: #f8fafc; border-bottom: 1px solid #e2e8f0; border-radius: 12px 12px 0 0; }
     </style>
 </head>
 <body>
 
-<nav class="navbar d-flex justify-content-between">
-    <div class="navbar-brand">Free Qube</div>
-    <a href="/admin/logout" class="logout-btn">Log out</a>
-</nav>
+<div class="sidebar">
+    <div class="sidebar-brand">FREE QUBE<span style="color:#3b82f6;">.ADMIN</span></div>
+    <div style="flex-grow: 1; margin-top: 20px;">
+        <a href="#" class="nav-item active">Blog Management</a>
+        <!-- Future proofing tabs -->
+        <a href="#" class="nav-item">Analytics (Soon)</a>
+        <a href="#" class="nav-item">Users (Soon)</a>
+    </div>
+    <div style="padding: 20px;">
+        <a href="/admin/logout" class="btn btn-outline-light w-100" style="font-weight: 600;">Log Out</a>
+    </div>
+</div>
 
-<div class="feed-container">
+<div class="main-content">
+    <div class="topbar">
+        <h4 style="margin: 0; font-weight: 800; color: #0f172a;">Blog Management</h4>
+        <div>
+            <button class="btn btn-dark" style="font-weight: 600;" data-bs-toggle="modal" data-bs-target="#createBlogModal">+ New Post</button>
+        </div>
+    </div>
     
-    <!-- Master Comments Switch -->
-    <div class="master-switch-card shadow-sm">
-        <div>
-            <h5 class="mb-1" style="font-weight: 700;">Global Comments</h5>
-            <p class="mb-0" style="font-size: 0.9rem; opacity: 0.9;">Master override for all posts on the site.</p>
-        </div>
-        <div>
-            <button id="toggleGlobalBtn" class="btn btn-light" style="font-weight: bold; color: {{ '#1877f2' if global_comments_enabled else '#dc3545' }}">
-                {{ 'Disable Everywhere' if global_comments_enabled else 'Enable Everywhere' }}
-            </button>
-        </div>
-    </div>
-
-    <!-- Create Post Card -->
-    <div class="fb-card">
-        <div class="create-post-header">
-            <div class="avatar">A</div>
-            <span style="font-weight: 600;">What's on your mind, Admin?</span>
-        </div>
-        <form id="blogForm" enctype="multipart/form-data">
-            <input type="text" class="form-control mb-3" id="title" placeholder="Blog Title" required>
-            <textarea class="form-control mb-3" id="content" rows="3" placeholder="Write your blog post here..." style="border-radius: 12px;" required></textarea>
-            <div class="d-flex align-items-center gap-2">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="#45bd62"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z"/></svg>
-                <input type="file" class="form-control" id="image" accept="image/*" style="border-radius: 8px; padding: 6px 12px; background: white; border: 1px solid #ced0d4;">
-            </div>
-            <button type="submit" class="btn-post">Post</button>
-        </form>
-    </div>
-
-    <!-- Feed -->
-    {% for blog in blogs %}
-    <div class="fb-card" style="padding-bottom: 10px;">
-        <div class="post-header">
-            <div class="d-flex">
-                <div class="avatar">A</div>
+    <div class="content-area">
+        
+        <!-- Global Settings -->
+        <div class="admin-card" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: white; border: none;">
+            <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <div class="post-author">Free Qube Admin</div>
-                    <div class="post-date">{{ blog.created_at }}</div>
+                    <h5 class="mb-1" style="font-weight: 800;">Global Comments Override</h5>
+                    <p class="mb-0" style="font-size: 0.9rem; color: #cbd5e1;">Master switch to completely disable or enable comments globally.</p>
                 </div>
-            </div>
-            <div>
-                <button class="btn btn-sm {{ 'btn-outline-danger' if blog.comments_enabled else 'btn-outline-success' }}" onclick="toggleBlogComments({{ blog.id }})">
-                    {{ 'Disable Comments' if blog.comments_enabled else 'Enable Comments' }}
+                <button onclick="toggleGlobalComments()" class="btn btn-light" style="font-weight: 700; color: {{ '#3b82f6' if global_comments_enabled else '#ef4444' }}">
+                    {{ 'Disable Everywhere' if global_comments_enabled else 'Enable Everywhere' }}
                 </button>
             </div>
         </div>
-        
-        <div class="post-title">{{ blog.title }}</div>
-        <div class="post-content">{{ blog.content }}</div>
-        
-        {% if blog.image_path %}
-        <img src="{{ blog.image_path }}" class="post-image" alt="Blog Image">
-        {% endif %}
-        
-        <a href="/blog/{{ blog.slug }}" target="_blank" style="font-size: 0.9rem; font-weight: 600; text-decoration: none;">View Public Page</a>
-        
-        <!-- Manage Comments -->
-        <div class="admin-comments">
-            <h6 style="font-weight: 700; color: #65676b; margin-bottom: 10px;">Manage Comments ({{ blog.comments|length }})</h6>
-            {% for comment in blog.comments %}
-            <div class="comment-item">
-                <div style="font-size: 0.9rem;">
-                    <strong>Anonymous:</strong> {{ comment.content }} <br>
-                    <small style="color: #999;">{{ comment.created_at }}</small>
+
+        <!-- Filter & Sort Bar -->
+        <div class="controls-bar">
+            <form method="GET" action="/admin/dashboard" class="d-flex gap-3 align-items-center w-100">
+                <div>
+                    <label class="form-label" style="font-size: 0.75rem; font-weight: 700; color: #64748b; margin-bottom: 2px;">FROM DATE</label>
+                    <input type="date" name="date_from" class="form-control form-control-sm" value="{{ date_from }}">
                 </div>
-                <button class="delete-btn" onclick="deleteComment({{ comment.id }})">Delete</button>
+                <div>
+                    <label class="form-label" style="font-size: 0.75rem; font-weight: 700; color: #64748b; margin-bottom: 2px;">TO DATE</label>
+                    <input type="date" name="date_to" class="form-control form-control-sm" value="{{ date_to }}">
+                </div>
+                <div>
+                    <label class="form-label" style="font-size: 0.75rem; font-weight: 700; color: #64748b; margin-bottom: 2px;">SORT</label>
+                    <select name="sort" class="form-select form-select-sm">
+                        <option value="DESC" {% if sort == 'DESC' %}selected{% endif %}>Newest First</option>
+                        <option value="ASC" {% if sort == 'ASC' %}selected{% endif %}>Oldest First</option>
+                    </select>
+                </div>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-sm btn-primary" style="font-weight: 600;">Apply Filters</button>
+                    <a href="/admin/dashboard" class="btn btn-sm btn-outline-secondary" style="font-weight: 600;">Clear</a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Blog Feed -->
+        <div class="blog-row">
+            {% for blog in blogs %}
+            <div class="blog-item {{ 'hidden-blog' if blog.is_hidden else '' }}">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div>
+                        <span class="badge-custom {{ 'badge-hidden' if blog.is_hidden else 'badge-visible' }} mb-2 d-inline-block">
+                            {{ 'HIDDEN' if blog.is_hidden else 'PUBLISHED' }}
+                        </span>
+                        <h4 style="font-weight: 800; color: #0f172a; margin-bottom: 5px;">{{ blog.title }}</h4>
+                        <div style="font-size: 0.85rem; color: #64748b; font-weight: 600;">Posted: {{ blog.created_at }}</div>
+                    </div>
+                </div>
+                
+                <p style="color: #475569; font-size: 0.95rem; margin-bottom: 15px;">{{ blog.content[:200] }}...</p>
+                
+                <div class="blog-actions">
+                    <button class="btn btn-sm btn-outline-primary" style="font-weight: 600;" onclick="openEditModal({{ blog.id }}, '{{ blog.title | escape }}', '{{ blog.content | replace('\n', '\\n') | escape }}')">Edit</button>
+                    <button class="btn btn-sm {{ 'btn-outline-success' if blog.is_hidden else 'btn-outline-warning' }}" style="font-weight: 600;" onclick="toggleVisibility({{ blog.id }})">
+                        {{ 'Publish Post' if blog.is_hidden else 'Hide Post' }}
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" style="font-weight: 600;" onclick="deleteBlog({{ blog.id }})">Delete Permanently</button>
+                    
+                    <div style="width: 1px; background: #cbd5e1; margin: 0 10px;"></div>
+                    
+                    <button class="btn btn-sm {{ 'btn-outline-danger' if blog.comments_enabled else 'btn-outline-success' }}" style="font-weight: 600;" onclick="toggleComments({{ blog.id }})">
+                        {{ 'Disable Comments' if blog.comments_enabled else 'Enable Comments' }}
+                    </button>
+                </div>
+
+                <!-- Comments List (Accordion style) -->
+                <div class="mt-3" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px;">
+                    <h6 style="font-weight: 800; color: #334155; margin-bottom: 15px;">Comments ({{ blog.comments|length }})</h6>
+                    {% for comment in blog.comments %}
+                    <div class="d-flex justify-content-between align-items-center mb-2 pb-2" style="border-bottom: 1px solid #e2e8f0;">
+                        <div style="font-size: 0.9rem;">
+                            <strong style="color: #0f172a;">{{ comment.author_name }}:</strong> <span style="color: #475569;">{{ comment.content }}</span>
+                            <div style="font-size: 0.75rem; color: #94a3b8;">{{ comment.created_at }}</div>
+                        </div>
+                        <button class="btn btn-sm btn-link text-danger" style="font-weight: 700; text-decoration: none;" onclick="deleteComment({{ comment.id }})">Delete</button>
+                    </div>
+                    {% else %}
+                    <div style="font-size: 0.85rem; color: #94a3b8;">No comments yet.</div>
+                    {% endfor %}
+                </div>
             </div>
             {% else %}
-            <div style="font-size: 0.85rem; color: #888;">No comments on this post yet.</div>
+            <div class="text-center" style="padding: 60px; color: #64748b; border: 2px dashed #cbd5e1; border-radius: 12px;">
+                <h5>No blogs found.</h5>
+                <p>Try adjusting your filters or create a new post.</p>
+            </div>
             {% endfor %}
         </div>
         
     </div>
-    {% else %}
-    <div class="text-center mt-5" style="color: #65676b;">
-        <h5>No posts yet.</h5>
-    </div>
-    {% endfor %}
-
 </div>
 
+<!-- Create Blog Modal -->
+<div class="modal fade" id="createBlogModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="font-weight: 800;">Create New Post</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4">
+        <form id="createBlogForm">
+            <div class="mb-3">
+                <label class="form-label" style="font-weight: 700;">Blog Title</label>
+                <input type="text" class="form-control" id="new_title" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" style="font-weight: 700;">Content</label>
+                <textarea class="form-control" id="new_content" rows="6" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" style="font-weight: 700;">Cover Image</label>
+                <input type="file" class="form-control" id="new_image" accept="image/*">
+            </div>
+            <button type="submit" class="btn btn-dark w-100" style="font-weight: 700;">Publish Post</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Blog Modal -->
+<div class="modal fade" id="editBlogModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="font-weight: 800;">Edit Post</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4">
+        <form id="editBlogForm">
+            <input type="hidden" id="edit_id">
+            <div class="mb-3">
+                <label class="form-label" style="font-weight: 700;">Blog Title</label>
+                <input type="text" class="form-control" id="edit_title" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" style="font-weight: 700;">Content</label>
+                <textarea class="form-control" id="edit_content" rows="8" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-100" style="font-weight: 700;">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Blog Posting
-    document.getElementById('blogForm').addEventListener('submit', async (e) => {
+    // Create
+    document.getElementById('createBlogForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append('title', document.getElementById('title').value);
-        formData.append('content', document.getElementById('content').value);
-        const imageFile = document.getElementById('image').files[0];
-        if (imageFile) formData.append('image', imageFile);
+        const fd = new FormData();
+        fd.append('title', document.getElementById('new_title').value);
+        fd.append('content', document.getElementById('new_content').value);
+        const img = document.getElementById('new_image').files[0];
+        if (img) fd.append('image', img);
         
-        const res = await fetch('/admin/api/add-blog', { method: 'POST', body: formData });
-        const data = await res.json();
-        if (data.success) window.location.reload();
-        else alert(data.message);
-    });
-
-    // Global Comments Toggle
-    document.getElementById('toggleGlobalBtn').addEventListener('click', async () => {
-        if(confirm("Are you sure you want to change the global comment setting for the entire site?")) {
-            const res = await fetch('/admin/api/toggle-global-comments', { method: 'POST' });
-            if (res.ok) window.location.reload();
-        }
-    });
-
-    // Per-Blog Comments Toggle
-    async function toggleBlogComments(blogId) {
-        const res = await fetch(`/admin/api/toggle-blog-comments/${blogId}`, { method: 'POST' });
+        const res = await fetch('/admin/api/add-blog', { method: 'POST', body: fd });
         if (res.ok) window.location.reload();
+    });
+
+    // Edit Modal Prep
+    function openEditModal(id, title, content) {
+        document.getElementById('edit_id').value = id;
+        document.getElementById('edit_title').value = title;
+        document.getElementById('edit_content').value = content;
+        new bootstrap.Modal(document.getElementById('editBlogModal')).show();
     }
 
-    // Delete Comment
-    async function deleteComment(commentId) {
-        if(confirm("Permanently delete this comment?")) {
-            const res = await fetch(`/admin/api/delete-comment/${commentId}`, { method: 'POST' });
+    // Edit Submit
+    document.getElementById('editBlogForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('edit_id').value;
+        const fd = new FormData();
+        fd.append('title', document.getElementById('edit_title').value);
+        fd.append('content', document.getElementById('edit_content').value);
+        
+        const res = await fetch(`/admin/api/edit-blog/${id}`, { method: 'POST', body: fd });
+        if (res.ok) window.location.reload();
+    });
+
+    // Actions
+    async function toggleVisibility(id) {
+        const res = await fetch(`/admin/api/toggle-visibility/${id}`, { method: 'POST' });
+        if (res.ok) window.location.reload();
+    }
+    
+    async function deleteBlog(id) {
+        if(confirm("DANGER: Are you sure you want to permanently delete this blog and all its comments?")) {
+            const res = await fetch(`/admin/api/delete-blog/${id}`, { method: 'POST' });
+            if (res.ok) window.location.reload();
+        }
+    }
+    
+    async function toggleComments(id) {
+        const res = await fetch(`/admin/api/toggle-blog-comments/${id}`, { method: 'POST' });
+        if (res.ok) window.location.reload();
+    }
+    
+    async function deleteComment(id) {
+        if(confirm("Delete this comment?")) {
+            const res = await fetch(`/admin/api/delete-comment/${id}`, { method: 'POST' });
+            if (res.ok) window.location.reload();
+        }
+    }
+    
+    async function toggleGlobalComments() {
+        if(confirm("Change global comment setting for the whole site?")) {
+            const res = await fetch('/admin/api/toggle-global-comments', { method: 'POST' });
             if (res.ok) window.location.reload();
         }
     }

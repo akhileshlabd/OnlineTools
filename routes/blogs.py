@@ -12,7 +12,8 @@ def get_db_connection():
 def index():
     conn = get_db_connection()
     c = conn.cursor()
-    c.execute("SELECT * FROM blogs ORDER BY created_at DESC")
+    # Only show blogs that are not hidden
+    c.execute("SELECT * FROM blogs WHERE is_hidden = 0 ORDER BY created_at DESC")
     blogs = c.fetchall()
     conn.close()
     return render_template('blog_hub.html', blogs=blogs)
@@ -27,7 +28,8 @@ def view_blog(slug):
     row = c.fetchone()
     global_comments = (row['value'] == '1') if row else True
     
-    c.execute("SELECT * FROM blogs WHERE slug = ?", (slug,))
+    # Only fetch if not hidden
+    c.execute("SELECT * FROM blogs WHERE slug = ? AND is_hidden = 0", (slug,))
     blog = c.fetchone()
     
     if not blog:
@@ -38,9 +40,13 @@ def view_blog(slug):
     
     if request.method == 'POST' and comments_allowed:
         content = request.form.get('content')
+        author_name = request.form.get('author_name', 'Anonymous').strip()
+        if not author_name:
+            author_name = 'Anonymous'
+            
         blog_id = request.form.get('blog_id')
         if content and blog_id:
-            c.execute("INSERT INTO comments (blog_id, content) VALUES (?, ?)", (blog_id, content))
+            c.execute("INSERT INTO comments (blog_id, content, author_name) VALUES (?, ?, ?)", (blog_id, content, author_name))
             conn.commit()
         return redirect(url_for('blogs.view_blog', slug=slug))
 

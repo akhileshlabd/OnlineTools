@@ -16,8 +16,8 @@
     .comments-title { font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 30px; }
     
     .comment-box { display: flex; margin-bottom: 25px; }
-    .comment-avatar { width: 40px; height: 40px; border-radius: 50%; background: #e2e8f0; color: #64748b; margin-right: 15px; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; }
-    .comment-content { background: #f8fafc; padding: 15px 20px; border-radius: 0 16px 16px 16px; flex-grow: 1; border: 1px solid #e2e8f0; }
+    .comment-avatar { width: 40px; height: 40px; border-radius: 50%; background: #e2e8f0; color: #64748b; margin-right: 15px; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; text-transform: uppercase; }
+    .comment-content-box { background: #f8fafc; padding: 15px 20px; border-radius: 0 16px 16px 16px; flex-grow: 1; border: 1px solid #e2e8f0; }
     .comment-author { font-weight: 700; color: #0f172a; margin-bottom: 5px; }
     .comment-text { font-size: 1rem; color: #334155; }
     
@@ -32,7 +32,7 @@
 <div class="post-container">
     
     <div class="post-header">
-        <span class="post-date">{{ blog.created_at }} &bull; Free Qube</span>
+        <span class="post-date">{{ blog.created_at.split(' ')[0] if blog.created_at else '' }} &bull; Free Qube</span>
         <h1 class="post-title">{{ blog.title }}</h1>
     </div>
     
@@ -48,9 +48,9 @@
         
         {% for comment in comments %}
         <div class="comment-box">
-            <div class="comment-avatar">A</div>
-            <div class="comment-content">
-                <div class="comment-author">Anonymous</div>
+            <div class="comment-avatar">{{ comment.author_name[0] }}</div>
+            <div class="comment-content-box">
+                <div class="comment-author">{{ comment.author_name }}</div>
                 <div class="comment-text">{{ comment.content }}</div>
             </div>
         </div>
@@ -62,7 +62,8 @@
             <h5 style="font-weight: 700; margin-bottom: 15px;">Leave a Comment</h5>
             <form method="POST" action="/blog/{{ blog.slug }}">
                 <input type="hidden" name="blog_id" value="{{ blog.id }}">
-                <textarea name="content" class="form-control" rows="3" placeholder="Share your thoughts anonymously..." required></textarea>
+                <input type="text" name="author_name" class="form-control" placeholder="Your Name (Optional)" style="max-width: 300px;">
+                <textarea name="content" class="form-control" rows="3" placeholder="Share your thoughts..." required></textarea>
                 <button type="submit" class="btn-comment">Post Comment</button>
             </form>
         </div>
