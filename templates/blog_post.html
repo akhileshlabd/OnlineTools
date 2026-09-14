@@ -40,7 +40,7 @@
     <img src="{{ blog.image_path }}" class="post-image" alt="{{ blog.title }}">
     {% endif %}
     
-    <div class="post-content">{{ blog.content }}</div>
+    <div class="post-content">{{ blog.content | safe }}</div>
     
     {% if comments_allowed %}
     <div class="comments-section">

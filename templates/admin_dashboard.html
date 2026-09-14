@@ -49,7 +49,10 @@
         
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 </head>
+
 <body>
 
 <div class="sidebar">
@@ -130,7 +133,7 @@
                         </div>
                     </div>
                     
-                    <p style="color: #475569; font-size: 0.95rem; margin-bottom: 15px;">{{ blog.content[:200] }}...</p>
+                    <p style="color: #475569; font-size: 0.95rem; margin-bottom: 15px;">{{ blog.content | striptags | truncate(200) }}</p>
                     
                     <div class="blog-actions">
                         <button class="btn btn-sm btn-outline-primary" style="font-weight: 600;" onclick="openEditModal({{ blog.id }}, '{{ blog.title | escape }}', '{{ blog.content | replace('\n', '\\n') | escape }}', '{{ blog.image_path or '' }}')">Edit</button>
@@ -313,7 +316,17 @@
   </div>
 </div>
 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<script>
+  $(document).ready(function() {
+      $('#new_content').summernote({ height: 300, toolbar: [['style', ['style']], ['font', ['bold', 'underline', 'clear']], ['color', ['color']], ['para', ['ul', 'ol', 'paragraph']], ['insert', ['link', 'picture', 'video']], ['view', ['fullscreen', 'codeview', 'help']]] });
+      $('#edit_content').summernote({ height: 300, toolbar: [['style', ['style']], ['font', ['bold', 'underline', 'clear']], ['color', ['color']], ['para', ['ul', 'ol', 'paragraph']], ['insert', ['link', 'picture', 'video']], ['view', ['fullscreen', 'codeview', 'help']]] });
+  });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
     // Tab Switcher
     function switchTab(tabId, el) {
@@ -341,7 +354,7 @@
         e.preventDefault();
         const fd = new FormData();
         fd.append('title', document.getElementById('new_title').value);
-        fd.append('content', document.getElementById('new_content').value);
+        fd.append('content', $('#new_content').summernote('code'));
         const img = document.getElementById('new_image').files[0];
         if (img) fd.append('image', img);
         
@@ -352,7 +365,7 @@
     function openEditModal(id, title, content, imagePath) {
         document.getElementById('edit_id').value = id;
         document.getElementById('edit_title').value = title;
-        document.getElementById('edit_content').value = content;
+        $('#edit_content').summernote('code') = content;
         
         const imgContainer = document.getElementById('current_image_container');
         const imgPreview = document.getElementById('edit_image_preview');
@@ -377,7 +390,7 @@
         const id = document.getElementById('edit_id').value;
         const fd = new FormData();
         fd.append('title', document.getElementById('edit_title').value);
-        fd.append('content', document.getElementById('edit_content').value);
+        fd.append('content', $('#edit_content').summernote('code'));
         
         const removeCheck = document.getElementById('remove_image_check');
         if (removeCheck && removeCheck.checked) fd.append('remove_image', 'true');

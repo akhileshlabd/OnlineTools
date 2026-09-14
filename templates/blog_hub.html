@@ -32,7 +32,7 @@
         <div class="blog-content">
             <div class="blog-date">{{ blog.created_at.split(' ')[0] if blog.created_at else '' }}</div>
             <h2 class="blog-title">{{ blog.title }}</h2>
-            <div class="blog-excerpt">{{ blog.content[:150] }}...</div>
+            <div class="blog-excerpt">{{ blog.content | striptags | truncate(150) }}</div>
         </div>
     </a>
     {% else %}
