@@ -1,40 +1,52 @@
-import sys
+import re
 
-with open('templates/video_tool.html', 'r') as f:
+filepath = 'templates/video_tool.html'
+with open(filepath, 'r') as f:
     content = f.read()
 
-seo_content = """
-<!-- SEO Content for AdSense Compliance -->
+content = re.sub(r'{% block title %}.*?{% endblock %}\n*', '', content, flags=re.DOTALL)
+content = re.sub(r'{% block meta_desc %}.*?{% endblock %}\n*', '', content, flags=re.DOTALL)
+content = re.sub(r'{% block meta_keywords %}.*?{% endblock %}\n*', '', content, flags=re.DOTALL)
+content = re.sub(r'<!-- SEO Content for AdSense Compliance -->.*?(?=<script)', '', content, flags=re.DOTALL)
+
+blocks = """{% block title %}
+{% if tool.id == 'mute' %}Mute Video Free Online | Remove Audio from MP4 - Free Qube
+{% elif tool.id == 'extract_audio' %}Video to MP3 Converter Free | Extract Audio - Free Qube
+{% else %}{{ tool.name }} - Free Qube{% endif %}
+{% endblock %}
+
+{% block meta_desc %}
+{% if tool.id == 'mute' %}Remove audio from video files for free. Mute MP4, MOV, and WEBM securely with our 100% local client-side muter tool. No watermarks.
+{% elif tool.id == 'extract_audio' %}Extract high-quality audio from any video. Convert MP4 to MP3 securely in your browser without uploading to any server. Completely free.
+{% else %}{{ tool.desc }}{% endif %}
+{% endblock %}
+
+{% block meta_keywords %}
+{% if tool.id == 'mute' %}mute video, remove audio from video, mute mp4, remove sound from video free, mute video online, remove audio track
+{% elif tool.id == 'extract_audio' %}video to mp3, extract audio from video, mp4 to mp3, free video to mp3 converter, rip audio from video
+{% endif %}
+{% endblock %}
+"""
+
+seo_html = """<!-- SEO Content for AdSense Compliance -->
 <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
     {% if tool.id == 'mute' %}
-        <h3 class="h4 fw-bold">How to Mute a Video Free Online</h3>
-        <p>If you have recorded a video with distracting background noise, wind, or private conversations, our free video muter tool is the perfect solution. You can quickly remove the audio track from any MP4, MOV, or WEBM file. Simply upload your video, click process, and download the completely silent video file instantly. This is incredibly useful for preparing clips for social media, creating GIFs, or layering new background music over your footage.</p>
+        <h2 class="fw-bold mb-3">Mute Video Free Online: Remove Audio Instantly</h2>
+        <p>If you have recorded a video with distracting background noise, heavy wind, or private background conversations, our <strong>Free Video Muter</strong> tool is the perfect solution. You can quickly strip the audio track from any MP4, MOV, or WEBM file to create a completely silent video. This is incredibly useful for preparing b-roll clips for social media, creating clean GIFs, or layering new background music over your footage.</p>
+        <h3 class="fw-bold mt-4">100% Secure & Private Video Processing</h3>
+        <p>Most online video editors force you to upload your massive, private video files to their cloud servers, putting your privacy at risk and forcing you to wait in slow upload queues. <strong>Free Qube is different.</strong> We utilize cutting-edge WebAssembly (FFmpeg.wasm) technology to mute your videos entirely on your own device. Your files never leave your computer or phone. This guarantees absolute privacy, lightning-fast processing, and complete protection of your personal media.</p>
     {% elif tool.id == 'extract_audio' %}
-        <h3 class="h4 fw-bold">How to Extract Audio to MP3 from a Video</h3>
-        <p>Have you ever watched a video clip or recorded a concert and wished you could save just the music? Our free Video to MP3 converter allows you to strip the audio track from any video file and save it as a high-quality MP3 file. Whether it is a podcast recording, an interview, or a music video, you can securely rip the audio directly in your browser without losing sound quality.</p>
-    {% elif tool.id == 'trim' %}
-        <h3 class="h4 fw-bold">How to Trim and Cut Videos Online</h3>
-        <p>Our free online video trimmer allows you to cut out specific sections of your video without having to download complex video editing software. By entering the start time and end time of the clip you want to save, you can easily remove unnecessary intros, outtakes, or dead space. Because this tool utilizes direct stream copying, the trimmed video is exported instantly without any loss in video quality.</p>
-    {% elif tool.id == 'convert_mp4' %}
-        <h3 class="h4 fw-bold">Convert MOV, AVI, and MKV to MP4 Free</h3>
-        <p>Sharing videos across different devices can be frustrating if you are dealing with incompatible formats like Apple's MOV or heavy MKV files. Our free video converter instantly packages your video into the highly compatible MP4 format. MP4 is the universal standard for video sharing, ensuring your clips will play perfectly on iPhones, Androids, Windows PCs, Macs, and all major web browsers.</p>
-    {% elif tool.id == 'thumbnail' %}
-        <h3 class="h4 fw-bold">How to Extract a JPG Thumbnail from a Video</h3>
-        <p>Creating YouTube thumbnails or pulling a high-quality snapshot from a video recording is easy with our thumbnail extractor. Instead of pausing your video and taking a low-resolution screenshot, simply enter the exact timestamp (in seconds) of the frame you want to capture. Our tool instantly scans the video and exports that precise frame as a full-resolution JPG image file.</p>
+        <h2 class="fw-bold mb-3">Video to MP3 Converter: Extract Audio Free</h2>
+        <p>Have you ever watched a video clip, a recorded lecture, or a concert and wished you could save just the music? Our free <strong>Video to MP3 converter</strong> allows you to effortlessly strip the audio track from any video file and save it as a high-quality MP3. Whether it is a podcast recording, an interview, or a music video, you can securely rip the audio directly in your browser without losing sound quality.</p>
+        <h3 class="fw-bold mt-4">The Safest Way to Convert MP4 to MP3</h3>
+        <p>Why risk uploading your personal home videos or proprietary corporate recordings to a random server? By leveraging WebAssembly and FFmpeg, our tool parses your video and extracts the MP3 locally using your own computer's RAM. No data is ever transmitted, there are no file size upload limits, and you will never see a watermark.</p>
     {% endif %}
-    
-    <h4 class="h5 fw-bold mt-4">100% Secure & Private Processing</h4>
-    <p>Most online video editors force you to upload your massive video files to their cloud servers, putting your privacy at risk and forcing you to wait in slow upload queues. <strong>Free Qube is different.</strong> We utilize cutting-edge WebAssembly (FFmpeg.wasm) technology to process your videos entirely on your own device. Your files never leave your computer or phone. This guarantees absolute privacy, lightning-fast processing, and complete protection of your personal media.</p>
 </div>
 """
 
-# Insert the SEO content right before the FFmpeg script tag
-insert_target = "<!-- FFmpeg.wasm v0.11.6 (Stable Single-Threaded Version) -->"
-if insert_target in content:
-    content = content.replace(insert_target, seo_content + "\n" + insert_target)
-else:
-    # Fallback to appending before block scripts
-    content = content.replace('{% block scripts %}', seo_content + '\n{% block scripts %}')
+content = re.sub(r'({% extends "base.html" %}\n)', r'\1\n' + blocks + '\n', content)
+content = re.sub(r'(<script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js">)', seo_html + r'\n\1', content)
 
-with open('templates/video_tool.html', 'w') as f:
+with open(filepath, 'w') as f:
     f.write(content)
+print(f"Updated {filepath} successfully.")

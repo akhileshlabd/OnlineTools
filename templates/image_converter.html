@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
-{% block title %}Free Image Converter & Compressor - Free Qube{% endblock %}
-{% block meta_desc %}Convert images to JPG, PNG, or WEBP and compress them for web use instantly. 100% free, browser-based, no watermarks.{% endblock %}
-{% block meta_keywords %}image converter, image compressor, jpg to png, png to jpg, webp converter, free image tools{% endblock %}
+{% block title %}Image Converter Free Online | Convert WebP, JPG, PNG{% endblock %}
+{% block meta_desc %}Convert images between JPG, PNG, WebP, and GIF formats for free online. 100% client-side privacy, lightning fast, and no watermarks.{% endblock %}
+{% block meta_keywords %}image converter, convert webp to jpg, png to jpg, free photo converter, convert image format, online image converter{% endblock %}
+
 
 {% block content %}
 <!-- Tool Schema -->
@@ -220,4 +221,20 @@ function processImageLive() {
     }, targetFormat, targetFormat === 'image/png' ? undefined : quality);
 }
 </script>
+
+<!-- SEO Content for AdSense Compliance -->
+<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
+    <h2 class="fw-bold mb-3">Fast & Free Image Format Converter</h2>
+    <p>In the modern web ecosystem, managing different image formats can be a headache. Whether you need to convert a modern WebP image into a universally compatible JPG, or transform a flat photo into a transparent PNG, our <strong>Free Image Converter</strong> handles it all instantly.</p>
+    
+    <h3 class="fw-bold mt-4">Supported Formats</h3>
+    <ul class="mb-4">
+        <li><strong>WebP to JPG / PNG:</strong> WebP images are great for websites but often fail to open in legacy software. Easily convert them back to standard formats.</li>
+        <li><strong>PNG to JPG:</strong> Compress massive transparent images into lightweight JPGs perfect for sharing.</li>
+        <li><strong>JPG to PNG:</strong> Convert photographs into formats that support transparency and lossless editing.</li>
+    </ul>
+
+    <h3 class="fw-bold mt-4">The Advantage of Client-Side Conversion</h3>
+    <p>When you use Free Qube to convert your images, you never have to wait for your files to upload to a remote server. The conversion takes place locally via your browser's internal canvas API. This guarantees 100% privacy, immediate processing speeds, and no restrictive file size limits.</p>
+</div>
 {% endblock %}

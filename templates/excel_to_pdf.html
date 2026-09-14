@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
-{% block title %}Excel to PDF - Free Client-Side Converter | Free Qube{% endblock %}
-{% block meta_desc %}Convert Microsoft Excel (XLSX, XLS) spreadsheets to PDF completely free. 100% client-side, ensuring maximum privacy for your financial data.{% endblock %}
+{% block title %}Excel to PDF Converter Free | Convert XLSX to PDF Securely - Free Qube{% endblock %}
+{% block meta_desc %}Easily convert Excel spreadsheets (XLSX) to PDF format for free. 100% private client-side processing, no watermarks, fast, and completely secure.{% endblock %}
+{% block meta_keywords %}excel to pdf, free excel to pdf converter, xlsx to pdf, spreadsheet to pdf, convert excel to pdf online free, no watermark excel to pdf{% endblock %}
+
 
 {% block content %}
 <div class="tool-interface" style="max-width: 800px; margin: 0 auto;">
@@ -48,92 +50,25 @@
     </div>
 </div>
 
+
 <!-- SEO Content for AdSense Compliance -->
 <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
-    <h2 class="fw-bold mb-3">Transform Spreadsheets with Excel to PDF</h2>
-    <p>Financial records, data reports, and project tracking sheets are often managed in Excel. However, when it comes time to share these documents with clients, stakeholders, or management, sending a raw spreadsheet can be unprofessional and risks accidental data modification. Our free Excel to PDF converter seamlessly transforms your XLSX and XLS files into clean, readable PDF documents.</p>
-    <p>Because spreadsheets often contain highly sensitive financial or personal data, we prioritize your security above all else. This tool is built entirely on client-side technology. Your Excel file is processed right within your web browser, generating the final PDF without ever sending your private data across the internet. It's fast, free, and structurally identical to the desktop software experience.</p>
+    <h2 class="fw-bold mb-3">Fast & Free Excel to PDF Converter</h2>
+    <p>Sharing Excel spreadsheets can often lead to formatting errors, missing fonts, or accidental data modifications. Converting your <strong>Excel to PDF</strong> is the gold standard for preserving your data's layout, ensuring it looks exactly the same on every device. Our free online Excel to PDF converter makes it effortless to lock in your spreadsheets, financial models, and data reports.</p>
+    
+    <h3 class="fw-bold mt-4">Key Features of Our XLSX to PDF Tool</h3>
+    <ul class="mb-4">
+        <li><strong>Zero Data Uploads:</strong> Financial data is highly sensitive. Our tool utilizes local browser processing, meaning your Excel sheets are parsed and converted locally. Your data is never transmitted to an external server, guaranteeing absolute confidentiality.</li>
+        <li><strong>Maintains Formatting:</strong> Cell widths, background colors, and typography are precisely rendered into a clean, professional PDF table.</li>
+        <li><strong>Completely Free, No Watermarks:</strong> Export clean, unbranded PDFs ready for professional distribution. No premium upgrades required.</li>
+        <li><strong>Instant Processing:</strong> Skip the slow upload speeds of traditional cloud converters. Your PDF is generated in milliseconds.</li>
+    </ul>
+
+    <h3 class="fw-bold mt-4">How to Convert Excel Files to PDF</h3>
+    <ol>
+        <li>Upload your .xlsx file by clicking the upload area or dragging and dropping the file.</li>
+        <li>The local engine immediately reads your spreadsheet data.</li>
+        <li>Click download to save your secure, read-only PDF document to your device.</li>
+    </ol>
 </div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-<script>
-    const dropZone = document.getElementById('dropZone');
-    const fileInput = document.getElementById('fileInput');
-    const uploadCard = document.getElementById('uploadCard');
-    const processCard = document.getElementById('processCard');
-    const renderContainer = document.getElementById('renderContainer');
-    const tableWrapper = document.getElementById('tableWrapper');
-
-    dropZone.addEventListener('click', () => fileInput.click());
-    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('bg-white'); });
-    dropZone.addEventListener('dragleave', (e) => { e.preventDefault(); dropZone.classList.remove('bg-white'); });
-    dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropZone.classList.remove('bg-white');
-        if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
-    });
-    fileInput.addEventListener('change', () => {
-        if (fileInput.files.length) handleFile(fileInput.files[0]);
-    });
-
-    function handleFile(file) {
-        if (!file.name.match(/\.(xlsx|xls)$/i)) {
-            Swal.fire('Error', 'Please select a valid Excel file.', 'error');
-            return;
-        }
-        
-        uploadCard.style.display = 'none';
-        processCard.style.display = 'block';
-
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            try {
-                const data = new Uint8Array(event.target.result);
-                const workbook = XLSX.read(data, {type: 'array'});
-                
-                // Get first worksheet
-                const firstSheetName = workbook.SheetNames[0];
-                const worksheet = workbook.Sheets[firstSheetName];
-                
-                // Convert to HTML
-                const htmlStr = XLSX.utils.sheet_to_html(worksheet, { id: "dataTable" });
-                tableWrapper.innerHTML = `<h3>${file.name} - ${firstSheetName}</h3>` + htmlStr;
-                
-                generatePDF(file.name);
-            } catch (err) {
-                handleError(err);
-            }
-        };
-        reader.readAsArrayBuffer(file);
-    }
-
-    function generatePDF(filename) {
-        renderContainer.style.display = 'block';
-        
-        const opt = {
-            margin:       [10, 10, 10, 10],
-            filename:     filename.replace(/\.[^/.]+$/, "") + '.pdf',
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2, useCORS: true },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' } // Landscape for tables
-        };
-
-        html2pdf().set(opt).from(renderContainer).save().then(() => {
-            renderContainer.style.display = 'none';
-            uploadCard.style.display = 'block';
-            processCard.style.display = 'none';
-            Swal.fire('Success', 'PDF downloaded successfully!', 'success');
-        }).catch(handleError);
-    }
-
-    function handleError(error) {
-        console.error(error);
-        uploadCard.style.display = 'block';
-        processCard.style.display = 'none';
-        renderContainer.style.display = 'none';
-        Swal.fire('Conversion Error', 'Could not convert spreadsheet. Make sure it is a valid Excel file.', 'error');
-    }
-</script>
 {% endblock %}
