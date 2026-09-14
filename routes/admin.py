@@ -191,9 +191,9 @@ def dashboard():
         grp['is_enabled'] = feature_dict.get(grp['key'], True)
         grp_children = []
         for child in grp.get('children', []):
-            c = dict(child)
-            c['is_enabled'] = feature_dict.get(c['key'], True)
-            grp_children.append(c)
+            child_dict = dict(child)
+            child_dict['is_enabled'] = feature_dict.get(c['key'], True)
+            grp_children.append(child_dict)
         grp['children'] = grp_children
         features_grouped.append(grp)
     
