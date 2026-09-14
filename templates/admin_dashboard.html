@@ -136,7 +136,12 @@
                     <p style="color: #475569; font-size: 0.95rem; margin-bottom: 15px;">{{ blog.content | striptags | truncate(200) }}</p>
                     
                     <div class="blog-actions">
-                        <button class="btn btn-sm btn-outline-primary" style="font-weight: 600;" onclick="openEditModal({{ blog.id }}, '{{ blog.title | escape }}', '{{ blog.content | replace('\n', '\\n') | escape }}', '{{ blog.image_path or '' }}')">Edit</button>
+                        <button class="btn btn-sm btn-outline-primary" style="font-weight: 600;" 
+                            data-id="{{ blog.id }}" 
+                            data-title="{{ blog.title | escape }}" 
+                            data-content="{{ blog.content | escape }}" 
+                            data-image="{{ blog.image_path or '' }}" 
+                            onclick="openEditModal(this)">Edit</button>
                         <button class="btn btn-sm {{ 'btn-outline-success' if blog.is_hidden else 'btn-outline-warning' }}" style="font-weight: 600;" onclick="toggleVisibility({{ blog.id }})">
                             {{ 'Publish Post' if blog.is_hidden else 'Hide Post' }}
                         </button>
@@ -362,7 +367,12 @@
         if (res.ok) { window.location.reload(); } else { alert('Error: ' + await res.text()); }
     });
 
-    function openEditModal(id, title, content, imagePath) {
+    function openEditModal(btn) {
+        const id = btn.getAttribute('data-id');
+        const title = btn.getAttribute('data-title');
+        const content = btn.getAttribute('data-content');
+        const imagePath = btn.getAttribute('data-image');
+        
         document.getElementById('edit_id').value = id;
         document.getElementById('edit_title').value = title;
         $('#edit_content').summernote('code', content);
