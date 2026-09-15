@@ -1,7 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify, send_file
-import io
-from PIL import Image
-from werkzeug.utils import secure_filename
+from flask import Blueprint, render_template
 
 image_bp = Blueprint('image', __name__)
 
@@ -9,135 +6,9 @@ image_bp = Blueprint('image', __name__)
 def resizer():
     return render_template('resizer.html')
 
-@image_bp.route('/resizer/resize', methods=['POST'])
-def resize():
-    try:
-        if 'image' not in request.files:
-            return jsonify({'error': 'No image uploaded'}), 400
-
-        file = request.files['image']
-        if file.filename == '':
-            return jsonify({'error': 'No selected file'}), 400
-
-        width = request.form.get('width', type=int)
-        height = request.form.get('height', type=int)
-        keep_ratio = request.form.get('keep_ratio', 'false').lower() == 'true'
-
-        if not width or not height or width <= 0 or height <= 0:
-            return jsonify({'error': 'Width and height must be positive integers'}), 400
-
-        try:
-            img = Image.open(file.stream)
-        except Exception:
-            return jsonify({'error': 'Invalid image file.'}), 400
-            
-        orig_width, orig_height = img.size
-
-        if keep_ratio:
-            aspect_ratio = orig_width / orig_height
-            if width / height > aspect_ratio:
-                width = int(height * aspect_ratio)
-            else:
-                height = int(width / aspect_ratio)
-
-        resized_img = img.resize((width, height), Image.LANCZOS)
-
-        buf = io.BytesIO()
-        filename = secure_filename(file.filename)
-        name = filename.rsplit('.', 1)[0] if '.' in filename else 'image'
-        ext = filename.rsplit('.', 1)[1].lower() if '.' in filename else 'png'
-
-        if ext in ['jpg', 'jpeg']:
-            save_format = 'JPEG'
-            save_ext = 'jpg'
-        elif ext == 'png':
-            save_format = 'PNG'
-            save_ext = 'png'
-        elif ext == 'webp':
-            save_format = 'WEBP'
-            save_ext = 'webp'
-        else:
-            save_format = 'PNG'
-            save_ext = 'png'
-
-        # Ensure mode is correct for JPEG
-        if save_format == 'JPEG' and resized_img.mode in ("RGBA", "P"):
-            resized_img = resized_img.convert("RGB")
-
-        resized_img.save(buf, format=save_format, optimize=True)
-        buf.seek(0)
-
-        return send_file(
-            buf,
-            mimetype=f'image/{save_ext}',
-            as_attachment=True,
-            download_name=f"resized_{name}.{save_ext}"
-        )
-    except Exception as e:
-        return jsonify({'error': f'Failed to resize: {str(e)}'}), 500
-
 @image_bp.route('/converter')
 def image_converter_page():
     return render_template('image_converter.html')
-
-@image_bp.route('/converter/convert', methods=['POST'])
-def convert_image():
-    if 'image' not in request.files:
-        return jsonify({'error': 'No image uploaded'}), 400
-    
-    file = request.files['image']
-    if file.filename == '':
-        return jsonify({'error': 'No selected file'}), 400
-
-    target_format = request.form.get('format', 'JPEG').upper()
-    try:
-        quality = int(request.form.get('quality', 85))
-    except ValueError:
-        quality = 85
-
-    # Validate target format
-    if target_format not in ['JPEG', 'PNG', 'WEBP']:
-        return jsonify({'error': 'Unsupported target format'}), 400
-
-    try:
-        img = Image.open(file.stream)
-        
-        # Handle RGBA/P formats being saved as JPEG
-        if img.mode in ("RGBA", "P") and target_format == "JPEG":
-            # Create a white background to paste the transparent image on
-            background = Image.new("RGB", img.size, (255, 255, 255))
-            if img.mode == "RGBA":
-                background.paste(img, mask=img.split()[3]) # 3 is the alpha channel
-            else:
-                background.paste(img)
-            img = background
-        elif img.mode == "P":
-            img = img.convert("RGBA")
-
-        buf = io.BytesIO()
-        filename = secure_filename(file.filename)
-        name = filename.rsplit('.', 1)[0] if '.' in filename else 'image'
-        
-        save_ext = target_format.lower()
-        if target_format == 'JPEG':
-            save_ext = 'jpg'
-
-        # Optimize and set quality
-        save_kwargs = {'format': target_format, 'optimize': True}
-        if target_format in ['JPEG', 'WEBP']:
-            save_kwargs['quality'] = quality
-
-        img.save(buf, **save_kwargs)
-        buf.seek(0)
-
-        return send_file(
-            buf,
-            mimetype=f'image/{save_ext}',
-            as_attachment=True,
-            download_name=f"{name}_converted.{save_ext}"
-        )
-    except Exception as e:
-        return jsonify({'error': f"Failed to convert image: {str(e)}"}), 500
 
 IMAGE_TOOLS = {
     'passport_maker': {'id': 'passport_maker', 'type': 'image', 'name': 'Passport Photo Maker', 'desc': 'Create standard 2x2 passport photos with auto-alignment and background removal.', 'icon': 'fa-id-badge', 'endpoint': '/image-process/passport_maker', 'inputs': []},
@@ -161,44 +32,6 @@ def dynamic_image_tool(tool_id):
         return render_template('passport_maker.html', tool=tool)
     return render_template('dynamic_tool.html', tool=tool)
 
-@image_bp.route('/image-process/<tool_id>', methods=['POST'])
-def process_dynamic_image(tool_id):
-    from PIL import ImageFilter, ImageEnhance
-    if 'file' not in request.files: return jsonify({'error': 'No image uploaded'}), 400
-    file = request.files['file']
-    if file.filename == '': return jsonify({'error': 'No selected file'}), 400
-
-    try:
-        img = Image.open(file.stream)
-        
-        if tool_id == 'grayscale':
-            img = img.convert('L')
-        elif tool_id == 'blur':
-            radius = float(request.form.get('radius', 2))
-            img = img.filter(ImageFilter.GaussianBlur(radius))
-        elif tool_id == 'flip_h':
-            img = img.transpose(Image.FLIP_LEFT_RIGHT)
-        elif tool_id == 'flip_v':
-            img = img.transpose(Image.FLIP_TOP_BOTTOM)
-        elif tool_id == 'rotate_tool':
-            angle = float(request.form.get('angle', 90))
-            img = img.rotate(-angle, expand=True) # Negative so positive = clockwise
-        elif tool_id == 'brightness':
-            factor = float(request.form.get('factor', 1.0))
-            img = ImageEnhance.Brightness(img).enhance(factor)
-        elif tool_id == 'contrast':
-            factor = float(request.form.get('factor', 1.0))
-            img = ImageEnhance.Contrast(img).enhance(factor)
-            
-        buf = io.BytesIO()
-        img.save(buf, format='PNG')
-        buf.seek(0)
-        
-        return send_file(buf, mimetype='image/png', as_attachment=True, download_name=f"processed_{tool_id}.png")
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-
 @image_bp.route('/qr-generator')
 def qr_generator():
     return render_template('qr_generator.html')
@@ -206,5 +39,3 @@ def qr_generator():
 @image_bp.route('/image')
 def image_hub():
     return render_template('hub_image.html', image_tools=IMAGE_TOOLS)
-
-

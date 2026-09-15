@@ -1,66 +1,101 @@
-{% extends "base.html" %}
-
-{% block title %}Unlock PDF Free Online | Remove PDF Passwords Instantly{% endblock %}
-{% block meta_desc %}Remove password protection from your PDF files for free. Fast, secure, and completely private client-side PDF password remover.{% endblock %}
-{% block meta_keywords %}unlock pdf, remove pdf password, free pdf unlocker, decrypt pdf, pdf password remover, unlock protected pdf{% endblock %}
-
+{% extends 'base.html' %}
+{% block title %}Unlock PDF - Remove Password Free Online{% endblock %}
+{% block meta_description %}Remove passwords and decrypt PDF files securely in your browser. 100% free and private, files are never uploaded to any server.{% endblock %}
 
 {% block content %}
-<article class="tool-interface" style="max-width: 800px; margin: 0 auto;">
-    <div class="text-center mb-4">
-        <div class="icon-wrapper mx-auto mb-3" style="color: #28a745;"><i class="fas fa-unlock fa-2x"></i></div>
-        <h1 class="fw-bold text-dark fs-2">Unlock PDF</h1>
-        <p class="text-muted">Remove password protection and decryption from your PDF.</p>
+<article class="container my-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bolder display-5 text-primary"><i class="fas fa-unlock me-3"></i>Unlock PDF File</h1>
+        <p class="lead text-muted">Remove password protection from your PDF document.</p>
     </div>
 
-    <section class="card shadow-sm border-0 mb-5">
-        <div class="card-body p-4 p-md-5">
-            <form id="unlockForm" action="/pdf/api/unlock-pdf" method="POST" enctype="multipart/form-data">
+    <section class="row justify-content-center">
+        <div class="col-md-6 col-lg-5 bg-white p-4 p-md-5 rounded shadow-sm border">
+            <form id="unlockForm">
                 <div class="mb-4">
-                    <label class="fw-bold mb-2">Select Protected PDF File</label>
-                    <input type="file" id="pdfFile" name="pdf" class="form-control" accept="application/pdf" required>
+                    <label class="fw-bold mb-2">Select Locked PDF File</label>
+                    <input type="file" id="pdfFile" class="form-control" accept="application/pdf" required>
                 </div>
                 
                 <div class="mb-4">
-                    <label class="fw-bold mb-2">Enter Current Password</label>
-                    <input type="password" id="pdfPassword" name="password" class="form-control" placeholder="Required to unlock the file" required>
+                    <label class="fw-bold mb-2">Enter Password</label>
+                    <input type="password" id="pdfPassword" class="form-control" placeholder="Enter the current password" required>
+                    <small class="text-muted mt-2 d-block">You must know the password to unlock it.</small>
                 </div>
                 
-                <button type="submit" id="btnSubmit" class="btn btn-success btn-lg w-100 rounded-pill fw-bold shadow-sm">
+                <button type="submit" id="btnSubmit" class="btn btn-primary btn-lg w-100 rounded-pill fw-bold shadow-sm">
                     <i class="fas fa-unlock me-2"></i> Unlock & Download PDF
                 </button>
+                <div class="alert alert-success border-0 shadow-sm mt-4 mb-0">
+                    <i class="fas fa-shield-alt me-2"></i> <strong>100% Secure:</strong> Uses local decryption. Files never leave your device.
+                </div>
             </form>
         </div>
     </section>
 </article>
-{% endblock %}
-
-{% block scripts %}
-<script>
-    document.getElementById('unlockForm').addEventListener('submit', () => {
-        const btn = document.getElementById('btnSubmit');
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Unlocking...';
-        
-        // Reset after 3 seconds assuming download triggers
-        setTimeout(() => {
-            btn.innerHTML = '<i class="fas fa-unlock me-2"></i> Unlock & Download PDF';
-        }, 3000);
-    });
-</script>
 
 <!-- SEO Content for AdSense Compliance -->
 <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
-    <h2 class="fw-bold mb-3">Unlock PDF Files Free Online</h2>
-    <p>If you have received a secure PDF document but are tired of typing the password every time you want to read it, our <strong>Free PDF Unlocker</strong> is the perfect solution. As long as you know the document's password, you can permanently strip the encryption layer, saving it as a standard, accessible PDF file.</p>
-    
+    <h2 class="fw-bold mb-3">Remove PDF Passwords Free Online</h2>
+    <p>Received a password-protected PDF that you need to edit or share, but tired of entering the password every time? Our <strong>Free PDF Unlocker</strong> allows you to permanently strip the password from your document (provided you know the current password).</p>
     <h3 class="fw-bold mt-4">100% Private Client-Side Decryption</h3>
-    <p>Removing passwords from PDFs online often involves massive security risks, as it requires uploading sensitive documents to foreign servers. We solve this by bringing the decryption engine to your browser. Your password and your decrypted PDF remain strictly on your local device, ensuring complete privacy.</p>
-
-    <h3 class="fw-bold mt-4">How to Remove a PDF Password</h3>
-    <ol class="mb-4">
-        <li>Upload your locked PDF document to the tool above.</li>
-        <li>Enter the current password required to open the file.</li>
-        <li>Click "Unlock PDF" to permanently remove the encryption and download the unprotected file.</li>
-    </ol>
+    <p>Unlike other tools that force you to upload your sensitive encrypted documents to their cloud servers, Free Qube decrypts your PDF locally inside your browser. The decryption happens on your device using JavaScript, meaning your file and your password are never transmitted over the internet.</p>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+<script>
+    document.getElementById('unlockForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fileInput = document.getElementById('pdfFile');
+        const passwordInput = document.getElementById('pdfPassword');
+        const btn = document.getElementById('btnSubmit');
+        
+        if (!fileInput.files.length) {
+            Swal.fire("Error", "Please select a PDF file.", "error");
+            return;
+        }
+        
+        const file = fileInput.files[0];
+        const password = passwordInput.value;
+        
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Decrypting Locally...';
+        btn.disabled = true;
+        
+        try {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdfBytes = new Uint8Array(arrayBuffer);
+            
+            // pdf-lib can load encrypted documents if password is provided
+            const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes, { password: password });
+            
+            // Saving it will strip the encryption
+            const unlockedBytes = await pdfDoc.save();
+            
+            const blob = new Blob([unlockedBytes], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `unlocked_${file.name}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            btn.innerHTML = '<i class="fas fa-check-circle me-2"></i> Success!';
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-unlock me-2"></i> Unlock & Download PDF';
+                btn.disabled = false;
+            }, 3000);
+            
+        } catch (error) {
+            console.error(error);
+            Swal.fire("Unlock Failed", "Incorrect password or invalid PDF.", "error");
+            btn.innerHTML = '<i class="fas fa-unlock me-2"></i> Unlock & Download PDF';
+            btn.disabled = false;
+        }
+    });
+</script>
 {% endblock %}
