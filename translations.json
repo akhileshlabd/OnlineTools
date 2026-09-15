@@ -1,15 +1,15 @@
 {
   "hero_title": {
-    "en": "Every tool you need, completely free.",
-    "es": "Todas las herramientas que necesitas, totalmente gratis.",
-    "pt": "Todas as ferramentas que você precisa, totalmente grátis.",
-    "hi": "हर उपकरण जिसकी आपको आवश्यकता है, बिल्कुल मुफ्त।"
+    "en": "100% Free & Secure. Zero Server Uploads.",
+    "es": "100% Gratis y Seguro. Cero Subidas al Servidor.",
+    "pt": "100% Grátis e Seguro. Zero Uploads para o Servidor.",
+    "hi": "100% मुफ़्त और सुरक्षित। कोई सर्वर अपलोड नहीं।"
   },
   "hero_subtitle": {
-    "en": "No watermarks. No installation required. Most tools work entirely in your browser.",
-    "es": "Sin marcas de agua. Sin instalación. La mayoría funciona en tu navegador.",
-    "pt": "Sem marcas d'água. Sem instalação. Funciona no seu navegador.",
-    "hi": "कोई वॉटरमार्क नहीं। कोई इंस्टॉलेशन नहीं। अधिकांश टूल सीधे आपके ब्राउज़र में काम करते हैं।"
+    "en": "Your privacy is our priority. Unlike competitors, our powerful PDF and Image tools process files locally in your browser. No data ever leaves your device.",
+    "es": "Tu privacidad es nuestra prioridad. A diferencia de los competidores, nuestras herramientas de PDF e Imágenes procesan los archivos localmente en tu navegador. Ningún dato sale de tu dispositivo.",
+    "pt": "Sua privacidade é nossa prioridade. Ao contrário dos concorrentes, nossas ferramentas de PDF e Imagem processam arquivos localmente em seu navegador. Nenhum dado sai do seu dispositivo.",
+    "hi": "आपकी निजता हमारी प्राथमिकता है। अन्य टूल के विपरीत, हमारे पीडीएफ और इमेज टूल सीधे आपके ब्राउज़र में काम करते हैं। आपका डेटा कभी भी आपके डिवाइस से बाहर नहीं जाता है।"
   },
   "nav_pdf": {
     "en": "PDF",
