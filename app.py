@@ -81,7 +81,6 @@ app.register_blueprint(blogs_bp)
 # ---------------- Home ----------------
 @app.route('/')
 def home():
-    return render_template('index.html', image_tools=IMAGE_TOOLS, pdf_tools=PDF_TOOLS, finance_tools=FINANCE_TOOLS, code_tools=CODE_TOOLS, text_tools=TEXT_TOOLS, health_tools=HEALTH_TOOLS, math_tools=MATH_TOOLS, network_tools=NETWORK_TOOLS, games_tools=GAMES_TOOLS, kids_tools=KIDS_TOOLS, video_tools=VIDEO_TOOLS)
 
 # ---------------- Legal / Policies (AdSense Compliance) ----------------
 @app.route('/contact')
@@ -90,7 +89,17 @@ def contact_page():
 
 @app.route('/sitemap.xml')
 def sitemap():
+    import sqlite3
+    from routes.blogs import get_db_connection
     from flask import make_response
+    
+    # Fetch blogs for sitemap
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute("SELECT slug, created_at FROM blogs WHERE is_hidden = 0")
+    blogs = c.fetchall()
+    conn.close()
+
     template = render_template('sitemap.xml',
                                pdf_tools=PDF_TOOLS,
                                image_tools=IMAGE_TOOLS,
@@ -101,11 +110,10 @@ def sitemap():
                                math_tools=MATH_TOOLS,
                                network_tools=NETWORK_TOOLS,
                                games_tools=GAMES_TOOLS,
-                               video_tools=VIDEO_TOOLS)
-
-
+                               video_tools=VIDEO_TOOLS,
+                               blogs=blogs)
     response = make_response(template)
-    response.headers["Content-Type"] = "application/xml"
+    response.headers['Content-Type'] = 'application/xml'
     return response
 
 @app.route('/about')
