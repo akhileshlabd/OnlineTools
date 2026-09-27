@@ -1,4 +1,5 @@
 const CACHE_NAME = 'freeqube-cache-v1';
+const CACHE_NAME = 'freeqube-cache-v2';
 const urlsToCache = [
   '/',
   '/static/style.css',

@@ -57,6 +57,7 @@ def inject_translations():
             return TRANSLATIONS[key]['en']
         return key
     return dict(t=t, current_lang=g.lang, supported_langs=SUPPORTED_LANGUAGES)
+    return dict(t=t, current_lang=g.lang, supported_langs=SUPPORTED_LANGUAGES, year=2026)
 # ---------------------------------
 
 # Register Blueprints
