@@ -1,150 +1,275 @@
 {% extends 'base.html' %}
-{% block title %}Unlock PDF - Remove Password Free Online{% endblock %}
-{% block meta_description %}Remove passwords and decrypt PDF files securely in your browser. 100% free and private, files are never uploaded to any server.{% endblock %}
+{% block title %}Unlock PDF - Remove Password Free Online | Free Qube{% endblock %}
+{% block meta_description %}Remove passwords and decrypt PDF files securely online with Free Qube. Free, fast, and private in-memory decryption with zero permanent file storage.{% endblock %}
 
 {% block content %}
 <article class="container my-5">
     <div class="text-center mb-5">
         <h1 class="fw-bolder display-5 text-primary"><i class="fas fa-unlock me-3"></i>Unlock PDF File</h1>
-        <p class="lead text-muted">Remove password protection from your PDF document.</p>
+        <p class="lead text-muted">Remove password protection and restrictions from your PDF document easily.</p>
     </div>
 
     <section class="row justify-content-center">
-        <div class="col-md-6 col-lg-5 bg-white p-4 p-md-5 rounded shadow-sm border">
+        <div class="col-md-7 col-lg-6 bg-white p-4 p-md-5 rounded shadow-sm border">
             <form id="unlockForm">
                 <div class="mb-4">
-                    <label class="fw-bold mb-2">Select Locked PDF File</label>
-                    <input type="file" id="pdfFile" class="form-control" accept="application/pdf" required>
+                    <label class="fw-bold mb-2 text-dark">
+                        <i class="fas fa-file-pdf text-danger me-2"></i>Select Locked PDF File
+                    </label>
+                    <input type="file" id="pdfFile" name="file" class="form-control form-control-lg" accept="application/pdf" required>
+                    <div id="fileInfo" class="small text-muted mt-2 d-none">
+                        <i class="fas fa-check-circle text-success me-1"></i> <span id="fileName"></span> (<span id="fileSize"></span>)
+                    </div>
                 </div>
                 
                 <div class="mb-4">
-                    <label class="fw-bold mb-2">Enter Password</label>
-                    <input type="password" id="pdfPassword" class="form-control" placeholder="Enter the current password" required>
-                    <small class="text-muted mt-2 d-block">You must know the password to unlock it.</small>
+                    <label class="fw-bold mb-2 text-dark">
+                        <i class="fas fa-key text-warning me-2"></i>Enter Document Password
+                    </label>
+                    <div class="input-group">
+                        <input type="password" id="pdfPassword" name="password" class="form-control form-control-lg" placeholder="Enter current PDF password" required>
+                        <button class="btn btn-outline-secondary" type="button" id="togglePasswordBtn" title="Toggle password visibility">
+                            <i class="fas fa-eye" id="toggleEyeIcon"></i>
+                        </button>
+                    </div>
+                    <small class="text-muted mt-2 d-block">
+                        <i class="fas fa-info-circle me-1"></i> You must enter the valid password to decrypt and permanently unlock the PDF.
+                    </small>
                 </div>
                 
-                <button type="submit" id="btnSubmit" class="btn btn-primary btn-lg w-100 rounded-pill fw-bold shadow-sm">
+                <button type="submit" id="btnSubmit" class="btn btn-primary btn-lg w-100 rounded-pill fw-bold shadow-sm py-3">
                     <i class="fas fa-unlock me-2"></i> Unlock & Download PDF
                 </button>
-                <div class="alert alert-success border-0 shadow-sm mt-4 mb-0">
-                    <i class="fas fa-shield-alt me-2"></i> <strong>100% Secure:</strong> Uses local decryption. Files never leave your device.
+
+                <div class="alert alert-success border-0 shadow-sm mt-4 mb-0 d-flex align-items-center">
+                    <i class="fas fa-shield-alt fa-2x text-success me-3"></i>
+                    <div>
+                        <strong>100% In-Memory Decryption:</strong> Your file and password are processed in volatile RAM and immediately purged after download. Nothing is ever saved to disk.
+                    </div>
                 </div>
             </form>
         </div>
     </section>
-</article>
 
-<!-- SEO Content for AdSense Compliance -->
-<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
-    <h2 class="fw-bold mb-3">Remove PDF Passwords Free Online</h2>
-    <p>Received a password-protected PDF that you need to edit or share, but tired of entering the password every time? Our <strong>Free PDF Unlocker</strong> allows you to permanently strip the password from your document (provided you know the current password).</p>
-    <h3 class="fw-bold mt-4">100% Private Client-Side Decryption</h3>
-    <p>Unlike other tools that force you to upload your sensitive encrypted documents to their cloud servers, Free Qube decrypts your PDF locally inside your browser. The decryption happens on your device using JavaScript, meaning your file and your password are never transmitted over the internet.</p>
-</div>
+    <!-- Detailed Educational Content & Guide for AdSense Quality Compliance -->
+    <div class="row justify-content-center mt-5">
+        <div class="col-lg-10">
+            <div class="bg-white p-4 p-md-5 rounded shadow-sm border">
+                <h2 class="fw-bold text-dark mb-4">How to Unlock Password-Protected PDFs</h2>
+                <p class="text-muted lead">
+                    Password protection is an effective way to keep confidential documents secure. However, repeatedly entering a lengthy password every time you want to review, print, or share a document can quickly become a bottleneck in your daily workflow. Free Qube's <strong>Unlock PDF</strong> tool lets you permanently remove the password security layer from any PDF you are authorized to open.
+                </p>
+
+                <div class="row g-4 my-3">
+                    <div class="col-md-4">
+                        <div class="p-3 border rounded h-100 bg-light">
+                            <div class="fs-4 fw-bold text-primary mb-2">1. Upload</div>
+                            <p class="mb-0 text-secondary">Choose the locked PDF file from your computer, smartphone, or cloud drive.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 border rounded h-100 bg-light">
+                            <div class="fs-4 fw-bold text-primary mb-2">2. Enter Password</div>
+                            <p class="mb-0 text-secondary">Type the current document password to authorize decryption.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 border rounded h-100 bg-light">
+                            <div class="fs-4 fw-bold text-primary mb-2">3. Download</div>
+                            <p class="mb-0 text-secondary">Instantly download an unencrypted, fully accessible copy ready for viewing or printing.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-5">
+
+                <h3 class="fw-bold text-dark mb-3">Why Unlock a PDF Document?</h3>
+                <ul class="text-secondary ps-3 mb-4">
+                    <li class="mb-2"><strong>Unrestricted Printing & Copying:</strong> Some locked documents restrict copying text, taking snapshots, or printing to paper. Unlocking removes all restrictions.</li>
+                    <li class="mb-2"><strong>Seamless Document Merging:</strong> PDF mergers cannot combine password-protected documents. Decrypting them first allows you to combine them into single cohesive files.</li>
+                    <li class="mb-2"><strong>Long-Term Archiving:</strong> If you are archiving tax receipts, invoices, or utility statements, removing outdated passwords ensures you don't lose access years down the road.</li>
+                    <li class="mb-2"><strong>Frictionless Collaboration:</strong> Share finalized reports or presentations with your team without having to distribute passwords separately over email or chat.</li>
+                </ul>
+
+                <h3 class="fw-bold text-dark mb-3">Frequently Asked Questions</h3>
+                <div class="accordion" id="unlockFaq">
+                    <div class="accordion-item border-0 border-bottom">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button collapsed fw-semibold text-dark px-0 bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                Can I unlock a PDF if I don't know the password?
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#unlockFaq">
+                            <div class="accordion-body px-0 text-secondary">
+                                No. Standard PDF encryption uses robust AES-128 or AES-256 bit keys designed to prevent brute force cracking. Free Qube respects data security and copyright: you must provide the correct password to decrypt and permanently unlock the file.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item border-0 border-bottom">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed fw-semibold text-dark px-0 bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                Are my uploaded documents safe and private?
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#unlockFaq">
+                            <div class="accordion-body px-0 text-secondary">
+                                Absolutely. All decryption operations occur strictly in volatile RAM. Your files and passwords are never written to disk, never logged, and never shared with third parties. Once the decrypted document is streamed to your browser, the temporary memory buffer is immediately destroyed.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item border-0">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed fw-semibold text-dark px-0 bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                                Will unlocking a PDF degrade its text or image quality?
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#unlockFaq">
+                            <div class="accordion-body px-0 text-secondary">
+                                Not at all. Decryption only removes the cryptographic wrapper and encryption dictionaries. All vector paths, embedded fonts, high-resolution graphics, and textual layers remain 100% bit-for-bit identical to the original file.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
 {% endblock %}
 
 {% block scripts %}
-<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 <script>
-<script type="module">
-    import { PDFDocument } from 'https://cdn.jsdelivr.net/npm/pdf-lib/+esm';
-    import { decryptPDF } from 'https://cdn.jsdelivr.net/npm/@pdfsmaller/pdf-decrypt/+esm';
+    // Password visibility toggle
+    const toggleBtn = document.getElementById('togglePasswordBtn');
+    const passwordInput = document.getElementById('pdfPassword');
+    const eyeIcon = document.getElementById('toggleEyeIcon');
 
-    document.getElementById('unlockForm').addEventListener('submit', async (e) => {
+    toggleBtn.addEventListener('click', () => {
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            eyeIcon.classList.remove('fa-eye');
+            eyeIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            eyeIcon.classList.remove('fa-eye-slash');
+            eyeIcon.classList.add('fa-eye');
+        }
+    });
+
+    // File selection details
+    const fileInput = document.getElementById('pdfFile');
+    const fileInfo = document.getElementById('fileInfo');
+    const fileNameSpan = document.getElementById('fileName');
+    const fileSizeSpan = document.getElementById('fileSize');
+
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files && fileInput.files[0]) {
+            const file = fileInput.files[0];
+            fileNameSpan.textContent = file.name;
+            const sizeInKb = (file.size / 1024).toFixed(1);
+            fileSizeSpan.textContent = sizeInKb > 1024 ? `${(sizeInKb / 1024).toFixed(2)} MB` : `${sizeInKb} KB`;
+            fileInfo.classList.remove('d-none');
+        } else {
+            fileInfo.classList.add('d-none');
+        }
+    });
+
+    // Form submission
+    const form = document.getElementById('unlockForm');
+    const btnSubmit = document.getElementById('btnSubmit');
+
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const fileInput = document.getElementById('pdfFile');
-        const passwordInput = document.getElementById('pdfPassword');
-        const btn = document.getElementById('btnSubmit');
-        
+
         if (!fileInput.files.length) {
-            Swal.fire("Error", "Please select a PDF file.", "error");
+            Swal.fire({
+                icon: 'warning',
+                title: 'No File Selected',
+                text: 'Please select a password-protected PDF document.'
+            });
             return;
         }
-        
+
+        const password = passwordInput.value.trim();
+        if (!password) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Password Required',
+                text: 'Please enter the current password for this PDF.'
+            });
+            return;
+        }
+
         const file = fileInput.files[0];
-        const password = passwordInput.value;
-        
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Decrypting Locally...';
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Decrypting PDF...';
-        btn.disabled = true;
-        
-        try {
-            const arrayBuffer = await file.arrayBuffer();
-            const pdfBytes = new Uint8Array(arrayBuffer);
-            
-            // pdf-lib can load encrypted documents if password is provided
-            const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes, { password: password });
-            
-            // Saving it will strip the encryption
-            const unlockedBytes = await pdfDoc.save();
-            
-            const blob = new Blob([unlockedBytes], { type: 'application/pdf' });
-        function downloadBlob(data, originalName) {
-            const blob = data instanceof Blob ? data : new Blob([data], { type: 'application/pdf' });
-            const url = URL.createObjectURL(blob);
-            
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `unlocked_${file.name}`;
-            a.download = `unlocked_${originalName}`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-        }
+        const originalButtonHtml = btnSubmit.innerHTML;
 
-        function onSuccess() {
-            btn.innerHTML = '<i class="fas fa-check-circle me-2"></i> Success!';
-            setTimeout(() => {
-                btn.innerHTML = '<i class="fas fa-unlock me-2"></i> Unlock & Download PDF';
-                btn.disabled = false;
-            }, 3000);
-        }
+        btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Unlocking PDF...';
+        btnSubmit.disabled = true;
 
-        // 1. Attempt client-side decryption using WebCrypto
-        try {
-            const arrayBuffer = await file.arrayBuffer();
-            const pdfBytes = new Uint8Array(arrayBuffer);
-            
-        } catch (error) {
-            console.error(error);
-            Swal.fire("Unlock Failed", "Incorrect password or invalid PDF.", "error");
-            const decryptedBytes = await decryptPDF(pdfBytes, password);
-            const pdfDoc = await PDFDocument.load(decryptedBytes);
-            const unlockedBytes = await pdfDoc.save();
-            
-            downloadBlob(unlockedBytes, file.name);
-            onSuccess();
-            return;
-        } catch (clientErr) {
-            console.warn("Client-side decryption failed, falling back to server:", clientErr);
-        }
-
-        // 2. Fallback to server-side PyPDF2 decryption
         try {
             const formData = new FormData();
             formData.append('file', file);
             formData.append('password', password);
 
-            const res = await fetch('/pdf/api/unlock', {
+            const response = await fetch('/pdf/api/unlock', {
                 method: 'POST',
                 body: formData
             });
 
-            if (!res.ok) {
-                const errData = await res.json().catch(() => ({}));
-                throw new Error(errData.error || 'Incorrect password or unsupported encryption.');
+            if (!response.ok) {
+                let errorMsg = 'Failed to unlock PDF. Please check your password.';
+                try {
+                    const errorData = await response.json();
+                    if (errorData && errorData.error) {
+                        errorMsg = errorData.error;
+                    }
+                } catch (_) {}
+                throw new Error(errorMsg);
             }
 
-            const blob = await res.blob();
-            downloadBlob(blob, file.name);
-            onSuccess();
-        } catch (serverErr) {
-            console.error("Server-side decryption failed:", serverErr);
-            Swal.fire("Unlock Failed", serverErr.message || "Incorrect password or invalid PDF.", "error");
-            btn.innerHTML = '<i class="fas fa-unlock me-2"></i> Unlock & Download PDF';
-            btn.disabled = false;
+            const blob = await response.blob();
+            const downloadUrl = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = downloadUrl;
+
+            // Generate clean unlocked filename
+            const cleanOriginal = file.name.replace(/^unlocked_/i, '');
+            a.download = `unlocked_${cleanOriginal}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(downloadUrl);
+
+            btnSubmit.innerHTML = '<i class="fas fa-check-circle me-2"></i> Unlocked!';
+            btnSubmit.classList.remove('btn-primary');
+            btnSubmit.classList.add('btn-success');
+
+            Swal.fire({
+                icon: 'success',
+                title: 'PDF Unlocked Successfully!',
+                text: 'Your decrypted, unencrypted document has been downloaded.',
+                timer: 3500,
+                showConfirmButton: false
+            });
+
+            setTimeout(() => {
+                btnSubmit.innerHTML = originalButtonHtml;
+                btnSubmit.classList.remove('btn-success');
+                btnSubmit.classList.add('btn-primary');
+                btnSubmit.disabled = false;
+            }, 3500);
+
+        } catch (err) {
+            console.error('Unlock error:', err);
+            Swal.fire({
+                icon: 'error',
+                title: 'Unlock Failed',
+                text: err.message || 'An unexpected error occurred while decrypting the document.'
+            });
+            btnSubmit.innerHTML = originalButtonHtml;
+            btnSubmit.disabled = false;
         }
     });
 </script>

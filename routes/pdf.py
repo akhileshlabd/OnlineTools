@@ -1,7 +1,10 @@
-from flask import Blueprint, render_template
-import io
 from flask import Blueprint, render_template, request, send_file, jsonify
-from PyPDF2 import PdfReader, PdfWriter
+import io
+
+try:
+    from pypdf import PdfReader, PdfWriter
+except ImportError:
+    from PyPDF2 import PdfReader, PdfWriter
 
 pdf_bp = Blueprint('pdf', __name__, url_prefix='/pdf')
 
@@ -37,29 +40,49 @@ def unlock_pdf():
 def api_unlock():
     file = request.files.get('file')
     password = request.form.get('password', '')
-    if not file or not password:
-        return jsonify({'error': 'File and password are required'}), 400
+    if not file or not file.filename:
+        return jsonify({'error': 'Please select a PDF file to unlock.'}), 400
+    if not password:
+        return jsonify({'error': 'Please enter the password for this PDF.'}), 400
     
     try:
         reader = PdfReader(file.stream)
         if not reader.is_encrypted:
             file.stream.seek(0)
-            return send_file(file.stream, mimetype='application/pdf', as_attachment=True, download_name=f"unlocked_{file.filename}")
+            clean_name = file.filename.replace('unlocked_', '')
+            return send_file(
+                file.stream,
+                mimetype='application/pdf',
+                as_attachment=True,
+                download_name=f"unlocked_{clean_name}"
+            )
         
         decrypt_res = reader.decrypt(password)
         if decrypt_res == 0:
-            return jsonify({'error': 'Incorrect password'}), 400
+            return jsonify({'error': 'Incorrect password. Please verify the password and try again.'}), 400
         
-        writer = PdfWriter()
-        for page in reader.pages:
-            writer.add_page(page)
+        try:
+            writer = PdfWriter(clone_from=reader)
+        except Exception:
+            writer = PdfWriter()
+            for page in reader.pages:
+                writer.add_page(page)
             
         output = io.BytesIO()
         writer.write(output)
         output.seek(0)
-        return send_file(output, mimetype='application/pdf', as_attachment=True, download_name=f"unlocked_{file.filename}")
+        clean_name = file.filename.replace('unlocked_', '')
+        return send_file(
+            output,
+            mimetype='application/pdf',
+            as_attachment=True,
+            download_name=f"unlocked_{clean_name}"
+        )
     except Exception as e:
-        return jsonify({'error': 'Could not decrypt PDF: ' + str(e)}), 400
+        err_msg = str(e)
+        if 'password' in err_msg.lower():
+            return jsonify({'error': 'Incorrect password. Please verify the password and try again.'}), 400
+        return jsonify({'error': f'Could not decrypt PDF: {err_msg}'}), 400
 
 
 PDF_TOOLS = {
