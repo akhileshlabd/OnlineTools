@@ -46,6 +46,10 @@
 {% block scripts %}
 <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 <script>
+<script type="module">
+    import { PDFDocument } from 'https://cdn.jsdelivr.net/npm/pdf-lib/+esm';
+    import { decryptPDF } from 'https://cdn.jsdelivr.net/npm/@pdfsmaller/pdf-decrypt/+esm';
+
     document.getElementById('unlockForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const fileInput = document.getElementById('pdfFile');
@@ -61,6 +65,7 @@
         const password = passwordInput.value;
         
         btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Decrypting Locally...';
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Decrypting PDF...';
         btn.disabled = true;
         
         try {
@@ -74,25 +79,70 @@
             const unlockedBytes = await pdfDoc.save();
             
             const blob = new Blob([unlockedBytes], { type: 'application/pdf' });
+        function downloadBlob(data, originalName) {
+            const blob = data instanceof Blob ? data : new Blob([data], { type: 'application/pdf' });
             const url = URL.createObjectURL(blob);
             
             const a = document.createElement('a');
             a.href = url;
             a.download = `unlocked_${file.name}`;
+            a.download = `unlocked_${originalName}`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
             
+        }
+
+        function onSuccess() {
             btn.innerHTML = '<i class="fas fa-check-circle me-2"></i> Success!';
             setTimeout(() => {
                 btn.innerHTML = '<i class="fas fa-unlock me-2"></i> Unlock & Download PDF';
                 btn.disabled = false;
             }, 3000);
+        }
+
+        // 1. Attempt client-side decryption using WebCrypto
+        try {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdfBytes = new Uint8Array(arrayBuffer);
             
         } catch (error) {
             console.error(error);
             Swal.fire("Unlock Failed", "Incorrect password or invalid PDF.", "error");
+            const decryptedBytes = await decryptPDF(pdfBytes, password);
+            const pdfDoc = await PDFDocument.load(decryptedBytes);
+            const unlockedBytes = await pdfDoc.save();
+            
+            downloadBlob(unlockedBytes, file.name);
+            onSuccess();
+            return;
+        } catch (clientErr) {
+            console.warn("Client-side decryption failed, falling back to server:", clientErr);
+        }
+
+        // 2. Fallback to server-side PyPDF2 decryption
+        try {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('password', password);
+
+            const res = await fetch('/pdf/api/unlock', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!res.ok) {
+                const errData = await res.json().catch(() => ({}));
+                throw new Error(errData.error || 'Incorrect password or unsupported encryption.');
+            }
+
+            const blob = await res.blob();
+            downloadBlob(blob, file.name);
+            onSuccess();
+        } catch (serverErr) {
+            console.error("Server-side decryption failed:", serverErr);
+            Swal.fire("Unlock Failed", serverErr.message || "Incorrect password or invalid PDF.", "error");
             btn.innerHTML = '<i class="fas fa-unlock me-2"></i> Unlock & Download PDF';
             btn.disabled = false;
         }
