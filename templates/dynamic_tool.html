@@ -104,24 +104,77 @@
     </div>
 </div>
 
-<!-- SEO Content for AdSense Compliance -->
+<!-- Tool-Specific Guide & Technical Documentation -->
 <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4 text-start" style="max-width: 800px; margin: 0 auto;">
-    <h2 class="fw-bold mb-3">Best Free {{ tool.name }} Online</h2>
-    <p>{{ tool.desc }} Our <strong>{{ tool.name }}</strong> is designed to be the fastest, most reliable, and 100% secure way to process your files directly in your browser — with no uploads to any server.</p>
+    {% if tool.id == 'grayscale' %}
+    <h2 class="fw-bold mb-3">Convert Images to Black & White: Technical & Creative Guide</h2>
+    <p>Converting color photographs to grayscale strips the chrominance (color hue and saturation) while retaining luminance (brightness intensity). Our <strong>Free Grayscale Tool</strong> converts standard RGB pixels into a balanced tonal spectrum directly in your browser.</p>
 
-    <h3 class="fw-bold mt-4">Why Use Free Qube for {{ tool.name }}?</h3>
+    <h3 class="h5 fw-bold mt-4">Luminance Formula & Printing Benefits</h3>
     <ul class="mb-4">
-        <li><strong>Absolute Privacy:</strong> We use advanced client-side processing. Your files are <strong>never uploaded</strong> to any server, guaranteeing 100% data privacy.</li>
-        <li><strong>100% Free & Unlimited:</strong> Process as many files as you want. No daily limits, no hidden fees, no watermarks on your final output.</li>
-        <li><strong>Blazing Fast:</strong> Because processing happens on your local device CPU, it finishes almost instantly without relying on your internet speed.</li>
+        <li><strong>Perceptual Luminance:</strong> Rather than a crude mathematical average, our tool applies the ITU-R BT.601 standard formula (<code>L = 0.299R + 0.587G + 0.114B</code>), which accounts for the human eye's natural sensitivity to green wavelengths.</li>
+        <li><strong>Cost-Effective Printing:</strong> Printing black-and-white documents saves expensive color printer toner and ink cartridges. Ideal for legal filings, invoices, and academic papers.</li>
+        <li><strong>Timeless Photography:</strong> Removing color distractions emphasizes texture, composition, shadow depth, and facial emotion.</li>
     </ul>
 
-    <h3 class="fw-bold mt-4">How to Use This Tool</h3>
-    <ol>
-        <li>Click "Choose File" or drag and drop your file into the secure drop zone above.</li>
-        <li>Adjust any settings or options presented by the tool interface.</li>
-        <li>The result downloads automatically to your device the moment processing is complete. No waiting, no email required.</li>
-    </ol>
+    {% elif tool.id == 'blur' %}
+    <h2 class="fw-bold mb-3">Gaussian Blur & Privacy Masking Guide</h2>
+    <p>Whether you need to conceal sensitive personally identifiable information (PII) or create dreamy background effects for website banners, our <strong>Free Image Blur Tool</strong> applies a smooth Gaussian filter across your photo.</p>
+
+    <h3 class="h5 fw-bold mt-4">Common Applications</h3>
+    <ul class="mb-4">
+        <li><strong>Redacting Sensitive Data:</strong> Conceal home addresses, vehicle license plates, credit card numbers, and faces in screenshots before sharing them online.</li>
+        <li><strong>UI/UX Depth of Field:</strong> Blurring background wallpaper images improves text contrast and legibility for website hero banners.</li>
+        <li><strong>Adjustable Radius:</strong> Use the radius slider above to calibrate blur intensity from subtle softening to complete anonymization.</li>
+    </ul>
+
+    {% elif tool.id == 'brightness' %}
+    <h2 class="fw-bold mb-3">Adjust Image Brightness: Exposure Correction</h2>
+    <p>Lighting conditions are rarely ideal when snapping photos on mobile phones. Our <strong>Brightness Adjuster</strong> scales the tonal luminance of your image, rescuing dark underexposed shadows or softening overexposed highlights.</p>
+
+    <h3 class="h5 fw-bold mt-4">How Brightness Scaling Works</h3>
+    <p>Adjusting the brightness factor shifts every pixel's RGB channel values uniformly toward white (255) or black (0). Perfect for enhancing indoor selfies, real estate photos, and scanned receipt documents.</p>
+
+    {% elif tool.id == 'contrast' %}
+    <h2 class="fw-bold mb-3">Enhance Image Contrast: Dynamic Range Optimization</h2>
+    <p>Contrast is the separation between the darkest shadows and the brightest highlights in an image. When an image appears washed-out or flat, increasing the contrast expands this dynamic range to deliver crisp, punchy visuals.</p>
+
+    <h3 class="h5 fw-bold mt-4">Ideal For Scanned Documents</h3>
+    <p>Old scanned paper documents often suffer from gray backgrounds and faded text. Boosting contrast clarifies handwriting, sharpens printed text against the paper grain, and prepares scans for OCR text recognition.</p>
+
+    {% elif tool.id == 'flip_h' or tool.id == 'flip_v' %}
+    <h2 class="fw-bold mb-3">Mirror & Invert Images: Matrix Reflection Guide</h2>
+    <p>Smartphone front-facing selfie cameras frequently mirror photos automatically, causing shirts with logos or book titles to appear backwards. Our <strong>Image Flipping Tool</strong> restores proper spatial orientation with lossless matrix transforms.</p>
+
+    <h3 class="h5 fw-bold mt-4">Differences Between Flipping and Rotating</h3>
+    <ul class="mb-4">
+        <li><strong>Horizontal Flip:</strong> Inverts pixels across the vertical Y-axis, creating a classic mirror reflection. Perfect for correcting inverted selfies and artwork transfers.</li>
+        <li><strong>Vertical Flip:</strong> Inverts pixels across the horizontal X-axis, creating upside-down water reflection effects.</li>
+    </ul>
+
+    {% elif tool.id == 'rotate_tool' %}
+    <h2 class="fw-bold mb-3">Lossless Image Rotation Guide</h2>
+    <p>Digital cameras and smartphones store orientation data in metadata EXIF headers. When uploaded to web platforms that ignore EXIF data, photos often display sideways or upside-down. Our <strong>Image Rotator</strong> permanently recalculates the pixel bitmap to ensure your photos look upright on every screen.</p>
+
+    {% elif tool.id == 'rotate_pdf' %}
+    <h2 class="fw-bold mb-3">Rotate PDF Pages Permanently Online</h2>
+    <p>Scanned documents often come out upside down or in landscape orientation when they should be portrait. Our <strong>PDF Rotator</strong> modifies the native <code>/Rotate</code> dictionary tag within the PDF file structure, preserving all original vector text, bookmarks, and font embeddings without rasterizing the document.</p>
+
+    {% elif tool.id == 'remove_page' %}
+    <h2 class="fw-bold mb-3">Delete & Remove Unwanted Pages from PDF</h2>
+    <p>Need to remove blank pages, sensitive appendices, or cover sheets before submitting a PDF? Enter the page number you wish to excise, and our client-side PDF engine rebuilds the page tree cleanly while preserving document layout.</p>
+
+    {% elif tool.id == 'add_blank' %}
+    <h2 class="fw-bold mb-3">Insert Blank Pages for Booklet & Duplex Printing</h2>
+    <p>When preparing documents for double-sided booklet printing, blank padding pages are frequently needed to ensure chapters begin on right-hand (recto) pages. Our <strong>Add Blank Page Tool</strong> appends an empty standard page to your document in milliseconds.</p>
+
+    {% elif tool.id == 'watermark' %}
+    <h2 class="fw-bold mb-3">Protect Documents with PDF Watermarks</h2>
+    <p>Stamp confidential proposals, legal drafts, and copyrighted eBooks with custom text watermarks (e.g., <em>"CONFIDENTIAL"</em> or <em>"DRAFT"</em>). The watermark is embedded directly into the PDF content stream, ensuring it remains visible across all standard PDF viewers and printed copies.</p>
+    {% endif %}
+
+    <h3 class="h5 fw-bold mt-4">Zero Uploads & 100% Privacy Guarantee</h3>
+    <p>All processing occurs entirely in your browser's local sandbox memory using client-side JavaScript and WebAssembly. Your files are <strong>never uploaded to our servers</strong>, ensuring complete confidentiality for your personal documents and images.</p>
 </div>
 {% endblock %}
 

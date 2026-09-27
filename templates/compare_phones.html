@@ -240,15 +240,31 @@ body { background-color: var(--bg); font-family: 'Inter', system-ui, -apple-syst
 
     </div>
     
-    {% if p1 and p2 %}
-    <div style="background: var(--card); border-radius: 16px; border: 1px solid var(--border); padding: 40px; text-align: center; margin-bottom: 60px;">
-        <h5 style="font-weight: 800; margin-bottom: 24px; color: var(--text);">Popular Comparisons</h5>
+    <div style="background: var(--card); border-radius: 16px; border: 1px solid var(--border); padding: 40px; text-align: center; margin-top: 40px; margin-bottom: 40px;">
+        <h5 style="font-weight: 800; margin-bottom: 24px; color: var(--text);">Popular Head-to-Head Comparisons</h5>
         <div class="d-flex justify-content-center flex-wrap gap-3">
             <a href="/mobiles/compare/apple-iphone-15-pro-max-vs-samsung-galaxy-s24-ultra" class="btn-export text-decoration-none" style="font-weight:600; font-size:0.875rem;">iPhone 15 Pro Max <span style="color:var(--text-muted); font-weight:400; margin:0 4px;">vs</span> Galaxy S24 Ultra</a>
             <a href="/mobiles/compare/google-pixel-8-pro-vs-samsung-galaxy-s24-ultra" class="btn-export text-decoration-none" style="font-weight:600; font-size:0.875rem;">Pixel 8 Pro <span style="color:var(--text-muted); font-weight:400; margin:0 4px;">vs</span> Galaxy S24 Ultra</a>
+            <a href="/mobiles/compare/apple-iphone-15-vs-nothing-phone-2-" class="btn-export text-decoration-none" style="font-weight:600; font-size:0.875rem;">iPhone 15 <span style="color:var(--text-muted); font-weight:400; margin:0 4px;">vs</span> Nothing Phone 2</a>
         </div>
     </div>
-    {% endif %}
+
+    <!-- Educational Guide for Smartphone Comparison -->
+    <div style="background: var(--card); border-radius: 16px; border: 1px solid var(--border); padding: 40px; text-align: left; margin-bottom: 60px;">
+        <h3 class="fw-bold mb-3" style="font-size: 1.5rem; color: var(--text);">How to Use Free Qube Mobile Comparison</h3>
+        <p class="text-muted">Choosing between modern smartphones requires looking beyond marketing taglines. Our automated comparison tool highlights hardware differences using real benchmark figures, actual launch prices, and key feature availability.</p>
+
+        <h4 class="fw-bold mt-4 mb-2" style="font-size: 1.15rem; color: var(--text);">Step-by-Step Instructions</h4>
+        <ol class="text-muted mb-4">
+            <li>Type the brand or model name of your first device in the left search box above (e.g., <em>iPhone 15 Pro Max</em>).</li>
+            <li>Type your second contender in the right search box (e.g., <em>Samsung Galaxy S24 Ultra</em>).</li>
+            <li>The comparison table automatically recalculates and highlights the winning specifications with a green checkmark icon.</li>
+            <li>Click <strong>Export as PDF</strong> to save a clean, high-resolution copy of the spec sheet for offline review or sharing with friends.</li>
+        </ol>
+
+        <h4 class="fw-bold mt-4 mb-2" style="font-size: 1.15rem; color: var(--text);">What the Green Checkmarks Mean</h4>
+        <p class="text-muted mb-0">Our comparison algorithm automatically computes superior metrics: higher battery capacities (mAh), faster charging wattages (W), larger RAM and storage configurations, brighter refresh rates (Hz), lighter weights (grams), and lower initial retail prices.</p>
+    </div>
 
 </div>
 {% endblock %}

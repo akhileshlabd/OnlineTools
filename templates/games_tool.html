@@ -109,12 +109,61 @@
     </div>
     {% endif %}
 
-    <!-- Instructions & SEO -->
-    <div class="card shadow-sm border-0 mt-4">
-        <div class="card-body p-4 p-md-5">
-            <h3 class="fw-bold h5">About {{ t(tool.name) }}</h3>
-            <p class="text-muted">{{ t(tool.seo_desc) }} This game is built using HTML5 Canvas, ensuring it runs blazing fast on your browser without any plugins.</p>
-        </div>
+    <!-- Comprehensive Game Guide & Instructions -->
+    <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4 text-start">
+        {% if tool.id == 'brick-breaker' %}
+        <h2 class="fw-bold mb-3">Classic Brick Breaker: Gameplay & Strategy Guide</h2>
+        <p><strong>Brick Breaker</strong> is a beloved arcade classic inspired by the golden age of video gaming. The objective is straightforward yet challenging: control the paddle at the bottom of the screen, bounce the ball upward into the brick wall, and shatter every brick to clear the stage without letting the ball fall past your paddle.</p>
+
+        <h3 class="h5 fw-bold mt-4">Controls & Interface</h3>
+        <ul class="mb-4">
+            <li><strong>Desktop Keyboard:</strong> Use the <strong>Left Arrow</strong> and <strong>Right Arrow</strong> keys (or A and D) to slide the paddle smoothly across the court.</li>
+            <li><strong>Mobile & Touch Screens:</strong> Simply touch and drag your finger along the bottom half of the screen to guide the paddle in real time.</li>
+            <li><strong>Fullscreen Mode:</strong> Tap the game screen to trigger distraction-free fullscreen arcade action. Press <strong>ESC</strong> to return to windowed view.</li>
+        </ul>
+
+        <h3 class="h5 fw-bold mt-4">Pro Tips for Higher Scores</h3>
+        <p>The secret to mastering Brick Breaker is angle control. When the ball strikes the center of the paddle, it rebounds straight back; when it hits the outer edges, it deflects at sharp, horizontal angles. Use edge-bounces to slip the ball behind the top row of bricks, allowing it to bounce rapidly between the bricks and the ceiling for effortless multi-combos.</p>
+
+        {% elif tool.id == 'snake-game' %}
+        <h2 class="fw-bold mb-3">Retro Snake: Rules, Mechanics & Survival Tips</h2>
+        <p>Relive the early days of mobile gaming with <strong>Retro Snake</strong>. Navigate your serpentine avatar across a bounded grid, gobbling glowing food pellets to lengthen your tail and climb the leaderboard. But beware: as your tail grows longer, navigating the arena becomes an intricate puzzle of spatial awareness and reflexes.</p>
+
+        <h3 class="h5 fw-bold mt-4">Game Rules & Loss Conditions</h3>
+        <ul class="mb-4">
+            <li><strong>Wall Collisions:</strong> Crashing headfirst into the outer perimeter boundary will end your run immediately.</li>
+            <li><strong>Self-Bite:</strong> Slithering into your own tail or body segments triggers an instant game over. Plan your turns early to avoid trapping yourself in loops.</li>
+            <li><strong>Score Multipliers:</strong> Each piece of food consumed adds to your length and increases your running score.</li>
+        </ul>
+
+        <h3 class="h5 fw-bold mt-4">Controls</h3>
+        <p>Use the <strong>Arrow Keys</strong> (Up, Down, Left, Right) or swipe gestures on mobile devices to alter direction. The game operates at a locked frame interval to ensure responsive, lag-free retro responsiveness.</p>
+
+        {% elif tool.id == 'tetris-game' %}
+        <h2 class="fw-bold mb-3">Classic Brick Stacker: Falling Blocks Mastery</h2>
+        <p>The iconic falling-block puzzle game has captivated millions of players worldwide for over four decades. As geometrically distinct tetrominoes cascade from the top of the matrix, rotate and translate them to assemble solid, gap-free horizontal rows.</p>
+
+        <h3 class="h5 fw-bold mt-4">Core Mechanics</h3>
+        <ul class="mb-4">
+            <li><strong>Line Clears:</strong> When an entire horizontal line of 10 blocks is completely filled, it vanishes, awarding bonus score and dropping all blocks above down by one row.</li>
+            <li><strong>Rotation & Positioning:</strong> Press the <strong>Up Arrow</strong> to rotate pieces clockwise. Use <strong>Left</strong> and <strong>Right</strong> arrows to align columns, and press <strong>Down Arrow</strong> to engage soft drops.</li>
+            <li><strong>Game Over:</strong> If the stack reaches the top of the playfield and blocks new pieces from spawning, the game concludes.</li>
+        </ul>
+
+        {% elif tool.id == 'neon-qube' %}
+        <h2 class="fw-bold mb-3">Neon Qube Runner: High-Speed Cyber Survival</h2>
+        <p>Exclusive to Free Qube, <strong>Neon Qube Runner</strong> combines retrowave synthwave aesthetics with lightning-fast reflex survival. Pilot a high-speed neon cube through an endless obstacle grid set against a dynamic trail-rendered retro grid.</p>
+
+        <h3 class="h5 fw-bold mt-4">Game Objectives</h3>
+        <ul class="mb-4">
+            <li>Dodge incoming procedural barriers moving at increasing velocities.</li>
+            <li>Stay alive as long as possible to rack up endurance score points.</li>
+            <li>Enjoy buttery smooth 60 FPS performance powered directly by your browser's hardware-accelerated Canvas context.</li>
+        </ul>
+        {% endif %}
+
+        <h3 class="h5 fw-bold mt-4">Zero Downloads, Zero Ads, 100% Client-Side</h3>
+        <p>All Free Qube games are built natively using pure HTML5 Canvas and vanilla JavaScript. We do not use resource-heavy Flash or Unity web plugins. Games load in milliseconds, consume minimal battery on laptops and mobile phones, and keep your high scores stored locally in your browser's secure cache.</p>
     </div>
 </div>
 {% endblock %}

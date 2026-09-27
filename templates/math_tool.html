@@ -211,10 +211,57 @@
     {% endif %}
 </div>
 
-<!-- SEO Content -->
-<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
-    <h2 class="fw-bold mb-3">About the {{ t(tool.name) }}</h2>
-    <p>Welcome to our free online {{ t(tool.name) }}. Designed for fast, everyday use, this utility helps you crunch numbers instantly. You don't need to be a math whiz or remember complex algebraic formulas to get accurate results. We built this calculator to run entirely on the client-side within your browser. That means the math is calculated on your own device with absolute privacy and zero server delays.</p>
+<!-- Mathematical Formulas & Practical Calculation Guide -->
+<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4 text-start">
+    {% if tool.id == 'percentage' %}
+    <h2 class="fw-bold mb-3">Mastering Percentage Calculations</h2>
+    <p>Percentages represent fractions of 100 and are among the most frequently used mathematical concepts in commerce, statistics, and daily budgeting. Our <strong>Percentage Calculator</strong> solves the three most common percentage problems instantly without requiring manual algebra.</p>
+
+    <h3 class="h5 fw-bold mt-4">Core Mathematical Formulas</h3>
+    <ul class="mb-4">
+        <li><strong>Finding X% of Y:</strong> Multiplies the percentage (as a decimal) by the base number: <code>Result = (X / 100) × Y</code>. Example: 15% of $80 = 0.15 × 80 = $12.</li>
+        <li><strong>Finding What % X is of Y:</strong> Divides the part by the whole and multiplies by 100: <code>Percentage = (X / Y) × 100</code>. Example: 25 out of 200 = (25 / 200) × 100 = 12.5%.</li>
+        <li><strong>Percentage Increase or Decrease:</strong> Computes the relative change between two values: <code>Change % = ((New Value - Old Value) / Old Value) × 100</code>. A positive result indicates growth, while a negative result denotes a decline.</li>
+    </ul>
+
+    {% elif tool.id == 'age' %}
+    <h2 class="fw-bold mb-3">Exact Chronological Age Calculation</h2>
+    <p>Calculating someone's age seems trivial until you account for variable month lengths (28, 29, 30, or 31 days) and leap years occurring every four years. Our <strong>Age Calculator</strong> determines your exact chronological age breakdown in years, months, weeks, days, and total elapsed time.</p>
+
+    <h3 class="h5 fw-bold mt-4">Why Precise Age Matters</h3>
+    <ul class="mb-4">
+        <li><strong>Legal & Official Milestones:</strong> Determining eligibility for driving licenses, voting registration, passport validity, and retirement pension thresholds.</li>
+        <li><strong>Pediatric & Developmental Milestones:</strong> Medical tracking for infants and toddlers relies on precise month-and-week age increments for vaccination schedules and growth percentiles.</li>
+        <li><strong>Astronomical Accuracy:</strong> Accounts for historical leap days between your birth date and the reference date, guaranteeing 100% calendar accuracy.</li>
+    </ul>
+
+    {% elif tool.id == 'discount' %}
+    <h2 class="fw-bold mb-3">Sale Price & Savings Calculator</h2>
+    <p>Retail sales frequently advertise discounts like "35% Off" or "Extra 20% Off Marked Prices." Our <strong>Discount Calculator</strong> cuts through the marketing clutter to show you your exact out-of-pocket price and the total currency amount saved before you reach the checkout counter.</p>
+
+    <h3 class="h5 fw-bold mt-4">How Sale Math Works</h3>
+    <p>The calculation deducts the promotional savings directly from the original manufacturer's suggested retail price (MSRP):</p>
+    <ul class="mb-4">
+        <li><code>Saved Amount = Original Price × (Discount Rate / 100)</code></li>
+        <li><code>Final Price = Original Price - Saved Amount</code></li>
+    </ul>
+    <p>Use the interactive slider above to compare different promotional tiers and verify that advertised in-store discounts match your receipt.</p>
+
+    {% elif tool.id == 'unit' %}
+    <h2 class="fw-bold mb-3">Universal Unit Converter: Metric & Imperial Systems</h2>
+    <p>Converting measurements between international standard units (SI Metric) and United States customary units (Imperial) is essential for engineering, cooking, scientific research, and international travel.</p>
+
+    <h3 class="h5 fw-bold mt-4">Supported Measurement Dimensions</h3>
+    <ul class="mb-4">
+        <li><strong>Length & Distance:</strong> Millimeters (mm), Centimeters (cm), Meters (m), Kilometers (km), Inches (in), Feet (ft), Yards (yd), and Miles (mi).</li>
+        <li><strong>Mass & Weight:</strong> Milligrams (mg), Grams (g), Kilograms (kg), Ounces (oz), Pounds (lbs), and Metric Tonnes (t).</li>
+        <li><strong>Area:</strong> Square Meters, Square Feet, Acres, Hectares, and Square Kilometers.</li>
+        <li><strong>Temperature:</strong> Celsius (°C), Fahrenheit (°F), and Kelvin (K) using precise conversion formulas: <code>°F = (°C × 9/5) + 32</code>.</li>
+    </ul>
+    {% endif %}
+
+    <h3 class="h5 fw-bold mt-4">Zero Server Latency, Complete Data Privacy</h3>
+    <p>All calculations on Free Qube are computed in real time using client-side JavaScript. None of your input dates, prices, or personal numbers are transmitted to our servers or logged in any database.</p>
 </div>
 {% endblock %}
 

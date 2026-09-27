@@ -116,13 +116,41 @@
     {% endif %}
 </div>
 
-<!-- SEO Content -->
-<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
-    <h2 class="fw-bold mb-3">About the {{ t(tool.name) }}</h2>
-    <p>Welcome to our free online {{ t(tool.name) }}. Designed for students, professional writers, and SEO marketers, this robust utility helps you process and manipulate your text content lightning fast.</p>
-    
-    <h3 class="h5 fw-bold mt-4">100% Client-Side Processing</h3>
-    <p>We know that your essays, proprietary articles, and marketing copy are highly sensitive. That is why this tool processes all text <strong>entirely in your local web browser</strong> using JavaScript. None of your writing is ever uploaded or saved to our servers. Your data remains completely private, giving you ultimate peace of mind while ensuring the tool responds instantly to every keystroke.</p>
+<!-- Comprehensive Writing & Typography Guide -->
+<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4 text-start">
+    {% if tool.id == 'word-counter' %}
+    <h2 class="fw-bold mb-3">Word Counter & Reading Time Estimation Guide</h2>
+    <p>Whether drafting an academic essay with strict submission guidelines, writing a concise social media post, or optimizing SEO blog posts for organic search rankings, knowing your exact metric counts is vital. Our <strong>Word and Character Counter</strong> computes comprehensive text metrics in real time as you type.</p>
+
+    <h3 class="h5 fw-bold mt-4">Understanding Text Metrics</h3>
+    <ul class="mb-4">
+        <li><strong>Word Count:</strong> Evaluates words separated by spaces or punctuation boundaries. Standard college application essays often limit candidates to 250, 500, or 650 words.</li>
+        <li><strong>Character Counts (With & Without Spaces):</strong> Crucial for character-limited platforms such as X/Twitter (280 characters), Google Ads headlines (30 characters), and meta descriptions (150–160 characters).</li>
+        <li><strong>Estimated Reading Time:</strong> Calculated based on the scientifically recognized average silent reading speed of <strong>200 words per minute (WPM)</strong>. Knowing this helps digital content creators structure blog posts and video scripts for optimal audience retention.</li>
+    </ul>
+
+    {% elif tool.id == 'case-converter' %}
+    <h2 class="fw-bold mb-3">Text Case Transformation & Editorial Standards</h2>
+    <p>Accidentally left Caps Lock enabled, or need to transform raw title strings into standardized publishing formats? The <strong>Case Converter</strong> formats your text with a single click without requiring tedious manual retyping.</p>
+
+    <h3 class="h5 fw-bold mt-4">Supported Capitalization Styles</h3>
+    <ul class="mb-4">
+        <li><strong>Sentence case:</strong> Capitalizes the initial letter of every sentence while keeping subsequent letters lowercase, following natural prose grammar.</li>
+        <li><strong>UPPERCASE:</strong> Converts every alphabetical character to capital letters, commonly used for legal disclaimers, warnings, and database constants.</li>
+        <li><strong>lowercase:</strong> Converts all characters to small letters, ideal for cleaning up raw URL slugs, email addresses, and server filenames.</li>
+        <li><strong>Title Case:</strong> Capitalizes major content words following standard editorial style guides (such as APA, MLA, and Chicago Manual of Style).</li>
+    </ul>
+
+    {% elif tool.id == 'lorem-ipsum' %}
+    <h2 class="fw-bold mb-3">The History & Purpose of Lorem Ipsum Placeholder Text</h2>
+    <p>In graphic design, UI/UX prototyping, and typography, <strong>Lorem Ipsum</strong> has served as the printing industry's standard dummy text since the 1500s. It allows designers to showcase typography, grid systems, and layout hierarchies without distracting reviewers with readable content.</p>
+
+    <h3 class="h5 fw-bold mt-4">Origins in Classical Latin</h3>
+    <p>Contrary to popular belief, Lorem Ipsum is not random gibberish. Its roots trace back to a 45 BC treatise on the theory of ethics written by Roman philosopher Cicero: <em>"De Finibus Bonorum et Malorum"</em> (The Extremes of Good and Evil). The standard passage <em>"Lorem ipsum dolor sit amet..."</em> is adapted from Section 1.10.32, scrambled to simulate the natural distribution of English consonants and vowels.</p>
+    {% endif %}
+
+    <h3 class="h5 fw-bold mt-4">100% Confidential & Secure Client-Side Execution</h3>
+    <p>Your articles, proprietary code, personal letters, and creative writing are never sent over the internet. Free Qube executes all text analysis and transformations purely in your browser's local JavaScript memory.</p>
 </div>
 {% endblock %}
 

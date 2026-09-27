@@ -248,10 +248,55 @@
     {% endif %}
 </div>
 
-<!-- SEO Content -->
-<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
-    <h2 class="fw-bold mb-3">About the {{ t(tool.name) }}</h2>
-    <p>{{ t(tool.seo_desc) }} All network tools provided by Free Qube run directly in your browser or via secure public APIs, ensuring your network data remains absolutely private.</p>
+<!-- SEO & Network Diagnostic Documentation -->
+<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4 text-start">
+    {% if tool.id == 'what-is-my-ip' %}
+    <h2 class="fw-bold mb-3">Understanding Your Public IP Address</h2>
+    <p>Every device connected to the internet is assigned an Internet Protocol (IP) address—a unique numerical label that acts as your digital return address. Your <strong>Public IP Address</strong> is assigned by your Internet Service Provider (ISP) and is visible to every website, server, and online service you connect to.</p>
+
+    <h3 class="h5 fw-bold mt-4">IPv4 vs. IPv6 Addresses</h3>
+    <ul class="mb-4">
+        <li><strong>IPv4 (Internet Protocol version 4):</strong> A 32-bit format arranged in four decimal numbers separated by periods (e.g., <code>192.0.2.1</code>). With roughly 4.3 billion possible combinations, global IPv4 addresses are virtually exhausted.</li>
+        <li><strong>IPv6 (Internet Protocol version 6):</strong> A 128-bit hexadecimal format separated by colons (e.g., <code>2001:0db8:85a3::8a2e:0370:7334</code>), created to provide an astronomically large pool of addresses for the modern connected world.</li>
+    </ul>
+
+    <h3 class="h5 fw-bold mt-4">Why Check Your Public IP?</h3>
+    <p>Verifying your IP address is essential when troubleshooting network connectivity issues, configuring remote desktop or gaming servers, and verifying that your Virtual Private Network (VPN) or proxy tunnel is actively masking your real physical location.</p>
+
+    {% elif tool.id == 'speed-test' %}
+    <h2 class="fw-bold mb-3">How Browser-Based Internet Speed Tests Work</h2>
+    <p>Our <strong>Internet Speed Test</strong> measures the real-world throughput between your device and global content delivery networks (Cloudflare CDN). Unlike traditional tests that require proprietary plugins, Free Qube executes native HTTP chunked data transfers to measure raw network capacity.</p>
+
+    <h3 class="h5 fw-bold mt-4">Understanding Your Results</h3>
+    <ul class="mb-4">
+        <li><strong>Download Speed (Mbps):</strong> Measures how rapidly data transfers from the web to your computer. Crucial for 4K video streaming, downloading game updates, and general web browsing.</li>
+        <li><strong>Upload Speed (Mbps):</strong> Measures the transfer rate from your computer to the web. Critical for video conferencing (Zoom, Teams), cloud file backups, and live streaming.</li>
+        <li><strong>Bandwidth Bottlenecks:</strong> Wi-Fi interference, background system updates, and network congestion from other devices on your local router can impact test results. For the most accurate diagnostic, test over an Ethernet cable.</li>
+    </ul>
+
+    {% elif tool.id == 'dns-lookup' %}
+    <h2 class="fw-bold mb-3">Domain Name System (DNS) Record Inspector</h2>
+    <p>The Domain Name System acts as the phonebook of the internet, translating human-friendly domain names (like <code>freeqube.com</code>) into machine-readable IP addresses. Our <strong>DNS Record Lookup</strong> queries root authoritative nameservers in real time using DNS-over-HTTPS (DoH).</p>
+
+    <h3 class="h5 fw-bold mt-4">Common DNS Record Types</h3>
+    <ul class="mb-4">
+        <li><strong>A Record:</strong> Maps a domain hostname directly to an IPv4 address.</li>
+        <li><strong>AAAA Record:</strong> Maps a domain hostname to an IPv6 address.</li>
+        <li><strong>CNAME (Canonical Name):</strong> Creates an alias that points one domain name to another domain.</li>
+        <li><strong>MX (Mail Exchange):</strong> Directs incoming email traffic to designated mail servers (e.g., Google Workspace or Microsoft 365).</li>
+        <li><strong>TXT (Text):</strong> Stores human or machine-readable text used for domain verification, SPF email authentication, and DKIM security policies.</li>
+    </ul>
+
+    {% elif tool.id == 'browser-info' %}
+    <h2 class="fw-bold mb-3">Browser & Device Diagnostic Information</h2>
+    <p>Web developers and technical support teams frequently require device telemetry to troubleshoot layout bugs and compatibility issues. Our <strong>Browser Diagnostic Tool</strong> queries the client-side <code>navigator</code> and <code>window.screen</code> APIs directly within your browser.</p>
+
+    <h3 class="h5 fw-bold mt-4">What Data Is Visible to Websites?</h3>
+    <p>When you visit any website, your browser sends a <strong>User-Agent String</strong> that reveals your operating system, browser rendering engine, and device architecture. This information allows web servers to deliver mobile-optimized layouts or activate hardware-accelerated media codecs.</p>
+    {% endif %}
+
+    <h3 class="h5 fw-bold mt-4">100% Client-Side Privacy</h3>
+    <p>All network diagnostics on Free Qube are performed directly from your browser's local sandbox or via public encrypted APIs. We do not log your IP addresses, store your browsing history, or share network telemetry with third parties.</p>
 </div>
 {% endblock %}
 

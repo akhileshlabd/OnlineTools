@@ -108,6 +108,52 @@
 </style>
 {% endif %}
 
+<!-- Educational & Safety Guide for AdSense Compliance -->
+<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4 text-start">
+    {% if tool.id == 'smash-toy' %}
+    <h2 class="fw-bold mb-3">Baby Smash Toy: Safe Sensory Keyboard Learning</h2>
+    <p>The <strong>Baby Smash Toy</strong> transforms your standard computer keyboard, mouse, or touch screen into an interactive, sensory-rich playground for infants and toddlers. When young children see adults typing, they naturally want to explore the keyboard. This utility offers a safe, controlled environment where every keypress triggers vibrant geometric shapes, floating alphabet letters, twinkling stars, and gentle acoustic chimes.</p>
+
+    <h3 class="h5 fw-bold mt-4">Developmental & Cognitive Benefits</h3>
+    <ul class="mb-4">
+        <li><strong>Cause-and-Effect Understanding:</strong> Babies as young as 9 to 18 months learn that their physical actions (pressing a key or tapping the screen) create immediate visual and auditory responses.</li>
+        <li><strong>Early Letter & Number Familiarity:</strong> Every keystroke speaks the letter or digit aloud using clear, friendly speech synthesis, reinforcing phonetic recognition.</li>
+        <li><strong>Fine Motor Skill Development:</strong> Encourages intentional finger movement, hand-eye coordination, and spatial awareness across the display.</li>
+    </ul>
+
+    <h3 class="h5 fw-bold mt-4">Safety & Privacy Guarantee</h3>
+    <p>Parents can rest easy knowing this game runs <strong>100% offline inside your web browser</strong>. No keystrokes are recorded, no webcam or microphone access is requested, and no external trackers are active. Click to enter Fullscreen mode, and press the <strong>ESC</strong> key whenever you are ready to exit.</p>
+
+    {% elif tool.id == 'animal-sounds' %}
+    <h2 class="fw-bold mb-3">Interactive Animal Sounds Flashcards for Toddlers</h2>
+    <p>Introduce your child to the wonders of the animal kingdom with our <strong>Interactive Animal Sounds Flashcards</strong>. Designed for preschool learners, kindergarteners, and curious toddlers, each vibrant card features realistic illustrations, accurate animal names, and crystal-clear pronunciation accompanied by authentic vocalizations.</p>
+
+    <h3 class="h5 fw-bold mt-4">Auditory Learning & Vocabulary Building</h3>
+    <ul class="mb-4">
+        <li><strong>Phonetic Word Association:</strong> Hearing animal names pronounced clearly aids language acquisition and speech development in early talkers.</li>
+        <li><strong>Multisensory Reinforcement:</strong> Pairing high-contrast visuals with animal sounds helps children categorize domestic pets, farm animals, and wildlife.</li>
+        <li><strong>Independent Exploration:</strong> Large, colorful tap targets empower small hands to explore at their own pace without confusing navigation menus.</li>
+    </ul>
+
+    <h3 class="h5 fw-bold mt-4">Ad-Free, Safe Digital Play</h3>
+    <p>Free Qube is committed to non-intrusive, kid-safe web design. Our animal sound synthesizer uses native browser Web Audio and SpeechSynthesis APIs, ensuring instantaneous playback with zero network latency and no external advertisements interrupting your child's learning experience.</p>
+
+    {% elif tool.id == 'color-mixer' %}
+    <h2 class="fw-bold mb-3">Magic Color Mixer: Interactive Color Theory for Kids</h2>
+    <p>How do artists create orange, green, and purple? The <strong>Magic Color Mixer</strong> teaches children the foundations of color theory through hands-on virtual experimentation. By selecting two primary pigments (Red, Yellow, or Blue), kids witness real-time color blending in an intuitive, mess-free digital studio.</p>
+
+    <h3 class="h5 fw-bold mt-4">What Kids Learn</h3>
+    <ul class="mb-4">
+        <li><strong>Primary Pigments:</strong> Understanding that Red, Yellow, and Blue are foundational hues that cannot be created by mixing other colors.</li>
+        <li><strong>Secondary Color Formations:</strong> Discovering that <em>Red + Yellow = Orange</em>, <em>Blue + Yellow = Green</em>, and <em>Red + Blue = Purple</em>.</li>
+        <li><strong>Scientific Curiosity:</strong> Encourages hypothesis testing ("What happens if I combine Blue and Yellow?") and reinforces deductive thinking.</li>
+    </ul>
+
+    <h3 class="h5 fw-bold mt-4">100% Free & Browser-Based</h3>
+    <p>No downloads, no account registrations, and no subscription fees. Our interactive canvas works smoothly across iPads, Android tablets, touch laptops, and desktop computers.</p>
+    {% endif %}
+</div>
+
 <script>
     const toolId = "{{ tool.id }}";
     const synth = window.speechSynthesis;
