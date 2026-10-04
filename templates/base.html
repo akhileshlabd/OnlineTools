@@ -170,10 +170,12 @@
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer Ad Container Placeholder -->
+    <!-- Footer Ad Container Placeholder (Excludes child-directed kids routes to strictly comply with COPPA) -->
+    {% if not request.path.startswith('/kids') %}
     <div class="container my-3 text-center ad-container" id="ad-footer" style="min-height: 90px;">
         <!-- Google AdSense Code will go here. Placed away from tools to avoid accidental clicks -->
     </div>
+    {% endif %}
 
 
     <!-- Footer -->

@@ -27,4 +27,18 @@
    <url><loc>https://freeqube.com/image/flip_v</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
    <url><loc>https://freeqube.com/image/brightness</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
    <url><loc>https://freeqube.com/image/contrast</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+
+   <!-- Editorial Blog Articles -->
+   <url><loc>https://freeqube.com/blog/</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+   <url><loc>https://freeqube.com/blog/rise-of-local-ai-2026-offline-web-apps-smartphones</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+   <url><loc>https://freeqube.com/blog/master-your-digital-workflow-free-qube-tools</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+   <url><loc>https://freeqube.com/blog/the-iphone-18-price-hike-is-the-new-tech-actually-worth-the-cost</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+   <url><loc>https://freeqube.com/blog/the-great-ai-pivot-why-tech-giants-are-abandoning-the-cloud-for-on-device-processing</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+   <url><loc>https://freeqube.com/blog/breaking-u-s-judge-blocks-trump-limits-on-visas-for-foreign-students-journalists</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+   <url><loc>https://freeqube.com/blog/the-complete-guide-to-merging-large-pdfs-locally-in-your-browser</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+   <url><loc>https://freeqube.com/blog/how-to-safely-extract-split-pdf-pages-without-uploading-to-cloud-servers</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+   <url><loc>https://freeqube.com/blog/word-to-pdf-formatting-best-practices-preserving-layouts-fonts</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+   <url><loc>https://freeqube.com/blog/how-to-convert-complex-excel-spreadsheets-to-clean-pdf-reports</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+   <url><loc>https://freeqube.com/blog/pdf-password-protection-101-aes-encryption-vs-standard-security</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+   <url><loc>https://freeqube.com/blog/how-to-remove-pdf-owner-passwords-safely-for-editing-printing</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>
