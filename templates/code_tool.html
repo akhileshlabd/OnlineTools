@@ -430,15 +430,43 @@
     {% endif %}
 </div>
 
-<!-- SEO / Instructional Content -->
+<!-- SEO & Educational Content for AdSense Compliance -->
 <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
-    <h2 class="fw-bold mb-3">About the {{ t(tool.name) }}</h2>
-    <p>Welcome to our robust {{ t(tool.name) }}. Designed specifically for developers, software engineers, and data analysts, this utility helps you process raw text and code snippets quickly and securely.</p>
-    
-    <h3 class="h5 fw-bold mt-4">100% Client-Side Processing</h3>
-    <p>We know that developers often work with proprietary code, sensitive JSON payloads, and private API keys. That is why this tool processes all data <strong>entirely in your local web browser</strong>. None of your text, code, or hashes are ever sent to our backend servers. Your data remains completely private and secure, giving you peace of mind while you work.</p>
+    <h2 class="h3 fw-bold mb-3">Developer Guide: Using the {{ t(tool.name) }} Securely</h2>
+    <p>Welcome to Free Qube's <strong>{{ t(tool.name) }}</strong>, an engineered in-browser utility built specifically for software engineers, systems architects, DevOps specialists, and security researchers who demand instant, reliable formatting and evaluation without risking intellectual property exposure.</p>
 
-    <p>{{ t(tool.seo_desc) }} Bookmark this page for a lightning-fast utility that requires zero installation, loads instantly, and runs entirely client-side without any intrusive loading screens or server wait times.</p>
+    <h3 class="h5 fw-bold mt-4">Architecture &amp; Client-Side Sandbox Security</h3>
+    <p>Modern software engineering often involves sensitive production tokens, JWT authentication payloads, proprietary database schemata, and confidential configuration snippets. Pasting this data into arbitrary cloud formatters poses severe compliance risks under ISO/IEC 27001, SOC 2, and GDPR standards. Our architecture prevents leaks by executing 100% of the token parsing, syntax validation, algorithmic hashing, and diff evaluation directly in the browser's V8 or SpiderMonkey JavaScript runtime engine. No networking sockets or analytics beacons intercept your inputs.</p>
+
+    <h3 class="h5 fw-bold mt-4">Step-by-Step Tutorial</h3>
+    <ol>
+        <li><strong>Paste or Type Input:</strong> Insert your raw source code, JSON structure, or test string into the designated editor workspace.</li>
+        <li><strong>Configure Parameters:</strong> Adjust indentation depth, cryptographic hash algorithms (MD5, SHA-256, SHA-512), or visual styling parameters to match your project guidelines.</li>
+        <li><strong>Trigger Processing:</strong> Click the primary action trigger to validate, format, transform, or compare your data instantly.</li>
+        <li><strong>Copy or Export:</strong> Use the single-click clipboard copy utility to extract clean, standardized output directly into your IDE or terminal.</li>
+    </ol>
+
+    <h3 class="h5 fw-bold mt-4">Technical Specifications</h3>
+    <ul>
+        <li><strong>Parsing Standard:</strong> ECMAScript native JSON.parse / JSON.stringify, Web Crypto API, and Diff-Match-Patch algorithms.</li>
+        <li><strong>Throughput:</strong> High-performance client-side rendering supporting payloads up to multiple megabytes without thread starvation.</li>
+        <li><strong>Encoding Support:</strong> UTF-8, UTF-16, ASCII, Base64, Hexadecimal representations.</li>
+        <li><strong>Telemetry:</strong> Completely offline capable; zero external API requests.</li>
+    </ul>
+
+    <h3 class="h5 fw-bold mt-4">Frequently Asked Questions</h3>
+    <details class="mb-3">
+        <summary class="fw-bold" style="cursor:pointer;">Is my proprietary code or API key logged on any server?</summary>
+        <p class="mt-2 text-muted">Never. Our code utilities operate entirely within your browser's local sandbox memory. Open your developer tools Network tab to confirm zero outgoing payload requests.</p>
+    </details>
+    <details class="mb-3">
+        <summary class="fw-bold" style="cursor:pointer;">Can this tool format malformed or truncated JSON?</summary>
+        <p class="mt-2 text-muted">If a syntax violation exists, the parser highlights the exact token and syntax error position to help you fix structural mistakes quickly.</p>
+    </details>
+    <details class="mb-3">
+        <summary class="fw-bold" style="cursor:pointer;">Can I use this utility offline without an active internet connection?</summary>
+        <p class="mt-2 text-muted">Yes. Thanks to progressive caching and service worker support, all scripts run seamlessly in offline environments.</p>
+    </details>
 </div>
 {% endblock %}
 

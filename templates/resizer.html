@@ -92,9 +92,41 @@
 </div>
 
 <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
-    <h3 class="h4 fw-bold">How to Resize Images Free Online</h3>
-    <p>Resizing an image can often be a frustrating task, especially when dealing with strict upload requirements for social media platforms, websites, or official documents. Our free image resizer takes the hassle out of adjusting your pictures. Whether you need to reduce a massive photograph to a small thumbnail or scale up a graphic for printing, our tool provides pixel-perfect accuracy.</p>
-    <p>We prioritize your privacy and speed by leveraging modern client-side processing. When you upload a photo to be resized, it never leaves your computer. The image is processed directly within your web browser using HTML5 Canvas technology. This means your personal photos remain completely secure, and the resizing happens instantly without the need to wait for slow server uploads or downloads. Best of all, there are no file size limits, no watermarks, and no hidden fees.</p>
+    <h2 class="h3 fw-bold mb-3">How to Resize Images Online with Exact Dimensions</h2>
+    <p>Resizing photographs and digital assets with strict aspect ratios is often necessary when preparing uploads for e-commerce, web development, passport applications, or social media banners. Our <strong>Client-Side Image Resizer</strong> delivers pixel-perfect dimensions without compromising visual fidelity, completely within your browser sandbox.</p>
+
+    <h3 class="h5 fw-bold mt-4">Architecture &amp; Client-Side Canvas Processing</h3>
+    <p>Traditional image compressors upload your high-resolution photos to external web servers, presenting latency bottlenecks and privacy vulnerabilities. Free Qube eliminates this by running the transformation directly on your device's GPU/CPU via the <strong>HTML5 2D Canvas context</strong> and native browser bicubic interpolation. Your original photograph is rendered into an off-screen buffer, scaled with precision interpolation algorithms, and encoded directly into an optimized Blob format. Because no packets are sent to remote servers, execution completes in milliseconds.</p>
+
+    <h3 class="h5 fw-bold mt-4">Step-by-Step Tutorial</h3>
+    <ol>
+        <li><strong>Select Image:</strong> Drag and drop your image into the drop zone or browse your local file system. Supported inputs include JPEG, PNG, WEBP, and GIF.</li>
+        <li><strong>Set Dimensions:</strong> Enter your desired target width or height in pixels. Keep <em>Lock Aspect Ratio</em> checked to prevent distortion, or uncheck it to enter independent dimensions.</li>
+        <li><strong>Preview Output:</strong> Review the live preview window and inspect the updated pixel measurements in real-time.</li>
+        <li><strong>Save File:</strong> Click <strong>Download Image</strong> to immediately retrieve your resized graphic without any watermark or quality loss.</li>
+    </ol>
+
+    <h3 class="h5 fw-bold mt-4">Technical Specifications</h3>
+    <ul>
+        <li><strong>Sampling Algorithm:</strong> High-quality multi-pass bicubic canvas image smoothing.</li>
+        <li><strong>Format Preservation:</strong> Matches input MIME type (JPEG with 92% quality weighting, lossless PNG, or modern WebP).</li>
+        <li><strong>Memory Bounds:</strong> Handles up to 8K resolution images (subject to client VRAM availability).</li>
+        <li><strong>Security:</strong> Zero server transmission; GDPR and CCPA compliant by design.</li>
+    </ul>
+
+    <h3 class="h5 fw-bold mt-4">Frequently Asked Questions</h3>
+    <details class="mb-3">
+        <summary class="fw-bold" style="cursor:pointer;">Does resizing an image reduce its file size?</summary>
+        <p class="mt-2 text-muted">Yes. Reducing the pixel resolution directly reduces the total number of pixels that must be encoded, dramatically shrinking the resulting file size for faster web performance.</p>
+    </details>
+    <details class="mb-3">
+        <summary class="fw-bold" style="cursor:pointer;">Can I upscale small images without pixelation?</summary>
+        <p class="mt-2 text-muted">While you can increase dimensions, upscaling cannot invent new image detail that wasn't captured originally. The browser uses bicubic smoothing to prevent harsh jagged edges.</p>
+    </details>
+    <details class="mb-3">
+        <summary class="fw-bold" style="cursor:pointer;">Are transparent backgrounds retained when resizing PNG files?</summary>
+        <p class="mt-2 text-muted">Yes. PNG and WebP files retain full alpha-channel transparency during the resizing pipeline.</p>
+    </details>
 </div>
 {% endblock %}
 

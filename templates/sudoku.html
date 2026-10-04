@@ -219,18 +219,43 @@
     </div><!-- /.sudoku-wrapper -->
     </div><!-- /#printArea -->
 
-    <!-- SEO Block -->
-    <section class="container bg-white p-4 rounded shadow-sm mt-5 mb-5 text-start">
-        <h2 class="h4 fw-bold">Play Free Sudoku Online</h2>
-        <p class="text-muted">Fill the 9×9 grid so every row, column, and 3×3 box contains the digits 1 through 9. Every puzzle is uniquely generated from the current timestamp — no two refreshes give you the same game. Print any puzzle or save it as PDF for offline solving.</p>
-        <h3 class="h5 fw-bold mt-4">How to Play</h3>
+    <!-- SEO & Educational Content for AdSense Compliance -->
+    <section class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-5 text-start">
+        <h2 class="h3 fw-bold mb-3">Free Online Sudoku: Rules, Strategies &amp; Algorithmic Solving</h2>
+        <p class="text-muted">Sudoku is an internationally celebrated logic-based combinatorial number-placement puzzle. The classic objective is to populate a standard 9×9 grid with digits from 1 through 9 such that each column, each row, and each of the nine 3×3 subgrids (commonly referred to as blocks, regions, or boxes) contains all digits from 1 to 9 without repetition.</p>
+
+        <h3 class="h5 fw-bold mt-4">Algorithmic Architecture &amp; Seeded Generation</h3>
+        <p class="text-muted">Unlike legacy puzzle sites that rely on static database queries or repetitive puzzle packs, Free Qube executes a procedural backtracking solver paired with a deterministic <strong>Mulberry32 pseudorandom number generator (PRNG)</strong> directly inside your client browser. A fully compliant Latin square grid is constructed algorithmically. Individual cells are then strategically removed according to selected difficulty parameters (Easy, Medium, Hard, or Expert) while rigorously verifying that exactly one unique logical solution exists. Processing is 100% client-side, enabling zero latency and seamless offline puzzle generation.</p>
+
+        <h3 class="h5 fw-bold mt-4">Step-by-Step Playing Guide</h3>
+        <ol class="text-muted">
+            <li><strong>Select Difficulty:</strong> Choose from Easy (ideal for beginners), Medium, Hard, or Expert to adjust the number of pre-filled clues.</li>
+            <li><strong>Identify Candidates:</strong> Click any empty cell to activate row, column, and block cross-highlighting. Toggle <em>Notes</em> mode to jot down pencil candidates.</li>
+            <li><strong>Input Numbers:</strong> Tap the digital numeric keypad or press numbers 1–9 on your physical keyboard to place digits.</li>
+            <li><strong>Review &amp; Correct:</strong> Invalid entries violating Sudoku constraints are highlighted in red instantly. Use <em>Erase</em> or <em>Hint</em> when encountering complex deductions.</li>
+        </ol>
+
+        <h3 class="h5 fw-bold mt-4">Technical Specifications</h3>
         <ul class="text-muted">
-            <li>Click or tap a cell to select it — your row, column &amp; box are highlighted automatically.</li>
-            <li>Tap a number on the pad or press a key to fill in the digit.</li>
-            <li>Errors are shown in red instantly. Use <strong>Erase</strong> to clear a cell.</li>
-            <li>Toggle <strong>Notes</strong> to pencil in candidate numbers (like sudoku.com).</li>
-            <li>Stuck? Use <strong>Hint</strong> to reveal one correct cell.</li>
+            <li><strong>Grid Dimensions:</strong> Standard 81-cell matrix (9 rows × 9 columns).</li>
+            <li><strong>Generator Engine:</strong> Recursive constraint-satisfaction backtracking algorithm coupled with Mulberry32 PRNG.</li>
+            <li><strong>Platform Compatibility:</strong> Full touch-screen support for mobile devices and keyboard shortcuts for desktop environments.</li>
+            <li><strong>Export Utility:</strong> Native CSS print stylesheets formatted specifically for standard A4 and US Letter printing or PDF export.</li>
         </ul>
+
+        <h3 class="h5 fw-bold mt-4">Frequently Asked Questions</h3>
+        <details class="mb-3">
+            <summary class="fw-bold" style="cursor:pointer;">Does solving Sudoku require mathematical calculation?</summary>
+            <p class="mt-2 text-muted">No arithmetic calculations or additions are required. Sudoku is purely a deductive logic puzzle of elimination and spatial arrangement.</p>
+        </details>
+        <details class="mb-3">
+            <summary class="fw-bold" style="cursor:pointer;">Can I print puzzles to solve with pen and paper?</summary>
+            <p class="mt-2 text-muted">Yes! Click the <em>Print Puzzle / Save as PDF</em> button. The interface automatically optimizes high-contrast printing without navigational clutter.</p>
+        </details>
+        <details class="mb-3">
+            <summary class="fw-bold" style="cursor:pointer;">Does every generated puzzle have a guaranteed unique solution?</summary>
+            <p class="mt-2 text-muted">Yes. Our generator verifies uniqueness via logical contradiction checking during the cell deduction phase.</p>
+        </details>
     </section>
 
 </article>

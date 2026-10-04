@@ -22,11 +22,11 @@
 
         <ul class="list-group mb-4" id="fileList"></ul>
         <div class="alert alert-success border-0 shadow-sm mt-3 mb-4 text-center">
-            <i class="fas fa-shield-alt text-success me-2"></i> <strong>100% Secure & Zero Uploads:</strong> Files are processed locally on your device.
+            <i class="fas fa-shield-alt text-success me-2"></i> <strong>100% Secure &amp; Zero Uploads:</strong> Files are processed locally on your device.
         </div>
 
 
-        <div class="text-center">
+        <div class="text-center mt-4 mb-4">
             <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5 fw-bold shadow-sm" id="mergeBtn" style="display:none;">
                 <i class="fas fa-layer-group me-2"></i>Merge PDFs
             </button>
@@ -41,9 +41,17 @@
 
 <!-- SEO & Instructions Content for AdSense Compliance -->
 <div class="container bg-white p-4 rounded shadow-sm mt-5 mb-4" style="max-width: 800px; margin: 0 auto;">
-    <h3 class="h4 fw-bold">How to Use the Free PDF Merger</h3>
+    <h2 class="h4 fw-bold">How to Use the Free PDF Merger</h2>
     <p>Combining multiple PDF documents into a single file is incredibly simple with Free Qube. Start by selecting all the PDF files you want to merge—you can drag and drop them into the upload box or click to browse your computer. Our interface allows you to upload multiple files at once. After uploading, click the merge button, and our system will combine them into one seamless document in the order they were uploaded.</p>
     
+    <h3 class="h5 fw-bold mt-4">How to Merge PDFs — Step by Step</h3>
+    <ol>
+        <li><strong>Select Your Files:</strong> Click the upload area or drag and drop all the PDF files you want to combine. You can add as many files as needed.</li>
+        <li><strong>Reorder if Needed:</strong> Drag the file entries in the list to rearrange them in the exact order you want in the final document.</li>
+        <li><strong>Click Merge PDFs:</strong> Hit the blue merge button and our secure browser engine will instantly combine them.</li>
+        <li><strong>Download:</strong> Your merged PDF is automatically downloaded to your device. No waiting, no email, no registration.</li>
+    </ol>
+
     <h3 class="h5 fw-bold mt-4">Benefits of Merging PDF Files</h3>
     <p>Merging PDFs can significantly improve your digital workflow:</p>
     <ul>
@@ -52,12 +60,43 @@
         <li><strong>Presentation Ready:</strong> Seamlessly stitch together presentation slides, cover letters, and portfolios into a single cohesive package.</li>
     </ul>
 
-    <h3 class="h5 fw-bold mt-4">Your Data is Safe With Us</h3>
-    <p>We understand that documents often contain sensitive personal or business information. Our PDF merger uses secure, encrypted connections (HTTPS) to transfer your files. Once the merging process is finalized and you have downloaded your new document, our servers automatically purge all associated files. We do not store, view, or watermark any of your documents.</p>
+    <h3 class="h5 fw-bold mt-4">Why Choose Our PDF Combiner?</h3>
+    <ul class="mb-4">
+        <li><strong>Offline-Level Security:</strong> We use advanced client-side JavaScript (pdf-lib) to merge your files directly in your browser's memory. Your PDFs are never uploaded to any server, guaranteeing 100% privacy.</li>
+        <li><strong>Drag &amp; Drop Reordering:</strong> Easily rearrange the order of your files before merging. Just drag the file cards into the perfect sequence.</li>
+        <li><strong>100% Free &amp; Unlimited:</strong> Combine as many files as you want, as many times as you want. There are no daily limits and no watermarks added to your final document.</li>
+        <li><strong>Blazing Fast:</strong> Forget about slow upload bars. Because the merging happens on your local device CPU, it finishes almost instantly.</li>
+    </ul>
+
+    <h3 class="h5 fw-bold mt-4">Technical Specifications</h3>
+    <ul>
+        <li><strong>Engine:</strong> <a href="https://pdf-lib.js.org/" target="_blank" rel="noopener">pdf-lib</a> — a pure JavaScript library for creating and modifying PDFs entirely in the browser.</li>
+        <li><strong>Supported Input:</strong> Standard PDF files (PDF 1.0–1.7). Does not support password-protected (encrypted) PDFs.</li>
+        <li><strong>File Size:</strong> Limited only by your device's available RAM; no server-side limits apply.</li>
+        <li><strong>Output:</strong> A single merged PDF file downloaded directly to your computer.</li>
+    </ul>
+
+    <h3 class="h5 fw-bold mt-4">Frequently Asked Questions</h3>
+
+    <details class="mb-3">
+        <summary class="fw-bold" style="cursor:pointer;">Is the PDF merger completely free?</summary>
+        <p class="mt-2 text-muted">Yes, absolutely. There are no hidden fees, no premium tiers, and no daily merge limits. The tool is 100% free to use as many times as you like.</p>
+    </details>
+
+    <details class="mb-3">
+        <summary class="fw-bold" style="cursor:pointer;">Are my PDF files safe? Do you store them?</summary>
+        <p class="mt-2 text-muted">Your files never leave your device. The entire merging process runs client-side in your browser using JavaScript. We have zero access to your documents. Nothing is stored on our servers.</p>
+    </details>
+
+    <details class="mb-3">
+        <summary class="fw-bold" style="cursor:pointer;">Can I merge password-protected PDFs?</summary>
+        <p class="mt-2 text-muted">Not directly. You would need to first unlock the PDF using our <a href="/pdf/unlock">PDF Unlock tool</a>, and then merge the resulting unencrypted file.</p>
+    </details>
 </div>
 {% endblock %}
 
 {% block scripts %}
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 <script>
 const pdfInput = document.getElementById('pdfs');
 const fileList = document.getElementById('fileList');
@@ -165,96 +204,71 @@ fileList.addEventListener('drop', (e) => {
         target.style.borderBottom = "";
         const draggedIndex = parseInt(draggedItem.dataset.index);
         const targetIndex = parseInt(target.dataset.index);
-        
+        const movedFile = selectedFiles.splice(draggedIndex, 1)[0];
+        selectedFiles.splice(targetIndex, 0, movedFile);
+        renderFileList();
+    }
+});
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (selectedFiles.length < 2) {
+        Swal.fire("Wait!", "Please select at least two PDF files.", "warning");
+        return;
     }
 
-    window.removeFile = function(fileName, btnElement) {
-        selectedFiles = selectedFiles.filter(f => f.name !== fileName);
-        const li = btnElement.closest('li');
-        li.style.transform = 'scale(0.9)';
-        li.style.opacity = '0';
-        setTimeout(() => li.remove(), 200);
-        updateMergeButton();
-    }
-
-    document.getElementById('pdfForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        if (selectedFiles.length < 2) {
-            Swal.fire("Wait!", "Please select at least two PDF files.", "warning");
-            return;
-        }
-
-        spinnerContainer.style.display = 'block';
-        mergeBtn.disabled = true;
-        
-        const spinnerText = spinnerContainer.querySelector('p');
-        let progressStages = [
-            "Reading PDFs locally...",
-            "Merging documents securely in browser...",
-            "Finalizing document..."
-        ];
-        let stageIdx = 0;
-        spinnerText.innerText = progressStages[0];
-        const progressInterval = setInterval(() => {
-            stageIdx++;
-            if (stageIdx < progressStages.length) {
-                spinnerText.innerText = progressStages[stageIdx];
-            } else {
-                clearInterval(progressInterval);
-            }
-        }, 1000);
-
-        try {
-            const { PDFDocument } = PDFLib;
-            const mergedPdf = await PDFDocument.create();
-
-            for (const file of selectedFiles) {
-                const arrayBuffer = await file.arrayBuffer();
-                const pdf = await PDFDocument.load(arrayBuffer);
-                const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-                copiedPages.forEach((page) => mergedPdf.addPage(page));
-            }
-
-            const pdfBytes = await mergedPdf.save();
-            const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-            
-            clearInterval(progressInterval);
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'merged.pdf';
-            link.click();
-            
-        } catch (error) {
-            console.error(error);
-            Swal.fire("Error", "Failed to merge PDF files. Some files might be corrupted or encrypted.", "error");
-        } finally {
-            spinnerContainer.style.display = 'none';
-            mergeBtn.disabled = false;
-            clearInterval(progressInterval);
-        }
-    });
-</script>
-
-<!-- SEO Content for AdSense Compliance -->
-<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
-    <h2 class="fw-bold mb-3">Best Free PDF Merger Online</h2>
-    <p>Managing multiple PDF documents can be a hassle. Our <strong>Free PDF Merger</strong> lets you easily combine multiple PDFs into one single document. Whether you are compiling legal case files, merging monthly reports, or putting together a research paper, our tool streamlines the process seamlessly.</p>
+    spinnerContainer.style.display = 'block';
+    mergeBtn.disabled = true;
     
-    <h3 class="fw-bold mt-4">Why Choose Our PDF Combiner?</h3>
-    <ul class="mb-4">
-        <li><strong>Offline-Level Security:</strong> We use advanced client-side JavaScript (pdf-lib) to merge your files directly in your browser's memory. Your PDFs are never uploaded to any server, guaranteeing 100% privacy.</li>
-        <li><strong>Drag & Drop Reordering:</strong> Easily rearrange the order of your files before merging. Just drag the file cards into the perfect sequence.</li>
-        <li><strong>100% Free & Unlimited:</strong> Combine as many files as you want, as many times as you want. There are no daily limits and no watermarks added to your final document.</li>
-        <li><strong>Blazing Fast:</strong> Forget about slow upload bars. Because the merging happens on your local device CPU, it finishes almost instantly.</li>
-    </ul>
+    const spinnerText = spinnerContainer.querySelector('p');
+    let progressStages = [
+        "Reading PDFs locally...",
+        "Merging documents securely in browser...",
+        "Finalizing document..."
+    ];
+    let stageIdx = 0;
+    spinnerText.innerText = progressStages[0];
+    const progressInterval = setInterval(() => {
+        stageIdx++;
+        if (stageIdx < progressStages.length) {
+            spinnerText.innerText = progressStages[stageIdx];
+        } else {
+            clearInterval(progressInterval);
+        }
+    }, 1000);
 
-    <h3 class="fw-bold mt-4">How to Combine PDF Files</h3>
-    <ol>
-        <li>Click "Add More PDFs" or drag and drop all the files you want to merge into the drop zone.</li>
-        <li>Rearrange the files in the list until they are in the correct order.</li>
-        <li>Click "Merge PDFs" and your browser will instantly generate and download the combined document.</li>
-    </ol>
-</div>
+    try {
+        const { PDFDocument } = PDFLib;
+        const mergedPdf = await PDFDocument.create();
+
+        for (const file of selectedFiles) {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await PDFDocument.load(arrayBuffer);
+            const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+            copiedPages.forEach((page) => mergedPdf.addPage(page));
+        }
+
+        const pdfBytes = await mergedPdf.save();
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        
+        clearInterval(progressInterval);
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'merged.pdf';
+        link.click();
+
+        Swal.fire({ title: 'Merged!', text: 'Your PDF has been merged and downloaded.', icon: 'success', timer: 2500, showConfirmButton: false });
+        
+    } catch (error) {
+        console.error(error);
+        Swal.fire("Error", "Failed to merge PDF files. Some files might be corrupted or encrypted.", "error");
+    } finally {
+        spinnerContainer.style.display = 'none';
+        mergeBtn.disabled = false;
+        clearInterval(progressInterval);
+    }
+});
+</script>
 {% endblock %}

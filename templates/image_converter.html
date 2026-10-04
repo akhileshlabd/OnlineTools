@@ -88,19 +88,51 @@
     </div>
 </div>
 
-<!-- SEO Block (unchanged) -->
+<!-- SEO & Educational Content for AdSense Compliance -->
 <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
-    <h3 class="h4 fw-bold">How to Use the Free Image Converter & Compressor</h3>
-    <p>Converting your images to different formats and compressing them for web use has never been simpler. To begin, just drag and drop your image file into the upload zone above or click to browse your computer. Our tool supports a variety of common input formats. Once your image is loaded, you'll see a preview. From there, select your desired output format (JPG, PNG, or WEBP) and adjust the quality slider to find the perfect balance between image clarity and file size.</p>
-    <p>One of the standout features of our Image Converter is that it operates entirely within your web browser. When you convert or compress a photo, the image data is processed using your device's local resources via HTML5 Canvas and JavaScript. This means:</p>
+    <h2 class="h3 fw-bold mb-3">Free Image Converter &amp; Compressor — How It Works</h2>
+    <p>Our <strong>Image Converter &amp; Compressor</strong> makes it effortless to change image formats and reduce file sizes right in your browser. Whether you are a web developer optimizing assets for faster page loads, a designer preparing files for clients, or just someone who wants to convert a WebP photo into a more universally supported JPG, this tool handles it all with zero effort.</p>
+
+    <p>Unlike server-based converters, everything happens locally using the <strong>HTML5 Canvas API</strong>. When you upload an image, it is drawn onto an off-screen canvas element and re-encoded at your chosen format and quality level — your original file is never transmitted to any server. This approach delivers instant results and absolute privacy.</p>
+
+    <h3 class="h5 fw-bold mt-4">How to Convert an Image — Step by Step</h3>
+    <ol>
+        <li><strong>Upload Your Image:</strong> Drag and drop a JPG, PNG, WebP, or GIF file into the upload zone, or click to browse your device.</li>
+        <li><strong>Choose Output Format:</strong> Select JPEG for the smallest file sizes (ideal for photographs), PNG for lossless quality with transparency support, or WebP for the best combination of quality and compression for modern websites.</li>
+        <li><strong>Adjust Quality:</strong> Use the Quality slider (1–100%) to find the perfect balance between image clarity and file size. The live preview updates instantly so you can see the result before downloading.</li>
+        <li><strong>Download:</strong> Click the green "Download Image" button. Your converted file is saved directly to your device — no sign-up required.</li>
+    </ol>
+
+    <h3 class="h5 fw-bold mt-4">Technical Specifications</h3>
     <ul>
-        <li><strong>Privacy:</strong> Your images are never uploaded to our servers.</li>
-        <li><strong>Speed:</strong> Conversions happen instantly without waiting for network transfers.</li>
-        <li><strong>No Limits:</strong> Convert as many images as you want for free.</li>
+        <li><strong>Supported Input Formats:</strong> JPEG/JPG, PNG, WebP, GIF, BMP, and any other format supported by your browser's native image decoder.</li>
+        <li><strong>Supported Output Formats:</strong> JPEG, PNG, WebP.</li>
+        <li><strong>Processing Engine:</strong> HTML5 Canvas API — runs 100% client-side in your browser.</li>
+        <li><strong>Quality Range:</strong> 1–100% for JPEG and WebP (lossless compression for PNG).</li>
+        <li><strong>File Size Limits:</strong> No server-side limits. Limited only by your device's available RAM.</li>
+        <li><strong>Privacy:</strong> Your images are never uploaded to Free Qube servers. Zero data collection.</li>
     </ul>
+
+    <h3 class="h5 fw-bold mt-4">Frequently Asked Questions</h3>
+
+    <details class="mb-3">
+        <summary class="fw-bold" style="cursor:pointer;">What is the difference between JPEG, PNG, and WebP?</summary>
+        <p class="mt-2 text-muted">JPEG uses lossy compression, making it ideal for photographs where a slightly lower quality is acceptable in exchange for small file sizes. PNG uses lossless compression and supports transparency, making it perfect for logos and graphics. WebP is a modern format developed by Google that offers superior compression for both lossy and lossless images, resulting in smaller file sizes than JPEG or PNG with equivalent visual quality.</p>
+    </details>
+
+    <details class="mb-3">
+        <summary class="fw-bold" style="cursor:pointer;">Will converting change my image dimensions?</summary>
+        <p class="mt-2 text-muted">No. This tool only changes the image format and compression level. Your image dimensions (width and height in pixels) are preserved exactly. If you need to resize the image, use our separate Image Resizer tool.</p>
+    </details>
+
+    <details class="mb-3">
+        <summary class="fw-bold" style="cursor:pointer;">Is there a file size limit for images I can convert?</summary>
+        <p class="mt-2 text-muted">There is no server-side file size limit because your image is processed locally in your browser. Very large images (e.g., over 50MP RAW files) may be slow to process depending on your device's hardware capabilities.</p>
+    </details>
 </div>
 
 {% endblock %}
+
 
 {% block scripts %}
 <script>
@@ -221,20 +253,4 @@ function processImageLive() {
     }, targetFormat, targetFormat === 'image/png' ? undefined : quality);
 }
 </script>
-
-<!-- SEO Content for AdSense Compliance -->
-<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
-    <h2 class="fw-bold mb-3">Fast & Free Image Format Converter</h2>
-    <p>In the modern web ecosystem, managing different image formats can be a headache. Whether you need to convert a modern WebP image into a universally compatible JPG, or transform a flat photo into a transparent PNG, our <strong>Free Image Converter</strong> handles it all instantly.</p>
-    
-    <h3 class="fw-bold mt-4">Supported Formats</h3>
-    <ul class="mb-4">
-        <li><strong>WebP to JPG / PNG:</strong> WebP images are great for websites but often fail to open in legacy software. Easily convert them back to standard formats.</li>
-        <li><strong>PNG to JPG:</strong> Compress massive transparent images into lightweight JPGs perfect for sharing.</li>
-        <li><strong>JPG to PNG:</strong> Convert photographs into formats that support transparency and lossless editing.</li>
-    </ul>
-
-    <h3 class="fw-bold mt-4">The Advantage of Client-Side Conversion</h3>
-    <p>When you use Free Qube to convert your images, you never have to wait for your files to upload to a remote server. The conversion takes place locally via your browser's internal canvas API. This guarantees 100% privacy, immediate processing speeds, and no restrictive file size limits.</p>
-</div>
 {% endblock %}
