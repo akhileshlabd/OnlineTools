@@ -130,11 +130,45 @@
         <summary class="fw-bold" style="cursor:pointer;">Are inflation or taxes accounted for in this projection?</summary>
         <p class="mt-2 text-muted">The calculator reflects nominal returns. To estimate real purchasing power, subtract your local average annualized inflation rate from your nominal percentage return.</p>
     </details>
-    <details class="mb-3">
-        <summary class="fw-bold" style="cursor:pointer;">Is my personal financial information stored or tracked?</summary>
-        <p class="mt-2 text-muted">No. Free Qube calculators operate 100% locally on your machine. Your calculations are never transmitted to our servers or third parties.</p>
-    </details>
+    <h3 class="h5 fw-bold mt-4">Related Financial Planners</h3>
+    <div class="row g-3 mt-1">
+        <div class="col-md-4">
+            <a href="/finance/sip" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
+                <span class="fw-bold text-primary"><i class="fas fa-chart-line me-2"></i>SIP Calculator</span>
+                <small class="text-muted d-block mt-1">Systematic mutual fund projections</small>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="/finance/emi" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
+                <span class="fw-bold text-danger"><i class="fas fa-home me-2"></i>EMI Calculator</span>
+                <small class="text-muted d-block mt-1">Home &amp; personal loan amortization</small>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="/finance/compound" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
+                <span class="fw-bold text-success"><i class="fas fa-coins me-2"></i>Compound Interest</span>
+                <small class="text-muted d-block mt-1">Multi-frequency compounding models</small>
+            </a>
+        </div>
+    </div>
 </div>
+
+<!-- Structured Data (JSON-LD) for SoftwareApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "{{ tool.name }}",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "description": "{{ tool.desc }}"
+}
+</script>
 {% endblock %}
 
 {% block scripts %}

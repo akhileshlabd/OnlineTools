@@ -212,13 +212,43 @@
     {% endif %}
 </div>
 
-<!-- SEO Content -->
-<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
-    <h2 class="fw-bold mb-3">About the {{ t(tool.name) }}</h2>
-    <p>Staying on top of your health starts with the right numbers. Free Qube provides incredibly fast, precise calculators to help you manage your wellness journey. This free {{ t(tool.name) }} is built with clinically accepted formulas to give you accurate insights instantly.</p>
+<!-- SEO & Educational Content for AdSense Compliance -->
+<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4 text-start">
+    <h2 class="h3 fw-bold mb-3">Clinical Foundations &amp; Calculation Architecture: {{ t(tool.name) }}</h2>
+    <p class="text-muted">Proactive wellness and fitness conditioning depend on reliable physiological mathematics. Our <strong>{{ t(tool.name) }}</strong> provides individuals, athletes, and nutritionists with immediate, clinically recognized calculations completely free of cost.</p>
     
-    <h3 class="h5 fw-bold mt-4">100% Private Client-Side Calculation</h3>
-    <p>Because health data is highly personal, we built this calculator to run 100% inside your web browser. Absolutely nothing you type—no weights, no dates, no ages—is ever transmitted or saved to our servers. Your personal health data stays entirely on your own device, guaranteeing your absolute privacy.</p>
+    <h3 class="h5 fw-bold mt-4">Physiological Models &amp; Formulas</h3>
+    <p class="text-muted">Depending on your selected metric, calculations are evaluated using validated clinical standards:</p>
+    <ul class="text-muted">
+        <li><strong>Body Mass Index (BMI):</strong> Evaluated using the standard World Health Organization formula: \(\text{BMI} = \frac{\text{weight (kg)}}{(\text{height (m)})^2}\), categorizing results across Underweight (&lt;18.5), Normal (18.5–24.9), Overweight (25–29.9), and Obese (≥30).</li>
+        <li><strong>Basal Metabolic Rate (BMR):</strong> Calculated using the Mifflin-St Jeor equation, widely acknowledged as the most accurate standard for predicting resting energy expenditure in healthy adults.</li>
+        <li><strong>Pregnancy Gestation:</strong> Based on Naegele’s clinical rule calculating estimated delivery dates 280 days from the onset of the last menstrual period (LMP).</li>
+    </ul>
+
+    <h3 class="h5 fw-bold mt-4">100% In-Browser Biometric Security</h3>
+    <p class="text-muted">Biometric variables such as body mass, age, and menstrual cycles constitute sensitive health metrics. While mobile apps frequently monetize personal health metrics through third-party advertising SDKs, Free Qube executes all calculations entirely in your browser's local sandbox memory. Zero biometric data points are ever logged, tracked, or sent to external servers.</p>
+
+    <h3 class="h5 fw-bold mt-4">Related Health &amp; Wellness Tools</h3>
+    <div class="row g-3 mt-1">
+        <div class="col-md-4">
+            <a href="/health/bmi" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
+                <span class="fw-bold text-danger"><i class="fas fa-weight me-2"></i>BMI Calculator</span>
+                <small class="text-muted d-block mt-1">WHO standard weight categories</small>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="/health/calorie" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
+                <span class="fw-bold text-success"><i class="fas fa-fire me-2"></i>Calorie Calculator</span>
+                <small class="text-muted d-block mt-1">Mifflin-St Jeor BMR &amp; TDEE targets</small>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="/health/pregnancy" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
+                <span class="fw-bold text-primary"><i class="fas fa-baby me-2"></i>Due Date Calculator</span>
+                <small class="text-muted d-block mt-1">Naegele's rule trimester milestones</small>
+            </a>
+        </div>
+    </div>
 </div>
 {% endblock %}
 

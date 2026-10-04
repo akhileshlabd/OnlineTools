@@ -5,36 +5,39 @@
 
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-md-8 bg-white p-5 rounded shadow-sm">
+    <div class="col-md-9 col-lg-8 bg-white p-4 p-md-5 rounded shadow-sm">
         <h1 class="fw-bold mb-4">About Free Qube</h1>
         
-        <p class="lead">Welcome to Free Qube, your ultimate destination for high-quality, completely free online tools. Our mission is to make digital document and image processing accessible to everyone, without the hassle of software installations, registrations, or hidden fees.</p>
+        <p class="lead text-muted">Free Qube is an engineered, privacy-first web utility platform built to eliminate the security vulnerabilities, subscription paywalls, and telemetry harvesting pervasive in traditional online tools.</p>
         
-        <h3 class="mt-4">Our Mission</h3>
-        <p>In today's fast-paced digital world, basic tasks like merging PDFs, resizing images, and creating professional resumes shouldn't cost you money or compromise your privacy. Free Qube was born out of a desire to provide a comprehensive suite of utilities that are completely free to use. We believe in an open web where essential productivity tools are available to students, professionals, and casual users alike without restrictive paywalls.</p>
+        <h2 class="h4 fw-bold mt-4">Engineering Mission: The Client-Side Web Architecture</h2>
+        <p>In modern digital workflows, everyday operations—such as combining PDF contracts, compressing medical intake scans, inspecting proprietary API JSON payloads, or running investment projections—should never require uploading confidential documents to third-party cloud servers. Historically, web users were forced to choose between installing heavyweight desktop software or exposing sensitive files to remote servers where they linger in temporary caches.</p>
+        <p>Free Qube was founded by software engineers and privacy advocates who believe in leveraging modern web capabilities—specifically <strong>WebAssembly (Wasm), HTML5 Canvas, Web Workers, and the Web Crypto API</strong>—to execute 100% of the computational workload directly on your device’s CPU and GPU. Your files never cross an external network, providing immediate processing speeds with zero data footprint.</p>
         
-        <h3 class="mt-4">What We Offer</h3>
-        <p>Free Qube is an all‑in‑one, privacy‑focused platform offering a comprehensive suite of free online utilities across ten core categories.</p>
+        <h2 class="h4 fw-bold mt-4">Platform Architecture &amp; Core Categories</h2>
+        <p>Our platform maintains robust, browser-executed utilities across ten primary categories:</p>
         <ul>
-            <li><strong>PDF Tools:</strong> Merge, split, extract text, convert images, and more—secure, fast, and client‑side when possible.</li>
-            <li><strong>Image Tools:</strong> Resize, convert, compress, and optimize photos in formats like JPG, PNG, WEBP, all without watermarks.</li>
-            <li><strong>Finance Tools:</strong> Calculate loans, interest, amortization schedules, and currency conversions with precision.</li>
-            <li><strong>Text Tools:</strong> Count words, format text, generate lorem ipsum, and perform advanced text manipulations.</li>
-            <li><strong>Health Calculators:</strong> BMI, BMR, calorie needs, and other health‑related computations.</li>
-            <li><strong>Math Utilities:</strong> Solve equations, convert units, compute statistics, and explore mathematical functions.</li>
-            <li><strong>Network Tools:</strong> Ping, traceroute, DNS lookup, and other connectivity diagnostics.</li>
-            <li><strong>Code Formatter:</strong> Beautify and lint code snippets for multiple programming languages.</li>
-            <li><strong>Games:</strong> Simple browser‑based games for quick breaks.</li>
-            <li><strong>Kids Educational Tools:</strong> Fun, safe activities designed for children’s learning.</li>
+            <li><strong>PDF Engineering:</strong> In-browser page tree parsing, AES encryption, decryption, and multi-file merging powered by WebAssembly and client-side JavaScript (pdf-lib).</li>
+            <li><strong>Image Optimization:</strong> Local raster manipulation, lossless compression, and aspect-ratio scaling utilizing the HTML5 2D Canvas context.</li>
+            <li><strong>Financial Modeling:</strong> Bank-grade computational engines calculating SIP compounding annuities, reducing-balance EMI loan amortizations, and lumpsum yields.</li>
+            <li><strong>Developer Utilities:</strong> Client-side JSON formatters, Base64 decoders, syntax diff engines, and one-way cryptographic hash generation (MD5, SHA-256).</li>
+            <li><strong>Everyday Math &amp; Health:</strong> Instant mathematical solvers and physiologically verified health calculators (WHO BMI standards, Mifflin-St Jeor TDEE metrics).</li>
+            <li><strong>Network Diagnostics:</strong> Ephemeral IP lookup and network telemetry verification without behavioral tracking or user profiling.</li>
         </ul>
         
-        <h3 class="mt-4">Privacy & Technology</h3>
-        <p>Your privacy and data security are our top priorities. Many of our tools are designed to work entirely within your web browser. This means your files never leave your device for those specific tasks, ensuring maximum confidentiality. For tools that require server-side processing, we guarantee that all files are processed securely and deleted automatically from our servers shortly after your task is complete. We do not store, view, or share your documents.</p>
+        <h2 class="h4 fw-bold mt-4">Our Commitment to Zero-Knowledge Privacy</h2>
+        <p>Privacy is not an afterthought at Free Qube—it is our core design constraint. We operate under a <strong>Zero-Knowledge Architecture</strong>:</p>
+        <ul>
+            <li><strong>Zero Server Uploads:</strong> Client-side tools execute entirely within your browser sandbox. Inspect your browser's Developer Tools Network tab during file operations to verify that zero file payloads leave your computer.</li>
+            <li><strong>Zero Registration Barriers:</strong> No accounts, no email capture, and no phone verification. Every utility is immediately accessible.</li>
+            <li><strong>Zero Document Watermarking:</strong> We never inject watermarks, branding stamps, or metadata into your exported files.</li>
+        </ul>
         
-        <h3 class="mt-4">Why Choose Us?</h3>
-        <p>Unlike many other platforms, Free Qube does not apply annoying watermarks to your finished documents. We do not require you to create an account or provide an email address. Simply visit the site, select your tool, process your file, and download the result instantly. Our clean, user-friendly interface ensures that you can get your work done quickly and efficiently.</p>
-        
-        <p class="mt-4 text-muted">Thank you for choosing Free Qube. We are constantly updating and improving our toolset. If you find our platform useful, please feel free to share it with your friends and colleagues!</p>
+        <h2 class="h4 fw-bold mt-4">Editorial Integrity &amp; Transparency</h2>
+        <p>Beyond our interactive utilities, our editorial blog publishes deeply researched, educational guides on data privacy, consumer technology, and web standards. We are dedicated to providing transparent, authentic information to empower users in their digital lives.</p>
+
+        <h2 class="h4 fw-bold mt-4">Contact &amp; Operations</h2>
+        <p>Free Qube is maintained by an international remote team of full-stack engineers and tech contributors. If you have feature suggestions, bug reports, or partnership inquiries, reach out to our team at <a href="mailto:support@freeqube.com" class="text-primary fw-semibold">support@freeqube.com</a> or submit a message via our <a href="/contact" class="text-primary fw-semibold">Contact Page</a>.</p>
     </div>
 </div>
 {% endblock %}

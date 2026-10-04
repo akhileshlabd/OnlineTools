@@ -463,11 +463,45 @@
         <summary class="fw-bold" style="cursor:pointer;">Can this tool format malformed or truncated JSON?</summary>
         <p class="mt-2 text-muted">If a syntax violation exists, the parser highlights the exact token and syntax error position to help you fix structural mistakes quickly.</p>
     </details>
-    <details class="mb-3">
-        <summary class="fw-bold" style="cursor:pointer;">Can I use this utility offline without an active internet connection?</summary>
-        <p class="mt-2 text-muted">Yes. Thanks to progressive caching and service worker support, all scripts run seamlessly in offline environments.</p>
-    </details>
+    <h3 class="h5 fw-bold mt-4">Related Developer Tools</h3>
+    <div class="row g-3 mt-1">
+        <div class="col-md-4">
+            <a href="/code/json-formatter" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
+                <span class="fw-bold text-dark"><i class="fas fa-brackets-curly me-2"></i>JSON Formatter</span>
+                <small class="text-muted d-block mt-1">Validate &amp; beautify payloads</small>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="/code/hash-generator" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
+                <span class="fw-bold text-primary"><i class="fas fa-hashtag me-2"></i>Hash Generator</span>
+                <small class="text-muted d-block mt-1">SHA-256, MD5, SHA-512</small>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="/code/base64" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
+                <span class="fw-bold text-success"><i class="fas fa-exchange-alt me-2"></i>Base64 Encoder</span>
+                <small class="text-muted d-block mt-1">Safe text &amp; binary transforms</small>
+            </a>
+        </div>
+    </div>
 </div>
+
+<!-- Structured Data (JSON-LD) for SoftwareApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "{{ tool.name }}",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "description": "{{ tool.desc }}"
+}
+</script>
 {% endblock %}
 
 {% block scripts %}
