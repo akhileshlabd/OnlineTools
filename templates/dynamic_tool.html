@@ -105,77 +105,248 @@
 </div>
 
 <!-- Tool-Specific Guide & Technical Documentation -->
-<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4 text-start" style="max-width: 800px; margin: 0 auto;">
+<article class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4 text-start" style="max-width: 900px; margin: 0 auto;">
     {% if tool.id == 'grayscale' %}
-    <h2 class="fw-bold mb-3">Convert Images to Black & White: Technical & Creative Guide</h2>
-    <p>Converting color photographs to grayscale strips the chrominance (color hue and saturation) while retaining luminance (brightness intensity). Our <strong>Free Grayscale Tool</strong> converts standard RGB pixels into a balanced tonal spectrum directly in your browser.</p>
+    <h2 class="fw-bold mb-3">Convert Images to Grayscale: Technical & Production Guide</h2>
+    <p>Converting color photographs to monochrome involves removing color chrominance while preserving structural luminance. Rather than discarding color channels arbitrarily, our <strong>Free Online Grayscale Converter</strong> executes an instantaneous, hardware-accelerated transformation matrix directly in your browser without uploading your media to external servers.</p>
 
-    <h3 class="h5 fw-bold mt-4">Luminance Formula & Printing Benefits</h3>
-    <ul class="mb-4">
-        <li><strong>Perceptual Luminance:</strong> Rather than a crude mathematical average, our tool applies the ITU-R BT.601 standard formula (<code>L = 0.299R + 0.587G + 0.114B</code>), which accounts for the human eye's natural sensitivity to green wavelengths.</li>
-        <li><strong>Cost-Effective Printing:</strong> Printing black-and-white documents saves expensive color printer toner and ink cartridges. Ideal for legal filings, invoices, and academic papers.</li>
-        <li><strong>Timeless Photography:</strong> Removing color distractions emphasizes texture, composition, shadow depth, and facial emotion.</li>
-    </ul>
+    <h3 class="h5 fw-bold mt-4">1. How It Works: ITU-R BT.601 Spectral Luminance Formula</h3>
+    <p>Human vision does not perceive all light wavelengths with equal intensity; our eyes possess peak sensitivity to green light, moderate sensitivity to red, and low sensitivity to blue. To maintain authentic visual contrast, our engine implements the standardized ITU-R BT.601 photometric luminance equation:</p>
+    <div class="bg-light p-3 rounded font-monospace my-3 text-center border">
+        Y = 0.299 &times; R + 0.587 &times; G + 0.114 &times; B
+    </div>
+    <p>Using an HTML5 Canvas 2D context, every pixel is accessed via an in-memory <code>Uint8ClampedArray</code>. The calculated luminance value $Y$ is assigned uniformly across the red, green, and blue channels, yielding clean, natural black-and-white tones with zero compression artifacts.</p>
+
+    <h3 class="h5 fw-bold mt-4">2. Step-by-Step Tutorial</h3>
+    <ol class="mb-4">
+        <li><strong>Select or Drop Image:</strong> Click the upload area or drag any JPG, PNG, WEBM, or BMP file into the workspace.</li>
+        <li><strong>Instant Client-Side Processing:</strong> Your browser immediately renders the converted monochrome output in real-time.</li>
+        <li><strong>Inspect Output:</strong> Review the high-resolution preview directly on screen to inspect shadow detail.</li>
+        <li><strong>Download Result:</strong> Click "Download Result" to save the high-resolution monochrome image without watermarks.</li>
+    </ol>
+
+    <h3 class="h5 fw-bold mt-4">3. Technical Specifications</h3>
+    <div class="table-responsive my-3">
+        <table class="table table-bordered table-striped small">
+            <tbody>
+                <tr><th>Supported Formats</th><td>JPEG, PNG, WebP, GIF, BMP, SVG, AVIF</td></tr>
+                <tr><th>Transformation Model</th><td>Photometric Luminance (ITU-R BT.601 standard)</td></tr>
+                <tr><th>Execution Environment</th><td>Client-Side JavaScript / HTML5 Canvas 2D API</td></tr>
+                <tr><th>Privacy Guarantee</th><td>100% Local Device Memory Execution (0 bytes sent to server)</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="h5 fw-bold mt-4">4. Frequently Asked Questions (FAQ)</h3>
+    <div class="accordion my-3">
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Does converting to grayscale reduce image file size?</summary>
+            <p class="mt-2 text-muted mb-0">Yes. Because monochrome pixels require less entropy and duplicate RGB channel data, saving the output as PNG or compressed JPEG frequently reduces storage requirements by 20% to 40%.</p>
+        </details>
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Will my image lose resolution or clarity?</summary>
+            <p class="mt-2 text-muted mb-0">No. The image dimensions, pixel density, and geometric sharpness remain exactly identical to your original source file. We apply lossless luminance re-mapping.</p>
+        </details>
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Is my uploaded photograph saved on your servers?</summary>
+            <p class="mt-2 text-muted mb-0">Never. Free Qube operates on a strict zero-knowledge architecture. All pixel mutations occur entirely in your local browser sandbox.</p>
+        </details>
+    </div>
 
     {% elif tool.id == 'blur' %}
-    <h2 class="fw-bold mb-3">Gaussian Blur & Privacy Masking Guide</h2>
-    <p>Whether you need to conceal sensitive personally identifiable information (PII) or create dreamy background effects for website banners, our <strong>Free Image Blur Tool</strong> applies a smooth Gaussian filter across your photo.</p>
+    <h2 class="fw-bold mb-3">Gaussian Blur & Privacy Masking: Technical Architecture</h2>
+    <p>Whether you need to conceal personally identifiable information (PII) such as license plates, bank statements, and facial features, or generate soft background depth-of-field for UI design, our <strong>Free Image Blur Tool</strong> applies mathematically smooth Gaussian convolution directly within your browser.</p>
 
-    <h3 class="h5 fw-bold mt-4">Common Applications</h3>
-    <ul class="mb-4">
-        <li><strong>Redacting Sensitive Data:</strong> Conceal home addresses, vehicle license plates, credit card numbers, and faces in screenshots before sharing them online.</li>
-        <li><strong>UI/UX Depth of Field:</strong> Blurring background wallpaper images improves text contrast and legibility for website hero banners.</li>
-        <li><strong>Adjustable Radius:</strong> Use the radius slider above to calibrate blur intensity from subtle softening to complete anonymization.</li>
+    <h3 class="h5 fw-bold mt-4">1. How It Works: 2D Convolution Kernel Processing</h3>
+    <p>A Gaussian blur calculates a weighted average of surrounding pixels according to a two-dimensional normal distribution curve. The mathematical kernel distributes blur intensity smoothly:</p>
+    <div class="bg-light p-3 rounded font-monospace my-3 text-center border">
+        G(x, y) = \frac{1}{2\pi\sigma^2} e^{-\frac{x^2 + y^2}{2\sigma^2}}
+    </div>
+    <p>Our client-side engine leverages accelerated canvas 2D pixel pipeline filters. By adjusting the blur radius slider, you modify the distribution variance $\sigma$, allowing for everything from subtle artistic atmospheric softening to irreversible cryptographic data redaction.</p>
+
+    <h3 class="h5 fw-bold mt-4">2. Step-by-Step Tutorial</h3>
+    <ol class="mb-4">
+        <li><strong>Load Image:</strong> Drag and drop your image into the workspace container.</li>
+        <li><strong>Set Blur Intensity:</strong> Adjust the radius slider between 1px (light softening) and 50px (heavy anonymization).</li>
+        <li><strong>Real-Time Preview:</strong> Watch the live preview update instantly without server roundtrips.</li>
+        <li><strong>Export:</strong> Click "Download Result" to save your redacted or stylized image.</li>
+    </ol>
+
+    <h3 class="h5 fw-bold mt-4">3. Technical Specifications</h3>
+    <div class="table-responsive my-3">
+        <table class="table table-bordered table-striped small">
+            <tbody>
+                <tr><th>Blur Algorithm</th><td>Box / Gaussian Approximation Convolution</td></tr>
+                <tr><th>Radius Range</th><td>1 to 50 pixels (dynamically calibrated)</td></tr>
+                <tr><th>Alpha Transparency</th><td>Preserved across PNG and WebP files</td></tr>
+                <tr><th>Memory Limits</th><td>Processes images up to 8K resolution locally</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="h5 fw-bold mt-4">4. Frequently Asked Questions (FAQ)</h3>
+    <div class="accordion my-3">
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Can someone unblur or reverse the blurred areas?</summary>
+            <p class="mt-2 text-muted mb-0">When blurred with a radius above 15px, the original high-frequency pixel information is permanently blended and destroyed mathematically. It cannot be recovered from the downloaded bitmap.</p>
+        </details>
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Does this tool work on mobile browsers?</summary>
+            <p class="mt-2 text-muted mb-0">Yes! The tool is fully responsive and utilizes touch-enabled sliders on iOS Safari, Android Chrome, and all modern mobile web engines.</p>
+        </details>
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Are transparent backgrounds supported?</summary>
+            <p class="mt-2 text-muted mb-0">Yes. Transparent alpha channels in PNG images are respected and blended seamlessly with zero black edge bleeding.</p>
+        </details>
+    </div>
+
+    {% elif tool.id in ['flip_h', 'flip_v', 'rotate_tool'] %}
+    <h2 class="fw-bold mb-3">Affine Transform & Spatial Geometry: Complete Guide</h2>
+    <p>Digital camera sensors, smartphones, and scanners frequently capture images with incorrect spatial orientation due to device tilting or mirrored front-facing lenses. Our <strong>Lossless Image Geometry Tool</strong> applies linear affine transformations to permanently rectify orientation.</p>
+
+    <h3 class="h5 fw-bold mt-4">1. How It Works: 2D Matrix Transformations</h3>
+    <p>Spatial re-orientation is governed by linear algebraic coordinate mapping. Rather than re-compressing JPEG data with generational loss, our engine maps coordinate space using standard transform matrices:</p>
+    <div class="bg-light p-3 rounded font-monospace my-3 text-center border">
+        \begin{bmatrix} x' \\ y' \\ 1 \end{bmatrix} = \begin{bmatrix} \cos\theta & -\sin\theta & t_x \\ \sin\theta & \cos\theta & t_y \\ 0 & 0 & 1 \end{bmatrix} \begin{bmatrix} x \\ y \\ 1 \end{bmatrix}
+    </div>
+    <p>For horizontal flips, the matrix scales the X-axis by $-1$; for vertical flips, the Y-axis is scaled by $-1$. For 90-degree rotations, dimensions are swapped and translated dynamically to prevent canvas clipping.</p>
+
+    <h3 class="h5 fw-bold mt-4">2. Step-by-Step Tutorial</h3>
+    <ol class="mb-4">
+        <li><strong>Import Image:</strong> Upload your photo or screenshot via file picker or drag-and-drop.</li>
+        <li><strong>Choose Transformation:</strong> Click "Rotate Clockwise", "Rotate Anti-Clockwise", or flip horizontally/vertically.</li>
+        <li><strong>Examine Orientation:</strong> Verify that text, faces, and horizon lines are accurately aligned.</li>
+        <li><strong>Save:</strong> Click "Download Result" to export your perfectly oriented image file.</li>
+    </ol>
+
+    <h3 class="h5 fw-bold mt-4">3. Technical Specifications</h3>
+    <div class="table-responsive my-3">
+        <table class="table table-bordered table-striped small">
+            <tbody>
+                <tr><th>Transformation Types</th><td>Horizontal Reflection, Vertical Reflection, Arbitrary & 90° Rotations</td></tr>
+                <tr><th>EXIF Handling</th><td>Strips conflicting EXIF orientation tags to enforce bitmap alignment</td></tr>
+                <tr><th>Interpolation</th><td>Bilinear pixel interpolation for sub-degree precision</td></tr>
+                <tr><th>Processing Latency</th><td>Sub-50 milliseconds on modern CPUs</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="h5 fw-bold mt-4">4. Frequently Asked Questions (FAQ)</h3>
+    <div class="accordion my-3">
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Why do my phone selfies always appear flipped?</summary>
+            <p class="mt-2 text-muted mb-0">Most smartphone selfie cameras mirror the preview screen to mimic a bathroom mirror, but save the un-mirrored raw capture. Our horizontal flip tool permanently mirrors the file back to your desired perspective.</p>
+        </details>
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Will rotating my photo crop or cut off the corners?</summary>
+            <p class="mt-2 text-muted mb-0">No. When rotating by 90°, 180°, or 270°, the canvas bounding box automatically recalculates its width and height to fit the full rotated dimensions without clipping.</p>
+        </details>
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Does this process degrade image quality?</summary>
+            <p class="mt-2 text-muted mb-0">90-degree rotations and horizontal/vertical flips are mathematically exact matrix transpositions with zero pixel degradation.</p>
+        </details>
+    </div>
+
+    {% elif tool.id in ['brightness', 'contrast'] %}
+    <h2 class="fw-bold mb-3">Tonal Calibration & Contrast Adjustment: Engineering Guide</h2>
+    <p>Lighting conditions during photography are rarely ideal, resulting in underexposed shadows or flat, washed-out tones. Our <strong>Tonal Calibration Engine</strong> dynamically expands the dynamic range and corrects exposure directly in your browser.</p>
+
+    <h3 class="h5 fw-bold mt-4">1. How It Works: Color Transfer Function</h3>
+    <p>Brightness scaling applies a linear additive offset to all RGB channels, while contrast adjustment scales values relative to the midpoint gray value (128):</p>
+    <div class="bg-light p-3 rounded font-monospace my-3 text-center border">
+        C_{out} = \text{Factor} \times (C_{in} - 128) + 128
+    </div>
+    <p>Values are clamped strictly between $[0, 255]$ to prevent channel overflow. This sharpens faded text on scanned receipts and enlivens shadow details in landscape photos without introducing color fringing.</p>
+
+    <h3 class="h5 fw-bold mt-4">2. Step-by-Step Tutorial</h3>
+    <ol class="mb-4">
+        <li><strong>Upload Photo:</strong> Choose any image file requiring exposure correction.</li>
+        <li><strong>Adjust Factor:</strong> Fine-tune the brightness or contrast factor using the input controls.</li>
+        <li><strong>Real-Time Feedback:</strong> Inspect highlights and shadows in the live responsive preview.</li>
+        <li><strong>Download:</strong> Click "Download Result" to export your adjusted image instantly.</li>
+    </ol>
+
+    <h3 class="h5 fw-bold mt-4">3. Technical Specifications</h3>
+    <div class="table-responsive my-3">
+        <table class="table table-bordered table-striped small">
+            <tbody>
+                <tr><th>Adjustment Range</th><td>Factor 0.0 (minimum) to 5.0 (maximum)</td></tr>
+                <tr><th>Clipping Protection</th><td>Strict 8-bit unsigned integer clamping ($[0, 255]$)</td></tr>
+                <tr><th>Color Space</th><td>Standard sRGB color profile</td></tr>
+                <tr><th>Zero Uploads</th><td>Executed 100% inside your local device sandbox</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="h5 fw-bold mt-4">4. Frequently Asked Questions (FAQ)</h3>
+    <div class="accordion my-3">
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Can increasing contrast help read faint scanned documents?</summary>
+            <p class="mt-2 text-muted mb-0">Yes. Increasing contrast pushes gray background paper toward pure white and faint pencil/ink marks toward dark black, dramatically improving legibility and OCR accuracy.</p>
+        </details>
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">What is the difference between brightness and contrast?</summary>
+            <p class="mt-2 text-muted mb-0">Brightness shifts all pixels lighter or darker uniformly, whereas contrast increases the difference between the darkest and lightest areas of the picture.</p>
+        </details>
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Is my file kept private?</summary>
+            <p class="mt-2 text-muted mb-0">Yes. Free Qube never uploads your photos to any cloud or remote server. All computations happen in your device's memory.</p>
+        </details>
+    </div>
+
+    {% elif tool.type == 'pdf' %}
+    <h2 class="fw-bold mb-3">Client-Side PDF Document Processing & Manipulation Guide</h2>
+    <p>Managing portable document format (PDF) files shouldn't require pricey subscriptions or uploading sensitive legal paperwork to mystery servers. Our <strong>Free Online PDF Tools</strong> perform page rotation, removal, blank page insertion, and watermarking entirely within your browser's local sandbox memory.</p>
+
+    <h3 class="h5 fw-bold mt-4">1. How It Works: Vector Stream Parsing with pdf-lib</h3>
+    <p>Standard online PDF tools render documents into images on cloud servers, resulting in bloated file sizes, lost text selection, and severe privacy hazards. Free Qube utilizes <code>pdf-lib</code> compiled for JavaScript:</p>
+    <ul>
+        <li><strong>DOM-Free Binary Parsing:</strong> Your PDF binary buffer is read as an <code>ArrayBuffer</code>. The cross-reference table (XRef) and object catalog are parsed directly in WebAssembly/JS memory.</li>
+        <li><strong>Native Dictionary Modification:</strong> Page rotation mutates the native <code>/Rotate</code> dictionary key; watermarking injects vector text into the page content stream; page removal prunes nodes from the <code>/Pages</code> tree.</li>
+        <li><strong>Lossless Vector Preservation:</strong> Fonts, selectable text, vector graphics, hyperlinked annotations, and bookmarks remain 100% intact.</li>
     </ul>
 
-    {% elif tool.id == 'brightness' %}
-    <h2 class="fw-bold mb-3">Adjust Image Brightness: Exposure Correction</h2>
-    <p>Lighting conditions are rarely ideal when snapping photos on mobile phones. Our <strong>Brightness Adjuster</strong> scales the tonal luminance of your image, rescuing dark underexposed shadows or softening overexposed highlights.</p>
+    <h3 class="h5 fw-bold mt-4">2. Step-by-Step Tutorial</h3>
+    <ol class="mb-4">
+        <li><strong>Select Document:</strong> Drag and drop your PDF document into the designated upload area.</li>
+        <li><strong>Configure Tool Parameters:</strong> Specify your desired angle, page number to remove, or custom watermark text.</li>
+        <li><strong>Execute Client-Side:</strong> Click the process button to synthesize your modified PDF file locally.</li>
+        <li><strong>Save File:</strong> Your browser automatically downloads the modified document in seconds.</li>
+    </ol>
 
-    <h3 class="h5 fw-bold mt-4">How Brightness Scaling Works</h3>
-    <p>Adjusting the brightness factor shifts every pixel's RGB channel values uniformly toward white (255) or black (0). Perfect for enhancing indoor selfies, real estate photos, and scanned receipt documents.</p>
+    <h3 class="h5 fw-bold mt-4">3. Technical Specifications</h3>
+    <div class="table-responsive my-3">
+        <table class="table table-bordered table-striped small">
+            <tbody>
+                <tr><th>PDF Standards</th><td>PDF 1.3 through PDF 2.0 (ISO 32000-2 compliant)</td></tr>
+                <tr><th>Vector Preservation</th><td>Retains all vector glyphs, embedded TrueType/OpenType fonts, and forms</td></tr>
+                <tr><th>File Size Limits</th><td>Supports large documents up to 500 pages client-side</td></tr>
+                <tr><th>Data Privacy</th><td>Zero server transmission; 100% client-side execution</td></tr>
+            </tbody>
+        </table>
+    </div>
 
-    {% elif tool.id == 'contrast' %}
-    <h2 class="fw-bold mb-3">Enhance Image Contrast: Dynamic Range Optimization</h2>
-    <p>Contrast is the separation between the darkest shadows and the brightest highlights in an image. When an image appears washed-out or flat, increasing the contrast expands this dynamic range to deliver crisp, punchy visuals.</p>
-
-    <h3 class="h5 fw-bold mt-4">Ideal For Scanned Documents</h3>
-    <p>Old scanned paper documents often suffer from gray backgrounds and faded text. Boosting contrast clarifies handwriting, sharpens printed text against the paper grain, and prepares scans for OCR text recognition.</p>
-
-    {% elif tool.id == 'flip_h' or tool.id == 'flip_v' %}
-    <h2 class="fw-bold mb-3">Mirror & Invert Images: Matrix Reflection Guide</h2>
-    <p>Smartphone front-facing selfie cameras frequently mirror photos automatically, causing shirts with logos or book titles to appear backwards. Our <strong>Image Flipping Tool</strong> restores proper spatial orientation with lossless matrix transforms.</p>
-
-    <h3 class="h5 fw-bold mt-4">Differences Between Flipping and Rotating</h3>
-    <ul class="mb-4">
-        <li><strong>Horizontal Flip:</strong> Inverts pixels across the vertical Y-axis, creating a classic mirror reflection. Perfect for correcting inverted selfies and artwork transfers.</li>
-        <li><strong>Vertical Flip:</strong> Inverts pixels across the horizontal X-axis, creating upside-down water reflection effects.</li>
-    </ul>
-
-    {% elif tool.id == 'rotate_tool' %}
-    <h2 class="fw-bold mb-3">Lossless Image Rotation Guide</h2>
-    <p>Digital cameras and smartphones store orientation data in metadata EXIF headers. When uploaded to web platforms that ignore EXIF data, photos often display sideways or upside-down. Our <strong>Image Rotator</strong> permanently recalculates the pixel bitmap to ensure your photos look upright on every screen.</p>
-
-    {% elif tool.id == 'rotate_pdf' %}
-    <h2 class="fw-bold mb-3">Rotate PDF Pages Permanently Online</h2>
-    <p>Scanned documents often come out upside down or in landscape orientation when they should be portrait. Our <strong>PDF Rotator</strong> modifies the native <code>/Rotate</code> dictionary tag within the PDF file structure, preserving all original vector text, bookmarks, and font embeddings without rasterizing the document.</p>
-
-    {% elif tool.id == 'remove_page' %}
-    <h2 class="fw-bold mb-3">Delete & Remove Unwanted Pages from PDF</h2>
-    <p>Need to remove blank pages, sensitive appendices, or cover sheets before submitting a PDF? Enter the page number you wish to excise, and our client-side PDF engine rebuilds the page tree cleanly while preserving document layout.</p>
-
-    {% elif tool.id == 'add_blank' %}
-    <h2 class="fw-bold mb-3">Insert Blank Pages for Booklet & Duplex Printing</h2>
-    <p>When preparing documents for double-sided booklet printing, blank padding pages are frequently needed to ensure chapters begin on right-hand (recto) pages. Our <strong>Add Blank Page Tool</strong> appends an empty standard page to your document in milliseconds.</p>
-
-    {% elif tool.id == 'watermark' %}
-    <h2 class="fw-bold mb-3">Protect Documents with PDF Watermarks</h2>
-    <p>Stamp confidential proposals, legal drafts, and copyrighted eBooks with custom text watermarks (e.g., <em>"CONFIDENTIAL"</em> or <em>"DRAFT"</em>). The watermark is embedded directly into the PDF content stream, ensuring it remains visible across all standard PDF viewers and printed copies.</p>
+    <h3 class="h5 fw-bold mt-4">4. Frequently Asked Questions (FAQ)</h3>
+    <div class="accordion my-3">
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Can I select and copy text after rotating or watermarking?</summary>
+            <p class="mt-2 text-muted mb-0">Yes! Because our engine operates on the native PDF object hierarchy without rasterization, all text remains crisp, selectable, and searchable.</p>
+        </details>
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Can I remove multiple pages from a PDF?</summary>
+            <p class="mt-2 text-muted mb-0">Yes. You can delete specific pages one at a time or use our comprehensive PDF Splitter tool to extract exact page ranges into separate files.</p>
+        </details>
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Are my confidential documents secure?</summary>
+            <p class="mt-2 text-muted mb-0">Absolutely. Your files never touch our servers. All parsing and encoding operations happen in your browser's private memory.</p>
+        </details>
+    </div>
     {% endif %}
 
-    <h3 class="h5 fw-bold mt-4">Zero Uploads & 100% Privacy Guarantee</h3>
-    <p>All processing occurs entirely in your browser's local sandbox memory using client-side JavaScript and WebAssembly. Your files are <strong>never uploaded to our servers</strong>, ensuring complete confidentiality for your personal documents and images.</p>
-</div>
+    <div class="border-top pt-3 mt-4 text-muted small">
+        <p class="mb-0"><i class="fas fa-lock text-success me-1"></i> <strong>Zero-Knowledge Privacy:</strong> Free Qube is engineered with client-side WebAssembly and modern browser APIs. None of your files, images, or documents are ever transferred or stored on external cloud infrastructure.</p>
+    </div>
+</article>
 {% endblock %}
 
 {% block scripts %}

@@ -46,21 +46,21 @@
 {% endfor %}
 </div>
 
-<!-- SEO Block -->
-<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
-    <h2 class="fw-bold mb-3">High-Quality Image Converters</h2>
-    <p>In addition to our document utilities, Free Qube features a powerful set of image tools. From resizing photographs without stretching or distorting the aspect ratio, to converting pictures into web-friendly formats like WEBP, PNG, and JPG, our image processing tools are built for speed. Many of our image tools run entirely in your web browser utilizing modern HTML5 and JavaScript technologies. This guarantees your photos remain completely private and process instantly without needing to wait for server uploads.</p>
-</div>
-
-<!-- SEO Content for AdSense Compliance -->
+<!-- Comprehensive Technical Guide & Editorial Content -->
 <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4 text-start">
-    <h2 class="fw-bold mb-3">Professional Image Tools, Completely Free</h2>
-    <p>Digital imagery is everywhere, but getting your photos into the right format, size, or layout can be frustrating. The Free Qube Image Hub is a powerful collection of online image utilities designed to handle everything from simple format conversions to advanced AI background removal.</p>
-    
-    <h3 class="fw-bold mt-4 h4">A Complete Suite of Photo Utilities</h3>
-    <p>Need to create a transparent PNG for a graphic design project? Our <strong>AI Background Remover</strong> isolates your subject instantly. Struggling to upload a massive photo to a website? Our image resizer and compressor will shrink your file size while maintaining visual quality. We also offer lightning-fast format conversion, allowing you to convert stubborn WebP files into universally accepted JPGs or PNGs.</p>
-    
-    <h3 class="fw-bold mt-4 h4">Local Processing for Maximum Speed</h3>
-    <p>Waiting for high-resolution images to upload to a cloud server is a waste of time. Our image tools utilize HTML5 Canvas and local WebAssembly processing. Your photos are edited instantly using your device's own hardware, which means blistering speeds, no file-size upload limits, and 100% privacy for your personal pictures.</p>
+    <h2 class="h3 fw-bold mb-3">Modern In-Browser Raster Processing &amp; Client-Side Image Pipelines</h2>
+    <p class="text-muted">High-resolution photography, web graphics, and e-commerce product imagery demand rapid, high-fidelity transformation. Historically, image manipulation required uploading multi-megabyte raw files to remote cloud servers, causing bandwidth delays, server queue latency, and privacy vulnerabilities. Free Qube's <strong>Image Utilities Suite</strong> leverages the full computational power of your local device using <strong>HTML5 2D Canvas contexts, Web Workers, and WebAssembly (Wasm)</strong>.</p>
+
+    <h3 class="h5 fw-bold mt-4">Hardware-Accelerated Raster Transformations</h3>
+    <p class="text-muted">When you resize, crop, filter, or convert an image on Free Qube, processing is executed directly on your graphics hardware via browser-level image decoding APIs:</p>
+    <ul class="text-muted">
+        <li><strong>Lossless &amp; Lossy Resizing:</strong> Implements Lanczos and bicubic downsampling algorithms within HTML5 Canvas to preserve high-frequency edge detail without aliasing artifacts.</li>
+        <li><strong>Modern Web Formats (WebP, PNG, JPEG):</strong> Instantly transcode legacy formats to next-generation WebP formats for reduced payload sizes and faster Core Web Vitals (LCP) performance.</li>
+        <li><strong>Client-Side Neural Segmentation:</strong> Our AI Background Remover runs Google MediaPipe selfie segmentation models compiled to WebAssembly, isolating subjects in real time without sending photographs to third-party AI APIs.</li>
+        <li><strong>Vector QR Code Synthesis:</strong> Generates ISO/IEC 18004 compliant QR matrices directly to canvas with user-customizable error correction levels (L, M, Q, H).</li>
+    </ul>
+
+    <h3 class="h5 fw-bold mt-4">Zero Server Latency &amp; Absolute Image Confidentiality</h3>
+    <p class="text-muted mb-0">Because all pixel buffers and RGBA data arrays remain isolated within your browser's private memory space, your personal photos, ID documents, and proprietary product mockups never touch external storage disks. For deeper insights into image optimization, read our guide on <a href="/blog/word-to-pdf-formatting-best-practices-preserving-layouts-fonts" class="text-primary fw-semibold">Preserving Quality and Formatting Across Digital Workflows</a>.</p>
 </div>
 {% endblock %}

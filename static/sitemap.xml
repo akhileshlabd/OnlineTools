@@ -1,44 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-   <url><loc>https://freeqube.com/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
-   <url><loc>https://freeqube.com/about</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-   <url><loc>https://freeqube.com/privacy</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-   <url><loc>https://freeqube.com/terms</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-   
-   <!-- PDF Tools -->
-   <url><loc>https://freeqube.com/pdf/merge</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-   <url><loc>https://freeqube.com/pdf/split</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-   <url><loc>https://freeqube.com/pdf/compress</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-   <url><loc>https://freeqube.com/pdf/convert_word</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-   <url><loc>https://freeqube.com/pdf/convert_img</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-   <url><loc>https://freeqube.com/pdf/extract_text</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-   <url><loc>https://freeqube.com/pdf/remove_page</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-   <url><loc>https://freeqube.com/pdf/add_blank</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-   <url><loc>https://freeqube.com/pdf/protect</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <!-- Static Pages -->
+    <url><loc>https://www.freeqube.com/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
+    <url><loc>https://www.freeqube.com/about</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+    <url><loc>https://www.freeqube.com/privacy</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+    <url><loc>https://www.freeqube.com/terms</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+    <url><loc>https://www.freeqube.com/contact</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
 
-   <!-- Image Tools -->
-   <url><loc>https://freeqube.com/image/convert</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-   <url><loc>https://freeqube.com/qr-generator</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-   <url><loc>https://freeqube.com/image/resize</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-   <url><loc>https://freeqube.com/image/grayscale</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-   <url><loc>https://freeqube.com/image/blur</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-   <url><loc>https://freeqube.com/image/rotate_tool</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-   <url><loc>https://freeqube.com/image/flip_h</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-   <url><loc>https://freeqube.com/image/flip_v</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-   <url><loc>https://freeqube.com/image/brightness</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-   <url><loc>https://freeqube.com/image/contrast</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <!-- Category Hubs -->
+    <url><loc>https://www.freeqube.com/pdf/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>https://www.freeqube.com/image</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>https://www.freeqube.com/finance/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>https://www.freeqube.com/dev/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>https://www.freeqube.com/text/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>https://www.freeqube.com/health/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>https://www.freeqube.com/math/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>https://www.freeqube.com/network/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>https://www.freeqube.com/video/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
 
-   <!-- Editorial Blog Articles -->
-   <url><loc>https://freeqube.com/blog/</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-   <url><loc>https://freeqube.com/blog/rise-of-local-ai-2026-offline-web-apps-smartphones</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-   <url><loc>https://freeqube.com/blog/master-your-digital-workflow-free-qube-tools</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-   <url><loc>https://freeqube.com/blog/the-iphone-18-price-hike-is-the-new-tech-actually-worth-the-cost</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-   <url><loc>https://freeqube.com/blog/the-great-ai-pivot-why-tech-giants-are-abandoning-the-cloud-for-on-device-processing</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-   <url><loc>https://freeqube.com/blog/breaking-u-s-judge-blocks-trump-limits-on-visas-for-foreign-students-journalists</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-   <url><loc>https://freeqube.com/blog/the-complete-guide-to-merging-large-pdfs-locally-in-your-browser</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-   <url><loc>https://freeqube.com/blog/how-to-safely-extract-split-pdf-pages-without-uploading-to-cloud-servers</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-   <url><loc>https://freeqube.com/blog/word-to-pdf-formatting-best-practices-preserving-layouts-fonts</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-   <url><loc>https://freeqube.com/blog/how-to-convert-complex-excel-spreadsheets-to-clean-pdf-reports</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-   <url><loc>https://freeqube.com/blog/pdf-password-protection-101-aes-encryption-vs-standard-security</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-   <url><loc>https://freeqube.com/blog/how-to-remove-pdf-owner-passwords-safely-for-editing-printing</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <!-- PDF Tools -->
+    <url><loc>https://www.freeqube.com/pdf/pdf-merger</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/pdf/pdf-splitter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/pdf/word-to-pdf</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/pdf/excel-to-pdf</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/pdf/image-to-pdf</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/pdf/lock-pdf</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/pdf/unlock-pdf</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/pdf/pdf-tool/rotate_pdf</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/pdf/pdf-tool/remove_page</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/pdf/pdf-tool/add_blank</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/pdf/pdf-tool/watermark</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+    <!-- Image Tools -->
+    <url><loc>https://www.freeqube.com/resizer</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/converter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/qr-generator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/image-tool/passport_maker</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/image-tool/bg_remover</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/image-tool/grayscale</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/image-tool/blur</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/image-tool/flip_h</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/image-tool/flip_v</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/image-tool/rotate_tool</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/image-tool/brightness</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/image-tool/contrast</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+    <!-- Finance Tools -->
+    <url><loc>https://www.freeqube.com/finance/calculator/sip</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/finance/calculator/lumpsum</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/finance/calculator/emi</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/finance/calculator/fd</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/finance/calculator/compound</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+    <!-- Developer & Code Tools -->
+    <url><loc>https://www.freeqube.com/dev/tool/json-formatter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/dev/tool/code-diff</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/dev/tool/base64</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/dev/tool/hash-generator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/dev/tool/jwt-decoder</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/dev/tool/url-encode-decode</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/dev/tool/uuid-generator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/dev/tool/color-converter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/dev/tool/box-shadow-generator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/dev/tool/markdown-editor</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/dev/tool/html-entities</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+    <!-- Text Tools -->
+    <url><loc>https://www.freeqube.com/text/tool/tts-converter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/text/tool/word-counter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/text/tool/case-converter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/text/tool/lorem-ipsum</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+    <!-- Health Tools -->
+    <url><loc>https://www.freeqube.com/health/tool/bmi</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/health/tool/calorie</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/health/tool/due-date</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+    <!-- Math Tools -->
+    <url><loc>https://www.freeqube.com/math/tool/percentage</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/math/tool/age</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/math/tool/discount</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/math/tool/unit</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+    <!-- Network Tools -->
+    <url><loc>https://www.freeqube.com/network/tool/what-is-my-ip</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/network/tool/speed-test</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/network/tool/dns-lookup</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/network/tool/browser-info</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+    <!-- Video Tools -->
+    <url><loc>https://www.freeqube.com/video/mute-video</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/video/extract-audio</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+    <!-- Editorial Blog Articles -->
+    <url><loc>https://www.freeqube.com/blog/</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+    <url><loc>https://www.freeqube.com/blog/rise-of-local-ai-2026-offline-web-apps-smartphones</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/blog/master-your-digital-workflow-free-qube-tools</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/blog/the-great-ai-pivot-why-tech-giants-are-abandoning-the-cloud-for-on-device-processing</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/blog/the-complete-guide-to-merging-large-pdfs-locally-in-your-browser</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/blog/how-to-safely-extract-split-pdf-pages-without-uploading-to-cloud-servers</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/blog/word-to-pdf-formatting-best-practices-preserving-layouts-fonts</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/blog/how-to-convert-complex-excel-spreadsheets-to-clean-pdf-reports</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/blog/pdf-password-protection-101-aes-encryption-vs-standard-security</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>https://www.freeqube.com/blog/how-to-remove-pdf-owner-passwords-safely-for-editing-printing</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>

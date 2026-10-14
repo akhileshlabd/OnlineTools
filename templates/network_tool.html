@@ -249,55 +249,205 @@
 </div>
 
 <!-- SEO & Network Diagnostic Documentation -->
-<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4 text-start">
+<article class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4 text-start">
     {% if tool.id == 'what-is-my-ip' %}
-    <h2 class="fw-bold mb-3">Understanding Your Public IP Address</h2>
-    <p>Every device connected to the internet is assigned an Internet Protocol (IP) address—a unique numerical label that acts as your digital return address. Your <strong>Public IP Address</strong> is assigned by your Internet Service Provider (ISP) and is visible to every website, server, and online service you connect to.</p>
+    <h2 class="fw-bold mb-3">Public IP Address & Geolocation: Technical Diagnostic Guide</h2>
+    <p>Every device communicating over the global Internet requires a unique digital routing address. Your <strong>Public IP Address</strong> is assigned by your Internet Service Provider (ISP) and acts as the network identifier used by web servers, content delivery networks (CDNs), and peers to route responses back to your machine.</p>
 
-    <h3 class="h5 fw-bold mt-4">IPv4 vs. IPv6 Addresses</h3>
-    <ul class="mb-4">
-        <li><strong>IPv4 (Internet Protocol version 4):</strong> A 32-bit format arranged in four decimal numbers separated by periods (e.g., <code>192.0.2.1</code>). With roughly 4.3 billion possible combinations, global IPv4 addresses are virtually exhausted.</li>
-        <li><strong>IPv6 (Internet Protocol version 6):</strong> A 128-bit hexadecimal format separated by colons (e.g., <code>2001:0db8:85a3::8a2e:0370:7334</code>), created to provide an astronomically large pool of addresses for the modern connected world.</li>
+    <h3 class="h5 fw-bold mt-4">1. How It Works: BGP Routing & Autonomous System Numbers (ASN)</h3>
+    <p>When you query your IP on Free Qube, our service identifies your socket connection metadata and resolves your network prefix against regional Internet registries (ARIN, RIPE, APNIC). Your ISP groups IP ranges into an Autonomous System Number (ASN), which routes traffic across Border Gateway Protocol (BGP) backbones.</p>
+    <ul>
+        <li><strong>IPv4 Routing:</strong> Standard 32-bit dotted-decimal notation (e.g., <code>198.51.100.1</code>), mapped via subnet masking (CIDR).</li>
+        <li><strong>IPv6 Dual-Stack:</strong> 128-bit hexadecimal notation (e.g., <code>2001:0db8:85a3::8a2e:0370:7334</code>), ensuring end-to-end connectivity without Network Address Translation (NAT) bottlenecks.</li>
+        <li><strong>Geolocation Triangulation:</strong> Cities and coordinates are mapped by cross-referencing ISP gateway hops without accessing device GPS hardware.</li>
     </ul>
 
-    <h3 class="h5 fw-bold mt-4">Why Check Your Public IP?</h3>
-    <p>Verifying your IP address is essential when troubleshooting network connectivity issues, configuring remote desktop or gaming servers, and verifying that your Virtual Private Network (VPN) or proxy tunnel is actively masking your real physical location.</p>
+    <h3 class="h5 fw-bold mt-4">2. Step-by-Step Tutorial</h3>
+    <ol class="mb-4">
+        <li><strong>Instant Diagnostic:</strong> Opening this tool immediately reveals your active public IPv4/IPv6 address.</li>
+        <li><strong>Inspect Network Metadata:</strong> Review your detected ISP, Autonomous System (ASN), country, and metro region.</li>
+        <li><strong>One-Click Copy:</strong> Click the "Copy IP Address" button to copy your IP for SSH, gaming, or whitelist configuration.</li>
+        <li><strong>Verify VPN/Proxy Status:</strong> If using a VPN or Tor, refresh this page to confirm your real ISP and location are successfully obscured.</li>
+    </ol>
+
+    <h3 class="h5 fw-bold mt-4">3. Technical Specifications</h3>
+    <div class="table-responsive my-3">
+        <table class="table table-bordered table-striped small">
+            <tbody>
+                <tr><th>IP Protocols</th><td>IPv4 (32-bit CIDR) and IPv6 (128-bit Dual-Stack)</td></tr>
+                <tr><th>Resolution Method</th><td>Client HTTP connection socket and Reverse IP API lookup</td></tr>
+                <tr><th>Data Privacy</th><td>IP queries are never logged, stored, or sold to third parties</td></tr>
+                <tr><th>Refresh Interval</th><td>Real-time per page reload</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="h5 fw-bold mt-4">4. Frequently Asked Questions (FAQ)</h3>
+    <div class="accordion my-3">
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">What is the difference between my public IP and private IP?</summary>
+            <p class="mt-2 text-muted mb-0">Your private IP (e.g., <code>192.168.1.X</code> or <code>10.0.0.X</code>) is assigned by your home Wi-Fi router for local device communication. Your public IP is the external address assigned to your modem by your ISP.</p>
+        </details>
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Can someone locate my physical home using my IP address?</summary>
+            <p class="mt-2 text-muted mb-0">No. IP geolocation resolves to the nearest ISP routing hub or cellular cell tower, typically indicating only the general city or region, not your street address or apartment number.</p>
+        </details>
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Why does my IP address change periodically?</summary>
+            <p class="mt-2 text-muted mb-0">Most residential internet connections use Dynamic IP allocation (DHCP). Your ISP automatically reassigns a new IP address when your router reboots or leases expire.</p>
+        </details>
+    </div>
 
     {% elif tool.id == 'speed-test' %}
-    <h2 class="fw-bold mb-3">How Browser-Based Internet Speed Tests Work</h2>
-    <p>Our <strong>Internet Speed Test</strong> measures the real-world throughput between your device and global content delivery networks (Cloudflare CDN). Unlike traditional tests that require proprietary plugins, Free Qube executes native HTTP chunked data transfers to measure raw network capacity.</p>
+    <h2 class="fw-bold mb-3">Browser-Based Bandwidth Benchmarking: Technical Guide</h2>
+    <p>Network performance directly dictates high-definition video conferencing, low-latency gaming, and cloud file transfer speeds. Our <strong>Internet Speed Test</strong> measures real-world HTTP/HTTPS download throughput directly within your browser without requiring proprietary plugins.</p>
 
-    <h3 class="h5 fw-bold mt-4">Understanding Your Results</h3>
-    <ul class="mb-4">
-        <li><strong>Download Speed (Mbps):</strong> Measures how rapidly data transfers from the web to your computer. Crucial for 4K video streaming, downloading game updates, and general web browsing.</li>
-        <li><strong>Upload Speed (Mbps):</strong> Measures the transfer rate from your computer to the web. Critical for video conferencing (Zoom, Teams), cloud file backups, and live streaming.</li>
-        <li><strong>Bandwidth Bottlenecks:</strong> Wi-Fi interference, background system updates, and network congestion from other devices on your local router can impact test results. For the most accurate diagnostic, test over an Ethernet cable.</li>
-    </ul>
+    <h3 class="h5 fw-bold mt-4">1. How It Works: Multi-Chunk Throughput Stream Calculation</h3>
+    <p>Rather than relying on inaccurate synthetic ping bursts, our speed test requests byte streams of increasing size (from 1MB to 50MB) across global edge nodes. The download speed is calculated using precise high-resolution performance timers (<code>performance.now()</code>):</p>
+    <div class="bg-light p-3 rounded font-monospace my-3 text-center border">
+        \text{Speed (Mbps)} = \frac{\text{Bytes Received} \times 8}{\text{Elapsed Time (seconds)} \times 10^6}
+    </div>
+    <p>The calculation accounts for TCP slow-start and network jitter to report true steady-state downstream bandwidth.</p>
+
+    <h3 class="h5 fw-bold mt-4">2. Step-by-Step Tutorial</h3>
+    <ol class="mb-4">
+        <li><strong>Prepare Environment:</strong> Pause background downloads, VPN tunnels, and video streaming apps for optimal measurement.</li>
+        <li><strong>Start Benchmark:</strong> Click "Start Speed Test" to begin the download measurement.</li>
+        <li><strong>Observe Real-Time Gauge:</strong> Watch the live throughput gauge measure bandwidth stability.</li>
+        <li><strong>Analyze Final Metrics:</strong> Compare your measured Megabits per second (Mbps) with your ISP subscription tier.</li>
+    </ol>
+
+    <h3 class="h5 fw-bold mt-4">3. Technical Specifications</h3>
+    <div class="table-responsive my-3">
+        <table class="table table-bordered table-striped small">
+            <tbody>
+                <tr><th>Measurement Standard</th><td>Megabits per second (Mbps; 1 Mbps = 1,000,000 bits/sec)</td></tr>
+                <tr><th>Timing API</th><td>W3C High Resolution Time API (sub-millisecond precision)</td></tr>
+                <tr><th>Payload Sizes</th><td>Adaptive multi-chunk payload from 1MB to 50MB</td></tr>
+                <tr><th>Plugin Requirements</th><td>Zero Flash, Java, or browser extensions required</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="h5 fw-bold mt-4">4. Frequently Asked Questions (FAQ)</h3>
+    <div class="accordion my-3">
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">What is the difference between Mbps and MB/s?</summary>
+            <p class="mt-2 text-muted mb-0">Megabits per second (Mbps) measures network transfer speed, while Megabytes per second (MB/s) measures file size storage. Because there are 8 bits in a byte, a 100 Mbps connection downloads files at approximately 12.5 MB/s.</p>
+        </details>
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Why is Wi-Fi slower than my advertised internet plan?</summary>
+            <p class="mt-2 text-muted mb-0">Wi-Fi speeds degrade due to wall interference, distance from the router, and 2.4GHz radio congestion. For maximum speed matching your ISP plan, test via a wired Ethernet cable.</p>
+        </details>
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Does this test consume mobile cellular data?</summary>
+            <p class="mt-2 text-muted mb-0">Yes. Running a complete speed benchmark downloads between 10MB and 50MB of test payloads to accurately calibrate high-speed connections.</p>
+        </details>
+    </div>
 
     {% elif tool.id == 'dns-lookup' %}
-    <h2 class="fw-bold mb-3">Domain Name System (DNS) Record Inspector</h2>
-    <p>The Domain Name System acts as the phonebook of the internet, translating human-friendly domain names (like <code>freeqube.com</code>) into machine-readable IP addresses. Our <strong>DNS Record Lookup</strong> queries root authoritative nameservers in real time using DNS-over-HTTPS (DoH).</p>
+    <h2 class="fw-bold mb-3">DNS Record Inspection & RFC 8484 Architecture: Technical Guide</h2>
+    <p>The Domain Name System (DNS) is the critical decentralized directory that translates human-readable hostnames (such as <code>freeqube.com</code>) into network-routable IP addresses. Our <strong>DNS Record Inspector</strong> queries authoritative root nameservers using DNS-over-HTTPS (DoH).</p>
 
-    <h3 class="h5 fw-bold mt-4">Common DNS Record Types</h3>
-    <ul class="mb-4">
-        <li><strong>A Record:</strong> Maps a domain hostname directly to an IPv4 address.</li>
-        <li><strong>AAAA Record:</strong> Maps a domain hostname to an IPv6 address.</li>
-        <li><strong>CNAME (Canonical Name):</strong> Creates an alias that points one domain name to another domain.</li>
-        <li><strong>MX (Mail Exchange):</strong> Directs incoming email traffic to designated mail servers (e.g., Google Workspace or Microsoft 365).</li>
-        <li><strong>TXT (Text):</strong> Stores human or machine-readable text used for domain verification, SPF email authentication, and DKIM security policies.</li>
+    <h3 class="h5 fw-bold mt-4">1. How It Works: Cryptographic DNS-over-HTTPS (RFC 8484)</h3>
+    <p>Traditional DNS queries are transmitted unencrypted over UDP port 53, leaving them vulnerable to ISP eavesdropping and Man-in-the-Middle (MitM) cache poisoning. Free Qube executes queries via RFC 8484 DNS-over-HTTPS JSON endpoints:</p>
+    <ul>
+        <li><strong>A Records:</strong> Resolves canonical 32-bit IPv4 host addresses.</li>
+        <li><strong>AAAA Records:</strong> Resolves native 128-bit IPv6 host addresses.</li>
+        <li><strong>CNAME Records:</strong> Inspects canonical alias redirects and CDN edge routing paths.</li>
+        <li><strong>MX Records:</strong> Queries priority-weighted mail exchange servers for email delivery.</li>
+        <li><strong>TXT Records:</strong> Validates domain ownership, SPF email policies, DKIM keys, and DMARC enforcement.</li>
     </ul>
 
-    {% elif tool.id == 'browser-info' %}
-    <h2 class="fw-bold mb-3">Browser & Device Diagnostic Information</h2>
-    <p>Web developers and technical support teams frequently require device telemetry to troubleshoot layout bugs and compatibility issues. Our <strong>Browser Diagnostic Tool</strong> queries the client-side <code>navigator</code> and <code>window.screen</code> APIs directly within your browser.</p>
+    <h3 class="h5 fw-bold mt-4">2. Step-by-Step Tutorial</h3>
+    <ol class="mb-4">
+        <li><strong>Enter Domain Name:</strong> Type any valid apex domain or subdomain (e.g., <code>example.com</code> or <code>mail.example.com</code>).</li>
+        <li><strong>Select Record Type:</strong> Choose A, AAAA, CNAME, MX, or TXT from the record selector.</li>
+        <li><strong>Execute Query:</strong> Click "Lookup" to dispatch an encrypted DoH query.</li>
+        <li><strong>Inspect TTL & Data:</strong> Review the Time-To-Live (TTL) cache expiration and raw record payloads in the response table.</li>
+    </ol>
 
-    <h3 class="h5 fw-bold mt-4">What Data Is Visible to Websites?</h3>
-    <p>When you visit any website, your browser sends a <strong>User-Agent String</strong> that reveals your operating system, browser rendering engine, and device architecture. This information allows web servers to deliver mobile-optimized layouts or activate hardware-accelerated media codecs.</p>
+    <h3 class="h5 fw-bold mt-4">3. Technical Specifications</h3>
+    <div class="table-responsive my-3">
+        <table class="table table-bordered table-striped small">
+            <tbody>
+                <tr><th>Protocol Standard</th><td>RFC 8484 (DNS Queries over HTTPS) with TLS 1.3 encryption</td></tr>
+                <tr><th>Resolver Backbone</th><td>Direct Google Public DNS / Cloudflare 1.1.1.1 upstream resolvers</td></tr>
+                <tr><th>Supported Records</th><td>A, AAAA, CNAME, MX, TXT, NS, SOA, CAA</td></tr>
+                <tr><th>Cache Transparency</th><td>Displays authoritative TTL (Time-To-Live) seconds remaining</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="h5 fw-bold mt-4">4. Frequently Asked Questions (FAQ)</h3>
+    <div class="accordion my-3">
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">What is DNS Propagation and why does it take up to 48 hours?</summary>
+            <p class="mt-2 text-muted mb-0">When you update DNS records at your registrar, worldwide caching resolvers store old records until their TTL (Time-To-Live) expires. Full worldwide propagation can take from a few minutes to 48 hours.</p>
+        </details>
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">What does an MX record priority number mean?</summary>
+            <p class="mt-2 text-muted mb-0">MX priority numbers determine routing order (e.g., 1, 5, 10). Sending mail servers always attempt delivery to the lowest priority number first, using higher numbers as fallbacks.</p>
+        </details>
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Can I check SPF and DKIM records with this tool?</summary>
+            <p class="mt-2 text-muted mb-0">Yes! Query TXT records to view your domain's SPF (<code>v=spf1 ...</code>) configuration and verify email deliverability settings.</p>
+        </details>
+    </div>
+
+    {% elif tool.id == 'browser-info' %}
+    <h2 class="fw-bold mb-3">Client Hints & Browser Introspection: Diagnostic Guide</h2>
+    <p>Modern web applications adapt layouts and rendering pipelines based on client hardware capabilities. Our <strong>Browser Diagnostic Tool</strong> queries client-side JavaScript APIs to report complete device specifications without tracking cookies.</p>
+
+    <h3 class="h5 fw-bold mt-4">1. How It Works: Navigator & Screen Context Introspection</h3>
+    <p>Our client-side inspector queries the standardized W3C <code>navigator</code> and <code>window.screen</code> interface objects:</p>
+    <ul>
+        <li><strong>User-Agent Parsing:</strong> Identifies underlying browser rendering engines (Blink, Gecko, WebKit) and OS versions.</li>
+        <li><strong>Display Metrics:</strong> Queries <code>screen.width</code>, <code>screen.height</code>, and <code>window.devicePixelRatio</code> for retina display density calibration.</li>
+        <li><strong>Feature Detection:</strong> Verifies cookie permissions, local storage availability, WebGL hardware acceleration, and language preferences.</li>
+    </ul>
+
+    <h3 class="h5 fw-bold mt-4">2. Step-by-Step Tutorial</h3>
+    <ol class="mb-4">
+        <li><strong>Automatic Detection:</strong> Opening the tool immediately introspects your browser environment.</li>
+        <li><strong>Review Display Data:</strong> Check your current screen resolution and window viewport dimensions.</li>
+        <li><strong>Inspect Security Settings:</strong> Confirm whether cookies and JavaScript features are active.</li>
+        <li><strong>Share with Tech Support:</strong> Copy the system details when reporting web layout issues or debugging applications.</li>
+    </ol>
+
+    <h3 class="h5 fw-bold mt-4">3. Technical Specifications</h3>
+    <div class="table-responsive my-3">
+        <table class="table table-bordered table-striped small">
+            <tbody>
+                <tr><th>APIs Queried</th><td>W3C Navigator, Window.Screen, Document.cookie</td></tr>
+                <tr><th>Privacy Posture</th><td>100% Zero-Fingerprinting; zero cookies set and zero data persisted</td></tr>
+                <tr><th>Viewport Resolution</th><td>CSS Logical Pixels and Native Device Hardware Pixels</td></tr>
+                <tr><th>Platform Coverage</th><td>Windows, macOS, Linux, iOS, Android, ChromeOS</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="h5 fw-bold mt-4">4. Frequently Asked Questions (FAQ)</h3>
+    <div class="accordion my-3">
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">What is the difference between screen resolution and browser viewport?</summary>
+            <p class="mt-2 text-muted mb-0">Screen resolution is the total physical pixel dimensions of your monitor or phone display. Viewport size is the actual inner space available inside your browser window excluding toolbars and scrollbars.</p>
+        </details>
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Does this tool track my identity across other websites?</summary>
+            <p class="mt-2 text-muted mb-0">No. Free Qube does not generate persistent browser fingerprints, track behavioral history, or store device profiles.</p>
+        </details>
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Why does my user agent string show older operating systems?</summary>
+            <p class="mt-2 text-muted mb-0">Modern browsers (Chrome, Edge, Firefox) freeze user-agent strings to prevent cross-site user tracking, reporting generalized platform identifiers for privacy.</p>
+        </details>
+    </div>
     {% endif %}
 
-    <h3 class="h5 fw-bold mt-4">100% Client-Side Privacy</h3>
-    <p>All network diagnostics on Free Qube are performed directly from your browser's local sandbox or via public encrypted APIs. We do not log your IP addresses, store your browsing history, or share network telemetry with third parties.</p>
-</div>
+    <div class="border-top pt-3 mt-4 text-muted small">
+        <p class="mb-0"><i class="fas fa-shield-alt text-success me-1"></i> <strong>Diagnostic Privacy Guarantee:</strong> Network checks are performed strictly between your browser and verified public endpoints. No personal browsing telemetry is ever stored or monetized.</p>
+    </div>
+</article>
 {% endblock %}
 
 {% block scripts %}

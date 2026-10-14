@@ -7,19 +7,19 @@
         <priority>1.0</priority>
     </url>
     <url>
-        <loc>{{ url_for('about_page', _external=True) }}</loc>
+        <loc>{{ url_for('about', _external=True) }}</loc>
         <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
+        <priority>0.6</priority>
     </url>
     <url>
-        <loc>{{ url_for('privacy_page', _external=True) }}</loc>
+        <loc>{{ url_for('privacy', _external=True) }}</loc>
         <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
+        <priority>0.6</priority>
     </url>
     <url>
-        <loc>{{ url_for('terms_page', _external=True) }}</loc>
+        <loc>{{ url_for('terms', _external=True) }}</loc>
         <changefreq>monthly</changefreq>
-        <priority>0.5</priority>
+        <priority>0.6</priority>
     </url>
     <url>
         <loc>{{ url_for('contact_page', _external=True) }}</loc>
@@ -28,7 +28,6 @@
     </url>
 
     <!-- Category Hubs -->
-    <url><loc>{{ url_for('video.video_hub', _external=True) }}</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
     <url><loc>{{ url_for('pdf.pdf_hub', _external=True) }}</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
     <url><loc>{{ url_for('image.image_hub', _external=True) }}</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
     <url><loc>{{ url_for('finance.finance_hub', _external=True) }}</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
@@ -37,14 +36,16 @@
     <url><loc>{{ url_for('health.health_hub', _external=True) }}</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
     <url><loc>{{ url_for('math.math_hub', _external=True) }}</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
     <url><loc>{{ url_for('network.network_hub', _external=True) }}</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>{{ url_for('video.video_hub', _external=True) }}</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
 
-
-    <!-- Hardcoded Tools -->
-    <url><loc>{{ url_for('pdf.word_to_pdf_page', _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>{{ url_for('pdf.excel_to_pdf_page', _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>{{ url_for('pdf.pdf_merger_page', _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>{{ url_for('pdf.pdf_splitter_page', _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <!-- Hardcoded PDF & Image Tools -->
+    <url><loc>{{ url_for('pdf.pdf_merger', _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>{{ url_for('pdf.pdf_splitter', _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>{{ url_for('pdf.word_to_pdf', _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>{{ url_for('pdf.excel_to_pdf', _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
     <url><loc>{{ url_for('pdf.image_to_pdf', _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>{{ url_for('pdf.lock_pdf', _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>{{ url_for('pdf.unlock_pdf', _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
     <url><loc>{{ url_for('image.resizer', _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
     <url><loc>{{ url_for('image.image_converter_page', _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
     <url><loc>{{ url_for('image.qr_generator', _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -89,21 +90,18 @@
     <url><loc>{{ url_for('network.network_tool_page', tool_id=id, _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
     {% endfor %}
 
-
-    <!-- Dynamic Video Tools -->
-    {% for tool in video_tools %}
-    <url><loc>{{ url_for(tool.url, _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    {% endfor %}
-
+    <!-- Video Tools -->
+    <url><loc>{{ url_for('video.tool_mute', _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>{{ url_for('video.tool_extract_audio', _external=True) }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
     <!-- Blog Hub -->
     <url>
-        <loc>{{ url_for('blogs.blog_hub', _external=True) }}</loc>
+        <loc>{{ url_for('blogs.index', _external=True) }}</loc>
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
 
-    <!-- SEO Blogs -->
+    <!-- Active SEO Blogs -->
     {% if blogs %}
     {% for blog in blogs %}
     <url>

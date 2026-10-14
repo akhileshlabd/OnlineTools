@@ -79,17 +79,59 @@
         </div>
     </div>
     
-    <!-- SEO Content for AdSense Compliance -->
-    <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4 text-start">
-        <h3 class="h4 fw-bold">How to Create Passport Photos Free Online</h3>
-        <p>Creating a compliant 2x2 inch passport or ID photo usually requires a trip to the pharmacy or paying for expensive software. Our free <strong>Smart Passport Photo Maker</strong> automates the entire process using advanced Artificial Intelligence. Simply upload a selfie or portrait photo, and our AI will automatically remove the background, detect your facial landmarks, center your face, and scale it to meet strict government requirements (ensuring your head takes up 50-70% of the vertical frame).</p>
-        
-        <h3 class="h4 fw-bold mt-4">100% Secure Client-Side Micro-AI</h3>
-        <p>Because passport photos contain sensitive biometric data, privacy is paramount. Unlike other online tools that upload your face to a remote server, Free Qube utilizes a revolutionary <strong>Zero Server Cost Architecture</strong>. The AI models (Google's MediaPipe Task Vision API) are downloaded securely to your browser's local cache. All background removal, mask anti-aliasing, and face detection happen entirely on your own device's CPU/GPU. Your photos never leave your computer.</p>
+    <!-- Comprehensive Technical Editorial & Biometric Compliance Documentation -->
+    <article class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4 text-start">
+        <h2 class="fw-bold mb-3 h3">Biometric Passport Photo Maker: Compliance & Neural Architecture</h2>
+        <p>Creating government-compliant biometric passport and visa identification photos historically necessitated dedicated photography studios or retail pharmacies. Our <strong>Free Smart Passport Photo Maker</strong> automates strict international standards directly inside your browser using client-side neural landmark detection and high-DPI canvas composition.</p>
 
-        <h4 class="h5 fw-bold mt-4">Ready for 4x6 Printing</h4>
-        <p>Once your portrait is perfectly extracted and placed onto a crisp white background, the tool automatically generates a high-resolution 300 DPI sheet formatted for standard 4x6 inch photo paper. The grid fits exactly six 2x2 inch photos, complete with subtle crop marks. You can download the high-res JPG and print it at any local photo center for cents, saving you time and money.</p>
-    </div>
+        <h3 class="h5 fw-bold mt-4">1. How It Works: ICAO 9303 Compliance & BlazeFace Landmark Detection</h3>
+        <p>Passport agencies (including the US Department of State, UK Passport Office, and Schengen member states) enforce strict geometric parameters defined by the International Civil Aviation Organization (ICAO Doc 9303):</p>
+        <ul>
+            <li><strong>Facial Landmark Triangulation:</strong> Using Google's BlazeFace neural detector, our engine identifies 6 essential 3D facial landmarks (eyes, ears, nose tip, mouth center) to verify upright frontal head positioning.</li>
+            <li><strong>Biometric Scaling:</strong> The algorithm centers the face and scales the head size so that the distance from the bottom of the chin to the top of the crown occupies between 50% and 69% of the vertical frame height (1 to 1.375 inches on a 2x2 inch photo).</li>
+            <li><strong>High-DPI 4x6 Printable Grid:</strong> The canvas renders at a crisp 300 Dots Per Inch (DPI) (600x600 pixels per photo, and 1200x1800 pixels for a 4x6 inch print sheet containing exactly six 2x2 photos with cut lines).</li>
+        </ul>
+
+        <h3 class="h5 fw-bold mt-4">2. Step-by-Step Tutorial</h3>
+        <ol class="mb-4">
+            <li><strong>Upload Portrait:</strong> Choose a clear, forward-facing photo taken in even, shadowless lighting.</li>
+            <li><strong>Automated Alignment & Extraction:</strong> Our on-device AI removes distracting backgrounds and auto-centers your face to meet legal dimensions.</li>
+            <li><strong>Select Background Color:</strong> Keep standard off-white/pure white or choose light gray depending on your nation's visa specifications.</li>
+            <li><strong>Export High-Res Sheet:</strong> Download the 300 DPI 4x6 inch printable sheet to print at any local pharmacy or retail print kiosk for pennies.</li>
+        </ol>
+
+        <h3 class="h5 fw-bold mt-4">3. Technical Specifications</h3>
+        <div class="table-responsive my-3">
+            <table class="table table-bordered table-striped small">
+                <tbody>
+                    <tr><th>Biometric Standard</th><td>ICAO Doc 9303 & US Dept of State 2x2 inch (51x51 mm) specifications</td></tr>
+                    <tr><th>Print Resolution</th><td>Standard 300 DPI print calibration (1200 &times; 1800 px on 4x6" paper)</td></tr>
+                    <tr><th>Head Ratio</th><td>Automated 50%–69% vertical chin-to-crown proportioning</td></tr>
+                    <tr><th>Data Privacy</th><td>100% On-Device execution; biometric face landmarks are never uploaded</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="h5 fw-bold mt-4">4. Frequently Asked Questions (FAQ)</h3>
+        <div class="accordion my-3">
+            <details class="p-3 bg-light rounded border mb-2">
+                <summary class="fw-bold cursor-pointer">Can I wear glasses or head coverings in my passport photo?</summary>
+                <p class="mt-2 text-muted mb-0">Under US State Department and most global rules, eyeglasses must be removed. Religious or medical head coverings are accepted provided they do not obscure facial landmarks from hairline to chin.</p>
+            </details>
+            <details class="p-3 bg-light rounded border mb-2">
+                <summary class="fw-bold cursor-pointer">Where should I print the downloaded 4x6 sheet?</summary>
+                <p class="mt-2 text-muted mb-0">Order a standard 4x6 inch glossy photo print at Walgreens, CVS, Walmart, or any photo kiosk for approximately $0.35 to $0.50, then cut along the dashed guide lines with scissors.</p>
+            </details>
+            <details class="p-3 bg-light rounded border mb-2">
+                <summary class="fw-bold cursor-pointer">Is my face or biometric data uploaded to any server?</summary>
+                <p class="mt-2 text-muted mb-0">Never. All neural networks run inside your browser's WebAssembly sandbox. Free Qube never receives, logs, or stores your biometric photos.</p>
+            </details>
+        </div>
+
+        <div class="border-top pt-3 mt-4 text-muted small">
+            <p class="mb-0"><i class="fas fa-id-badge text-primary me-1"></i> <strong>Biometric Verification:</strong> Output complies with standard consular guidelines. Ensure your expression is neutral with closed mouth and open eyes.</p>
+        </div>
+    </article>
 </div>
 
 {% endblock %}

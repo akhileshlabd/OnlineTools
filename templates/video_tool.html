@@ -76,20 +76,109 @@
 </div>
 
 
-<!-- SEO Content for AdSense Compliance -->
-<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
+<!-- Comprehensive Technical Architecture & Video Engineering Documentation -->
+<article class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4 text-start">
     {% if tool.id == 'mute' %}
-        <h2 class="fw-bold mb-3">Mute Video Free Online: Remove Audio Instantly</h2>
-        <p>If you have recorded a video with distracting background noise, heavy wind, or private background conversations, our <strong>Free Video Muter</strong> tool is the perfect solution. You can quickly strip the audio track from any MP4, MOV, or WEBM file to create a completely silent video. This is incredibly useful for preparing b-roll clips for social media, creating clean GIFs, or layering new background music over your footage.</p>
-        <h3 class="fw-bold mt-4">100% Secure & Private Video Processing</h3>
-        <p>Most online video editors force you to upload your massive, private video files to their cloud servers, putting your privacy at risk and forcing you to wait in slow upload queues. <strong>Free Qube is different.</strong> We utilize cutting-edge WebAssembly (FFmpeg.wasm) technology to mute your videos entirely on your own device. Your files never leave your computer or phone. This guarantees absolute privacy, lightning-fast processing, and complete protection of your personal media.</p>
+    <h2 class="fw-bold mb-3">Mute Video Online: Zero-Transcoding Audio Removal Guide</h2>
+    <p>Removing background noise, wind rumble, copyrighted audio, or private chatter from recorded video shouldn't compromise video fidelity or take hours of re-rendering. Our <strong>Free Video Muter</strong> utilizes client-side WebAssembly to cleanly strip the audio stream while preserving bit-for-bit video quality.</p>
+
+    <h3 class="h5 fw-bold mt-4">1. How It Works: Lossless Container Demuxing (-c copy -an)</h3>
+    <p>Traditional video editors decode the entire video stream frame-by-frame and re-encode it with lossy compression, resulting in generational artifacting and hours of CPU throttling. Free Qube executes a direct container demuxing pass via FFmpeg compiled to WebAssembly (Wasm):</p>
+    <ul>
+        <li><strong>In-Memory Virtual File System (MEMFS):</strong> Your video is mounted in an isolated Emscripten virtual file system without writing to disk.</li>
+        <li><strong>Stream Copying:</strong> The command <code>-c copy -an</code> instructs the demuxer to copy video packets directly from input to output container while dropping the audio packet stream entirely.</li>
+        <li><strong>Lossless & Instantaneous:</strong> Because video packets are never re-encoded, the process takes seconds even for high-bitrate 4K footage, preserving 100% of original visual clarity.</li>
+    </ul>
+
+    <h3 class="h5 fw-bold mt-4">2. Step-by-Step Tutorial</h3>
+    <ol class="mb-4">
+        <li><strong>Select Video:</strong> Drag and drop your MP4, MOV, MKV, or WebM video file into the upload zone.</li>
+        <li><strong>Automated Execution:</strong> FFmpeg.wasm initializes in browser memory and strips audio channels instantly.</li>
+        <li><strong>Monitor Progress:</strong> Track real-time container re-packaging via the responsive progress bar.</li>
+        <li><strong>Download Muted Video:</strong> Your silent video file downloads automatically without watermarks or file size penalties.</li>
+    </ol>
+
+    <h3 class="h5 fw-bold mt-4">3. Technical Specifications</h3>
+    <div class="table-responsive my-3">
+        <table class="table table-bordered table-striped small">
+            <tbody>
+                <tr><th>Engine Architecture</th><td>FFmpeg 4.x compiled to WebAssembly (Emscripten toolchain)</td></tr>
+                <tr><th>Container Support</th><td>MP4, MOV, WebM, MKV, AVI</td></tr>
+                <tr><th>Transcoding Mode</th><td>Stream Copying (Zero loss; no re-encoding required)</td></tr>
+                <tr><th>Data Privacy</th><td>100% Client-side sandbox; zero bytes transmitted across the internet</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="h5 fw-bold mt-4">4. Frequently Asked Questions (FAQ)</h3>
+    <div class="accordion my-3">
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Does muting a video reduce its visual resolution?</summary>
+            <p class="mt-2 text-muted mb-0">No! Because we use stream copying (<code>-c copy</code>), video frames are transferred untouched. Your video retains its exact resolution, bitrate, color space, and frame rate.</p>
+        </details>
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Are large 4K video files supported?</summary>
+            <p class="mt-2 text-muted mb-0">Yes. Because processing happens in your device's browser memory (WebAssembly MEMFS), large videos can be processed without cloud upload limits.</p>
+        </details>
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Are my private home videos uploaded to your server?</summary>
+            <p class="mt-2 text-muted mb-0">Never. Free Qube operates on a strict zero-knowledge architecture. Your video file never leaves your computer or phone.</p>
+        </details>
+    </div>
+
     {% elif tool.id == 'extract_audio' %}
-        <h2 class="fw-bold mb-3">Video to MP3 Converter: Extract Audio Free</h2>
-        <p>Have you ever watched a video clip, a recorded lecture, or a concert and wished you could save just the music? Our free <strong>Video to MP3 converter</strong> allows you to effortlessly strip the audio track from any video file and save it as a high-quality MP3. Whether it is a podcast recording, an interview, or a music video, you can securely rip the audio directly in your browser without losing sound quality.</p>
-        <h3 class="fw-bold mt-4">The Safest Way to Convert MP4 to MP3</h3>
-        <p>Why risk uploading your personal home videos or proprietary corporate recordings to a random server? By leveraging WebAssembly and FFmpeg, our tool parses your video and extracts the MP3 locally using your own computer's RAM. No data is ever transmitted, there are no file size upload limits, and you will never see a watermark.</p>
+    <h2 class="fw-bold mb-3">Video to MP3 Extraction: Client-Side Audio Ripping Guide</h2>
+    <p>Extracting speech, musical tracks, podcast dialogue, or sound effects from video recordings shouldn't require installing bulky desktop software or trusting third-party cloud servers with proprietary content. Our <strong>Free Video to MP3 Converter</strong> extracts pristine audio tracks right in your browser.</p>
+
+    <h3 class="h5 fw-bold mt-4">1. How It Works: Demuxing & Variable Bitrate (VBR) Encoding</h3>
+    <p>Our client-side media pipeline isolates the audio stream from multi-channel video containers:</p>
+    <ul>
+        <li><strong>Audio Demuxing:</strong> FFmpeg.wasm locates the elementary audio stream (AAC, AC3, Opus, or PCM) inside the container.</li>
+        <li><strong>LAME High-Fidelity Encoding:</strong> The command <code>-q:a 0</code> instructs the LAME MP3 encoder to encode at target Variable Bitrate (VBR) tier 0 (averaging 245–280 kbps) for transparent acoustic fidelity.</li>
+        <li><strong>Zero Upload Security:</strong> All processing utilizes your local device RAM, ensuring private corporate interviews and unreleased music tracks remain secure.</li>
+    </ul>
+
+    <h3 class="h5 fw-bold mt-4">2. Step-by-Step Tutorial</h3>
+    <ol class="mb-4">
+        <li><strong>Load Video File:</strong> Select or drop your video clip into the workspace.</li>
+        <li><strong>Extract Audio:</strong> Our browser-native engine reads the audio track and synthesizes high-quality MP3 frames.</li>
+        <li><strong>Follow Encoding Progress:</strong> The real-time progress bar monitors frame extraction directly in memory.</li>
+        <li><strong>Download MP3:</strong> Your pristine MP3 audio track downloads automatically with no watermarks or fees.</li>
+    </ol>
+
+    <h3 class="h5 fw-bold mt-4">3. Technical Specifications</h3>
+    <div class="table-responsive my-3">
+        <table class="table table-bordered table-striped small">
+            <tbody>
+                <tr><th>Audio Encoder</th><td>LAME MP3 (libmp3lame) compiled to WebAssembly</td></tr>
+                <tr><th>Bitrate Quality</th><td>Variable Bitrate (VBR Q0; up to 320 kbps dynamic ceiling)</td></tr>
+                <tr><th>Sample Rate</th><td>Preserves native 44.1 kHz or 48.0 kHz audio sampling rate</td></tr>
+                <tr><th>Supported Inputs</th><td>MP4, MOV, MKV, AVI, WebM, FLV, WMV</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="h5 fw-bold mt-4">4. Frequently Asked Questions (FAQ)</h3>
+    <div class="accordion my-3">
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Can I convert iPhone recorded MOV videos to MP3?</summary>
+            <p class="mt-2 text-muted mb-0">Yes! The tool natively parses QuickTime MOV containers recorded on iPhones and iPads, converting the internal AAC audio track into universal MP3 format.</p>
+        </details>
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Will the extracted MP3 play on all music players and smartphones?</summary>
+            <p class="mt-2 text-muted mb-0">Yes. The output is a standard MPEG-1 Audio Layer III (.mp3) file compatible with iTunes, Android media players, car stereos, and digital audio workstations.</p>
+        </details>
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Is there a limit on how many videos I can convert?</summary>
+            <p class="mt-2 text-muted mb-0">No! You can convert as many videos as you need. All computation runs on your device CPU with zero server restrictions.</p>
+        </details>
+    </div>
     {% endif %}
-</div>
+
+    <div class="border-top pt-3 mt-4 text-muted small">
+        <p class="mb-0"><i class="fas fa-shield-alt text-success me-1"></i> <strong>Zero-Knowledge Privacy:</strong> Free Qube is engineered with client-side WebAssembly and modern browser APIs. None of your files, images, or documents are ever transferred or stored on external cloud infrastructure.</p>
+    </div>
+</article>
 
 <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
 

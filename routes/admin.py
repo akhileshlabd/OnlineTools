@@ -50,18 +50,6 @@ FEATURE_GROUPS = [
         ]
     },
     {
-        "key": "feature_nav_games",
-        "label": "Free Games",
-        "icon": "fa-gamepad",
-        "children": [
-            {"key": "feature_game_sudoku-game", "label": "Sudoku"},
-            {"key": "feature_game_tetris-game", "label": "Tetris"},
-            {"key": "feature_game_brick-breaker", "label": "Brick Breaker"},
-            {"key": "feature_game_snake-game", "label": "Snake"},
-            {"key": "feature_game_neon-qube", "label": "Neon Qube"},
-        ]
-    },
-    {
         "key": "feature_nav_finance",
         "label": "Finance Tools",
         "icon": "fa-calculator",

@@ -252,22 +252,57 @@
 
 </script>
 
-<!-- SEO Content for AdSense Compliance -->
-<div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
-    <h2 class="fw-bold mb-3">Remove Backgrounds from Images Automatically for Free</h2>
-    <p>Whether you are designing e-commerce product photos, creating YouTube thumbnails, or putting together professional presentations, having images with transparent backgrounds is crucial. Our <strong>Free AI Background Remover</strong> allows you to instantly isolate the main subject of your photo and erase the backdrop with a single click.</p>
-    
-    <h3 class="fw-bold mt-4">Unmatched Privacy: Local AI Processing</h3>
-    <p>Most background removal tools charge exorbitant fees or force you to upload your personal photos to their AI cloud servers. Free Qube utilizes powerful client-side AI processing (using ONNX Runtime and WebAssembly) to run the machine learning models directly on your device CPU/GPU. Your photos are never uploaded, keeping your data entirely private.</p>
+<!-- Comprehensive Technical Editorial & AI Documentation -->
+<article class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4 text-start">
+    <h2 class="fw-bold mb-3">AI Image Background Eraser: Client-Side Machine Learning Architecture</h2>
+    <p>Isolating foreground subjects from complex image backgrounds has historically required manual lasso selection in expensive desktop graphics software. Our <strong>Free AI Background Remover</strong> performs real-time neural semantic segmentation directly inside your browser using lightweight WebAssembly machine learning pipelines.</p>
 
-    <h3 class="fw-bold mt-4">Benefits of Our Background Eraser</h3>
-    <ul class="mb-4">
-        <li><strong>Completely Free:</strong> No subscriptions, no credits, and no premium paywalls.</li>
-        <li><strong>No Watermarks:</strong> Export high-quality transparent PNGs without any branding.</li>
-        <li><strong>Automated Precision:</strong> Our advanced AI automatically detects people, animals, and objects, cutting them out perfectly.</li>
+    <h3 class="h5 fw-bold mt-4">1. How It Works: MediaPipe Neural Segmentation in WebAssembly</h3>
+    <p>Unlike commercial tools that upload your personal photos to cloud server farms, Free Qube executes an optimized convolutional neural network (CNN) locally on your device CPU/GPU:</p>
+    <ul>
+        <li><strong>On-Device Inference:</strong> A quantized ~250KB segmentation model is loaded into browser memory via WebAssembly (Wasm) and WebGL acceleration.</li>
+        <li><strong>Confidence Masking:</strong> The neural network analyzes RGB pixel arrays to compute a continuous probability mask ($0.0 \to 1.0$) distinguishing foreground subjects from backdrop textures.</li>
+        <li><strong>Alpha Matting & Edge Feathering:</strong> The probability array is mapped directly to the alpha channel of an in-memory <code>ImageData</code> buffer, delivering anti-aliased, hair-fine boundary cutouts without jagged edges.</li>
     </ul>
-    
-    <h3 class="fw-bold mt-4">How to Make a Background Transparent</h3>
-    <p>Just upload your JPG or PNG image. Our local AI will analyze the photo, separate the foreground from the background, and instantly provide you with a clean, transparent image ready to download.</p>
-</div>
+
+    <h3 class="h5 fw-bold mt-4">2. Step-by-Step Tutorial</h3>
+    <ol class="mb-4">
+        <li><strong>Upload Image:</strong> Drag and drop any portrait, product photo, or animal picture into the workspace.</li>
+        <li><strong>Automated Cutout:</strong> The local AI model detects the subject and removes the backdrop in under two seconds.</li>
+        <li><strong>Customize Background:</strong> Toggle pure alpha transparency or pick any custom solid background color.</li>
+        <li><strong>Download High-Res PNG:</strong> Click "Download Image" to export your clean, transparent PNG with zero watermarks.</li>
+    </ol>
+
+    <h3 class="h5 fw-bold mt-4">3. Technical Specifications</h3>
+    <div class="table-responsive my-3">
+        <table class="table table-bordered table-striped small">
+            <tbody>
+                <tr><th>ML Model Architecture</th><td>Google MediaPipe Image Segmenter (Quantized MobileNetV3 backbone)</td></tr>
+                <tr><th>Runtime Engine</th><td>WebAssembly (Wasm) + WebGL Canvas 2D Acceleration</td></tr>
+                <tr><th>Export Formats</th><td>32-bit Transparent PNG (with 8-bit Alpha channel) and JPEG</td></tr>
+                <tr><th>Privacy Guarantee</th><td>100% Zero-Upload; your original photos never leave your device</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="h5 fw-bold mt-4">4. Frequently Asked Questions (FAQ)</h3>
+    <div class="accordion my-3">
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Does this background remover charge credits or require an account?</summary>
+            <p class="mt-2 text-muted mb-0">No! Free Qube is 100% free with unlimited conversions. Because all processing is powered by your browser rather than our servers, we never charge fees or restrict usage.</p>
+        </details>
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Why is local client-side background removal safer?</summary>
+            <p class="mt-2 text-muted mb-0">Cloud-based background erasers require transmitting private photos over the internet to remote third-party databases. By processing files locally via WebAssembly, your documents and photos remain completely confidential.</p>
+        </details>
+        <details class="p-3 bg-light rounded border mb-2">
+            <summary class="fw-bold cursor-pointer">Can I use the transparent cutout for e-commerce listings?</summary>
+            <p class="mt-2 text-muted mb-0">Yes. The exported PNGs meet all white-background and transparent image requirements for Amazon, Shopify, eBay, and Google Shopping feeds.</p>
+        </details>
+    </div>
+
+    <div class="border-top pt-3 mt-4 text-muted small">
+        <p class="mb-0"><i class="fas fa-shield-alt text-success me-1"></i> <strong>Zero-Knowledge Privacy:</strong> Free Qube is engineered with client-side WebAssembly and modern browser APIs. None of your files, images, or documents are ever transferred or stored on external cloud infrastructure.</p>
+    </div>
+</article>
 {% endblock %}

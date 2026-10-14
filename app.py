@@ -11,15 +11,9 @@ from routes.text import text_bp, TEXT_TOOLS
 from routes.health import health_bp, HEALTH_TOOLS
 from routes.math import math_bp, MATH_TOOLS
 from routes.network import network_bp, NETWORK_TOOLS
-from routes.games import games_bp, GAMES_TOOLS
-from routes.kids import kids_bp, KIDS_TOOLS
 from routes.video import video_bp, VIDEO_TOOLS
-from routes.mobiles import mobiles_bp
 from routes.admin import admin_bp
 from routes.blogs import blogs_bp
-
-
-
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "default-secret-key-for-admin-otp")
@@ -56,7 +50,6 @@ def inject_translations():
         if key in TRANSLATIONS and 'en' in TRANSLATIONS[key]:
             return TRANSLATIONS[key]['en']
         return key
-    return dict(t=t, current_lang=g.lang, supported_langs=SUPPORTED_LANGUAGES)
     return dict(t=t, current_lang=g.lang, supported_langs=SUPPORTED_LANGUAGES, year=2026)
 # ---------------------------------
 
@@ -69,20 +62,23 @@ app.register_blueprint(text_bp)
 app.register_blueprint(health_bp)
 app.register_blueprint(math_bp)
 app.register_blueprint(network_bp)
-app.register_blueprint(games_bp)
-app.register_blueprint(kids_bp)
 app.register_blueprint(video_bp)
-app.register_blueprint(mobiles_bp)
 app.register_blueprint(admin_bp)
 app.register_blueprint(blogs_bp)
-
-
-
 
 # ---------------- Home ----------------
 @app.route('/')
 def home():
-    return render_template('index.html', image_tools=IMAGE_TOOLS, pdf_tools=PDF_TOOLS, finance_tools=FINANCE_TOOLS, code_tools=CODE_TOOLS, text_tools=TEXT_TOOLS, health_tools=HEALTH_TOOLS, math_tools=MATH_TOOLS, network_tools=NETWORK_TOOLS, games_tools=GAMES_TOOLS, kids_tools=KIDS_TOOLS, video_tools=VIDEO_TOOLS)
+    return render_template('index.html',
+                           image_tools=IMAGE_TOOLS,
+                           pdf_tools=PDF_TOOLS,
+                           finance_tools=FINANCE_TOOLS,
+                           code_tools=CODE_TOOLS,
+                           text_tools=TEXT_TOOLS,
+                           health_tools=HEALTH_TOOLS,
+                           math_tools=MATH_TOOLS,
+                           network_tools=NETWORK_TOOLS,
+                           video_tools=VIDEO_TOOLS)
 
 # ---------------- Legal / Policies (AdSense Compliance) ----------------
 @app.route('/contact')
@@ -91,11 +87,9 @@ def contact_page():
 
 @app.route('/sitemap.xml')
 def sitemap():
-    import sqlite3
     from routes.blogs import get_db_connection
-    from flask import make_response
     
-    # Fetch blogs for sitemap
+    # Fetch active blogs for sitemap
     conn = get_db_connection()
     c = conn.cursor()
     c.execute("SELECT slug, created_at FROM blogs WHERE is_hidden = 0")
@@ -111,7 +105,6 @@ def sitemap():
                                health_tools=HEALTH_TOOLS,
                                math_tools=MATH_TOOLS,
                                network_tools=NETWORK_TOOLS,
-                               games_tools=GAMES_TOOLS,
                                video_tools=VIDEO_TOOLS,
                                blogs=blogs)
     response = make_response(template)
