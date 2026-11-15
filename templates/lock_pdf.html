@@ -68,7 +68,7 @@
     </details>
     <details class="mb-3">
         <summary class="fw-bold" style="cursor:pointer;">Can I remove the password later?</summary>
-        <p class="mt-2 text-muted">Yes, if you possess the valid password, you can decrypt and remove protection using our <a href="/pdf/unlock">PDF Unlock tool</a> at any time.</p>
+        <p class="mt-2 text-muted">Yes, if you possess the valid password, you can decrypt and remove protection using our <a href="{{ url_for('pdf.unlock_pdf') }}">PDF Unlock tool</a> at any time.</p>
     </details>
 </div>
 {% endblock %}

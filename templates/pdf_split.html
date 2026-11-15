@@ -92,7 +92,7 @@
     </details>
     <details class="mb-3">
         <summary class="fw-bold" style="cursor:pointer;">Can I split password-protected PDFs?</summary>
-        <p class="mt-2 text-muted">Encrypted documents must first be decrypted using our <a href="/pdf/unlock">PDF Unlock tool</a> prior to page extraction.</p>
+        <p class="mt-2 text-muted">Encrypted documents must first be decrypted using our <a href="{{ url_for('pdf.unlock_pdf') }}">PDF Unlock tool</a> prior to page extraction.</p>
     </details>
 </div>
 {% endblock %}

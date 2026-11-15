@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, send_file, jsonify
+from flask import Blueprint, render_template, request, send_file, jsonify, redirect, url_for
 import io
 
 try:
@@ -31,6 +31,10 @@ def image_to_pdf():
 @pdf_bp.route('/lock-pdf', methods=['GET'])
 def lock_pdf():
     return render_template('lock_pdf.html')
+
+@pdf_bp.route('/unlock', methods=['GET'])
+def alias_unlock():
+    return redirect(url_for('pdf.unlock_pdf'), code=301)
 
 @pdf_bp.route('/unlock-pdf', methods=['GET'])
 def unlock_pdf():

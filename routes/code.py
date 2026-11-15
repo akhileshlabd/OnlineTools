@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect, url_for
 
 code_bp = Blueprint('code', __name__, url_prefix='/dev')
 
@@ -109,6 +109,12 @@ def code_tool_page(tool_id):
     if tool_id == 'js-runner':
         return render_template('js_runner.html', tool=tool)
     return render_template('code_tool.html', tool=tool)
+
+@code_bp.route('/<tool_id>')
+def alias_code_tool(tool_id):
+    if tool_id in CODE_TOOLS:
+        return redirect(url_for('code.code_tool_page', tool_id=tool_id), code=301)
+    return redirect(url_for('code.code_hub'), code=301)
 
 @code_bp.route('/')
 def code_hub():

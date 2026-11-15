@@ -464,20 +464,26 @@
     </details>
     <h3 class="h5 fw-bold mt-4">Related Developer Tools</h3>
     <div class="row g-3 mt-1">
-        <div class="col-md-4">
-            <a href="/code/json-formatter" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
-                <span class="fw-bold text-dark"><i class="fas fa-brackets-curly me-2"></i>JSON Formatter</span>
+        <div class="col-md-3 col-6">
+            <a href="{{ url_for('code.code_tool_page', tool_id='js-runner') }}" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
+                <span class="fw-bold text-warning"><i class="fab fa-js me-2"></i>JS Runner</span>
+                <small class="text-muted d-block mt-1">Live JS sandbox &amp; terminal</small>
+            </a>
+        </div>
+        <div class="col-md-3 col-6">
+            <a href="{{ url_for('code.code_tool_page', tool_id='json-formatter') }}" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
+                <span class="fw-bold text-dark"><i class="fas fa-code me-2"></i>JSON Formatter</span>
                 <small class="text-muted d-block mt-1">Validate &amp; beautify payloads</small>
             </a>
         </div>
-        <div class="col-md-4">
-            <a href="/code/hash-generator" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
-                <span class="fw-bold text-primary"><i class="fas fa-hashtag me-2"></i>Hash Generator</span>
+        <div class="col-md-3 col-6">
+            <a href="{{ url_for('code.code_tool_page', tool_id='hash-generator') }}" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
+                <span class="fw-bold text-primary"><i class="fas fa-lock me-2"></i>Hash Generator</span>
                 <small class="text-muted d-block mt-1">SHA-256, MD5, SHA-512</small>
             </a>
         </div>
-        <div class="col-md-4">
-            <a href="/code/base64" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
+        <div class="col-md-3 col-6">
+            <a href="{{ url_for('code.code_tool_page', tool_id='base64') }}" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
                 <span class="fw-bold text-success"><i class="fas fa-exchange-alt me-2"></i>Base64 Encoder</span>
                 <small class="text-muted d-block mt-1">Safe text &amp; binary transforms</small>
             </a>

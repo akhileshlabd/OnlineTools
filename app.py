@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory, request, g, make_response
+from flask import Flask, render_template, send_from_directory, request, g, make_response, redirect, url_for
 import json
 
 import os
@@ -65,6 +65,14 @@ app.register_blueprint(network_bp)
 app.register_blueprint(video_bp)
 app.register_blueprint(admin_bp)
 app.register_blueprint(blogs_bp)
+
+# Shorthand & legacy redirects
+@app.route('/code')
+@app.route('/code/<path:subpath>')
+def redirect_code_shorthand(subpath=None):
+    if subpath and subpath in CODE_TOOLS:
+        return redirect(url_for('code.code_tool_page', tool_id=subpath), code=301)
+    return redirect(url_for('code.code_hub'), code=301)
 
 # ---------------- Home ----------------
 @app.route('/')

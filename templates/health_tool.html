@@ -230,19 +230,19 @@
     <h3 class="h5 fw-bold mt-4">Related Health &amp; Wellness Tools</h3>
     <div class="row g-3 mt-1">
         <div class="col-md-4">
-            <a href="/health/bmi" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
+            <a href="{{ url_for('health.health_tool_page', tool_id='bmi') }}" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
                 <span class="fw-bold text-danger"><i class="fas fa-weight me-2"></i>BMI Calculator</span>
                 <small class="text-muted d-block mt-1">WHO standard weight categories</small>
             </a>
         </div>
         <div class="col-md-4">
-            <a href="/health/calorie" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
+            <a href="{{ url_for('health.health_tool_page', tool_id='calorie') }}" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
                 <span class="fw-bold text-success"><i class="fas fa-fire me-2"></i>Calorie Calculator</span>
                 <small class="text-muted d-block mt-1">Mifflin-St Jeor BMR &amp; TDEE targets</small>
             </a>
         </div>
         <div class="col-md-4">
-            <a href="/health/pregnancy" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
+            <a href="{{ url_for('health.health_tool_page', tool_id='due-date') }}" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
                 <span class="fw-bold text-primary"><i class="fas fa-baby me-2"></i>Due Date Calculator</span>
                 <small class="text-muted d-block mt-1">Naegele's rule trimester milestones</small>
             </a>

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect, url_for
 
 text_bp = Blueprint('text', __name__, url_prefix='/text')
 
@@ -86,3 +86,9 @@ def text_tool_page(tool_id):
     if tool_id == 'tts-converter':
         return render_template('tts_converter.html', tool=tool)
     return render_template('text_tool.html', tool=tool)
+
+@text_bp.route('/<tool_id>')
+def alias_text_tool(tool_id):
+    if tool_id in TEXT_TOOLS:
+        return redirect(url_for('text.text_tool_page', tool_id=tool_id), code=301)
+    return redirect(url_for('text.text_hub'), code=301)

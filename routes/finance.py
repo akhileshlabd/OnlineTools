@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect, url_for
 
 finance_bp = Blueprint('finance', __name__, url_prefix='/finance')
 
@@ -82,6 +82,12 @@ def calculator_page(tool_id):
     if not tool:
         return "Calculator not found", 404
     return render_template('finance_calculator.html', tool=tool)
+
+@finance_bp.route('/<tool_id>')
+def alias_finance_calc(tool_id):
+    if tool_id in FINANCE_TOOLS:
+        return redirect(url_for('finance.calculator_page', tool_id=tool_id), code=301)
+    return redirect(url_for('finance.finance_hub'), code=301)
 
 @finance_bp.route('/')
 def finance_hub():

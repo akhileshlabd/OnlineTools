@@ -154,19 +154,19 @@
     <h3 class="h5 fw-bold mt-4">Related Text &amp; SEO Tools</h3>
     <div class="row g-3 mt-1">
         <div class="col-md-4">
-            <a href="/text/word-counter" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
+            <a href="{{ url_for('text.text_tool_page', tool_id='word-counter') }}" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
                 <span class="fw-bold text-primary"><i class="fas fa-file-alt me-2"></i>Word Counter</span>
                 <small class="text-muted d-block mt-1">Words, chars &amp; reading time</small>
             </a>
         </div>
         <div class="col-md-4">
-            <a href="/text/case-converter" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
+            <a href="{{ url_for('text.text_tool_page', tool_id='case-converter') }}" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
                 <span class="fw-bold text-info"><i class="fas fa-font me-2"></i>Case Converter</span>
                 <small class="text-muted d-block mt-1">UPPER, lower, Title Case</small>
             </a>
         </div>
         <div class="col-md-4">
-            <a href="/text/lorem-ipsum" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
+            <a href="{{ url_for('text.text_tool_page', tool_id='lorem-ipsum') }}" class="text-decoration-none card p-3 border-0 bg-light shadow-sm h-100 text-center hover-shadow">
                 <span class="fw-bold text-secondary"><i class="fas fa-paragraph me-2"></i>Lorem Ipsum</span>
                 <small class="text-muted d-block mt-1">Generate design placeholder text</small>
             </a>

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect, url_for
 
 health_bp = Blueprint('health', __name__, url_prefix='/health')
 
@@ -39,3 +39,11 @@ def health_tool_page(tool_id):
     if not tool:
         return "Health Tool not found", 404
     return render_template('health_tool.html', tool=tool)
+
+@health_bp.route('/<tool_id>')
+def alias_health_tool(tool_id):
+    if tool_id == 'pregnancy':
+        return redirect(url_for('health.health_tool_page', tool_id='due-date'), code=301)
+    if tool_id in HEALTH_TOOLS:
+        return redirect(url_for('health.health_tool_page', tool_id=tool_id), code=301)
+    return redirect(url_for('health.health_hub'), code=301)
