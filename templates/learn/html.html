@@ -1,0 +1,418 @@
+{% extends "base.html" %}
+
+{% block title %}Modern HTML5 Fundamentals: Complete Beginner-to-Pro Guide | Free Qube{% endblock %}
+{% block meta_desc %}Learn HTML5 from scratch with child-friendly analogies. Master tags, elements, semantic structure, responsive forms, modern SEO, and accessibility (A11y) with downloadable cheatsheets.{% endblock %}
+
+{% block extra_css %}
+<style>
+    .sticky-toc {
+        position: sticky;
+        top: 20px;
+        max-height: calc(100vh - 40px);
+        overflow-y: auto;
+    }
+    .analogy-box {
+        background-color: #fff5f2;
+        border-left: 4px solid #e34f26;
+        border-radius: 0 12px 12px 0;
+        padding: 1.25rem;
+    }
+    .code-block {
+        background-color: #1e1e2e;
+        color: #cdd6f4;
+        border-radius: 8px;
+        padding: 1rem;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.88rem;
+        overflow-x: auto;
+    }
+    .badge-step {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+    @media print {
+        .navbar, footer, .sticky-toc, .btn-download, .nav-breadcrumb {
+            display: none !important;
+        }
+        body {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+        }
+        .container {
+            max-width: 100% !important;
+            width: 100% !important;
+            padding: 0 !important;
+        }
+        .card, .analogy-box {
+            border: 1px solid #ccc !important;
+            box-shadow: none !important;
+            break-inside: avoid;
+        }
+        .display-5 {
+            font-size: 24pt !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-3">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="nav-breadcrumb mb-3">
+        <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('learn.learn_hub') }}">Learn</a></li>
+            <li class="breadcrumb-item active" aria-current="page">HTML5 Fundamentals</li>
+        </ol>
+    </nav>
+
+    <!-- Header Banner -->
+    <div class="card border-0 bg-danger text-white p-4 p-md-5 rounded-4 shadow-sm mb-4" style="background: linear-gradient(135deg, #b3261e 0%, #e34f26 100%);">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <span class="badge bg-white text-danger px-3 py-1 rounded-pill fw-bold mb-2">
+                    <i class="fab fa-html5 me-1"></i> Core Web Standard
+                </span>
+                <h1 class="display-5 fw-bold mb-2">Modern HTML5 Fundamentals</h1>
+                <p class="lead mb-3 text-white-50">
+                    The structural skeleton of every webpage on earth. Learn semantic markup, accessible forms, modern media embedding, and clean document architecture from scratch.
+                </p>
+                <div class="d-flex flex-wrap gap-2 text-white-50 small">
+                    <span><i class="fas fa-user-circle me-1"></i> Author: <strong>Dhwani Akhilesh</strong></span>
+                    <span>•</span>
+                    <span><i class="fas fa-calendar me-1"></i> Updated for 2026/2027</span>
+                    <span>•</span>
+                    <span><i class="fas fa-clock me-1"></i> 8 Interactive Chapters</span>
+                </div>
+            </div>
+            <div class="col-lg-4 text-lg-end mt-4 mt-lg-0 btn-download">
+                <button onclick="window.print()" class="btn btn-light text-danger fw-bold px-4 py-2 rounded-pill shadow-sm">
+                    <i class="fas fa-file-pdf me-2 text-danger"></i> Download HTML5 Cheatsheet (PDF)
+                </button>
+                <p class="text-white-50 small mt-2 mb-0">Clean printable offline notes</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Layout -->
+    <div class="row g-4">
+        <!-- Sidebar Navigation -->
+        <div class="col-lg-3 d-none d-lg-block">
+            <div class="card border-0 shadow-sm rounded-4 p-3 sticky-toc bg-light">
+                <h6 class="fw-bold text-uppercase text-muted small mb-3">HTML5 Curriculum</h6>
+                <div class="nav flex-column nav-pills small">
+                    <a class="nav-link text-dark py-2 px-2" href="#h1"><i class="fas fa-bone me-2 text-danger"></i> 1. The Skeleton Analogy</a>
+                    <a class="nav-link text-dark py-2 px-2" href="#h2"><i class="fas fa-code me-2 text-danger"></i> 2. Tags, Elements &amp; Attributes</a>
+                    <a class="nav-link text-dark py-2 px-2" href="#h3"><i class="fas fa-file-alt me-2 text-danger"></i> 3. Document Anatomy</a>
+                    <a class="nav-link text-dark py-2 px-2" href="#h4"><i class="fas fa-layer-group me-2 text-danger"></i> 4. Semantic HTML5</a>
+                    <a class="nav-link text-dark py-2 px-2" href="#h5"><i class="fas fa-edit me-2 text-danger"></i> 5. Forms &amp; User Inputs</a>
+                    <a class="nav-link text-dark py-2 px-2" href="#h6"><i class="fas fa-photo-video me-2 text-danger"></i> 6. Images &amp; Media</a>
+                    <a class="nav-link text-dark py-2 px-2" href="#h7"><i class="fas fa-universal-access me-2 text-danger"></i> 7. Accessibility &amp; SEO</a>
+                    <a class="nav-link text-dark py-2 px-2" href="#h8"><i class="fas fa-clipboard-check me-2 text-danger"></i> 8. Quick Cheatsheet</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Body -->
+        <div class="col-lg-9">
+            <!-- Chapter 1 -->
+            <section id="h1" class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
+                <div class="d-flex align-items-center mb-3">
+                    <span class="badge-step bg-danger text-white me-3">1</span>
+                    <h2 class="h3 fw-bold mb-0">What is HTML? The Skeleton Analogy</h2>
+                </div>
+
+                <div class="analogy-box mb-4">
+                    <h5 class="fw-bold text-danger"><i class="fas fa-lightbulb me-2"></i>Explain Like I'm 10: Building a Human Body</h5>
+                    <p class="mb-0 text-muted">
+                        Every website is built using three primary technologies:
+                        <br><br>
+                        1. <strong>HTML (The Skeleton):</strong> Provides the raw bones, head, ribs, and structure. Without a skeleton, you just have a shapeless pile of nothing.
+                        <br>
+                        2. <strong>CSS (The Clothes, Skin &amp; Makeup):</strong> Makes the skeleton look attractive with colors, fonts, margins, and hairstyles.
+                        <br>
+                        3. <strong>JavaScript (The Brain &amp; Muscles):</strong> Gives the skeleton the ability to run, jump, blink, and react when someone taps on its shoulder.
+                        <br><br>
+                        <strong>HTML</strong> stands for <em>HyperText Markup Language</em>. You don't "program" in HTML; you "mark up" content so your browser understands what is a title, what is a paragraph, and what is a button.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Chapter 2 -->
+            <section id="h2" class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
+                <div class="d-flex align-items-center mb-3">
+                    <span class="badge-step bg-danger text-white me-3">2</span>
+                    <h2 class="h3 fw-bold mb-0">Tags, Elements &amp; Attributes</h2>
+                </div>
+
+                <p class="text-muted">An HTML <strong>Element</strong> is made up of an opening tag, content, and a closing tag:</p>
+
+                <div class="code-block mb-3">
+&lt;<span class="text-danger">p</span> <span class="text-warning">class</span>=<span class="text-success">"intro-text"</span>&gt;Hello, Welcome to Free Qube!&lt;/<span class="text-danger">p</span>&gt;
+                </div>
+
+                <ul class="text-muted small">
+                    <li><code>&lt;p&gt;</code>: Opening tag (signals the start of a paragraph).</li>
+                    <li><code>class="intro-text"</code>: An <strong>Attribute</strong> providing extra information or styling hooks.</li>
+                    <li><code>Hello, Welcome to Free Qube!</code>: The actual content users see.</li>
+                    <li><code>&lt;/p&gt;</code>: Closing tag (ends with a forward slash <code>/</code>).</li>
+                </ul>
+
+                <h5 class="fw-bold mt-4">Self-Closing (Void) Tags</h5>
+                <p class="text-muted small">Some tags do not wrap around text and therefore do not require a closing tag. Examples include:</p>
+                <div class="code-block mb-0">
+&lt;<span class="text-danger">img</span> <span class="text-warning">src</span>=<span class="text-success">"logo.png"</span> <span class="text-warning">alt</span>=<span class="text-success">"Company Logo"</span>&gt;
+&lt;<span class="text-danger">br</span>&gt;  <span class="text-muted">&lt;!-- Line break --&gt;</span>
+&lt;<span class="text-danger">hr</span>&gt;  <span class="text-muted">&lt;!-- Horizontal thematic divider --&gt;</span>
+&lt;<span class="text-danger">input</span> <span class="text-warning">type</span>=<span class="text-success">"text"</span> <span class="text-warning">placeholder</span>=<span class="text-success">"Enter your email"</span>&gt;
+                </div>
+            </section>
+
+            <!-- Chapter 3 -->
+            <section id="h3" class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
+                <div class="d-flex align-items-center mb-3">
+                    <span class="badge-step bg-danger text-white me-3">3</span>
+                    <h2 class="h3 fw-bold mb-0">Anatomy of an HTML5 Document</h2>
+                </div>
+
+                <p class="text-muted">Every web page starts with the exact standard boilerplate structure:</p>
+
+                <div class="code-block mb-3">
+<span class="text-muted">&lt;!DOCTYPE html&gt;</span>
+&lt;<span class="text-danger">html</span> <span class="text-warning">lang</span>=<span class="text-success">"en"</span>&gt;
+&lt;<span class="text-danger">head</span>&gt;
+    &lt;<span class="text-danger">meta</span> <span class="text-warning">charset</span>=<span class="text-success">"UTF-8"</span>&gt;
+    &lt;<span class="text-danger">meta</span> <span class="text-warning">name</span>=<span class="text-success">"viewport"</span> <span class="text-warning">content</span>=<span class="text-success">"width=device-width, initial-scale=1.0"</span>&gt;
+    &lt;<span class="text-danger">title</span>&gt;My Awesome Website&lt;/<span class="text-danger">title</span>&gt;
+    &lt;<span class="text-danger">link</span> <span class="text-warning">rel</span>=<span class="text-success">"stylesheet"</span> <span class="text-warning">href</span>=<span class="text-success">"styles.css"</span>&gt;
+&lt;/<span class="text-danger">head</span>&gt;
+&lt;<span class="text-danger">body</span>&gt;
+    &lt;<span class="text-danger">h1</span>&gt;Hello World!&lt;/<span class="text-danger">h1</span>&gt;
+    &lt;<span class="text-danger">p</span>&gt;This is my first web page on the internet.&lt;/<span class="text-danger">p</span>&gt;
+&lt;/<span class="text-danger">body</span>&gt;
+&lt;/<span class="text-danger">html</span>&gt;
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered small">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Element</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>&lt;!DOCTYPE html&gt;</code></td>
+                                <td>Tells the browser to render using modern HTML5 standard mode.</td>
+                            </tr>
+                            <tr>
+                                <td><code>&lt;head&gt;</code></td>
+                                <td>Invisible metadata container (charset, viewport, SEO title, favicon, stylesheet links).</td>
+                            </tr>
+                            <tr>
+                                <td><code>&lt;body&gt;</code></td>
+                                <td>Everything visible on the screen (headers, text, images, videos, tables).</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Chapter 4 -->
+            <section id="h4" class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
+                <div class="d-flex align-items-center mb-3">
+                    <span class="badge-step bg-danger text-white me-3">4</span>
+                    <h2 class="h3 fw-bold mb-0">Semantic HTML5: Clean Meaningful Structure</h2>
+                </div>
+
+                <p class="text-muted">
+                    In old HTML, developers wrapped everything in generic <code>&lt;div&gt;</code> tags (known as "div soup"). Modern HTML5 introduced <strong>semantic tags</strong> that clearly explain their purpose to web browsers, search engines (Googlebot), and assistive screen readers:
+                </p>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="p-3 border rounded-3 bg-light h-100">
+                            <h6 class="fw-bold text-danger"><code>&lt;header&gt;</code> &amp; <code>&lt;nav&gt;</code></h6>
+                            <p class="text-muted small mb-0">Contains website logos, main navigation bars, user search bars, and top-level menu links.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 border rounded-3 bg-light h-100">
+                            <h6 class="fw-bold text-danger"><code>&lt;main&gt;</code></h6>
+                            <p class="text-muted small mb-0">The central, unique content of the page. There should only be <strong>one</strong> <code>&lt;main&gt;</code> element per HTML document.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 border rounded-3 bg-light h-100">
+                            <h6 class="fw-bold text-danger"><code>&lt;article&gt;</code> &amp; <code>&lt;section&gt;</code></h6>
+                            <p class="text-muted small mb-0"><code>&lt;article&gt;</code> represents independent, self-contained content (like a blog post or news item). <code>&lt;section&gt;</code> groups related thematic content.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 border rounded-3 bg-light h-100">
+                            <h6 class="fw-bold text-danger"><code>&lt;footer&gt;</code></h6>
+                            <p class="text-muted small mb-0">Appears at the bottom of the page or article with copyright info, privacy policy links, and contact details.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chapter 5 -->
+            <section id="h5" class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
+                <div class="d-flex align-items-center mb-3">
+                    <span class="badge-step bg-danger text-white me-3">5</span>
+                    <h2 class="h3 fw-bold mb-0">Forms, Inputs &amp; Modern Validation</h2>
+                </div>
+
+                <p class="text-muted">
+                    Forms are how users send data (logins, feedback, orders) to web servers. Modern HTML5 provides built-in client-side validation without writing custom JavaScript:
+                </p>
+
+                <div class="code-block mb-3">
+&lt;<span class="text-danger">form</span> <span class="text-warning">action</span>=<span class="text-success">"/submit"</span> <span class="text-warning">method</span>=<span class="text-success">"POST"</span>&gt;
+    &lt;<span class="text-danger">label</span> <span class="text-warning">for</span>=<span class="text-success">"username"</span>&gt;Full Name:&lt;/<span class="text-danger">label</span>&gt;
+    &lt;<span class="text-danger">input</span> <span class="text-warning">type</span>=<span class="text-success">"text"</span> <span class="text-warning">id</span>=<span class="text-success">"username"</span> <span class="text-warning">name</span>=<span class="text-success">"username"</span> <span class="text-warning">required</span> <span class="text-warning">minlength</span>=<span class="text-success">"3"</span>&gt;
+
+    &lt;<span class="text-danger">label</span> <span class="text-warning">for</span>=<span class="text-success">"email"</span>&gt;Email Address:&lt;/<span class="text-danger">label</span>&gt;
+    &lt;<span class="text-danger">input</span> <span class="text-warning">type</span>=<span class="text-success">"email"</span> <span class="text-warning">id</span>=<span class="text-success">"email"</span> <span class="text-warning">name</span>=<span class="text-success">"email"</span> <span class="text-warning">required</span>&gt;
+
+    &lt;<span class="text-danger">button</span> <span class="text-warning">type</span>=<span class="text-success">"submit"</span>&gt;Sign Up&lt;/<span class="text-danger">button</span>&gt;
+&lt;/<span class="text-danger">form</span>&gt;
+                </div>
+
+                <div class="alert alert-info py-2 small mb-0">
+                    <i class="fas fa-info-circle me-1"></i> <strong>Accessibility Tip:</strong> Always associate <code>&lt;label for="..."&gt;</code> with the matching <code>&lt;input id="..."&gt;</code> so that clicking the text label automatically focuses the input box.
+                </div>
+            </section>
+
+            <!-- Chapter 6 -->
+            <section id="h6" class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
+                <div class="d-flex align-items-center mb-3">
+                    <span class="badge-step bg-danger text-white me-3">6</span>
+                    <h2 class="h3 fw-bold mb-0">Images, Responsive Media &amp; Performance</h2>
+                </div>
+
+                <p class="text-muted">
+                    Loading heavy unoptimized images slows down web pages and hurts Google PageSpeed Core Web Vitals. HTML5 provides modern attributes to ensure lightning-fast image loading:
+                </p>
+
+                <div class="code-block mb-3">
+<span class="text-muted">&lt;!-- Modern high-performance responsive image --&gt;</span>
+&lt;<span class="text-danger">img</span> 
+    <span class="text-warning">src</span>=<span class="text-success">"hero-desktop.jpg"</span> 
+    <span class="text-warning">alt</span>=<span class="text-success">"Students learning code in a bright classroom"</span>
+    <span class="text-warning">width</span>=<span class="text-success">"800"</span> 
+    <span class="text-warning">height</span>=<span class="text-success">"450"</span>
+    <span class="text-warning">loading</span>=<span class="text-success">"lazy"</span>
+    <span class="text-warning">decoding</span>=<span class="text-success">"async"</span>&gt;
+                </div>
+
+                <ul class="text-muted small">
+                    <li><code>alt="..."</code>: <strong>Mandatory</strong> for accessibility. If the image fails to load or a blind user uses a screen reader, this description is read aloud.</li>
+                    <li><code>width</code> and <code>height</code>: Prevents <em>Cumulative Layout Shift (CLS)</em> by reserving physical space before the image finishes downloading.</li>
+                    <li><code>loading="lazy"</code>: Native browser lazy-loading. Images below the fold are only downloaded when the user scrolls near them!</li>
+                </ul>
+            </section>
+
+            <!-- Chapter 7 -->
+            <section id="h7" class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
+                <div class="d-flex align-items-center mb-3">
+                    <span class="badge-step bg-danger text-white me-3">7</span>
+                    <h2 class="h3 fw-bold mb-0">Accessibility (A11y) &amp; SEO Best Practices</h2>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="card p-3 border h-100">
+                            <h6 class="fw-bold text-dark"><i class="fas fa-search text-primary me-2"></i> SEO Hierarchy Rules</h6>
+                            <ul class="text-muted small mb-0 ps-3">
+                                <li class="mb-1"><strong>Exactly ONE <code>&lt;h1&gt;</code> per page:</strong> Represents the primary headline of the document.</li>
+                                <li class="mb-1"><strong>Never skip heading levels:</strong> Always nest logically: <code>h1</code> &rarr; <code>h2</code> &rarr; <code>h3</code> (never jump from <code>h1</code> directly to <code>h4</code>).</li>
+                                <li><strong>Meaningful anchor text:</strong> Never write <em>"Click Here"</em>. Write descriptive links like <em>"Download our Salesforce Study Guide"</em>.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card p-3 border h-100">
+                            <h6 class="fw-bold text-dark"><i class="fas fa-universal-access text-success me-2"></i> Accessibility (WCAG 2.2)</h6>
+                            <ul class="text-muted small mb-0 ps-3">
+                                <li class="mb-1"><strong>Interactive elements:</strong> Use native <code>&lt;button&gt;</code> for clicks and <code>&lt;a&gt;</code> for navigation. Never style a <code>&lt;div&gt;</code> as a button without keyboard listeners!</li>
+                                <li class="mb-1"><strong>Color Contrast:</strong> Ensure text maintains at least a 4.5:1 contrast ratio against the background.</li>
+                                <li><strong>ARIA Labels:</strong> Use <code>aria-label</code> when buttons only contain visual icons (e.g., search magnifying glass or hamburger menu).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chapter 8 -->
+            <section id="h8" class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
+                <div class="d-flex align-items-center mb-3">
+                    <span class="badge-step bg-danger text-white me-3">8</span>
+                    <h2 class="h3 fw-bold mb-0">HTML5 Quick Tag Reference Cheatsheet</h2>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped small">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Category</th>
+                                <th>Tags</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Document</strong></td>
+                                <td><code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>, <code>&lt;body&gt;</code>, <code>&lt;title&gt;</code>, <code>&lt;meta&gt;</code></td>
+                                <td>Overall webpage root and metadata instructions.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Structure</strong></td>
+                                <td><code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;footer&gt;</code></td>
+                                <td>Modern semantic layout hierarchy.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Text</strong></td>
+                                <td><code>&lt;h1&gt;</code>-<code>&lt;h6&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;strong&gt;</code>, <code>&lt;em&gt;</code>, <code>&lt;blockquote&gt;</code></td>
+                                <td>Headings, paragraphs, bold emphasis, and quotes.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Lists</strong></td>
+                                <td><code>&lt;ul&gt;</code> (unordered bullet), <code>&lt;ol&gt;</code> (numbered order), <code>&lt;li&gt;</code> (list item)</td>
+                                <td>Itemized lists and bulleted content.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Forms</strong></td>
+                                <td><code>&lt;form&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;textarea&gt;</code>, <code>&lt;select&gt;</code>, <code>&lt;button&gt;</code></td>
+                                <td>Interactive data entry and user submissions.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Media</strong></td>
+                                <td><code>&lt;img&gt;</code>, <code>&lt;video&gt;</code>, <code>&lt;audio&gt;</code>, <code>&lt;canvas&gt;</code>, <code>&lt;svg&gt;</code></td>
+                                <td>Graphics, responsive imagery, and streaming players.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Bottom Navigation -->
+            <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                <a href="{{ url_for('learn.learn_salesforce') }}" class="btn btn-outline-secondary rounded-pill px-4">
+                    <i class="fas fa-arrow-left me-1"></i> Salesforce Masterclass
+                </a>
+                <a href="{{ url_for('learn.learn_javascript') }}" class="btn btn-warning text-dark fw-semibold rounded-pill px-4">
+                    Next: Modern JavaScript (ES6+) <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -14,6 +14,7 @@ from routes.network import network_bp, NETWORK_TOOLS
 from routes.video import video_bp, VIDEO_TOOLS
 from routes.admin import admin_bp
 from routes.blogs import blogs_bp
+from routes.learn import learn_bp
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "default-secret-key-for-admin-otp")
@@ -65,6 +66,7 @@ app.register_blueprint(network_bp)
 app.register_blueprint(video_bp)
 app.register_blueprint(admin_bp)
 app.register_blueprint(blogs_bp)
+app.register_blueprint(learn_bp)
 
 # Shorthand & legacy redirects
 @app.route('/code')

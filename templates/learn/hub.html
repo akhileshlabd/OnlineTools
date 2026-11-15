@@ -1,0 +1,266 @@
+{% extends "base.html" %}
+
+{% block title %}Learn Tech from Scratch - Salesforce, HTML &amp; JavaScript Academy | Free Qube{% endblock %}
+{% block meta_desc %}Master Salesforce, HTML5, and Modern JavaScript from scratch with intuitive, child-friendly explanations, modular curriculums, downloadable offline study guides, and actionable career roadmaps.{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Hero Header -->
+    <div class="row align-items-center mb-5 pb-3 border-bottom">
+        <div class="col-lg-8">
+            <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill fw-bold mb-2">
+                <i class="fas fa-graduation-cap me-1"></i> Free Qube Learning Academy
+            </span>
+            <h1 class="display-5 fw-bold text-dark mt-1">Master High-Demand Tech Skills from Scratch</h1>
+            <p class="lead text-muted mb-3">
+                No confusing jargon or complicated prerequisites. We explain enterprise platforms and modern web languages using simple real-world analogies, step-by-step modular lessons, downloadable study guides, and clear career roadmaps.
+            </p>
+            <div class="d-flex flex-wrap gap-3 text-secondary small">
+                <span><i class="fas fa-check-circle text-success me-1"></i> 100% Free &amp; Open Access</span>
+                <span><i class="fas fa-check-circle text-success me-1"></i> Explained Simply (Like You're 10)</span>
+                <span><i class="fas fa-check-circle text-success me-1"></i> Printable Offline Study Cheatsheets</span>
+                <span><i class="fas fa-check-circle text-success me-1"></i> 2026/2027 Industry Career Roadmaps</span>
+            </div>
+        </div>
+        <div class="col-lg-4 text-center mt-4 mt-lg-0">
+            <div class="card border-0 bg-light p-4 shadow-sm rounded-4 text-center">
+                <div class="d-inline-flex align-items-center justify-content-center bg-primary text-white rounded-circle mx-auto mb-3" style="width: 64px; height: 64px; font-size: 1.75rem;">
+                    <i class="fas fa-book-reader"></i>
+                </div>
+                <h5 class="fw-bold mb-1">Curated By Tech Experts</h5>
+                <p class="text-muted small mb-3">Authored and reviewed by <strong>Dhwani Akhilesh</strong> &amp; the Free Qube Engineering Team.</p>
+                <a href="#modules" class="btn btn-primary btn-sm rounded-pill px-4">Browse Curriculum</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Learning Modules Grid -->
+    <div id="modules" class="mb-5">
+        <div class="text-center mb-4">
+            <h2 class="h3 fw-bold">Select Your Learning Path</h2>
+            <p class="text-muted">Choose a discipline below to begin your journey with comprehensive, modular lessons.</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Salesforce Masterclass -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden d-flex flex-column hover-shadow transition-all">
+                    <div class="p-4 bg-primary bg-opacity-10 border-bottom border-primary border-opacity-10">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <span class="badge bg-primary px-3 py-2 rounded-pill fw-semibold">
+                                <i class="fas fa-cloud me-1"></i> Enterprise Cloud
+                            </span>
+                            <span class="badge bg-white text-dark shadow-xs border small">12 Modules</span>
+                        </div>
+                        <h3 class="h4 fw-bold text-primary mb-1">Salesforce Masterclass</h3>
+                        <p class="text-muted small mb-0">From CRM Basics to Apex, LWC &amp; Career Roadmap</p>
+                    </div>
+                    <div class="card-body p-4 d-flex flex-column">
+                        <p class="text-secondary small mb-3">
+                            Master the world’s #1 CRM platform from the ground up. Features end-to-end coverage of Cloud Architecture, Data Modeling, Flow Automation, Apex Programming, LWC, Integration APIs, and a comprehensive Salesforce Career &amp; Certification Roadmap.
+                        </p>
+                        <div class="mb-3">
+                            <h6 class="text-uppercase text-muted fw-bold small" style="font-size:0.75rem; letter-spacing:0.5px;">What You'll Learn:</h6>
+                            <ul class="list-unstyled small text-muted mb-0">
+                                <li class="py-1"><i class="fas fa-check text-primary me-2"></i> CRM &amp; Multi-Tenant Cloud Architecture</li>
+                                <li class="py-1"><i class="fas fa-check text-primary me-2"></i> Objects, Security &amp; Flow Automation</li>
+                                <li class="py-1"><i class="fas fa-check text-primary me-2"></i> Apex OOP, Triggers &amp; SOQL Queries</li>
+                                <li class="py-1"><i class="fas fa-check text-primary me-2"></i> Lightning Web Components (LWC)</li>
+                                <li class="py-1"><i class="fas fa-check text-primary me-2"></i> Administrator &amp; Developer Roadmaps</li>
+                            </ul>
+                        </div>
+                        <div class="mt-auto pt-3 border-top d-flex align-items-center justify-content-between">
+                            <a href="{{ url_for('learn.learn_salesforce') }}" class="btn btn-primary rounded-pill px-4 fw-semibold w-100">
+                                Open Salesforce Guide <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HTML5 Fundamentals -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden d-flex flex-column hover-shadow transition-all">
+                    <div class="p-4 bg-danger bg-opacity-10 border-bottom border-danger border-opacity-10">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <span class="badge bg-danger px-3 py-2 rounded-pill fw-semibold">
+                                <i class="fab fa-html5 me-1"></i> Web Foundations
+                            </span>
+                            <span class="badge bg-white text-dark shadow-xs border small">8 Modules</span>
+                        </div>
+                        <h3 class="h4 fw-bold text-danger mb-1">HTML5 Fundamentals</h3>
+                        <p class="text-muted small mb-0">The Structural Skeleton of Every Web Page</p>
+                    </div>
+                    <div class="card-body p-4 d-flex flex-column">
+                        <p class="text-secondary small mb-3">
+                            Understand how the web is structured. Learn semantic tags, accessibility (A11y), responsive multimedia embedding, forms and validation, meta tags for modern SEO, and clean document outlines explained simply.
+                        </p>
+                        <div class="mb-3">
+                            <h6 class="text-uppercase text-muted fw-bold small" style="font-size:0.75rem; letter-spacing:0.5px;">What You'll Learn:</h6>
+                            <ul class="list-unstyled small text-muted mb-0">
+                                <li class="py-1"><i class="fas fa-check text-danger me-2"></i> Web Anatomy: Tags, Elements &amp; Attributes</li>
+                                <li class="py-1"><i class="fas fa-check text-danger me-2"></i> Semantic HTML5 Elements &amp; Page Hierarchy</li>
+                                <li class="py-1"><i class="fas fa-check text-danger me-2"></i> Accessible Forms, Inputs &amp; Validation</li>
+                                <li class="py-1"><i class="fas fa-check text-danger me-2"></i> Media, SVG, Canvas &amp; Modern Iframes</li>
+                                <li class="py-1"><i class="fas fa-check text-danger me-2"></i> SEO Meta Tags &amp; Structured Schema</li>
+                            </ul>
+                        </div>
+                        <div class="mt-auto pt-3 border-top d-flex align-items-center justify-content-between">
+                            <a href="{{ url_for('learn.learn_html') }}" class="btn btn-outline-danger rounded-pill px-4 fw-semibold w-100">
+                                Open HTML5 Guide <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JavaScript ES6+ -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden d-flex flex-column hover-shadow transition-all">
+                    <div class="p-4 bg-warning bg-opacity-10 border-bottom border-warning border-opacity-10">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-semibold">
+                                <i class="fab fa-js me-1"></i> Web Programming
+                            </span>
+                            <span class="badge bg-white text-dark shadow-xs border small">10 Modules</span>
+                        </div>
+                        <h3 class="h4 fw-bold text-dark mb-1">Modern JavaScript (ES6+)</h3>
+                        <p class="text-muted small mb-0">Interactive Logic, DOM Control &amp; Async Magic</p>
+                    </div>
+                    <div class="card-body p-4 d-flex flex-column">
+                        <p class="text-secondary small mb-3">
+                            Turn static websites into dynamic, responsive web applications. Learn variables, functions, closures, array methods, DOM event handling, async/await, and test your code directly in Free Qube's live JavaScript Runner!
+                        </p>
+                        <div class="mb-3">
+                            <h6 class="text-uppercase text-muted fw-bold small" style="font-size:0.75rem; letter-spacing:0.5px;">What You'll Learn:</h6>
+                            <ul class="list-unstyled small text-muted mb-0">
+                                <li class="py-1"><i class="fas fa-check text-warning me-2"></i> Variables, Scopes, Data Types &amp; Operators</li>
+                                <li class="py-1"><i class="fas fa-check text-warning me-2"></i> Arrow Functions, Callbacks &amp; Closures</li>
+                                <li class="py-1"><i class="fas fa-check text-warning me-2"></i> Array Methods: Map, Filter, Reduce</li>
+                                <li class="py-1"><i class="fas fa-check text-warning me-2"></i> DOM Manipulation &amp; Interactive Event Listeners</li>
+                                <li class="py-1"><i class="fas fa-check text-warning me-2"></i> Promises, Fetch API &amp; Async/Await</li>
+                            </ul>
+                        </div>
+                        <div class="mt-auto pt-3 border-top d-flex align-items-center justify-content-between">
+                            <a href="{{ url_for('learn.learn_javascript') }}" class="btn btn-warning text-dark rounded-pill px-4 fw-semibold w-100">
+                                Open JavaScript Guide <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Educational Philosophy / Why Free Qube Learn -->
+    <div class="card border-0 bg-light p-4 p-md-5 rounded-4 shadow-sm mb-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <span class="badge bg-primary text-white rounded-pill px-3 py-1 mb-2">Our Philosophy</span>
+                <h3 class="h4 fw-bold">Why Traditional Tutorials Fail (And How We Fix It)</h3>
+                <p class="text-muted">
+                    Most technical documentation assumes you already have a computer science degree. They throw acronyms like <em>multi-tenancy</em>, <em>polymorphic relationships</em>, and <em>lexical scoping</em> at you without explaining the underlying intuition.
+                </p>
+                <p class="text-muted">
+                    At <strong>Free Qube Learn</strong>, every concept is broken down into simple, relatable real-world analogies:
+                </p>
+                <ul class="list-unstyled text-secondary small">
+                    <li class="mb-2"><i class="fas fa-lightbulb text-warning me-2"></i> <strong>Salesforce CRM:</strong> Explained like a high-tech digital notebook managing a lemonade empire.</li>
+                    <li class="mb-2"><i class="fas fa-lightbulb text-warning me-2"></i> <strong>HTML:</strong> Explained as the bones and skeleton of an apartment building.</li>
+                    <li class="mb-2"><i class="fas fa-lightbulb text-warning me-2"></i> <strong>JavaScript:</strong> Explained as the nervous system and electricity powering the building's elevators and smart lights.</li>
+                </ul>
+            </div>
+            <div class="col-lg-6">
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <div class="card border-0 p-3 bg-white shadow-sm rounded-3 h-100">
+                            <i class="fas fa-file-download text-primary fs-3 mb-2"></i>
+                            <h6 class="fw-bold mb-1">Printable Offline Guides</h6>
+                            <p class="text-muted small mb-0">Export any module with clean, formatted study notes to read on the subway or offline.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="card border-0 p-3 bg-white shadow-sm rounded-3 h-100">
+                            <i class="fas fa-terminal text-success fs-3 mb-2"></i>
+                            <h6 class="fw-bold mb-1">Interactive Coding</h6>
+                            <p class="text-muted small mb-0">Jump seamlessly from theory to execution using our client-side JavaScript playground.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="card border-0 p-3 bg-white shadow-sm rounded-3 h-100">
+                            <i class="fas fa-chart-line text-info fs-3 mb-2"></i>
+                            <h6 class="fw-bold mb-1">Career Roadmaps</h6>
+                            <p class="text-muted small mb-0">Detailed certification milestones, salary ranges, and hiring expectations for 2026/2027.</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="card border-0 p-3 bg-white shadow-sm rounded-3 h-100">
+                            <i class="fas fa-shield-alt text-danger fs-3 mb-2"></i>
+                            <h6 class="fw-bold mb-1">Zero Paywalls</h6>
+                            <p class="text-muted small mb-0">100% open education with no gated logins, email subscriptions, or hidden charges.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Frequently Asked Questions -->
+    <div class="mb-4">
+        <h3 class="h4 fw-bold text-center mb-4">Frequently Asked Questions</h3>
+        <div class="accordion shadow-sm rounded-3 overflow-hidden border-0" id="learnFaqAccordion">
+            <div class="accordion-item border-0 border-bottom">
+                <h2 class="accordion-header">
+                    <button class="accordion-button fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                        Do I need prior coding experience to start with Salesforce or HTML?
+                    </button>
+                </h2>
+                <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#learnFaqAccordion">
+                    <div class="accordion-body text-muted">
+                        Not at all! Every module starts with foundational concepts explained in plain English without assuming any background knowledge. Salesforce administration, for example, is primarily "declarative" (point-and-click automation) before we gently transition into programmatic Apex.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item border-0 border-bottom">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                        How can I download the guides for offline reading?
+                    </button>
+                </h2>
+                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#learnFaqAccordion">
+                    <div class="accordion-body text-muted">
+                        Every tutorial page features a dedicated <strong>"Download Printable Study Guide"</strong> button in the header. Clicking this formats the entire curriculum cleanly for printing or saving directly as a high-resolution PDF document to your device.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item border-0 border-bottom">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                        Are the career roadmaps and salary estimates realistic for 2026/2027?
+                    </button>
+                </h2>
+                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#learnFaqAccordion">
+                    <div class="accordion-body text-muted">
+                        Yes. Our roadmaps, certifications paths, and compensation brackets are compiled from current industry hiring data, ecosystem surveys (including Mason Frank International salary reviews), and real enterprise demand across Salesforce, Frontend, and Full-Stack roles.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item border-0">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                        Can I practice what I learn directly on Free Qube?
+                    </button>
+                </h2>
+                <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#learnFaqAccordion">
+                    <div class="accordion-body text-muted">
+                        Absolutely! For JavaScript learners, our interactive <a href="{{ url_for('code.code_tool_page', tool_id='js-runner') }}" class="text-primary fw-semibold">JavaScript Runner &amp; Playground</a> allows you to execute scripts, inspect real-time console outputs, and experiment with code directly in your browser.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

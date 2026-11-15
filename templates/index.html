@@ -118,6 +118,37 @@
 
 </div>
 
+<!-- Featured: Free Qube Learning Academy -->
+<div class="card border-0 rounded-4 shadow-sm p-4 p-md-5 my-5 text-white overflow-hidden" style="background: linear-gradient(135deg, #0d3b66 0%, #0070d2 100%);">
+    <div class="row align-items-center">
+        <div class="col-lg-8">
+            <span class="badge bg-white text-primary px-3 py-1 rounded-pill fw-bold mb-2">
+                <i class="fas fa-graduation-cap me-1"></i> New: Free Qube Learn
+            </span>
+            <h2 class="display-6 fw-bold mb-2">Master High-Demand Tech Skills from Scratch</h2>
+            <p class="text-white-50 mb-4">
+                Comprehensive, modular learning paths with child-friendly analogies, interactive coding playgrounds, downloadable offline study guides, and actionable 2026/2027 career roadmaps.
+            </p>
+            <div class="d-flex flex-wrap gap-3">
+                <a href="{{ url_for('learn.learn_salesforce') }}" class="btn btn-light text-primary fw-bold px-3 py-2 rounded-pill shadow-xs">
+                    <i class="fas fa-cloud me-1"></i> Salesforce Masterclass
+                </a>
+                <a href="{{ url_for('learn.learn_html') }}" class="btn btn-outline-light fw-bold px-3 py-2 rounded-pill">
+                    <i class="fab fa-html5 me-1"></i> HTML5 Fundamentals
+                </a>
+                <a href="{{ url_for('learn.learn_javascript') }}" class="btn btn-warning text-dark fw-bold px-3 py-2 rounded-pill shadow-xs">
+                    <i class="fab fa-js me-1"></i> Modern JavaScript
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-4 text-center text-lg-end mt-4 mt-lg-0">
+            <a href="{{ url_for('learn.learn_hub') }}" class="btn btn-outline-light btn-lg rounded-pill px-4 fw-bold">
+                Browse All Modules <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
 <!-- Latest Technical Guides & Curation Layer -->
 {% if latest_blogs %}
 <div class="my-5">

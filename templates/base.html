@@ -127,6 +127,9 @@
                     {% if features['feature_nav_video'] %}
 <li class="nav-item"><a class="nav-link fw-semibold px-2" style="color: #6f42c1;" href="{{ url_for('video.video_hub') }}"><i class="fas fa-video me-1"></i> Video</a></li>
 {% endif %}
+                    {% if features['feature_nav_learn'] %}
+<li class="nav-item"><a class="nav-link fw-semibold px-2 text-primary" href="{{ url_for('learn.learn_hub') }}"><i class="fas fa-graduation-cap me-1"></i> {{ t('nav_learn') }}</a></li>
+{% endif %}
                     
                     <!-- Language Switcher -->
                     <li class="nav-item dropdown ms-2 border-start ps-2">
@@ -162,7 +165,7 @@
             <p class="mb-0 fs-6">
                 <a href="/about" class="text-decoration-none text-muted mx-2">{{ t('footer_about') }}</a> | 
                 <a href="/privacy" class="text-decoration-none text-muted mx-2">{{ t('footer_privacy') }}</a> | 
-                <a href="/terms" class="text-decoration-none text-muted mx-2">{{ t('footer_terms') }}</a> | <a href="/contact" class="text-decoration-none text-muted mx-2">{{ t('footer_contact') }}</a> | <a href="/blog/" class="text-decoration-none text-muted mx-2">Blog</a>
+                <a href="/terms" class="text-decoration-none text-muted mx-2">{{ t('footer_terms') }}</a> | <a href="/contact" class="text-decoration-none text-muted mx-2">{{ t('footer_contact') }}</a> | <a href="/blog/" class="text-decoration-none text-muted mx-2">Blog</a> | <a href="{{ url_for('learn.learn_hub') }}" class="text-decoration-none text-primary fw-semibold mx-2"><i class="fas fa-graduation-cap me-1"></i>Learn</a>
             </p>
         </div>
     </footer>

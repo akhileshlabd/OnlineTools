@@ -59,6 +59,12 @@
     "pt": "Dev",
     "hi": "डेव"
   },
+  "nav_learn": {
+    "en": "Learn",
+    "es": "Aprender",
+    "pt": "Aprender",
+    "hi": "सीखें"
+  },
   "nav_games": {
     "en": "Games",
     "es": "Juegos",

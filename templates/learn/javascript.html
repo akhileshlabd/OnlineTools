@@ -1,0 +1,392 @@
+{% extends "base.html" %}
+
+{% block title %}Modern JavaScript (ES6+): Complete Beginner-to-Pro Guide &amp; Interactive Playground | Free Qube{% endblock %}
+{% block meta_desc %}Master modern JavaScript (ES6+) from scratch with child-friendly analogies. Learn variables, arrow functions, array transformations, DOM manipulation, async/await, and run code live in our browser sandbox.{% endblock %}
+
+{% block extra_css %}
+<style>
+    .sticky-toc {
+        position: sticky;
+        top: 20px;
+        max-height: calc(100vh - 40px);
+        overflow-y: auto;
+    }
+    .analogy-box {
+        background-color: #fffdf0;
+        border-left: 4px solid #f7df1e;
+        border-radius: 0 12px 12px 0;
+        padding: 1.25rem;
+    }
+    .code-block {
+        background-color: #1e1e2e;
+        color: #cdd6f4;
+        border-radius: 8px;
+        padding: 1rem;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.88rem;
+        overflow-x: auto;
+    }
+    .badge-step {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+    @media print {
+        .navbar, footer, .sticky-toc, .btn-download, .nav-breadcrumb, .btn-try-sandbox {
+            display: none !important;
+        }
+        body {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+        }
+        .container {
+            max-width: 100% !important;
+            width: 100% !important;
+            padding: 0 !important;
+        }
+        .card, .analogy-box {
+            border: 1px solid #ccc !important;
+            box-shadow: none !important;
+            break-inside: avoid;
+        }
+        .display-5 {
+            font-size: 24pt !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-3">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="nav-breadcrumb mb-3">
+        <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('learn.learn_hub') }}">Learn</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Modern JavaScript</li>
+        </ol>
+    </nav>
+
+    <!-- Header Banner -->
+    <div class="card border-0 bg-dark text-white p-4 p-md-5 rounded-4 shadow-sm mb-4" style="background: linear-gradient(135deg, #1f1f1f 0%, #3a3a00 100%);">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <span class="badge bg-warning text-dark px-3 py-1 rounded-pill fw-bold mb-2">
+                    <i class="fab fa-js me-1"></i> Interactive Programming Language
+                </span>
+                <h1 class="display-5 fw-bold mb-2">Modern JavaScript (ES6+)</h1>
+                <p class="lead mb-3 text-white-50">
+                    Bring websites to life. Learn core variables, arrow functions, array superpowers, DOM event listeners, asynchronous async/await, and test your code live in our in-browser JS Playground!
+                </p>
+                <div class="d-flex flex-wrap gap-2 text-white-50 small">
+                    <span><i class="fas fa-user-circle me-1"></i> Author: <strong>Dhwani Akhilesh</strong></span>
+                    <span>•</span>
+                    <span><i class="fas fa-calendar me-1"></i> Updated for 2026/2027</span>
+                    <span>•</span>
+                    <span><i class="fas fa-flask me-1"></i> Hands-On Interactive Lessons</span>
+                </div>
+            </div>
+            <div class="col-lg-4 text-lg-end mt-4 mt-lg-0 btn-download">
+                <div class="d-flex flex-column gap-2">
+                    <a href="{{ url_for('code.code_tool_page', tool_id='js-runner') }}" class="btn btn-warning text-dark fw-bold px-4 py-2 rounded-pill shadow-sm">
+                        <i class="fas fa-play me-2"></i> Open Live JS Playground
+                    </a>
+                    <button onclick="window.print()" class="btn btn-outline-light px-4 py-2 rounded-pill shadow-sm small">
+                        <i class="fas fa-file-pdf me-2 text-danger"></i> Download Cheatsheet (PDF)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Layout -->
+    <div class="row g-4">
+        <!-- Sidebar Navigation -->
+        <div class="col-lg-3 d-none d-lg-block">
+            <div class="card border-0 shadow-sm rounded-4 p-3 sticky-toc bg-light">
+                <h6 class="fw-bold text-uppercase text-muted small mb-3">JavaScript Curriculum</h6>
+                <div class="nav flex-column nav-pills small">
+                    <a class="nav-link text-dark py-2 px-2" href="#j1"><i class="fas fa-robot me-2 text-warning"></i> 1. The Robot Analogy</a>
+                    <a class="nav-link text-dark py-2 px-2" href="#j2"><i class="fas fa-box me-2 text-warning"></i> 2. Variables: let vs. const</a>
+                    <a class="nav-link text-dark py-2 px-2" href="#j3"><i class="fas fa-shapes me-2 text-warning"></i> 3. Data Types &amp; Equality</a>
+                    <a class="nav-link text-dark py-2 px-2" href="#j4"><i class="fas fa-bolt me-2 text-warning"></i> 4. Arrow Functions &amp; Scope</a>
+                    <a class="nav-link text-dark py-2 px-2" href="#j5"><i class="fas fa-th-list me-2 text-warning"></i> 5. Array Methods (Map, Filter)</a>
+                    <a class="nav-link text-dark py-2 px-2" href="#j6"><i class="fas fa-mouse-pointer me-2 text-warning"></i> 6. DOM &amp; Event Listeners</a>
+                    <a class="nav-link text-dark py-2 px-2" href="#j7"><i class="fas fa-hourglass-half me-2 text-warning"></i> 7. Async, Promises &amp; Await</a>
+                    <a class="nav-link text-dark py-2 px-2" href="#j8"><i class="fas fa-terminal me-2 text-warning"></i> 8. Interactive Coding Practice</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Body -->
+        <div class="col-lg-9">
+            <!-- Chapter 1 -->
+            <section id="j1" class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
+                <div class="d-flex align-items-center mb-3">
+                    <span class="badge-step bg-warning text-dark me-3">1</span>
+                    <h2 class="h3 fw-bold mb-0">What is JavaScript? The Robot Analogy</h2>
+                </div>
+
+                <div class="analogy-box mb-4">
+                    <h5 class="fw-bold text-dark"><i class="fas fa-lightbulb me-2 text-warning"></i>Explain Like I'm 10: Bringing a Mannequin to Life</h5>
+                    <p class="mb-0 text-muted">
+                        Imagine a store mannequin standing in a shop window:
+                        <br>
+                        • <strong>HTML</strong> is the plastic body shape and frame.
+                        <br>
+                        • <strong>CSS</strong> is the fancy jacket, hat, and sunglasses on it.
+                        <br><br>
+                        Right now, the mannequin can't move. If you wave at it, nothing happens.
+                        <br><br>
+                        Now, imagine you insert a tiny high-tech computer chip inside the mannequin with gears, sensors, and voice recognition. Suddenly, when someone smiles, the mannequin waves back, counts how many people walked past, and orders more coffee when the pot is empty!
+                        <br><br>
+                        <strong>JavaScript</strong> is that computer chip. It runs directly inside every web browser on your phone, laptop, or tablet.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Chapter 2 -->
+            <section id="j2" class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
+                <div class="d-flex align-items-center mb-3">
+                    <span class="badge-step bg-warning text-dark me-3">2</span>
+                    <h2 class="h3 fw-bold mb-0">Variables: <code>const</code> vs. <code>let</code></h2>
+                </div>
+
+                <p class="text-muted">A <strong>variable</strong> is a labeled storage box in computer memory:</p>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <div class="card p-3 border rounded-3 bg-light h-100">
+                            <h6 class="fw-bold text-success"><code>const</code> (Constant - Locked Box)</h6>
+                            <p class="text-muted small mb-2">Use by default for 90% of your variables. The value cannot be reassigned once declared.</p>
+                            <div class="code-block py-2">
+<span class="text-warning">const</span> website = <span class="text-success">"Free Qube"</span>;
+website = <span class="text-success">"Other"</span>; <span class="text-danger">// Error! Assignment to constant variable.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card p-3 border rounded-3 bg-light h-100">
+                            <h6 class="fw-bold text-primary"><code>let</code> (Reassignable - Open Box)</h6>
+                            <p class="text-muted small mb-2">Use only when you know the value will change over time (like a score counter or loop index).</p>
+                            <div class="code-block py-2">
+<span class="text-warning">let</span> score = <span class="text-info">0</span>;
+score = score + <span class="text-info">10</span>; <span class="text-muted">// Valid! score is now 10</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert alert-warning py-2 small mb-0">
+                    <i class="fas fa-exclamation-triangle me-1"></i> <strong>Pro Tip:</strong> Avoid using the legacy <code>var</code> keyword in modern code. <code>var</code> has confusing function-scoping and hoisting rules that cause subtle bugs. Always stick to <code>const</code> and <code>let</code>.
+                </div>
+            </section>
+
+            <!-- Chapter 3 -->
+            <section id="j3" class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
+                <div class="d-flex align-items-center mb-3">
+                    <span class="badge-step bg-warning text-dark me-3">3</span>
+                    <h2 class="h3 fw-bold mb-0">Data Types &amp; Strict Equality (<code>===</code>)</h2>
+                </div>
+
+                <p class="text-muted">JavaScript has primitive types and reference types:</p>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered small">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Data Type</th>
+                                <th>Example</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>String</strong></td>
+                                <td><code>"Free Qube"</code>, <code>'hello'</code></td>
+                                <td>Text characters enclosed in quotes.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Number</strong></td>
+                                <td><code>42</code>, <code>3.14</code>, <code>-10</code></td>
+                                <td>Integers and floating-point decimals.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Boolean</strong></td>
+                                <td><code>true</code>, <code>false</code></td>
+                                <td>Binary truth flags for conditional checks.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Null &amp; Undefined</strong></td>
+                                <td><code>null</code> (empty by design), <code>undefined</code></td>
+                                <td>Absence of value.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Array</strong></td>
+                                <td><code>['Apple', 'Banana', 'Mango']</code></td>
+                                <td>Ordered list of items indexed from <code>0</code>.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Object</strong></td>
+                                <td><code>{ name: 'Bob', age: 28 }</code></td>
+                                <td>Key-value dictionary holding complex data.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h5 class="fw-bold mt-3">Always Use Strict Equality: <code>===</code> vs <code>==</code></h5>
+                <p class="text-muted small">
+                    In JavaScript, <code>==</code> (loose equality) converts types automatically behind your back (e.g., <code>"5" == 5</code> evaluates to <code>true</code>!). Always use <strong><code>===</code></strong> (strict equality) which compares both value and type without silent coercion.
+                </p>
+            </section>
+
+            <!-- Chapter 4 -->
+            <section id="j4" class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
+                <div class="d-flex align-items-center mb-3">
+                    <span class="badge-step bg-warning text-dark me-3">4</span>
+                    <h2 class="h3 fw-bold mb-0">Functions &amp; ES6 Arrow Syntax</h2>
+                </div>
+
+                <p class="text-muted">Functions are reusable recipes that take ingredients (arguments) and return a completed dish:</p>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <h6 class="fw-bold small text-muted">Traditional Function Declaration</h6>
+                        <div class="code-block py-2">
+<span class="text-warning">function</span> calculateTotal(price, taxRate = <span class="text-info">0.08</span>) {
+    <span class="text-warning">return</span> price + (price * taxRate);
+}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="fw-bold small text-muted">Modern Arrow Function (ES6)</h6>
+                        <div class="code-block py-2">
+<span class="text-warning">const</span> calculateTotal = (price, taxRate = <span class="text-info">0.08</span>) =&gt; {
+    <span class="text-warning">return</span> price + (price * taxRate);
+};
+<span class="text-muted">// One-liner shorthand:</span>
+<span class="text-warning">const</span> double = num =&gt; num * <span class="text-info">2</span>;
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chapter 5 -->
+            <section id="j5" class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
+                <div class="d-flex align-items-center mb-3">
+                    <span class="badge-step bg-warning text-dark me-3">5</span>
+                    <h2 class="h3 fw-bold mb-0">Array Superpowers: <code>map</code>, <code>filter</code> &amp; <code>reduce</code></h2>
+                </div>
+
+                <p class="text-muted">In modern JavaScript, you almost never need old-fashioned <code>for</code> loops to transform lists of data:</p>
+
+                <div class="code-block mb-3">
+<span class="text-warning">const</span> products = [
+    { name: <span class="text-success">"Laptop"</span>, price: <span class="text-info">1200</span>, inStock: <span class="text-warning">true</span> },
+    { name: <span class="text-success">"Mouse"</span>, price: <span class="text-info">25</span>, inStock: <span class="text-warning">true</span> },
+    { name: <span class="text-success">"Keyboard"</span>, price: <span class="text-info">80</span>, inStock: <span class="text-warning">false</span> }
+];
+
+<span class="text-muted">// 1. FILTER: Get only in-stock items</span>
+<span class="text-warning">const</span> available = products.filter(item =&gt; item.inStock);
+
+<span class="text-muted">// 2. MAP: Transform into a list of formatted price tags</span>
+<span class="text-warning">const</span> labels = available.map(item =&gt; <span class="text-success">`$${item.price} - ${item.name}`</span>);
+<span class="text-muted">// Result: ["$1200 - Laptop", "$25 - Mouse"]</span>
+
+<span class="text-muted">// 3. REDUCE: Sum the total inventory value</span>
+<span class="text-warning">const</span> totalValue = available.reduce((acc, item) =&gt; acc + item.price, <span class="text-info">0</span>);
+<span class="text-muted">// Result: 1225</span>
+                </div>
+            </section>
+
+            <!-- Chapter 6 -->
+            <section id="j6" class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
+                <div class="d-flex align-items-center mb-3">
+                    <span class="badge-step bg-warning text-dark me-3">6</span>
+                    <h2 class="h3 fw-bold mb-0">DOM Manipulation &amp; Interactive Event Listeners</h2>
+                </div>
+
+                <p class="text-muted">
+                    The <strong>DOM (Document Object Model)</strong> is the tree representation of your HTML page in memory. JavaScript can read and modify elements in real time without refreshing the page:
+                </p>
+
+                <div class="code-block mb-3">
+<span class="text-muted">// 1. Select the button and heading from the page</span>
+<span class="text-warning">const</span> button = document.querySelector(<span class="text-success">"#themeBtn"</span>);
+<span class="text-warning">const</span> title = document.querySelector(<span class="text-success">"h1"</span>);
+
+<span class="text-muted">// 2. Listen for a click event</span>
+button.addEventListener(<span class="text-success">"click"</span>, () =&gt; {
+    document.body.classList.toggle(<span class="text-success">"dark-mode"</span>);
+    title.textContent = <span class="text-success">"Theme Toggled via JavaScript!"</span>;
+});
+                </div>
+            </section>
+
+            <!-- Chapter 7 -->
+            <section id="j7" class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
+                <div class="d-flex align-items-center mb-3">
+                    <span class="badge-step bg-warning text-dark me-3">7</span>
+                    <h2 class="h3 fw-bold mb-0">Asynchronous JavaScript: <code>async</code> / <code>await</code> &amp; Fetch</h2>
+                </div>
+
+                <p class="text-muted">
+                    When fetching data from a cloud server or external API, it takes a fraction of a second. Instead of freezing the user's browser, JavaScript uses non-blocking <strong>Promises</strong> and clean <code>async / await</code> syntax:
+                </p>
+
+                <div class="code-block mb-3">
+<span class="text-warning">async function</span> fetchUserProfile(userId) {
+    <span class="text-warning">try</span> {
+        <span class="text-muted">// Wait for server response without blocking the UI</span>
+        <span class="text-warning">const</span> response = <span class="text-warning">await</span> fetch(<span class="text-success">`https://api.example.com/users/${userId}`</span>);
+        
+        <span class="text-warning">if</span> (!response.ok) {
+            <span class="text-warning">throw new</span> Error(<span class="text-success">`HTTP Error: ${response.status}`</span>);
+        }
+
+        <span class="text-warning">const</span> userData = <span class="text-warning">await</span> response.json();
+        console.log(<span class="text-success">"User loaded:"</span>, userData.name);
+        <span class="text-warning">return</span> userData;
+    } <span class="text-warning">catch</span> (error) {
+        console.error(<span class="text-success">"Failed to load user:"</span>, error.message);
+    }
+}
+                </div>
+            </section>
+
+            <!-- Chapter 8: Interactive Coding Tool Link -->
+            <section id="j8" class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4 text-center bg-light">
+                <div class="d-inline-flex align-items-center justify-content-center bg-warning text-dark rounded-circle mx-auto mb-3" style="width: 64px; height: 64px; font-size: 1.75rem;">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <h3 class="h4 fw-bold">Put Your Knowledge to Work Right Now</h3>
+                <p class="text-muted max-w-600 mx-auto mb-4" style="max-width: 600px;">
+                    Don't just read about code—write it! Free Qube provides a live, interactive <strong>JavaScript Playground &amp; Runner</strong>. Write code in the left editor, click "Run Code", and inspect variables, errors, and console logs instantly on the right side screen.
+                </p>
+                <div class="btn-try-sandbox">
+                    <a href="{{ url_for('code.code_tool_page', tool_id='js-runner') }}" class="btn btn-warning text-dark fw-bold btn-lg rounded-pill px-5 shadow-sm">
+                        <i class="fas fa-play me-2"></i> Launch Free Qube JS Playground
+                    </a>
+                </div>
+            </section>
+
+            <!-- Bottom Navigation -->
+            <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                <a href="{{ url_for('learn.learn_html') }}" class="btn btn-outline-secondary rounded-pill px-4">
+                    <i class="fas fa-arrow-left me-1"></i> Back to HTML5 Fundamentals
+                </a>
+                <a href="{{ url_for('learn.learn_hub') }}" class="btn btn-primary rounded-pill px-4">
+                    Explore All Learning Paths <i class="fas fa-graduation-cap ms-1"></i>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
