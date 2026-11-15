@@ -80,7 +80,7 @@ def home():
                            network_tools=NETWORK_TOOLS,
                            video_tools=VIDEO_TOOLS)
 
-# ---------------- Legal / Policies (AdSense Compliance) ----------------
+# ---------------- Legal & Policy Pages ----------------
 @app.route('/contact')
 def contact_page():
     return render_template('contact.html')
@@ -123,7 +123,7 @@ def privacy():
 def terms():
     return render_template('terms.html')
 
-# ---------------- AdSense & SEO ----------------
+# ---------------- SEO & Webmaster Endpoints ----------------
 @app.route('/ads.txt')
 def ads_txt():
     return send_from_directory(app.static_folder, 'ads.txt')

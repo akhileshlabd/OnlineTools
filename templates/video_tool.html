@@ -280,7 +280,7 @@
         progressBar.textContent = '10%';
 
         if (!ffmpeg) {
-            // Use core-st (Single-Threaded) to avoid SharedArrayBuffer and COOP/COEP AdSense conflicts
+            // Use core-st (Single-Threaded) to avoid SharedArrayBuffer and COOP/COEP cross-origin header conflicts
             ffmpeg = createFFmpeg({
                 corePath: 'https://unpkg.com/@ffmpeg/core-st@0.11.1/dist/ffmpeg-core.js',
                 mainName: 'main',
