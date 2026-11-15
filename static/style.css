@@ -136,3 +136,34 @@ body {
 [data-bs-theme="dark"] .drag-drop-area.dragover {
     background-color: #3f3f4e;
 }
+
+/* Ad-Safe Layout Architecture & Strict CLS Prevention */
+.ad-slot-container {
+    display: block;
+    width: 100%;
+    margin: 1.5rem auto;
+    text-align: center;
+    overflow: hidden;
+    contain: layout style;
+    clear: both;
+}
+
+.ad-slot-container:empty {
+    display: none;
+}
+
+.ad-slot-leaderboard {
+    min-height: 90px;
+    max-width: 970px;
+}
+
+.ad-slot-rectangle {
+    min-height: 250px;
+    max-width: 336px;
+}
+
+.ad-slot-responsive {
+    min-height: 100px;
+    max-width: 100%;
+}
+

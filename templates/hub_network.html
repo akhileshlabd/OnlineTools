@@ -38,5 +38,47 @@
 
     <h3 class="h5 fw-bold mt-4">Safe &amp; Ephemeral Diagnostics</h3>
     <p class="text-muted">Unlike data brokers that log IP lookups into permanent tracking databases, Free Qube executes network checks purely on-demand. We maintain no query history, behavioral logs, or user profiles.</p>
+
+    <h3 class="h5 fw-bold mt-4">Frequently Asked Questions (FAQ)</h3>
+    <div class="accordion accordion-flush mt-3" id="netFaqAccordion">
+        <div class="accordion-item border-bottom">
+            <h2 class="accordion-header" id="netHeadingOne">
+                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#netCollapseOne" aria-expanded="false" aria-controls="netCollapseOne">
+                    What information does the My IP Lookup tool display?
+                </button>
+            </h2>
+            <div id="netCollapseOne" class="accordion-collapse collapse" aria-labelledby="netHeadingOne" data-bs-parent="#netFaqAccordion">
+                <div class="accordion-body text-muted">
+                    The lookup displays your public IPv4 or IPv6 address, upstream Internet Service Provider (ISP), Autonomous System Number (ASN), hostname, and approximate metropolitan city and country. It does not access private device sensors or physical GPS coordinates.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item border-bottom">
+            <h2 class="accordion-header" id="netHeadingTwo">
+                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#netCollapseTwo" aria-expanded="false" aria-controls="netCollapseTwo">
+                    Can this tool verify whether my VPN or proxy tunnel is working?
+                </button>
+            </h2>
+            <div id="netCollapseTwo" class="accordion-collapse collapse" aria-labelledby="netHeadingTwo" data-bs-parent="#netFaqAccordion">
+                <div class="accordion-body text-muted">
+                    Yes. If your VPN or proxy is active, the IP address and ISP shown will reflect your VPN exit node rather than your home or mobile carrier, confirming that your public traffic is properly routed.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item border-bottom">
+            <h2 class="accordion-header" id="netHeadingThree">
+                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#netCollapseThree" aria-expanded="false" aria-controls="netCollapseThree">
+                    Does Free Qube log my network diagnostics queries?
+                </button>
+            </h2>
+            <div id="netCollapseThree" class="accordion-collapse collapse" aria-labelledby="netHeadingThree" data-bs-parent="#netFaqAccordion">
+                <div class="accordion-body text-muted">
+                    No. IP lookups and network diagnostics are ephemeral and executed on-demand. We do not store queries, build behavioral records, or monetize user network activity.
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<div class="ad-slot-container ad-slot-responsive my-4"></div>
 {% endblock %}

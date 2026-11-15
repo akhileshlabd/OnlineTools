@@ -37,5 +37,47 @@
 
     <h3 class="h5 fw-bold mt-4">Absolute Privacy &amp; Zero Bandwidth Waste</h3>
     <p class="text-muted">Traditional cloud converters force you to upload multi-gigabyte video files over home broadband, consuming capped data allowances and risking privacy exposure. At Free Qube, all media operations mount within an isolated Emscripten in-memory virtual file system (MEMFS). Your footage is processed locally on your device GPU/CPU and never touches external network infrastructure. Explore our full suite of productivity utilities on the <a href="/" class="text-primary fw-semibold">Free Qube Homepage</a> or read our technical guide to <a href="/blog/the-great-ai-pivot-why-tech-giants-are-abandoning-the-cloud-for-on-device-processing" class="text-primary fw-semibold">On-Device Processing</a>.</p>
+
+    <h3 class="h5 fw-bold mt-4">Frequently Asked Questions (FAQ)</h3>
+    <div class="accordion accordion-flush mt-3" id="videoFaqAccordion">
+        <div class="accordion-item border-bottom">
+            <h2 class="accordion-header" id="vidHeadingOne">
+                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#vidCollapseOne" aria-expanded="false" aria-controls="vidCollapseOne">
+                    How does in-browser video processing work without uploading?
+                </button>
+            </h2>
+            <div id="vidCollapseOne" class="accordion-collapse collapse" aria-labelledby="vidHeadingOne" data-bs-parent="#videoFaqAccordion">
+                <div class="accordion-body text-muted">
+                    We compile FFmpeg into WebAssembly (Wasm). When you select a video, it is read into an isolated in-memory virtual filesystem within your browser. Your computer's CPU/GPU executes the transcoding or muting operations locally without transmitting a single byte of video data across the internet.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item border-bottom">
+            <h2 class="accordion-header" id="vidHeadingTwo">
+                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#vidCollapseTwo" aria-expanded="false" aria-controls="vidCollapseTwo">
+                    Does muting a video reduce its visual quality or re-encode the stream?
+                </button>
+            </h2>
+            <div id="vidCollapseTwo" class="accordion-collapse collapse" aria-labelledby="vidHeadingTwo" data-bs-parent="#videoFaqAccordion">
+                <div class="accordion-body text-muted">
+                    No. Our Video Muter uses stream demuxing (<code>-c:v copy -an</code>), which strips the audio track and rewires the original video stream into a new MP4 container instantly with zero re-encoding and zero pixel degradation.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item border-bottom">
+            <h2 class="accordion-header" id="vidHeadingThree">
+                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#vidCollapseThree" aria-expanded="false" aria-controls="vidCollapseThree">
+                    What audio bitrates are extracted with the Video to MP3 tool?
+                </button>
+            </h2>
+            <div id="vidCollapseThree" class="accordion-collapse collapse" aria-labelledby="vidHeadingThree" data-bs-parent="#videoFaqAccordion">
+                <div class="accordion-body text-muted">
+                    Audio extraction preserves high-fidelity acoustic frequencies up to 192–320 kbps MP3 output, ideal for voice recordings, meeting summaries, study lectures, and music tracks.
+                </div>
+            </div>
+        </div>
+    </div>
 </article>
+
+<div class="ad-slot-container ad-slot-responsive my-4"></div>
 {% endblock %}

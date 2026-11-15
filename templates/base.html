@@ -156,6 +156,9 @@
     <!-- Main Content -->
     <main class="container my-4 flex-grow-1">
         {% block content %}{% endblock %}
+
+        <!-- Ad-Safe Responsive Layout Slot (CLS & Overflow Protected) -->
+        <div class="ad-slot-container ad-slot-responsive" aria-hidden="true"></div>
     </main>
 
     <!-- Footer -->
@@ -165,7 +168,11 @@
             <p class="mb-0 fs-6">
                 <a href="/about" class="text-decoration-none text-muted mx-2">{{ t('footer_about') }}</a> | 
                 <a href="/privacy" class="text-decoration-none text-muted mx-2">{{ t('footer_privacy') }}</a> | 
-                <a href="/terms" class="text-decoration-none text-muted mx-2">{{ t('footer_terms') }}</a> | <a href="/contact" class="text-decoration-none text-muted mx-2">{{ t('footer_contact') }}</a> | <a href="/blog/" class="text-decoration-none text-muted mx-2">Blog</a> | <a href="{{ url_for('learn.learn_hub') }}" class="text-decoration-none text-primary fw-semibold mx-2"><i class="fas fa-graduation-cap me-1"></i>Learn</a>
+                <a href="/terms" class="text-decoration-none text-muted mx-2">{{ t('footer_terms') }}</a> | 
+                <a href="/disclaimer" class="text-decoration-none text-muted mx-2">{{ t('footer_disclaimer') }}</a> | 
+                <a href="/contact" class="text-decoration-none text-muted mx-2">{{ t('footer_contact') }}</a> | 
+                <a href="/blog/" class="text-decoration-none text-muted mx-2">Blog</a> | 
+                <a href="{{ url_for('learn.learn_hub') }}" class="text-decoration-none text-primary fw-semibold mx-2"><i class="fas fa-graduation-cap me-1"></i>Learn</a>
             </p>
         </div>
     </footer>

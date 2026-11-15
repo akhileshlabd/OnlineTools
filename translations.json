@@ -191,6 +191,12 @@
     "pt": "Termos de Serviço",
     "hi": "सेवा की शर्तें"
   },
+  "footer_disclaimer": {
+    "en": "Disclaimer",
+    "es": "Descargo de Responsabilidad",
+    "pt": "Isenção de Responsabilidade",
+    "hi": "अस्वीकरण"
+  },
   "footer_contact": {
     "en": "Contact Us",
     "es": "Contáctanos",

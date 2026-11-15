@@ -141,6 +141,10 @@ def privacy():
 def terms():
     return render_template('terms.html')
 
+@app.route('/disclaimer')
+def disclaimer():
+    return render_template('disclaimer.html')
+
 # ---------------- SEO & Webmaster Endpoints ----------------
 @app.route('/ads.txt')
 def ads_txt():

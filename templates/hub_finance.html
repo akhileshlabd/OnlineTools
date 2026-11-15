@@ -39,5 +39,47 @@
 
     <h3 class="h5 fw-bold mt-4">100% In-Browser Privacy for Financial Data</h3>
     <p class="text-muted">Unlike traditional financial portals that log entered net worth values, monthly salaries, or loan requests into marketing tracking databases, Free Qube executes all arithmetic operations locally via client-side JavaScript. None of your portfolio metrics or investment projections are ever transmitted across external networks. For additional guidance, read our comprehensive editorial breakdown: <a href="/blog/master-your-digital-workflow-free-qube-tools" class="text-primary fw-semibold">Master Your Digital Workflow with Free Qube</a>.</p>
+
+    <h3 class="h5 fw-bold mt-4">Frequently Asked Questions (FAQ)</h3>
+    <div class="accordion accordion-flush mt-3" id="financeFaqAccordion">
+        <div class="accordion-item border-bottom">
+            <h2 class="accordion-header" id="finHeadingOne">
+                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#finCollapseOne" aria-expanded="false" aria-controls="finCollapseOne">
+                    How accurate are the SIP and EMI calculations compared to bank statements?
+                </button>
+            </h2>
+            <div id="finCollapseOne" class="accordion-collapse collapse" aria-labelledby="finHeadingOne" data-bs-parent="#financeFaqAccordion">
+                <div class="accordion-body text-muted">
+                    Our calculators use standard double-precision reducing-balance amortization and compounding formulas identical to retail banking institutions. Slight variances may occur if a bank applies custom daily compounding or processing fees, but the core financial mathematics are 100% standard.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item border-bottom">
+            <h2 class="accordion-header" id="finHeadingTwo">
+                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#finCollapseTwo" aria-expanded="false" aria-controls="finCollapseTwo">
+                    Are my financial numbers, salaries, or investment values recorded?
+                </button>
+            </h2>
+            <div id="finCollapseTwo" class="accordion-collapse collapse" aria-labelledby="finHeadingTwo" data-bs-parent="#financeFaqAccordion">
+                <div class="accordion-body text-muted">
+                    No. All numerical calculations take place directly in your browser's memory. We do not store, track, or share your financial figures or investment scenarios.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item border-bottom">
+            <h2 class="accordion-header" id="finHeadingThree">
+                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#finCollapseThree" aria-expanded="false" aria-controls="finCollapseThree">
+                    What is the difference between Simple Interest and Compound Interest?
+                </button>
+            </h2>
+            <div id="finCollapseThree" class="accordion-collapse collapse" aria-labelledby="finHeadingThree" data-bs-parent="#financeFaqAccordion">
+                <div class="accordion-body text-muted">
+                    Simple interest is computed strictly on the original principal sum. Compound interest is calculated on the initial principal plus all accumulated interest from previous periods, creating exponential wealth accumulation over long investment periods.
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<div class="ad-slot-container ad-slot-responsive my-4"></div>
 {% endblock %}

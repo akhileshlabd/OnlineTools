@@ -38,5 +38,47 @@
 
     <h3 class="h5 fw-bold mt-4">Total Confidentiality for Unpublished Drafts</h3>
     <p class="text-muted">Whether you are proofreading a patent application, drafting a press release under strict embargo, or editing an academic thesis, your words remain completely confidential. All text operations execute locally in your web browser memory. No text is ever uploaded, cached, or analyzed on our servers.</p>
+
+    <h3 class="h5 fw-bold mt-4">Frequently Asked Questions (FAQ)</h3>
+    <div class="accordion accordion-flush mt-3" id="textFaqAccordion">
+        <div class="accordion-item border-bottom">
+            <h2 class="accordion-header" id="textHeadingOne">
+                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#textCollapseOne" aria-expanded="false" aria-controls="textCollapseOne">
+                    How is estimated reading and speaking time calculated?
+                </button>
+            </h2>
+            <div id="textCollapseOne" class="accordion-collapse collapse" aria-labelledby="textHeadingOne" data-bs-parent="#textFaqAccordion">
+                <div class="accordion-body text-muted">
+                    Reading time is calculated using the scientifically validated benchmark of 200 words per minute (WPM) for adult silent reading. Speaking duration uses an average conversational speech cadence of 130 words per minute.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item border-bottom">
+            <h2 class="accordion-header" id="textHeadingTwo">
+                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#textCollapseTwo" aria-expanded="false" aria-controls="textCollapseTwo">
+                    Which case conversions are supported?
+                </button>
+            </h2>
+            <div id="textCollapseTwo" class="accordion-collapse collapse" aria-labelledby="textHeadingTwo" data-bs-parent="#textFaqAccordion">
+                <div class="accordion-body text-muted">
+                    Our Case Converter supports UPPERCASE, lowercase, Title Case, Sentence case, and developer formats like camelCase, snake_case, and kebab-case for code identifiers and URL slugs.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item border-bottom">
+            <h2 class="accordion-header" id="textHeadingThree">
+                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#textCollapseThree" aria-expanded="false" aria-controls="textCollapseThree">
+                    Is my pasted text or manuscript private?
+                </button>
+            </h2>
+            <div id="textCollapseThree" class="accordion-collapse collapse" aria-labelledby="textHeadingThree" data-bs-parent="#textFaqAccordion">
+                <div class="accordion-body text-muted">
+                    Yes, 100%. All character counting, parsing, formatting, and generation happen locally in your browser session. None of your text is sent over the network or saved anywhere.
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<div class="ad-slot-container ad-slot-responsive my-4"></div>
 {% endblock %}
