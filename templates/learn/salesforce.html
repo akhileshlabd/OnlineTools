@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
-{% block title %}Salesforce Masterclass: Admin, Apex, LWC, Integrations, DevOps &amp; Agentforce | Free Qube{% endblock %}
-{% block meta_desc %}The definitive end-to-end Salesforce curriculum. Comprehensive, modular guides covering Admin Security, Flows, Apex, LWC, Integration Architecture, DevOps CI/CD, and the new Agentforce AI platform with printable study guides.{% endblock %}
+{% block title %}Salesforce Enterprise Masterclass: Complete Architecture, Apex Patterns, LWC, Integrations, DevOps &amp; Agentforce | Free Qube{% endblock %}
+{% block meta_desc %}The definitive 10+ year veteran Salesforce curriculum. Deep technical architecture covering Large Data Volumes (LDV), Apex Enterprise Patterns (fflib), Security &amp; Sharing, LWC, Integrations, CI/CD DevOps, and Agentforce AI with printable study guides.{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -33,6 +33,12 @@
         border-radius: 0 12px 12px 0;
         padding: 1.25rem;
     }
+    .architect-box {
+        background-color: #fff9e6;
+        border-left: 4px solid #ffb000;
+        border-radius: 0 12px 12px 0;
+        padding: 1.25rem;
+    }
     .agentforce-box {
         background: linear-gradient(135deg, #f3f0ff 0%, #fdf8ff 100%);
         border-left: 4px solid #7952b3;
@@ -57,14 +63,8 @@
         justify-content: center;
         font-weight: bold;
     }
-    .sticky-toc {
-        position: sticky;
-        top: 20px;
-        max-height: calc(100vh - 40px);
-        overflow-y: auto;
-    }
     @media print {
-        .navbar, footer, .sticky-toc, .btn-download, .nav-breadcrumb, .sf-nav-pills, .tab-nav-wrapper {
+        .navbar, footer, .btn-download, .nav-breadcrumb, .sf-nav-pills, .tab-nav-wrapper {
             display: none !important;
         }
         .tab-pane {
@@ -82,7 +82,7 @@
             width: 100% !important;
             padding: 0 !important;
         }
-        .card, .analogy-box, .agentforce-box {
+        .card, .analogy-box, .architect-box, .agentforce-box {
             border: 1px solid #ccc !important;
             box-shadow: none !important;
             break-inside: avoid;
@@ -98,64 +98,66 @@
         <ol class="breadcrumb small">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
             <li class="breadcrumb-item"><a href="{{ url_for('learn.learn_hub') }}">Learn</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Salesforce Masterclass</li>
+            <li class="breadcrumb-item active" aria-current="page">Salesforce Enterprise Masterclass</li>
         </ol>
     </nav>
 
     <!-- Header Banner -->
-    <div class="card border-0 text-white p-4 p-md-5 rounded-4 shadow-sm mb-4" style="background: linear-gradient(135deg, #001e44 0%, #005fb2 50%, #00a1e0 100%);">
+    <div class="card border-0 text-white p-4 p-md-5 rounded-4 shadow-sm mb-4" style="background: linear-gradient(135deg, #001633 0%, #004b99 50%, #0099e5 100%);">
         <div class="row align-items-center">
             <div class="col-lg-8">
                 <span class="badge bg-white text-primary px-3 py-1 rounded-pill fw-bold mb-2">
-                    <i class="fas fa-cloud me-1"></i> Enterprise Cloud Ecosystem
+                    <i class="fas fa-crown text-warning me-1"></i> 10+ Year Principal Architect &amp; Developer Edition
                 </span>
-                <h1 class="display-5 fw-bold mb-2">Salesforce End-to-End Masterclass</h1>
+                <h1 class="display-5 fw-bold mb-2">Salesforce Enterprise Masterclass</h1>
                 <p class="lead mb-3 text-white-50">
-                    The complete curriculum: from child-friendly fundamentals to in-depth Administrator Security, Apex Development, Lightning Web Components (LWC), Enterprise Integrations, CI/CD DevOps, and the revolutionary <strong>Agentforce AI Platform</strong>.
+                    The definitive knowledge base for senior developers and technical architects. Covering Large Data Volumes (LDV), Apex Enterprise Patterns (fflib), Skinny Tables &amp; Query Optimization, Security Governance, LWC Architecture, Enterprise Integrations, 2GP CI/CD DevOps, and the autonomous <strong>Agentforce AI Platform</strong>.
                 </p>
                 <div class="d-flex flex-wrap gap-2 text-white-50 small">
                     <span><i class="fas fa-user-circle me-1"></i> Author: <strong>Dhwani Akhilesh</strong></span>
                     <span>•</span>
+                    <span><i class="fas fa-certificate me-1"></i> Architect &amp; CTA Level</span>
+                    <span>•</span>
                     <span><i class="fas fa-calendar me-1"></i> Edition: 2026/2027</span>
                     <span>•</span>
-                    <span><i class="fas fa-layer-group me-1"></i> 8 Deep-Dive Modules</span>
+                    <span><i class="fas fa-book-open me-1"></i> 8 Comprehensive Technical Modules</span>
                 </div>
             </div>
             <div class="col-lg-4 text-lg-end mt-4 mt-lg-0 btn-download">
                 <button onclick="window.print()" class="btn btn-light text-primary fw-bold px-4 py-2 rounded-pill shadow-sm">
-                    <i class="fas fa-file-pdf me-2 text-danger"></i> Download Complete Handbook (PDF)
+                    <i class="fas fa-file-pdf me-2 text-danger"></i> Download Architect Handbook (PDF)
                 </button>
                 <p class="text-white-50 small mt-2 mb-0">Formatted for offline study &amp; printing</p>
             </div>
         </div>
     </div>
 
-    <!-- Interactive Section Tabs Navigation -->
+    <!-- Section Navigation Tabs -->
     <div class="tab-nav-wrapper mb-4 overflow-auto pb-2">
         <ul class="nav sf-nav-pills flex-nowrap flex-md-wrap" id="salesforceMasterTabs" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="tab-overview-btn" data-bs-toggle="pill" data-bs-target="#tab-overview" type="button" role="tab"><i class="fas fa-compass me-1"></i> 1. Overview</button>
+                <button class="nav-link active" id="tab-overview-btn" data-bs-toggle="pill" data-bs-target="#tab-overview" type="button" role="tab"><i class="fas fa-layer-group me-1"></i> 1. Core Architecture &amp; LDV</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="tab-admin-btn" data-bs-toggle="pill" data-bs-target="#tab-admin" type="button" role="tab"><i class="fas fa-user-shield me-1 text-primary"></i> 2. Administrator</button>
+                <button class="nav-link" id="tab-admin-btn" data-bs-toggle="pill" data-bs-target="#tab-admin" type="button" role="tab"><i class="fas fa-shield-alt me-1 text-primary"></i> 2. Security &amp; Sharing Architecture</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="tab-apex-btn" data-bs-toggle="pill" data-bs-target="#tab-apex" type="button" role="tab"><i class="fas fa-code me-1 text-success"></i> 3. Apex Developer</button>
+                <button class="nav-link" id="tab-apex-btn" data-bs-toggle="pill" data-bs-target="#tab-apex" type="button" role="tab"><i class="fas fa-code me-1 text-success"></i> 3. Enterprise Apex &amp; Patterns (fflib)</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="tab-lwc-btn" data-bs-toggle="pill" data-bs-target="#tab-lwc" type="button" role="tab"><i class="fab fa-js me-1 text-warning"></i> 4. LWC Frontend</button>
+                <button class="nav-link" id="tab-lwc-btn" data-bs-toggle="pill" data-bs-target="#tab-lwc" type="button" role="tab"><i class="fab fa-js me-1 text-warning"></i> 4. LWC &amp; Modern Frontend</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="tab-integration-btn" data-bs-toggle="pill" data-bs-target="#tab-integration" type="button" role="tab"><i class="fas fa-network-wired me-1 text-info"></i> 5. Integrations</button>
+                <button class="nav-link" id="tab-integration-btn" data-bs-toggle="pill" data-bs-target="#tab-integration" type="button" role="tab"><i class="fas fa-network-wired me-1 text-info"></i> 5. Enterprise Integrations</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="tab-devops-btn" data-bs-toggle="pill" data-bs-target="#tab-devops" type="button" role="tab"><i class="fas fa-tools me-1 text-secondary"></i> 6. Tools &amp; CI/CD</button>
+                <button class="nav-link" id="tab-devops-btn" data-bs-toggle="pill" data-bs-target="#tab-devops" type="button" role="tab"><i class="fas fa-tools me-1 text-secondary"></i> 6. DevOps, 2GP &amp; CI/CD</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="tab-agentforce-btn" data-bs-toggle="pill" data-bs-target="#tab-agentforce" type="button" role="tab" style="border: 1px solid #7952b3;"><i class="fas fa-robot me-1" style="color: #7952b3;"></i> 7. Agentforce AI</button>
+                <button class="nav-link" id="tab-agentforce-btn" data-bs-toggle="pill" data-bs-target="#tab-agentforce" type="button" role="tab" style="border: 1px solid #7952b3;"><i class="fas fa-robot me-1" style="color: #7952b3;"></i> 7. Agentforce &amp; Data Cloud</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="tab-career-btn" data-bs-toggle="pill" data-bs-target="#tab-career" type="button" role="tab"><i class="fas fa-road me-1 text-danger"></i> 8. Career Roadmap</button>
+                <button class="nav-link" id="tab-career-btn" data-bs-toggle="pill" data-bs-target="#tab-career" type="button" role="tab"><i class="fas fa-chess-queen me-1 text-danger"></i> 8. CTA System Design</button>
             </li>
         </ul>
     </div>
@@ -164,219 +166,209 @@
     <div class="tab-content" id="salesforceMasterTabContent">
 
         <!-- ========================================== -->
-        <!-- TAB 1: OVERVIEW & ARCHITECTURE             -->
+        <!-- TAB 1: CORE ARCHITECTURE & LDV             -->
         <!-- ========================================== -->
         <div class="tab-pane fade show active" id="tab-overview" role="tabpanel">
             <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
                 <div class="d-flex align-items-center mb-3">
-                    <span class="badge-step bg-primary text-white me-3"><i class="fas fa-compass"></i></span>
-                    <h2 class="h3 fw-bold mb-0">Module 1: Salesforce Core Architecture &amp; Fundamentals</h2>
+                    <span class="badge-step bg-primary text-white me-3"><i class="fas fa-layer-group"></i></span>
+                    <h2 class="h3 fw-bold mb-0">Module 1: Enterprise Multitenancy, Under-The-Hood Architecture &amp; Large Data Volumes (LDV)</h2>
                 </div>
 
                 <div class="analogy-box mb-4">
-                    <h5 class="fw-bold text-primary"><i class="fas fa-lightbulb me-2"></i>Explain Like I'm 10: The Lemonade Stand CRM Story</h5>
+                    <h5 class="fw-bold text-primary"><i class="fas fa-lightbulb me-2"></i>Foundations for Everyone: The Apartment Complex</h5>
                     <p class="mb-0 text-muted">
-                        Imagine you run a front-yard lemonade stand with 3 customers. You can easily remember that neighbor Bob likes extra sugar, Alice prefers crushed ice, and Charlie only visits on Tuesdays.
-                        <br><br>
-                        Now imagine your lemonade stand expands into <strong>10,000 stands worldwide</strong> with millions of customers. You cannot keep all those preferences on sticky notes! You need a secure, collaborative digital brain that your entire company can open on any phone or laptop to instantly know each customer's favorite recipe, purchase history, and complaints.
-                        <br><br>
-                        <strong>CRM</strong> stands for <em>Customer Relationship Management</em>. And <strong>Salesforce</strong> is the most widely adopted enterprise CRM cloud on earth.
+                        Salesforce is a multi-tenant cloud where millions of companies share the same compute hardware and relational database infrastructure securely. Think of it as a luxury skyscraper: every tenant has their own private key, but all tenants share the same water lines and elevators. Governor limits exist so no single tenant starves the others of resources.
                     </p>
                 </div>
 
-                <h4 class="h5 fw-bold">1. The Multi-Tenant Cloud &amp; The Apartment Building Analogy</h4>
-                <p class="text-muted">
-                    In traditional on-premise software, every company bought their own private physical server. In Salesforce's <strong>Multi-Tenant Cloud</strong>, thousands of companies share the same underlying servers, database storage, and compute hardware—just like 100 families living inside a luxury apartment building.
-                </p>
-                <div class="row g-3 mb-4">
-                    <div class="col-md-6">
-                        <div class="card p-3 border-0 bg-light rounded-3 h-100">
-                            <h6 class="fw-bold text-primary"><i class="fas fa-lock me-2"></i> Tenant Isolation (Private Keys)</h6>
-                            <p class="text-muted small mb-0">Each customer's data is strictly partitioned using an Organization ID (Org ID). Company A can never query or view Company B's records, even though they reside on the same database cluster.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card p-3 border-0 bg-light rounded-3 h-100">
-                            <h6 class="fw-bold text-danger"><i class="fas fa-tachometer-alt me-2"></i> Governor Limits (The Water Meter)</h6>
-                            <p class="text-muted small mb-0">To prevent one apartment from hogging all the water and lowering pressure for everyone else, the runtime engine enforces strict governor limits on CPU time, memory heap, and database queries.</p>
-                        </div>
-                    </div>
+                <div class="architect-box mb-4">
+                    <h5 class="fw-bold text-dark"><i class="fas fa-microchip me-2 text-warning"></i>10-Year Architect Knowledge: Database Internals (Universal Container Architecture)</h5>
+                    <p class="text-muted small mb-2">
+                        Salesforce does <strong>not</strong> create a new SQL database table when you create a Custom Object. The platform uses a patented metadata-driven relational database architecture with universal tables:
+                    </p>
+                    <ul class="text-muted small mb-0 ps-3">
+                        <li class="mb-1"><strong>MT_Data (The Universal Storage Table):</strong> All custom data rows across all tenants live in a giant partition table where columns are generically typed (<code>val0</code>, <code>val1</code>, ... <code>val500</code>).</li>
+                        <li class="mb-1"><strong>MT_Metadata (The Dictionary):</strong> Maps <code>Custom_Object__c.Custom_Field__c</code> to the underlying physical column (e.g., maps "Invoice_Amount__c" to column <code>val14</code> as Decimal).</li>
+                        <li class="mb-1"><strong>Custom Index Tables:</strong> B-Tree indexes cannot be placed directly on generic varchar columns. Salesforce maintains dedicated indexing tables (<code>MT_Indexes</code>) that store indexed custom field values for high-speed lookups.</li>
+                        <li><strong>Skinny Tables:</strong> For queries on objects with millions of rows, Salesforce Support can create a physical read-only table that combines frequently used standard and custom fields into a flat, indexable table, avoiding expensive multi-table joins.</li>
+                    </ul>
                 </div>
 
-                <h4 class="h5 fw-bold">2. Metadata-Driven Architecture</h4>
-                <p class="text-muted">
-                    In Salesforce, your business logic, page layouts, validation rules, custom fields, and code are stored as <strong>Metadata</strong> (structured XML definitions). Your actual business rows (customer names, phone numbers) are stored as <strong>Data</strong>.
-                    <br>
-                    This clean separation is why Salesforce can automatically push seasonal platform updates (Spring, Summer, Winter) <strong>three times every year</strong> without breaking your custom applications!
+                <h4 class="h5 fw-bold mt-4"><i class="fas fa-database text-primary me-2"></i>Large Data Volumes (LDV) &amp; Query Optimizer Mechanics</h4>
+                <p class="text-muted small">
+                    When tables grow past <strong>5 million to 50 million records</strong>, standard SOQL queries will cause table scans and throw timeout exceptions if the Salesforce Query Optimizer cannot find a <strong>Selective Filter</strong>.
                 </p>
 
-                <h4 class="h5 fw-bold mt-4">3. Summary Table of Critical Governor Limits</h4>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped small">
+                <div class="table-responsive mb-3">
+                    <table class="table table-bordered small">
                         <thead class="table-dark">
                             <tr>
-                                <th>Governor Resource</th>
-                                <th>Synchronous Limit</th>
-                                <th>Asynchronous Limit (Batch/Queueable)</th>
+                                <th>Index Type</th>
+                                <th>Standard Selectivity Threshold</th>
+                                <th>Examples</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><strong>Total SOQL Queries (Database Reads)</strong></td>
-                                <td><span class="badge bg-danger">100 queries</span></td>
-                                <td><span class="badge bg-success">200 queries</span></td>
+                                <td><strong>Standard Indexed Fields</strong></td>
+                                <td>Filter must return <strong>&lt; 30%</strong> of the first 1M records, and <strong>&lt; 15%</strong> of records over 1M. Max 1M records.</td>
+                                <td><code>Id</code>, <code>Name</code>, <code>OwnerId</code>, <code>CreatedDate</code>, <code>RecordTypeId</code>, Master-Detail &amp; Lookup relationship fields.</td>
                             </tr>
                             <tr>
-                                <td><strong>Total Records Retrieved by SOQL</strong></td>
-                                <td>50,000 records</td>
-                                <td>50,000 records</td>
+                                <td><strong>Custom Indexed Fields</strong></td>
+                                <td>Filter must return <strong>&lt; 10%</strong> of the first 1M records, and <strong>&lt; 5%</strong> of records over 1M. Max 333,333 records.</td>
+                                <td>Fields marked as <em>External ID</em> or <em>Unique</em> (or indexed via Salesforce Support case).</td>
                             </tr>
                             <tr>
-                                <td><strong>Total DML Statements (Insert, Update, Delete)</strong></td>
-                                <td>150 statements</td>
-                                <td>150 statements</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Total Records Processed via DML</strong></td>
-                                <td>10,000 records</td>
-                                <td>10,000 records</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Maximum CPU Execution Time</strong></td>
-                                <td>10,000 ms (10 seconds)</td>
-                                <td>60,000 ms (60 seconds)</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Heap Size (RAM Memory Allocated)</strong></td>
-                                <td>6 MB</td>
-                                <td>12 MB</td>
+                                <td><strong>Non-Indexable Queries (Table Scans!)</strong></td>
+                                <td><span class="badge bg-danger">Index Bypassed</span></td>
+                                <td>Leading wildcards (<code>LIKE '%acme'</code>), negative operators (<code>!=</code>, <code>NOT IN</code>), comparisons to <code>null</code>, and non-deterministic formula fields.</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
+                <h4 class="h5 fw-bold mt-4"><i class="fas fa-exclamation-triangle text-danger me-2"></i>Data Skew: The #1 Cause of Production Lock Timeouts</h4>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <div class="card p-3 border h-100">
+                            <h6 class="fw-bold text-danger">1. Account Data Skew</h6>
+                            <p class="text-muted small mb-0">Occurs when a single parent Account has more than <strong>10,000 child records</strong> (Contacts, Cases, Opportunities). Updating child records causes database row-level locking on the parent Account table, producing frequent <code>UNABLE_TO_LOCK_ROW</code> exceptions.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card p-3 border h-100">
+                            <h6 class="fw-bold text-danger">2. Ownership Data Skew</h6>
+                            <p class="text-muted small mb-0">Occurs when a single user (e.g. an automated integration user) owns more than <strong>10,000 records</strong> of an object. Changing that user's role or role hierarchy triggers full recalculation of sharing tables, freezing user access for hours.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card p-3 border h-100">
+                            <h6 class="fw-bold text-danger">3. Lookup Skew</h6>
+                            <p class="text-muted small mb-0">Occurs when a huge volume of records look up to a single target record. During batch insertions, multiple concurrent threads attempt to acquire a lock on the target lookup record, triggering transaction rollbacks.</p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="d-flex justify-content-end mt-4">
                     <button class="btn btn-primary rounded-pill px-4" onclick="document.getElementById('tab-admin-btn').click();">
-                        Continue to Administrator Section <i class="fas fa-arrow-right ms-1"></i>
+                        Continue to Security &amp; Sharing Architecture <i class="fas fa-arrow-right ms-1"></i>
                     </button>
                 </div>
             </div>
         </div>
 
         <!-- ========================================== -->
-        <!-- TAB 2: ADMINISTRATOR DEEP-DIVE             -->
+        <!-- TAB 2: SECURITY & SHARING ARCHITECTURE     -->
         <!-- ========================================== -->
         <div class="tab-pane fade" id="tab-admin" role="tabpanel">
             <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
                 <div class="d-flex align-items-center mb-3">
-                    <span class="badge-step bg-primary text-white me-3"><i class="fas fa-user-shield"></i></span>
-                    <h2 class="h3 fw-bold mb-0">Module 2: Salesforce Administrator Deep-Dive</h2>
+                    <span class="badge-step bg-primary text-white me-3"><i class="fas fa-shield-alt"></i></span>
+                    <h2 class="h3 fw-bold mb-0">Module 2: Advanced Enterprise Security, Sharing Architecture &amp; Execution Order</h2>
                 </div>
 
                 <p class="text-muted">
-                    Salesforce Administration is the foundational backbone of every implementation. An effective administrator designs the data model, configures enterprise security, and builds declarative automations without writing code.
+                    At a 10-year experience level, Salesforce security is not just about checking boxes in Setup. It involves understanding underlying share tables, implicit sharing, Shield encryption mechanics, and the complete 20-step Order of Execution.
                 </p>
 
-                <!-- Security Section -->
-                <h4 class="h5 fw-bold text-primary mt-3"><i class="fas fa-shield-alt me-2"></i>1. The 4-Layer Security &amp; Access Model</h4>
-                <div class="analogy-box mb-4">
-                    <h6 class="fw-bold text-primary"><i class="fas fa-chess-rook me-2"></i>The Medieval Castle Analogy</h6>
-                    <p class="mb-0 text-muted small">
-                        <strong>Layer 1 (The Drawbridge):</strong> Login IP ranges and business hours.
-                        <br><strong>Layer 2 (Your Job Title):</strong> Profiles &amp; Permission Sets dictate whether you're allowed in the kitchen (Recipes/Accounts) or armory (Invoices).
-                        <br><strong>Layer 3 (The Default Lock):</strong> Organization-Wide Defaults (OWD) lock records by default.
-                        <br><strong>Layer 4 (The Keys):</strong> Role Hierarchy &amp; Sharing Rules grant exceptions to teammates and managers.
-                    </p>
+                <!-- Apex Managed Sharing -->
+                <h4 class="h5 fw-bold text-primary mt-3"><i class="fas fa-share-nodes me-2"></i>1. Apex Managed Sharing &amp; Custom Row Causes</h4>
+                <p class="text-muted small">
+                    When declarative sharing rules cannot satisfy complex dynamic security (e.g., project-based security with custom team allocations), architects implement <strong>Apex Managed Sharing</strong>.
+                </p>
+
+                <div class="code-block mb-3">
+<span class="text-info">// Production Example: Granting Read/Write to Project Member via Apex Managed Sharing</span>
+<span class="text-warning">public with sharing class</span> ProjectSharingService {
+    <span class="text-warning">public static void</span> grantProjectAccess(Id projectId, Id userId) {
+        <span class="text-muted">// Target the underlying Custom Object Share Table: ObjectName__Share</span>
+        Project__Share projShare = <span class="text-warning">new</span> Project__Share();
+        projShare.ParentId = projectId;           <span class="text-muted">// Record to be shared</span>
+        projShare.UserOrGroupId = userId;         <span class="text-muted">// User or Public Group receiving access</span>
+        projShare.AccessLevel = <span class="text-success">'Edit'</span>;           <span class="text-muted">// Read, Edit, or All</span>
+        <span class="text-muted">// Custom Row Cause ensures record is NOT deleted when record owner changes!</span>
+        projShare.RowCause = Schema.Project__Share.RowCause.Project_Team_Member__c;
+
+        Database.SaveResult sr = Database.insert(projShare, <span class="text-warning">false</span>);
+        <span class="text-warning">if</span> (!sr.isSuccess()) {
+            <span class="text-warning">for</span> (Database.Error err : sr.getErrors()) {
+                System.debug(LoggingLevel.ERROR, <span class="text-success">'Sharing error: '</span> + err.getMessage());
+            }
+        }
+    }
+}
                 </div>
 
+                <h4 class="h5 fw-bold text-primary mt-4"><i class="fas fa-network-wired me-2"></i>2. Implicit Sharing (The Hidden Architectural Engine)</h4>
                 <div class="row g-3 mb-4">
                     <div class="col-md-6">
                         <div class="card p-3 border h-100">
-                            <h6 class="fw-bold text-dark"><i class="fas fa-id-badge text-primary me-2"></i> Profiles vs. Permission Sets</h6>
-                            <ul class="text-muted small ps-3 mb-0">
-                                <li class="mb-2"><strong>Profile:</strong> A user's baseline. A user can have <strong>only one</strong> profile. Controls default Record Types, Page Layout assignments, and login IP hours.</li>
-                                <li class="mb-2"><strong>Permission Sets:</strong> Modular permissions layered on top of profiles. A user can have <strong>many</strong> permission sets.</li>
-                                <li class="mb-2"><strong>Permission Set Groups:</strong> Bundles multiple permission sets together into a single assignment based on job function.</li>
-                                <li><strong>Salesforce Modern Trend:</strong> Salesforce is phasing out permissions on profiles. Best practice is giving users a minimal baseline profile and granting all CRED permissions via Permission Sets!</li>
-                            </ul>
+                            <h6 class="fw-bold text-dark"><i class="fas fa-arrow-up text-primary me-2"></i> Parent Implicit Sharing</h6>
+                            <p class="text-muted small mb-0">If a user has access to a child record (e.g. a Contact or Case), Salesforce automatically grants that user read access to the parent Account record, even if the Account OWD is strictly Private!</p>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="card p-3 border h-100">
-                            <h6 class="fw-bold text-dark"><i class="fas fa-share-alt text-success me-2"></i> Record-Level Sharing Mechanisms</h6>
-                            <ul class="text-muted small ps-3 mb-0">
-                                <li class="mb-2"><strong>Organization-Wide Defaults (OWD):</strong> The most restrictive baseline: <em>Private</em>, <em>Public Read Only</em>, <em>Public Read/Write</em>, or <em>Controlled by Parent</em>.</li>
-                                <li class="mb-2"><strong>Role Hierarchy:</strong> Automatically rolls record visibility vertically upward to managers (if "Grant Access Using Hierarchies" is checked).</li>
-                                <li class="mb-2"><strong>Sharing Rules:</strong> Horizontally opens access to public groups or roles based on criteria (e.g., "State == California") or ownership.</li>
-                                <li><strong>Manual Sharing &amp; Apex Sharing:</strong> One-off grants to specific users or teams via the standard Share button or <code>Object__Share</code> table.</li>
-                            </ul>
+                            <h6 class="fw-bold text-dark"><i class="fas fa-arrow-down text-success me-2"></i> Child Implicit Sharing</h6>
+                            <p class="text-muted small mb-0">If a user has access to a parent Account, this access can implicitly provide visibility to child records based on role hierarchy settings and account sharing rules.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Data Modeling -->
-                <h4 class="h5 fw-bold text-primary mt-4"><i class="fas fa-database me-2"></i>2. Data Modeling &amp; Relationships</h4>
+                <!-- Shield Encryption -->
+                <h4 class="h5 fw-bold text-primary mt-4"><i class="fas fa-key me-2"></i>3. Salesforce Shield Platform Encryption: Deterministic vs. Probabilistic</h4>
                 <div class="table-responsive mb-4">
                     <table class="table table-bordered small">
                         <thead class="table-light">
                             <tr>
-                                <th>Relationship Type</th>
-                                <th>Coupling</th>
-                                <th>Cascade Delete?</th>
-                                <th>Roll-Up Summaries?</th>
-                                <th>Max per Object</th>
+                                <th>Encryption Scheme</th>
+                                <th>Ciphertext Output</th>
+                                <th>Filtering &amp; SOQL Capability</th>
+                                <th>Architectural Trade-Off</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><strong>Lookup Relationship</strong></td>
-                                <td>Loose</td>
-                                <td>No (Parent deletion preserves children)</td>
-                                <td>No (Unless using Apex or Flow)</td>
-                                <td>Up to 40</td>
+                                <td><strong>Probabilistic Encryption</strong></td>
+                                <td>Randomized ciphertext generated using a unique initialization vector (IV) for every record.</td>
+                                <td><span class="badge bg-danger">Zero Search / Zero Filtering</span> (Cannot use in <code>WHERE</code> clauses, indexes, or sort orders).</td>
+                                <td>Maximum cryptographic security. Best for raw SSNs, private medical diagnoses, and credit card pins.</td>
                             </tr>
                             <tr>
-                                <td><strong>Master-Detail</strong></td>
-                                <td>Tight</td>
-                                <td><strong>Yes</strong> (Deleting Master deletes all Details)</td>
-                                <td><strong>Yes</strong> (SUM, MIN, MAX, COUNT on Master)</td>
-                                <td>Strictly 2</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Junction Object</strong></td>
-                                <td>Many-to-Many</td>
-                                <td>Yes (Has two Master-Detail relationships)</td>
-                                <td>Yes (On both parent objects)</td>
-                                <td>N/A</td>
+                                <td><strong>Deterministic Encryption (Case-Sensitive / Case-Insensitive)</strong></td>
+                                <td>Consistent static ciphertext output for identical plaintexts using HMAC-SHA-256.</td>
+                                <td><span class="badge bg-success">Supports Exact Match Queries</span> (<code>WHERE Email = 'user@example.com'</code>).</td>
+                                <td>Allows SOQL filtering and indexing, but ciphertext patterns can theoretically be analyzed via frequency attacks.</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <!-- Declarative Automations -->
-                <h4 class="h5 fw-bold text-primary mt-4"><i class="fas fa-project-diagram me-2"></i>3. Declarative Automations: Salesforce Flows</h4>
-                <p class="text-muted small">
-                    Legacy Workflow Rules and Process Builder are officially retired. <strong>Salesforce Flow</strong> is now the unified automation engine:
-                </p>
-                <div class="row g-3 mb-3">
-                    <div class="col-md-4">
-                        <div class="p-3 bg-light rounded-3 h-100 border">
-                            <h6 class="fw-bold text-primary"><i class="fas fa-desktop me-1"></i> Screen Flows</h6>
-                            <p class="text-muted small mb-0">Step-by-step interactive UI forms guiding customer service reps or sales teams through structured data capture.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="p-3 bg-light rounded-3 h-100 border">
-                            <h6 class="fw-bold text-success"><i class="fas fa-bolt me-1"></i> Record-Triggered Flows</h6>
-                            <p class="text-muted small mb-0">Executes on record create, update, or delete. <strong>Before-Save</strong> for fast same-record field updates; <strong>After-Save</strong> for cross-object updates, emails, and external callouts.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="p-3 bg-light rounded-3 h-100 border">
-                            <h6 class="fw-bold text-info"><i class="fas fa-sitemap me-1"></i> Flow Orchestrator</h6>
-                            <p class="text-muted small mb-0">Orchestrates complex multi-user, multi-department enterprise workflows with asynchronous milestones and approvals.</p>
-                        </div>
-                    </div>
+                <!-- Complete Order of Execution -->
+                <h4 class="h5 fw-bold text-primary mt-4"><i class="fas fa-list-ol me-2"></i>4. The Trigraph 20-Step Order of Execution (CTA Must-Know)</h4>
+                <div class="card bg-light border p-3 rounded-3 small">
+                    <ol class="mb-0 ps-3 text-muted">
+                        <li class="mb-1">Loads original record from database or initializes for an insert.</li>
+                        <li class="mb-1">Applies system validation rules (checks required fields, formats, max lengths).</li>
+                        <li class="mb-1">Executes <strong>Before Triggers</strong> (Apex).</li>
+                        <li class="mb-1">Runs system validation rules again (null checks, foreign key existence) and custom <strong>Validation Rules</strong>.</li>
+                        <li class="mb-1">Executes duplicate rules.</li>
+                        <li class="mb-1">Saves record to the database (not committed yet; temporary transaction savepoint).</li>
+                        <li class="mb-1">Executes <strong>After Triggers</strong> (Apex).</li>
+                        <li class="mb-1">Executes assignment rules (Lead / Case assignment).</li>
+                        <li class="mb-1">Executes auto-response rules.</li>
+                        <li class="mb-1">Executes workflow rules (if field updates fire, triggers and validations re-fire!).</li>
+                        <li class="mb-1">Executes escalation rules.</li>
+                        <li class="mb-1">Executes <strong>Salesforce Flows</strong> (Record-Triggered Flows).</li>
+                        <li class="mb-1">Executes Entitlement rules.</li>
+                        <li class="mb-1">Calculates parent <strong>Roll-Up Summary fields</strong> (which triggers Order of Execution on parent objects!).</li>
+                        <li class="mb-1">Calculates cross-object rollups and criteria evaluations.</li>
+                        <li class="mb-1">Executes criteria-based sharing rule evaluations.</li>
+                        <li class="mb-1"><strong>Commits all DML operations</strong> to the database.</li>
+                        <li>Executes post-commit operations: sending queued outbound emails, asynchronous jobs, and publishing Platform Events.</li>
+                    </ol>
                 </div>
 
                 <div class="d-flex justify-content-between mt-4">
@@ -384,237 +376,215 @@
                         <i class="fas fa-arrow-left me-1"></i> Back to Overview
                     </button>
                     <button class="btn btn-primary rounded-pill px-4" onclick="document.getElementById('tab-apex-btn').click();">
-                        Continue to Apex Developer <i class="fas fa-arrow-right ms-1"></i>
+                        Continue to Enterprise Apex &amp; Patterns <i class="fas fa-arrow-right ms-1"></i>
                     </button>
                 </div>
             </div>
         </div>
 
         <!-- ========================================== -->
-        <!-- TAB 3: APEX DEVELOPER MODULE               -->
+        <!-- TAB 3: ENTERPRISE APEX & fflib PATTERNS    -->
         <!-- ========================================== -->
         <div class="tab-pane fade" id="tab-apex" role="tabpanel">
             <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
                 <div class="d-flex align-items-center mb-3">
                     <span class="badge-step bg-success text-white me-3"><i class="fas fa-code"></i></span>
-                    <h2 class="h3 fw-bold mb-0">Module 3: Programmatic Apex Developer In-Depth</h2>
+                    <h2 class="h3 fw-bold mb-0">Module 3: Enterprise Apex Architecture &amp; fflib Design Patterns</h2>
                 </div>
 
                 <p class="text-muted">
-                    Apex is Salesforce's proprietary object-oriented, strongly typed programming language executed natively on the multitenant server runtime.
+                    Senior Salesforce developers write enterprise-grade software using <strong>Separation of Concerns (SoC)</strong> based on Martin Fowler's enterprise application patterns, formalized in Salesforce through the open-source <strong>fflib</strong> framework.
                 </p>
 
-                <h4 class="h5 fw-bold text-success"><i class="fas fa-layer-group me-2"></i>1. Collections &amp; SOQL Relationship Queries</h4>
-                <p class="text-muted small">Never query single records. Always use Collections (<code>List</code>, <code>Set</code>, <code>Map</code>) to bulkify:</p>
-
-                <div class="code-block mb-3">
-<span class="text-muted">// Query Parent Account fields AND Child Contacts in one query (Parent-to-Child Subquery)</span>
-List&lt;Account&gt; accounts = [
-    SELECT Id, Name, Industry,
-           (SELECT Id, FirstName, LastName, Email FROM Contacts WHERE Email != <span class="text-danger">null</span>)
-    FROM Account 
-    WHERE AnnualRevenue &gt; <span class="text-info">1000000</span>
-    LIMIT <span class="text-info">100</span>
-];
-
-<span class="text-muted">// Build an instant lookup Map indexed by Account Id</span>
-Map&lt;Id, Account&gt; accountMap = <span class="text-warning">new</span> Map&lt;Id, Account&gt;(accounts);
+                <h4 class="h5 fw-bold text-success"><i class="fas fa-sitemap me-2"></i>1. The 4 Layers of Apex Enterprise Patterns</h4>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <div class="card p-3 border h-100">
+                            <h6 class="fw-bold text-primary">1. Domain Layer</h6>
+                            <p class="text-muted small mb-0">Encapsulates object state, default value validation, cross-field integrity, and trigger routing. Extends <code>fflib_SObjectDomain</code>.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card p-3 border h-100">
+                            <h6 class="fw-bold text-success">2. Selector Layer</h6>
+                            <p class="text-muted small mb-0">Centralizes all SOQL queries into reusable query classes with field-level security checks (<code>WITH USER_MODE</code>) and query caching.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card p-3 border h-100">
+                            <h6 class="fw-bold text-warning text-dark">3. Service Layer</h6>
+                            <p class="text-muted small mb-0">Defines transactional business operations and orchestration. Never contains direct inline DML or SOQL.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card p-3 border h-100">
+                            <h6 class="fw-bold text-danger">4. Unit of Work (UoW)</h6>
+                            <p class="text-muted small mb-0">Manages transactions, registers inserts/updates/deletes, resolves parent-child foreign key dependencies, and commits in one atomic step.</p>
+                        </div>
+                    </div>
                 </div>
 
-                <h4 class="h5 fw-bold text-success mt-4"><i class="fas fa-code-branch me-2"></i>2. The Trigger Handler Framework Pattern</h4>
+                <h4 class="h5 fw-bold text-success mt-4"><i class="fas fa-cubes me-2"></i>2. Unit of Work (UoW) Implementation Pattern</h4>
                 <p class="text-muted small">
-                    <strong>Rule:</strong> Keep triggers logic-free! Dedicate one trigger per object that delegates immediately to a testable Handler class:
+                    Eliminate ad-hoc scattered DML. Register operations in memory and let the Unit of Work execute optimal, bulkified DML in correct topological dependency order:
                 </p>
 
                 <div class="code-block mb-3">
-<span class="text-info">// File: OpportunityTrigger.trigger</span>
-<span class="text-warning">trigger</span> OpportunityTrigger <span class="text-warning">on</span> Opportunity (
-    <span class="text-warning">before insert</span>, <span class="text-warning">before update</span>, 
-    <span class="text-warning">after insert</span>, <span class="text-warning">after update</span>
-) {
-    OpportunityTriggerHandler handler = <span class="text-warning">new</span> OpportunityTriggerHandler();
-    <span class="text-warning">if</span> (Trigger.isBefore && Trigger.isInsert) {
-        handler.onBeforeInsert(Trigger.<span class="text-danger">new</span>);
-    } <span class="text-warning">else if</span> (Trigger.isAfter && Trigger.isUpdate) {
-        handler.onAfterUpdate(Trigger.<span class="text-danger">new</span>, Trigger.<span class="text-danger">oldMap</span>);
+<span class="text-warning">public class</span> InvoiceServiceImpl {
+    <span class="text-warning">public static void</span> generateInvoices(Set&lt;Id&gt; accountIds) {
+        <span class="text-muted">// 1. Initialize Unit of Work with topological dependency order</span>
+        fflib_SObjectUnitOfWork uow = <span class="text-warning">new</span> fflib_SObjectUnitOfWork(
+            <span class="text-warning">new</span> List&lt;SObjectType&gt;{
+                Invoice__c.SObjectType,
+                Invoice_Line_Item__c.SObjectType
+            }
+        );
+
+        <span class="text-muted">// 2. Query data using the Selector Layer</span>
+        List&lt;Account&gt; accounts = AccountsSelector.newInstance().selectByIdWithActiveOrders(accountIds);
+
+        <span class="text-warning">for</span> (Account acc : accounts) {
+            Invoice__c inv = <span class="text-warning">new</span> Invoice__c(AccountId__c = acc.Id, Status__c = <span class="text-success">'Draft'</span>);
+            <span class="text-muted">// Register new parent record</span>
+            uow.registerNew(inv);
+
+            <span class="text-warning">for</span> (Order ord : acc.Orders) {
+                Invoice_Line_Item__c item = <span class="text-warning">new</span> Invoice_Line_Item__c(Amount__c = ord.TotalAmount);
+                <span class="text-muted">// Link child to parent record even before the parent has an Id!</span>
+                uow.registerNew(item, Invoice_Line_Item__c.Invoice__c, inv);
+            }
+        }
+
+        <span class="text-muted">// 3. Commit the entire transaction atomically with zero scattered DML statements</span>
+        uow.commitWork();
     }
 }
                 </div>
 
-                <h4 class="h5 fw-bold text-success mt-4"><i class="fas fa-sync me-2"></i>3. Asynchronous Apex Comparison</h4>
-                <div class="table-responsive mb-4">
-                    <table class="table table-bordered small">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Type</th>
-                                <th>Interface / Signature</th>
-                                <th>Key Advantage</th>
-                                <th>Limitations</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>@future</strong></td>
-                                <td><code>@future(callout=true) static void myMethod(...)</code></td>
-                                <td>Easy to write; avoids Mixed DML errors; executes third-party HTTP callouts.</td>
-                                <td>Only accepts primitive parameters; cannot be monitored or chained.</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Batch Apex</strong></td>
-                                <td><code>implements Database.Batchable&lt;sObject&gt;</code></td>
-                                <td>Processes up to <strong>50 million records</strong> broken into batches of 200. Each batch gets fresh limits.</td>
-                                <td>Only 5 concurrent batch jobs can run at once in an org.</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Queueable Apex</strong></td>
-                                <td><code>implements System.Queueable</code></td>
-                                <td>Accepts complex sObjects; returns an <code>AsyncApexJob</code> Id; allows job chaining.</td>
-                                <td>Only 1 child job can be chained per execution in developer editions.</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Schedulable Apex</strong></td>
-                                <td><code>implements System.Schedulable</code></td>
-                                <td>Executes on a precise recurring schedule via Cron expressions.</td>
-                                <td>Limited to 100 scheduled jobs at any given time.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h4 class="h5 fw-bold text-success mt-4"><i class="fas fa-vial me-2"></i>4. Unit Testing &amp; Test Data Factories</h4>
+                <h4 class="h5 fw-bold text-success mt-4"><i class="fas fa-heart-pulse me-2"></i>3. Advanced Asynchronous Resilience: Queueable Finalizers</h4>
                 <p class="text-muted small">
-                    Production deployments require <strong>at least 75% code coverage</strong> across all Apex triggers and classes, and all tests must pass with zero failures:
+                    Introduced to solve the silent failure problem in asynchronous jobs. A <strong>Finalizer</strong> executes automatically when a Queueable job completes—whether it succeeds or crashes with an unhandled exception:
                 </p>
 
                 <div class="code-block mb-3">
-<span class="text-warning">@isTest</span>
-<span class="text-warning">private class</span> OpportunityTriggerTest {
-    <span class="text-warning">@testSetup</span>
-    <span class="text-warning">static void</span> setupData() {
-        Account testAcc = <span class="text-warning">new</span> Account(Name = <span class="text-success">'Acme Corp'</span>);
-        <span class="text-warning">insert</span> testAcc;
-    }
-
-    <span class="text-warning">@isTest</span>
-    <span class="text-warning">static void</span> testOpportunityStageDiscount() {
-        Account acc = [SELECT Id FROM Account LIMIT <span class="text-info">1</span>];
+<span class="text-warning">public class</span> ResilientSyncQueueable <span class="text-warning">implements</span> Queueable, Database.AllowsCallouts {
+    <span class="text-warning">public void</span> execute(QueueableContext ctx) {
+        <span class="text-muted">// Attach recovery handler</span>
+        System.attachFinalizer(<span class="text-warning">new</span> SyncQueueableFinalizer());
         
-        Test.startTest(); <span class="text-muted">// Resets governor limits for the test</span>
-        Opportunity opp = <span class="text-warning">new</span> Opportunity(
-            Name = <span class="text-success">'Cloud Contract'</span>,
-            StageName = <span class="text-success">'Prospecting'</span>,
-            CloseDate = Date.today().addDays(<span class="text-info">30</span>),
-            AccountId = acc.Id
-        );
-        <span class="text-warning">insert</span> opp;
-        Test.stopTest(); <span class="text-muted">// Forces all asynchronous queueable jobs to complete</span>
+        <span class="text-muted">// External API sync logic that might timeout</span>
+        HttpCalloutService.syncLargeDataPayload();
+    }
+}
 
-        Opportunity result = [SELECT StageName FROM Opportunity WHERE Id = :opp.Id];
-        Assert.areEqual(<span class="text-success">'Prospecting'</span>, result.StageName, <span class="text-success">'Stage should match initial insert'</span>);
+<span class="text-warning">public class</span> SyncQueueableFinalizer <span class="text-warning">implements</span> Finalizer {
+    <span class="text-warning">public void</span> execute(FinalizerContext ctx) {
+        <span class="text-warning">if</span> (ctx.getResult() == ParentJobResult.UNHANDLED_EXCEPTION) {
+            System.debug(LoggingLevel.ERROR, <span class="text-success">'Queueable failed: '</span> + ctx.getException().getMessage());
+            <span class="text-muted">// Automatically log error to custom Error_Log__c and notify on-call architect</span>
+            ErrorLogger.logException(ctx.getException(), ctx.getAsyncApexJobId());
+        }
     }
 }
                 </div>
 
                 <div class="d-flex justify-content-between mt-4">
                     <button class="btn btn-outline-secondary rounded-pill px-4" onclick="document.getElementById('tab-admin-btn').click();">
-                        <i class="fas fa-arrow-left me-1"></i> Back to Admin
+                        <i class="fas fa-arrow-left me-1"></i> Back to Security &amp; Sharing
                     </button>
-                    <button class="btn btn-success rounded-pill px-4 text-white" onclick="document.getElementById('tab-lwc-btn').click();">
-                        Continue to LWC Frontend <i class="fas fa-arrow-right ms-1"></i>
+                    <button class="btn btn-success text-white rounded-pill px-4" onclick="document.getElementById('tab-lwc-btn').click();">
+                        Continue to LWC &amp; Modern Frontend <i class="fas fa-arrow-right ms-1"></i>
                     </button>
                 </div>
             </div>
         </div>
 
         <!-- ========================================== -->
-        <!-- TAB 4: LWC FRONTEND MODULE                 -->
+        <!-- TAB 4: LWC & MODERN FRONTEND               -->
         <!-- ========================================== -->
         <div class="tab-pane fade" id="tab-lwc" role="tabpanel">
             <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
                 <div class="d-flex align-items-center mb-3">
                     <span class="badge-step bg-warning text-dark me-3"><i class="fab fa-js"></i></span>
-                    <h2 class="h3 fw-bold mb-0">Module 4: Lightning Web Components (LWC) Modern Frontend</h2>
+                    <h2 class="h3 fw-bold mb-0">Module 4: Enterprise Lightning Web Components (LWC) Architecture</h2>
                 </div>
 
                 <p class="text-muted">
-                    Lightning Web Components (LWC) is built directly on W3C standard Web Components (Custom Elements, Shadow DOM, ES6+ Modules, and CSS variables), delivering high performance with minimal framework overhead.
+                    Enterprise frontend architecture on Salesforce requires mastering Light DOM vs. Shadow DOM, Lightning Web Security (LWS), dynamic imports, and complex cross-DOM message distribution.
                 </p>
 
-                <h4 class="h5 fw-bold text-dark mt-3"><i class="fas fa-cubes text-warning me-2"></i>1. Component Bundle Structure</h4>
+                <h4 class="h5 fw-bold text-dark mt-3"><i class="fas fa-sun text-warning me-2"></i>1. Shadow DOM vs. Light DOM Architecture</h4>
                 <div class="row g-3 mb-4">
-                    <div class="col-md-3">
-                        <div class="card p-3 border bg-light h-100">
-                            <strong class="text-danger"><i class="fab fa-html5 me-1"></i> myComponent.html</strong>
-                            <p class="text-muted small mt-1 mb-0">Template markup using declarative directives like <code>lwc:if</code>, <code>lwc:else</code>, and <code>for:each</code>.</p>
+                    <div class="col-md-6">
+                        <div class="card p-3 border h-100">
+                            <h6 class="fw-bold text-primary">Shadow DOM (Default Mode)</h6>
+                            <p class="text-muted small mb-0">
+                                Provides strict CSS and DOM boundary encapsulation. External styles cannot bleed in, and <code>document.querySelector</code> cannot peek inside the component. Essential for self-contained UI widgets.
+                            </p>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="card p-3 border bg-light h-100">
-                            <strong class="text-warning"><i class="fab fa-js me-1"></i> myComponent.js</strong>
-                            <p class="text-muted small mt-1 mb-0">JavaScript controller class extending <code>LightningElement</code> to manage state and user events.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card p-3 border bg-light h-100">
-                            <strong class="text-primary"><i class="fab fa-css3-alt me-1"></i> myComponent.css</strong>
-                            <p class="text-muted small mt-1 mb-0">Encapsulated styles scoped strictly to this component via Shadow DOM boundaries.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card p-3 border bg-light h-100">
-                            <strong class="text-info"><i class="fas fa-file-code me-1"></i> myComponent.js-meta.xml</strong>
-                            <p class="text-muted small mt-1 mb-0">Configuration file declaring where the component can live (e.g. <code>lightning__RecordPage</code>).</p>
+                    <div class="col-md-6">
+                        <div class="card p-3 border h-100">
+                            <h6 class="fw-bold text-success">Light DOM (<code>renderMode = 'light'</code>)</h6>
+                            <p class="text-muted small mb-0">
+                                Renders elements directly into the host document without a shadow root. Allows third-party CSS libraries (Tailwind, Bootstrap) to style components directly and enables seamless DOM traversals for accessibility screen readers.
+                            </p>
                         </div>
                     </div>
                 </div>
 
-                <h4 class="h5 fw-bold text-dark mt-4"><i class="fas fa-bolt text-warning me-2"></i>2. Core Decorators &amp; Wiring Apex</h4>
-                <div class="code-block mb-3">
-<span class="text-warning">import</span> { LightningElement, api, wire, track } <span class="text-warning">from</span> <span class="text-success">'lwc'</span>;
-<span class="text-warning">import</span> getRecentCases <span class="text-warning">from</span> <span class="text-success">'@salesforce/apex/CaseController.getRecentCases'</span>;
-
-<span class="text-warning">export default class</span> AccountCasesViewer <span class="text-warning">extends</span> LightningElement {
-    <span class="text-warning">@api</span> recordId; <span class="text-muted">// Injected automatically on a Record Page</span>
-    <span class="text-warning">@track</span> searchFilter = <span class="text-success">''</span>;
-
-    <span class="text-muted">// Reactive @wire adapter: automatically refetches when recordId or searchFilter updates</span>
-    <span class="text-warning">@wire</span>(getRecentCases, { accountId: <span class="text-success">'$recordId'</span>, filterText: <span class="text-success">'$searchFilter'</span> })
-    casesList;
-
-    handleFilterChange(event) {
-        <span class="text-warning">this</span>.searchFilter = event.target.value;
-    }
-}
-                </div>
-
-                <h4 class="h5 fw-bold text-dark mt-4"><i class="fas fa-comments text-warning me-2"></i>3. Component Communication Patterns</h4>
+                <h4 class="h5 fw-bold text-dark mt-4"><i class="fas fa-shield-halved text-warning me-2"></i>2. Lightning Locker vs. Lightning Web Security (LWS)</h4>
+                <p class="text-muted small">
+                    Salesforce migrated from the rigid <strong>Lightning Locker</strong> architecture to <strong>Lightning Web Security (LWS)</strong>. LWS operates via fine-grained JavaScript sandboxing based on TC39 virtualization standards:
+                </p>
                 <div class="table-responsive mb-4">
                     <table class="table table-bordered small">
                         <thead class="table-light">
                             <tr>
-                                <th>Pattern</th>
-                                <th>Mechanism</th>
-                                <th>Description</th>
+                                <th>Feature</th>
+                                <th>Lightning Locker (Legacy)</th>
+                                <th>Lightning Web Security (Modern LWS)</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><strong>Parent &rarr; Child</strong></td>
-                                <td>Public <code>@api</code> property or method</td>
-                                <td>Parent sets a property on child tag: <code>&lt;c-child-item user-id={userId}&gt;&lt;/c-child-item&gt;</code>.</td>
+                                <td><strong>Cross-Namespace Component Access</strong></td>
+                                <td>Blocked completely.</td>
+                                <td>Allowed via safe virtualized sandboxes.</td>
                             </tr>
                             <tr>
-                                <td><strong>Child &rarr; Parent</strong></td>
-                                <td>Custom Events (<code>dispatchEvent</code>)</td>
-                                <td>Child dispatches event: <code>this.dispatchEvent(new CustomEvent('select', { detail: id }))</code>. Parent listens with <code>onselect={handleSelect}</code>.</td>
+                                <td><strong>Third-Party JavaScript Libraries</strong></td>
+                                <td>Strict limitations; libraries that mutate globals fail.</td>
+                                <td>Full compatibility with modern npm modules (e.g. Chart.js, D3.js).</td>
                             </tr>
                             <tr>
-                                <td><strong>Unrelated Components</strong></td>
-                                <td><strong>Lightning Message Service (LMS)</strong></td>
-                                <td>Publish/subscribe bus across Visualforce, Aura, LWC, and Utility Bars using <code>publish(this.messageContext, RECORD_SELECTED_CHANNEL, payload)</code>.</td>
+                                <td><strong>Execution Performance</strong></td>
+                                <td>Heavier overhead due to secure DOM wrappers.</td>
+                                <td>Near native browser speed.</td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <h4 class="h5 fw-bold text-dark mt-4"><i class="fas fa-bolt text-warning me-2"></i>3. Lightning Message Service (LMS) Multi-Window Bus</h4>
+                <p class="text-muted small">
+                    Publishes and subscribes to events across independent DOM hierarchies (Aura components, Visualforce iframes, LWC, and Utility Bar popups):
+                </p>
+
+                <div class="code-block mb-3">
+<span class="text-warning">import</span> { LightningElement, wire } <span class="text-warning">from</span> <span class="text-success">'lwc'</span>;
+<span class="text-warning">import</span> { publish, subscribe, MessageContext } <span class="text-warning">from</span> <span class="text-success">'lightning/messageService'</span>;
+<span class="text-warning">import</span> RECORD_CHANNEL <span class="text-warning">from</span> <span class="text-success">'@salesforce/messageChannel/RecordEventChannel__c'</span>;
+
+<span class="text-warning">export default class</span> EnterpriseEventDispatcher <span class="text-warning">extends</span> LightningElement {
+    <span class="text-warning">@wire</span>(MessageContext) messageContext;
+
+    handleAccountSelection(accountId) {
+        <span class="text-warning">const</span> payload = { recordId: accountId, timestamp: Date.now() };
+        <span class="text-muted">// Broadcast message across the enterprise UI bus</span>
+        publish(<span class="text-warning">this</span>.messageContext, RECORD_CHANNEL, payload);
+    }
+}
                 </div>
 
                 <div class="d-flex justify-content-between mt-4">
@@ -622,90 +592,96 @@ Map&lt;Id, Account&gt; accountMap = <span class="text-warning">new</span> Map&lt
                         <i class="fas fa-arrow-left me-1"></i> Back to Apex
                     </button>
                     <button class="btn btn-warning text-dark fw-bold rounded-pill px-4" onclick="document.getElementById('tab-integration-btn').click();">
-                        Continue to Integrations <i class="fas fa-arrow-right ms-1"></i>
+                        Continue to Enterprise Integrations <i class="fas fa-arrow-right ms-1"></i>
                     </button>
                 </div>
             </div>
         </div>
 
         <!-- ========================================== -->
-        <!-- TAB 5: INTEGRATION ARCHITECTURE            -->
+        <!-- TAB 5: ENTERPRISE INTEGRATIONS             -->
         <!-- ========================================== -->
         <div class="tab-pane fade" id="tab-integration" role="tabpanel">
             <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
                 <div class="d-flex align-items-center mb-3">
                     <span class="badge-step bg-info text-white me-3"><i class="fas fa-network-wired"></i></span>
-                    <h2 class="h3 fw-bold mb-0">Module 5: Enterprise Integration Architecture</h2>
+                    <h2 class="h3 fw-bold mb-0">Module 5: Official Integration Patterns, Pub/Sub API &amp; Zero-Storage Virtualization</h2>
                 </div>
 
                 <p class="text-muted">
-                    Enterprises connect Salesforce with ERPs (SAP, Oracle), payment gateways (Stripe), and modern data lakes. Salesforce supports both inbound (external systems calling in) and outbound (Salesforce calling external endpoints) integration patterns.
+                    Salesforce Integration Architecture follows the official patterns documented in Salesforce's Enterprise Integration Patterns Guide:
                 </p>
 
-                <h4 class="h5 fw-bold text-info"><i class="fas fa-exchange-alt me-2"></i>1. Integration Classification Patterns</h4>
-                <div class="row g-3 mb-4">
-                    <div class="col-md-6">
-                        <div class="card p-3 border h-100">
-                            <h6 class="fw-bold text-dark"><i class="fas fa-sync text-primary me-2"></i> Request-Response (Real-Time REST)</h6>
-                            <p class="text-muted small">Synchronous callouts via HTTP GET/POST/PUT/DELETE. Ideal for credit card authorizations, immediate address verification, or retrieving real-time stock inventory.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card p-3 border h-100">
-                            <h6 class="fw-bold text-dark"><i class="fas fa-broadcast-tower text-success me-2"></i> Event-Driven Pub/Sub (Platform Events)</h6>
-                            <p class="text-muted small">Asynchronous pub/sub architecture built on Kafka/CometD. Salesforce publishes events when opportunities close, and downstream enterprise middleware subscribes instantly.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card p-3 border h-100">
-                            <h6 class="fw-bold text-dark"><i class="fas fa-database text-warning me-2"></i> High-Volume Bulk Synchronization</h6>
-                            <p class="text-muted small">Bulk API 2.0. Optimized for loading or extracting millions of records in asynchronous background batches without exhausting API limits.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card p-3 border h-100">
-                            <h6 class="fw-bold text-dark"><i class="fas fa-history text-danger me-2"></i> Change Data Capture (CDC)</h6>
-                            <p class="text-muted small">Salesforce automatically publishes near-real-time event streams whenever any standard or custom record is created, modified, or soft-deleted.</p>
-                        </div>
-                    </div>
+                <h4 class="h5 fw-bold text-info"><i class="fas fa-diagram-project me-2"></i>1. The 5 Core Integration Patterns</h4>
+                <div class="table-responsive mb-4">
+                    <table class="table table-bordered small">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Pattern</th>
+                                <th>Timing</th>
+                                <th>Best Implementation</th>
+                                <th>Enterprise Use Case</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Request and Reply</strong></td>
+                                <td>Synchronous</td>
+                                <td>Apex REST/SOAP Callouts with Named Credentials</td>
+                                <td>Credit card processing, instant address validation.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Fire and Forget</strong></td>
+                                <td>Asynchronous</td>
+                                <td>High-Volume Platform Events</td>
+                                <td>Sending closed deal notifications to downstream billing queues.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Batch Data Synchronization</strong></td>
+                                <td>Asynchronous</td>
+                                <td>Bulk API 2.0 with PK Chunking</td>
+                                <td>Nightly synchronization of 10M customer ledger rows from SAP.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Remote Call-In</strong></td>
+                                <td>Synchronous</td>
+                                <td>OAuth 2.0 JWT Bearer Flow with REST Web Services</td>
+                                <td>External mobile apps querying customer order status directly.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Data Virtualization</strong></td>
+                                <td>On-Demand</td>
+                                <td>Salesforce Connect (External Objects / OData 4.0)</td>
+                                <td>Viewing historical customer invoices in ERP with <strong>zero data storage</strong> in Salesforce!</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
-                <h4 class="h5 fw-bold text-info mt-4"><i class="fas fa-lock me-2"></i>2. Named Credentials &amp; External Credentials (Best Practice)</h4>
+                <h4 class="h5 fw-bold text-info mt-4"><i class="fas fa-satellite-dish me-2"></i>2. The Pub/Sub API (Next-Gen gRPC Event Streaming)</h4>
                 <p class="text-muted small">
-                    <strong>Security Requirement:</strong> Never hardcode endpoint URLs, client IDs, or OAuth bearer tokens in Apex code! Use <strong>Named Credentials</strong> which store authentication details securely inside Salesforce setup:
+                    Legacy CometD streaming is replaced by the <strong>Salesforce Pub/Sub API</strong>. Built on <strong>HTTP/2 and gRPC</strong> with binary Apache Avro encoding, it delivers:
+                </p>
+                <ul class="text-muted small ps-3 mb-4">
+                    <li class="mb-1"><strong>Bi-directional streaming:</strong> Publish and subscribe using a single unified connection.</li>
+                    <li class="mb-1"><strong>Flow control:</strong> Clients pull events based on buffer capacity rather than being overwhelmed by event firehoses.</li>
+                    <li><strong>Arbitrary replay:</strong> Replay past events from a specific <code>ReplayId</code> within a 72-hour retention window.</li>
+                </ul>
+
+                <h4 class="h5 fw-bold text-info mt-4"><i class="fas fa-key me-2"></i>3. OAuth 2.0 JWT Bearer Token Flow (Headless Server-to-Server)</h4>
+                <p class="text-muted small">
+                    For enterprise automated batch integrations (ETL tools, MuleSoft, backend daemons), architects use the <strong>JWT Bearer Token Flow</strong>. It authenticates headless service accounts without human interaction or browser redirects:
                 </p>
 
                 <div class="code-block mb-3">
-<span class="text-info">// Clean Outbound Callout using a Named Credential!</span>
-Http http = <span class="text-warning">new</span> Http();
-HttpRequest request = <span class="text-warning">new</span> HttpRequest();
-<span class="text-muted">// 'callout:Stripe_Gateway' references the Named Credential securely</span>
-request.setEndpoint(<span class="text-success">'callout:Stripe_Gateway/v1/charges'</span>);
-request.setMethod(<span class="text-success">'POST'</span>);
-request.setHeader(<span class="text-success">'Content-Type'</span>, <span class="text-success">'application/json'</span>);
-request.setBody(JSON.serialize(<span class="text-warning">new</span> Map&lt;String, Object&gt;{
-    <span class="text-success">'amount'</span> =&gt; <span class="text-info">5000</span>,
-    <span class="text-success">'currency'</span> =&gt; <span class="text-success">'usd'</span>
-}));
-
-HttpResponse response = http.send(request);
-<span class="text-warning">if</span> (response.getStatusCode() == <span class="text-info">200</span>) {
-    Map&lt;String, Object&gt; result = (Map&lt;String, Object&gt;) JSON.deserializeUntyped(response.getBody());
-    System.debug(<span class="text-success">'Charge Id: '</span> + result.get(<span class="text-success">'id'</span>));
+<span class="text-info">// JWT Header &amp; Claim Set Structure</span>
+{
+  <span class="text-warning">"iss"</span>: <span class="text-success">"3MVG9lAmndLNRm5Ek..."</span>, <span class="text-muted">// Connected App Consumer Key</span>
+  <span class="text-warning">"sub"</span>: <span class="text-success">"integration.user@company.com"</span>, <span class="text-muted">// Salesforce Service Username</span>
+  <span class="text-warning">"aud"</span>: <span class="text-success">"https://login.salesforce.com"</span>,
+  <span class="text-warning">"exp"</span>: <span class="text-info">1716940800</span> <span class="text-muted">// Unix timestamp validity (max 3 minutes)</span>
 }
-                </div>
-
-                <h4 class="h5 fw-bold text-info mt-4"><i class="fas fa-door-open me-2"></i>3. Custom Inbound Apex REST Web Services</h4>
-                <div class="code-block mb-3">
-<span class="text-warning">@RestResource</span>(urlMapping=<span class="text-success">'/v1/Accounts/*'</span>)
-<span class="text-warning">global with sharing class</span> AccountCustomRestAPI {
-    <span class="text-warning">@HttpGet</span>
-    <span class="text-warning">global static</span> Account doGet() {
-        RestRequest req = RestContext.request;
-        String accId = req.requestURI.substring(req.requestURI.lastIndexOf(<span class="text-success">'/'</span>) + <span class="text-info">1</span>);
-        <span class="text-warning">return</span> [SELECT Id, Name, Industry, AnnualRevenue FROM Account WHERE Id = :accId LIMIT <span class="text-info">1</span>];
-    }
-}
+<span class="text-muted">// Sign with RSA Private Key (SHA256withRSA) and POST to /services/oauth2/token</span>
                 </div>
 
                 <div class="d-flex justify-content-between mt-4">
@@ -713,105 +689,113 @@ HttpResponse response = http.send(request);
                         <i class="fas fa-arrow-left me-1"></i> Back to LWC
                     </button>
                     <button class="btn btn-info text-white rounded-pill px-4" onclick="document.getElementById('tab-devops-btn').click();">
-                        Continue to Tools &amp; CI/CD <i class="fas fa-arrow-right ms-1"></i>
+                        Continue to DevOps &amp; CI/CD <i class="fas fa-arrow-right ms-1"></i>
                     </button>
                 </div>
             </div>
         </div>
 
         <!-- ========================================== -->
-        <!-- TAB 6: TOOLS, DATA MANAGEMENT & CI/CD      -->
+        <!-- TAB 6: DEVOPS, 2GP & CI/CD                 -->
         <!-- ========================================== -->
         <div class="tab-pane fade" id="tab-devops" role="tabpanel">
             <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
                 <div class="d-flex align-items-center mb-3">
                     <span class="badge-step bg-secondary text-white me-3"><i class="fas fa-tools"></i></span>
-                    <h2 class="h3 fw-bold mb-0">Module 6: Developer Tools, Data Loaders &amp; CI/CD Pipelines</h2>
+                    <h2 class="h3 fw-bold mb-0">Module 6: Second-Generation Packaging (2GP), Trunk DevOps &amp; CI/CD Pipelines</h2>
                 </div>
 
                 <p class="text-muted">
-                    Modern Salesforce development has evolved from manual changesets in production to mature, Git-driven CI/CD DevOps workflows.
+                    Enterprise scale requires abandoning monolithic org deployments in favor of modular <strong>Second-Generation Packages (2GP)</strong>, automated Scratch Org validation gates, and incremental delta deployments.
                 </p>
 
-                <h4 class="h5 fw-bold text-dark mt-3"><i class="fas fa-laptop-code text-primary me-2"></i>1. Essential Workstation &amp; IDE Setup</h4>
-                <div class="row g-3 mb-4">
-                    <div class="col-md-6">
-                        <div class="card p-3 border h-100">
-                            <h6 class="fw-bold">Visual Studio Code + Salesforce Extension Pack</h6>
-                            <p class="text-muted small mb-2">The official standard IDE for Salesforce development. Includes syntax coloring, auto-completion, SOQL builder, and test execution runners.</p>
-                            <h6 class="fw-bold small text-muted">Key VS Code Extensions:</h6>
-                            <ul class="text-muted small ps-3 mb-0">
-                                <li><strong>Apex PMD:</strong> Real-time static analysis identifying governor limit violations, SOQL in loops, and security bugs.</li>
-                                <li><strong>Prettier &amp; ESLint:</strong> Formats HTML, CSS, and enforces modern JavaScript rules.</li>
-                                <li><strong>GitLens:</strong> Tracks line-by-line commit authorship and branch comparisons.</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card p-3 border h-100">
-                            <h6 class="fw-bold">Salesforce CLI (<code>sf</code> commands)</h6>
-                            <p class="text-muted small mb-2">Command-line powerhouse for authenticating orgs, deploying metadata, and managing scratch orgs:</p>
-                            <div class="code-block py-2 mb-0" style="font-size:0.8rem;">
-<span class="text-muted"># Authenticate a developer org</span>
-sf org login web --alias DevHub
-
-<span class="text-muted"># Deploy source code to target org</span>
-sf project deploy start --target-org staging
-
-<span class="text-muted"># Run all unit tests with code coverage report</span>
-sf apex run test --code-coverage --result-format human
-                            </div>
-                        </div>
-                    </div>
+                <h4 class="h5 fw-bold text-dark mt-3"><i class="fas fa-box-open text-primary me-2"></i>1. Second-Generation Packaging (2GP): Unlocked vs. Managed</h4>
+                <div class="table-responsive mb-4">
+                    <table class="table table-bordered small">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Package Type</th>
+                                <th>Source Code Visibility</th>
+                                <th>Versioning &amp; Upgrades</th>
+                                <th>Ideal Architectural Use Case</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Unlocked Package (2GP)</strong></td>
+                                <td>Visible in subscriber org.</td>
+                                <td>Modular semantic versioning (<code>1.4.0.LATEST</code>); clean dependency trees.</td>
+                                <td>Internal enterprise IT applications shared across internal sandboxes and production orgs.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Managed Package (2GP)</strong></td>
+                                <td>Obfuscated (Apex code hidden &amp; IP protected).</td>
+                                <td>Strict upgrade rules (cannot delete public fields or modify global methods).</td>
+                                <td>AppExchange ISV Commercial Partners selling software solutions to external customers.</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
-                <h4 class="h5 fw-bold text-dark mt-4"><i class="fas fa-file-csv text-success me-2"></i>2. Data Management Tools</h4>
-                <div class="row g-3 mb-4">
-                    <div class="col-md-4">
-                        <div class="card p-3 border bg-light h-100">
-                            <h6 class="fw-bold text-primary"><i class="fas fa-download me-1"></i> Data Loader</h6>
-                            <p class="text-muted small mb-0">Official client application supporting Insert, Update, Upsert, Delete, and Export for up to <strong>5,000,000 records</strong>. Supports both interactive GUI mode and headless automated CLI batch jobs.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card p-3 border bg-light h-100">
-                            <h6 class="fw-bold text-success"><i class="fas fa-magic me-1"></i> Salesforce Inspector Reloaded</h6>
-                            <p class="text-muted small mb-0">Indispensable Chrome/Firefox browser extension. Inspects record metadata instantly, tests rapid SOQL queries, and exports raw JSON/CSV directly from any record page.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card p-3 border bg-light h-100">
-                            <h6 class="fw-bold text-info"><i class="fas fa-file-import me-1"></i> Data Import Wizard</h6>
-                            <p class="text-muted small mb-0">Native browser-based admin wizard for importing up to <strong>50,000 records</strong> with built-in deduplication for Accounts, Contacts, and Leads.</p>
-                        </div>
-                    </div>
+                <h4 class="h5 fw-bold text-dark mt-4"><i class="fas fa-code-merge text-success me-2"></i>2. The Enterprise CI/CD Pipeline Architecture</h4>
+                <div class="code-block mb-3">
+<span class="text-info"># GitHub Actions Workflow: Pull Request Quality Gate</span>
+<span class="text-warning">name:</span> Salesforce PR Validation
+<span class="text-warning">on:</span>
+  <span class="text-warning">pull_request:</span>
+    <span class="text-warning">branches:</span> [ main, develop ]
+
+<span class="text-warning">jobs:</span>
+  <span class="text-warning">validate-code:</span>
+    <span class="text-warning">runs-on:</span> ubuntu-latest
+    <span class="text-warning">steps:</span>
+      - <span class="text-warning">uses:</span> actions/checkout@v4
+        <span class="text-warning">with:</span>
+          <span class="text-warning">fetch-depth:</span> <span class="text-info">0</span> <span class="text-muted"># Required for sfdx-git-delta</span>
+
+      - <span class="text-warning">name:</span> Install Salesforce CLI &amp; Delta Plugin
+        <span class="text-warning">run:</span> |
+          npm install --global @salesforce/cli
+          echo y | sf plugins install sfdx-git-delta
+
+      - <span class="text-warning">name:</span> Generate Incremental Metadata Delta
+        <span class="text-warning">run:</span> sf sgd source delta --to "HEAD" --from "HEAD~1" --output "changed-sources"
+
+      - <span class="text-warning">name:</span> Static Code Analysis (PMD)
+        <span class="text-warning">run:</span> sf scanner run --target "changed-sources" --engine pmd --severity-threshold 2
+
+      - <span class="text-warning">name:</span> Check-Only Dry-Run Deployment with Full Test Execution
+        <span class="text-warning">run:</span> |
+          sf project deploy validate \
+            --manifest "changed-sources/package/package.xml" \
+            --test-level RunLocalTests \
+            --target-org CI_Sandbox
                 </div>
 
-                <h4 class="h5 fw-bold text-dark mt-4"><i class="fas fa-infinity text-danger me-2"></i>3. Ant Migration Tool vs. Modern CI/CD Pipelines</h4>
+                <h4 class="h5 fw-bold text-dark mt-4"><i class="fas fa-database text-info me-2"></i>3. Enterprise Sandbox Governance Strategy</h4>
                 <div class="row g-3 mb-3">
-                    <div class="col-md-6">
-                        <div class="card p-3 border h-100">
-                            <h6 class="fw-bold text-muted"><i class="fas fa-archive me-1"></i> Ant Migration Tool (Legacy Apache Ant)</h6>
-                            <p class="text-muted small mb-2">Java-based command-line utility driven by <code>build.xml</code> and <code>package.xml</code> metadata manifests. Historically used to script deployments between sandbox and production.</p>
-                            <div class="code-block py-2" style="font-size:0.78rem;">
-&lt;<span class="text-danger">target</span> <span class="text-warning">name</span>=<span class="text-success">"deployProd"</span>&gt;
-  &lt;<span class="text-danger">sf:deploy</span> <span class="text-warning">username</span>=<span class="text-success">"${sf.user}"</span> 
-             <span class="text-warning">password</span>=<span class="text-success">"${sf.pass}"</span> 
-             <span class="text-warning">serverurl</span>=<span class="text-success">"https://login.salesforce.com"</span> 
-             <span class="text-warning">deployRoot</span>=<span class="text-success">"src"</span> /&gt;
-&lt;/<span class="text-danger">target</span>&gt;
-                            </div>
+                    <div class="col-md-3">
+                        <div class="p-3 border rounded-3 bg-light h-100">
+                            <h6 class="fw-bold">Developer Sandbox</h6>
+                            <p class="text-muted small mb-0">200 MB storage. Day-to-day feature development. Refreshed daily.</p>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="card p-3 border h-100">
-                            <h6 class="fw-bold text-success"><i class="fas fa-code-branch me-1"></i> Modern GitHub Actions / GitLab CI Pipeline</h6>
-                            <p class="text-muted small mb-2">State-of-the-art automated DevOps utilizing Salesforce CLI and <strong>sfdx-git-delta (SGD)</strong> to deploy only changed files:</p>
-                            <ol class="text-muted small ps-3 mb-0">
-                                <li><strong>Pull Request Opened:</strong> Spins up a short-lived Scratch Org, deploys metadata, and executes PMD code quality scans.</li>
-                                <li><strong>Automated Testing:</strong> Runs all Apex test classes and verifies 75%+ coverage.</li>
-                                <li><strong>Merged to Main:</strong> Automatically deploys incremental delta package to UAT and Production.</li>
-                            </ol>
+                    <div class="col-md-3">
+                        <div class="p-3 border rounded-3 bg-light h-100">
+                            <h6 class="fw-bold">Developer Pro Sandbox</h6>
+                            <p class="text-muted small mb-0">1 GB storage. Ideal for integration testing, user QA, and packaging builds.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="p-3 border rounded-3 bg-light h-100">
+                            <h6 class="fw-bold">Partial Copy Sandbox</h6>
+                            <p class="text-muted small mb-0">5 GB storage. Uses <strong>Sandbox Templates</strong> to sample representative business data.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="p-3 border rounded-3 bg-light h-100">
+                            <h6 class="fw-bold">Full Copy Sandbox</h6>
+                            <p class="text-muted small mb-0">100% replica of production data. Refreshed every 29 days. Used for performance &amp; UAT testing.</p>
                         </div>
                     </div>
                 </div>
@@ -828,240 +812,197 @@ sf apex run test --code-coverage --result-format human
         </div>
 
         <!-- ========================================== -->
-        <!-- TAB 7: AGENTFORCE (SALESFORCE AI AGENTS)   -->
+        <!-- TAB 7: AGENTFORCE & DATA CLOUD             -->
         <!-- ========================================== -->
         <div class="tab-pane fade" id="tab-agentforce" role="tabpanel">
             <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
                 <div class="d-flex align-items-center mb-3">
                     <span class="badge-step text-white me-3" style="background-color: #7952b3;"><i class="fas fa-robot"></i></span>
-                    <h2 class="h3 fw-bold mb-0">Module 7: Agentforce — Autonomous Enterprise AI Agents</h2>
+                    <h2 class="h3 fw-bold mb-0">Module 7: Agentforce Autonomous AI, Atlas Reasoning Engine &amp; Data Cloud</h2>
                 </div>
 
                 <div class="agentforce-box mb-4">
-                    <h5 class="fw-bold" style="color: #59359a;"><i class="fas fa-brain me-2"></i>Explain Like I'm 10: From Calculators to Smart Autonomous Robots</h5>
+                    <h5 class="fw-bold" style="color: #59359a;"><i class="fas fa-brain me-2"></i>The Shift: From Copilots to Autonomous Enterprise Agents</h5>
                     <p class="mb-0 text-muted">
-                        In the past, automated chatbots were like vending machines: you pressed button B-4, and it dropped a soda. If you asked a vending machine <em>"Can you check if my order was delivered while I was away?"</em>, it had no idea what you meant.
-                        <br><br>
-                        <strong>Agentforce</strong> is completely different. It is an autonomous AI agent with a brain. You give it a mission, rules, and access to your business tools. It listens to customers, reasons through steps, looks up data in real time, and executes actions across your company automatically 24/7—safely guarded by enterprise security.
+                        First-generation enterprise AI (like Einstein Copilot or generic chatbots) required humans to prompt the system at every step. 
+                        <strong>Agentforce</strong> is Salesforce's flagship autonomous agent platform. Agents act independently: they analyze intent, retrieve grounded corporate knowledge from <strong>Data Cloud</strong>, plan sequential actions, and invoke business logic across CRM and ERP systems 24/7 with zero human intervention required unless an escalation boundary is triggered.
                     </p>
                 </div>
 
-                <h4 class="h5 fw-bold" style="color: #59359a;">1. The Atlas Reasoning Engine</h4>
-                <p class="text-muted">
-                    At the heart of Agentforce is the <strong>Atlas Reasoning Engine</strong>. Unlike simple LLMs that immediately generate text, Atlas follows a continuous reasoning loop:
+                <h4 class="h5 fw-bold" style="color: #59359a;">1. The Atlas Reasoning Engine: The Cognitive Operating System</h4>
+                <p class="text-muted small">
+                    Rather than sending a raw prompt directly to an external LLM, Agentforce passes every interaction through the multi-stage <strong>Atlas Reasoning Engine</strong>:
                 </p>
                 <div class="row g-3 mb-4">
                     <div class="col-md-3">
                         <div class="p-3 border rounded-3 bg-light text-center h-100">
-                            <i class="fas fa-ear-listen fs-3 mb-2" style="color: #7952b3;"></i>
-                            <h6 class="fw-bold">1. Understand</h6>
-                            <p class="text-muted small mb-0">Interprets customer intent and evaluates business context.</p>
+                            <i class="fas fa-eye fs-3 mb-2" style="color: #7952b3;"></i>
+                            <h6 class="fw-bold">1. Semantic Parse</h6>
+                            <p class="text-muted small mb-0">Classifies customer intent into predefined business <strong>Topics</strong> and extracts key entities.</p>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="p-3 border rounded-3 bg-light text-center h-100">
-                            <i class="fas fa-anchor fs-3 mb-2" style="color: #7952b3;"></i>
-                            <h6 class="fw-bold">2. Ground</h6>
-                            <p class="text-muted small mb-0">Retrieves real CRM records, policies, and Data Cloud embeddings.</p>
+                            <i class="fas fa-database fs-3 mb-2" style="color: #7952b3;"></i>
+                            <h6 class="fw-bold">2. Data Cloud Grounding</h6>
+                            <p class="text-muted small mb-0">Performs hybrid keyword + vector semantic search against Data Cloud data graphs and knowledge articles.</p>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="p-3 border rounded-3 bg-light text-center h-100">
-                            <i class="fas fa-sitemap fs-3 mb-2" style="color: #7952b3;"></i>
-                            <h6 class="fw-bold">3. Plan</h6>
-                            <p class="text-muted small mb-0">Determines which sequential actions or Flows must execute.</p>
+                            <i class="fas fa-route fs-3 mb-2" style="color: #7952b3;"></i>
+                            <h6 class="fw-bold">3. Dynamic Plan Generation</h6>
+                            <p class="text-muted small mb-0">Atlas formulates a directed acyclic execution plan choosing between Flows, Apex, and API actions.</p>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="p-3 border rounded-3 bg-light text-center h-100">
-                            <i class="fas fa-play-circle fs-3 mb-2" style="color: #7952b3;"></i>
-                            <h6 class="fw-bold">4. Execute</h6>
-                            <p class="text-muted small mb-0">Invokes Apex methods, sends emails, or escalates to humans.</p>
+                            <i class="fas fa-shield-virus fs-3 mb-2" style="color: #7952b3;"></i>
+                            <h6 class="fw-bold">4. Trust Layer Guardrails</h6>
+                            <p class="text-muted small mb-0">Enforces zero-retention policies, PII data de-identification, and strict toxicity filtering.</p>
                         </div>
                     </div>
                 </div>
 
-                <h4 class="h5 fw-bold" style="color: #59359a;">2. The 4 Architecture Pillars of an Agent</h4>
-                <div class="table-responsive mb-4">
-                    <table class="table table-bordered small">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Pillar</th>
-                                <th>Function</th>
-                                <th>Example Configuration</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Role &amp; Guidelines</strong></td>
-                                <td>Natural language prompt defining identity, company tone, and boundaries.</td>
-                                <td><em>"You are Coral, an expert technical support specialist for Alpine Outfitters. Always remain polite and professional."</em></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Topics</strong></td>
-                                <td>Subject areas the agent knows how to discuss and handle.</td>
-                                <td>"Order Inquiries", "Warranty Replacements", "Account Password Resets".</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Actions</strong></td>
-                                <td>Executable tools the agent calls to inspect or mutate data.</td>
-                                <td>Invocable Apex classes, Auto-launched Flows, Prompt Templates, or MuleSoft APIs.</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Grounding with Data Cloud</strong></td>
-                                <td>Feeds structured enterprise data and vector PDF embeddings to eliminate hallucinations.</td>
-                                <td>Product manual PDFs, past service case history, and real-time shipping carrier API status.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h4 class="h5 fw-bold" style="color: #59359a;">3. How Developers Build Custom Agent Actions in Apex</h4>
+                <h4 class="h5 fw-bold" style="color: #59359a;">2. Architecting Invocable Apex Actions for Agentforce</h4>
                 <p class="text-muted small">
-                    To expose a capability to an Agentforce agent, write an Apex method annotated with <code>@InvocableMethod</code>. Describe what the method does in plain English so the Atlas Reasoning Engine knows when to choose it:
+                    Developers expose tools to agents using Apex classes annotated with <code>@InvocableMethod</code>. 
+                    <strong>Crucial Difference for AI:</strong> The <code>description</code> attribute on the method and variables is the prompt instructions that Atlas uses to decide when to call the action!
                 </p>
 
                 <div class="code-block mb-3">
-<span class="text-warning">public with sharing class</span> OrderAgentService {
+<span class="text-warning">public with sharing class</span> InventoryAgentService {
     <span class="text-warning">@InvocableMethod</span>(
-        label=<span class="text-success">'Check Order Status'</span> 
-        description=<span class="text-success">'Returns the real-time shipping carrier tracking status and expected delivery date for an order number'</span>
+        label=<span class="text-success">'Check Warehouse Stock and Reserve Items'</span>
+        description=<span class="text-success">'Queries real-time ERP warehouse inventory for a given SKU. If stock is available, reserves the quantity for 30 minutes.'</span>
+        category=<span class="text-success">'Supply Chain'</span>
     )
-    <span class="text-warning">public static</span> List&lt;OrderStatusResult&gt; getOrderStatus(List&lt;OrderStatusRequest&gt; requests) {
-        List&lt;OrderStatusResult&gt; results = <span class="text-warning">new</span> List&lt;OrderStatusResult&gt;();
-        <span class="text-warning">for</span> (OrderStatusRequest req : requests) {
-            OrderStatusResult res = <span class="text-warning">new</span> OrderStatusResult();
-            Order ord = [SELECT Status, Tracking_Number__c, Delivery_Date__c FROM Order WHERE OrderNumber = :req.orderNumber LIMIT <span class="text-info">1</span>];
-            res.status = ord.Status;
-            res.deliveryDate = ord.Delivery_Date__c;
+    <span class="text-warning">public static</span> List&lt;ReservationResult&gt; reserveInventory(List&lt;ReservationRequest&gt; requests) {
+        List&lt;ReservationResult&gt; results = <span class="text-warning">new</span> List&lt;ReservationResult&gt;();
+        <span class="text-warning">for</span> (ReservationRequest req : requests) {
+            ReservationResult res = <span class="text-warning">new</span> ReservationResult();
+            <span class="text-muted">// Invocable logic interacting with inventory records or SAP microservices</span>
+            res.isReserved = <span class="text-warning">true</span>;
+            res.confirmationCode = <span class="text-success">'RES-'</span> + Crypto.getRandomInteger();
             results.add(res);
         }
         <span class="text-warning">return</span> results;
     }
 
-    <span class="text-warning">public class</span> OrderStatusRequest {
-        <span class="text-warning">@InvocableVariable</span>(required=<span class="text-warning">true</span> description=<span class="text-success">'The 8-digit order number'</span>)
-        <span class="text-warning">public</span> String orderNumber;
+    <span class="text-warning">public class</span> ReservationRequest {
+        <span class="text-warning">@InvocableVariable</span>(required=<span class="text-warning">true</span> description=<span class="text-success">'The unique product SKU code e.g. PROD-9982'</span>)
+        <span class="text-warning">public</span> String productSku;
+
+        <span class="text-warning">@InvocableVariable</span>(required=<span class="text-warning">true</span> description=<span class="text-success">'Number of units to reserve'</span>)
+        <span class="text-warning">public</span> Integer quantity;
     }
 
-    <span class="text-warning">public class</span> OrderStatusResult {
-        <span class="text-warning">@InvocableVariable</span> <span class="text-warning">public</span> String status;
-        <span class="text-warning">@InvocableVariable</span> <span class="text-warning">public</span> Date deliveryDate;
+    <span class="text-warning">public class</span> ReservationResult {
+        <span class="text-warning">@InvocableVariable</span> <span class="text-warning">public</span> Boolean isReserved;
+        <span class="text-warning">@InvocableVariable</span> <span class="text-warning">public</span> String confirmationCode;
     }
 }
                 </div>
 
                 <div class="d-flex justify-content-between mt-4">
                     <button class="btn btn-outline-secondary rounded-pill px-4" onclick="document.getElementById('tab-devops-btn').click();">
-                        <i class="fas fa-arrow-left me-1"></i> Back to Tools &amp; CI/CD
+                        <i class="fas fa-arrow-left me-1"></i> Back to DevOps &amp; CI/CD
                     </button>
                     <button class="btn btn-danger rounded-pill px-4" onclick="document.getElementById('tab-career-btn').click();">
-                        Continue to Career Roadmap <i class="fas fa-arrow-right ms-1"></i>
+                        Continue to CTA System Design <i class="fas fa-arrow-right ms-1"></i>
                     </button>
                 </div>
             </div>
         </div>
 
         <!-- ========================================== -->
-        <!-- TAB 8: CAREER ROADMAP & CERTIFICATIONS     -->
+        <!-- TAB 8: CTA SYSTEM DESIGN & ROADMAP         -->
         <!-- ========================================== -->
         <div class="tab-pane fade" id="tab-career" role="tabpanel">
             <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4">
                 <div class="d-flex align-items-center mb-3">
-                    <span class="badge-step bg-danger text-white me-3"><i class="fas fa-road"></i></span>
-                    <h2 class="h3 fw-bold mb-0">Module 8: 2026/2027 Salesforce Career Roadmap</h2>
+                    <span class="badge-step bg-danger text-white me-3"><i class="fas fa-chess-queen"></i></span>
+                    <h2 class="h3 fw-bold mb-0">Module 8: Certified Technical Architect (CTA) System Design Scenarios</h2>
                 </div>
 
                 <p class="text-muted">
-                    With the expansion of Agentforce, Data Cloud, and Enterprise DevOps, the Salesforce ecosystem offers unmatched career mobility. Below are the 4 major career pathways and certification progressions.
+                    The <strong>Certified Technical Architect (CTA)</strong> Review Board is the pinnacle credential in enterprise cloud software. Here are core system design scenarios evaluated at the 10+ year architect level.
                 </p>
 
-                <div class="row g-4 mb-4">
-                    <!-- Admin -->
-                    <div class="col-md-6">
-                        <div class="card p-4 border rounded-3 h-100 shadow-xs">
-                            <h5 class="fw-bold text-primary mb-1"><i class="fas fa-user-cog me-2"></i> Track 1: Salesforce Administrator</h5>
-                            <span class="badge bg-primary bg-opacity-10 text-primary mb-3">Declarative Expert</span>
-                            <p class="text-muted small">Configures security, builds Screen &amp; Record-Triggered Flows, designs dashboards, and trains business units.</p>
-                            <h6 class="text-uppercase small fw-bold text-dark">Certification Roadmap:</h6>
-                            <ul class="text-muted small mb-3">
-                                <li><strong>1. Foundational:</strong> Salesforce Certified Associate</li>
-                                <li><strong>2. Core:</strong> Salesforce Certified Administrator</li>
-                                <li><strong>3. Advanced:</strong> Platform App Builder</li>
-                                <li><strong>4. Specialist:</strong> Advanced Administrator</li>
-                            </ul>
-                            <div class="p-2 bg-light rounded text-center small fw-semibold text-secondary">
-                                Salary Benchmark: $75,000 - $125,000 / year
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Developer -->
-                    <div class="col-md-6">
-                        <div class="card p-4 border rounded-3 h-100 shadow-xs">
-                            <h5 class="fw-bold text-success mb-1"><i class="fas fa-laptop-code me-2"></i> Track 2: Platform Developer</h5>
-                            <span class="badge bg-success bg-opacity-10 text-success mb-3">Full-Stack Engineer</span>
-                            <p class="text-muted small">Architects Apex triggers, custom LWC interfaces, RESTful API integrations, and async batch pipelines.</p>
-                            <h6 class="text-uppercase small fw-bold text-dark">Certification Roadmap:</h6>
-                            <ul class="text-muted small mb-3">
-                                <li><strong>1. Core:</strong> Platform Developer I (PDI)</li>
-                                <li><strong>2. Frontend:</strong> JavaScript Developer I</li>
-                                <li><strong>3. Advanced:</strong> Platform Developer II (PDII)</li>
-                                <li><strong>4. Specialized:</strong> Data Cloud &amp; AI Specialist</li>
-                            </ul>
-                            <div class="p-2 bg-light rounded text-center small fw-semibold text-secondary">
-                                Salary Benchmark: $110,000 - $170,000 / year
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Consultant -->
-                    <div class="col-md-6">
-                        <div class="card p-4 border rounded-3 h-100 shadow-xs">
-                            <h5 class="fw-bold text-warning text-dark mb-1"><i class="fas fa-briefcase me-2"></i> Track 3: Functional Consultant</h5>
-                            <span class="badge bg-warning text-dark mb-3">Business Architect</span>
-                            <p class="text-muted small">Gathers stakeholder requirements, models business processes, and implements Sales, Service, or Experience Cloud.</p>
-                            <h6 class="text-uppercase small fw-bold text-dark">Certification Roadmap:</h6>
-                            <ul class="text-muted small mb-3">
-                                <li><strong>1. Core:</strong> Salesforce Administrator</li>
-                                <li><strong>2. Track:</strong> Sales Cloud Consultant</li>
-                                <li><strong>3. Track:</strong> Service Cloud Consultant</li>
-                                <li><strong>4. Specialization:</strong> Agentforce Consultant (2026)</li>
-                            </ul>
-                            <div class="p-2 bg-light rounded text-center small fw-semibold text-secondary">
-                                Salary Benchmark: $100,000 - $160,000 / year
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- CTA -->
-                    <div class="col-md-6">
-                        <div class="card p-4 border rounded-3 h-100 shadow-xs">
-                            <h5 class="fw-bold text-danger mb-1"><i class="fas fa-chess-queen me-2"></i> Track 4: Technical Architect (CTA)</h5>
-                            <span class="badge bg-danger bg-opacity-10 text-danger mb-3">Apex Enterprise Leader</span>
-                            <p class="text-muted small">Owns end-to-end multi-cloud integration architecture, high-concurrency security, CI/CD, and global SSO.</p>
-                            <h6 class="text-uppercase small fw-bold text-dark">Certification Roadmap:</h6>
-                            <ul class="text-muted small mb-3">
-                                <li><strong>1. Tier:</strong> Application Architect (Data &amp; Sharing)</li>
-                                <li><strong>2. Tier:</strong> System Architect (Integration &amp; Identity)</li>
-                                <li><strong>3. Pinnacle:</strong> Certified Technical Architect (Review Board CTA)</li>
-                            </ul>
-                            <div class="p-2 bg-light rounded text-center small fw-semibold text-secondary">
-                                Salary Benchmark: $185,000 - $280,000+ / year
-                            </div>
-                        </div>
-                    </div>
+                <h4 class="h5 fw-bold text-danger mt-3"><i class="fas fa-building-columns me-2"></i>1. Single-Org vs. Multi-Org Strategy Evaluation</h4>
+                <div class="table-responsive mb-4">
+                    <table class="table table-bordered small">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Architectural Dimension</th>
+                                <th>Single Global Org Strategy</th>
+                                <th>Multi-Org Strategy (By Geo / Business Unit)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Global Visibility &amp; Reporting</strong></td>
+                                <td><span class="badge bg-success">Unified 360 View</span> (Single source of truth).</td>
+                                <td>Requires Data Cloud or external BI data lakes to aggregate reports.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Governor Limits Risk</strong></td>
+                                <td><span class="badge bg-danger">Shared Limits</span> (Risk of API or batch exhaustion across regions).</td>
+                                <td>Isolated limits per business unit; zero cross-org interference.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Regulatory Compliance (Data Residency)</strong></td>
+                                <td>Complex (Must use Salesforce Hyperforce with strict data residency zones).</td>
+                                <td><span class="badge bg-success">Natural Compliance</span> (EU Org for GDPR, China Org for CSL).</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Release Management Complexity</strong></td>
+                                <td>High regression risk across globally shared metadata.</td>
+                                <td>Faster release velocity per team; independent deployment cadences.</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
-                <h4 class="h5 fw-bold mt-4">Actionable 90-Day Study Plan to Get Hired</h4>
-                <div class="card bg-light border-0 p-3 rounded-3 small">
+                <h4 class="h5 fw-bold text-danger mt-4"><i class="fas fa-fingerprint me-2"></i>2. Enterprise Single Sign-On (SSO) with SAML 2.0</h4>
+                <p class="text-muted small">
+                    Architects must know the complete 6-step handshake for <strong>Service Provider (SP)-Initiated SAML 2.0 SSO</strong>:
+                </p>
+                <div class="card bg-light border p-3 rounded-3 small mb-4">
                     <ol class="mb-0 ps-3 text-muted">
-                        <li class="mb-2"><strong>Get a Free Developer Org:</strong> Sign up at <code>developer.salesforce.com</code> for a free, permanent Enterprise edition sandbox.</li>
-                        <li class="mb-2"><strong>Achieve Ranger Status on Trailhead:</strong> Complete 100 badges and 50,000 points on Salesforce Trailhead to prove hands-on mastery.</li>
-                        <li class="mb-2"><strong>Build a Public GitHub Portfolio:</strong> Don't just display badges. Build a custom app (e.g. Healthcare Patient Tracker) with Flows, LWC, Apex trigger handlers, and an Agentforce action.</li>
-                        <li class="mb-2"><strong>Pass Your First Exam:</strong> Clear Certified Administrator or Platform Developer I.</li>
-                        <li><strong>Engage with Local Trailblazer Community Groups:</strong> Attend monthly community meetups in your area to network directly with hiring managers.</li>
+                        <li class="mb-1"><strong>User Navigation:</strong> User visits <code>https://company.my.salesforce.com</code>.</li>
+                        <li class="mb-1"><strong>SAML Request:</strong> Salesforce detects MyDomain, generates a cryptographically signed SAML Request (XML), and redirects browser to Identity Provider (Okta / Azure AD / PingFederate).</li>
+                        <li class="mb-1"><strong>Authentication:</strong> IdP challenges user for MFA credentials.</li>
+                        <li class="mb-1"><strong>SAML Assertion:</strong> IdP generates an encrypted SAML Response containing the user's Federation ID.</li>
+                        <li class="mb-1"><strong>Posting Assertion:</strong> Browser POSTs SAML Assertion to Salesforce Assertion Consumer Service (ACS) URL.</li>
+                        <li><strong>Validation &amp; JIT:</strong> Salesforce validates the X.509 certificate signature, maps the Federation ID, executes optional <strong>Just-In-Time (JIT) User Provisioning</strong> via <code>Auth.SamlJitHandler</code>, and issues a session cookie.</li>
                     </ol>
+                </div>
+
+                <h4 class="h5 fw-bold text-danger mt-4"><i class="fas fa-graduation-cap me-2"></i>3. Certification Progression Matrix (Associate to CTA)</h4>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <div class="card p-3 border h-100">
+                            <h6 class="fw-bold text-primary">Application Architect Track</h6>
+                            <ul class="text-muted small ps-3 mb-0">
+                                <li>Platform Developer I (PDI)</li>
+                                <li>Platform App Builder</li>
+                                <li>Data Architecture and Management Designer</li>
+                                <li>Sharing and Visibility Designer</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card p-3 border h-100">
+                            <h6 class="fw-bold text-success">System Architect Track</h6>
+                            <ul class="text-muted small ps-3 mb-0">
+                                <li>Platform Developer I (PDI)</li>
+                                <li>Development Lifecycle and Deployment Designer</li>
+                                <li>Integration Architecture Designer</li>
+                                <li>Identity and Access Management Designer</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="d-flex justify-content-between mt-4">
@@ -1101,7 +1042,6 @@ sf apex run test --code-coverage --result-format human
             activateTab('tab-' + cleanHash);
         }
 
-        // When user switches tabs, sync hash
         const tabButtons = document.querySelectorAll('#salesforceMasterTabs button[data-bs-toggle="pill"]');
         tabButtons.forEach(btn => {
             btn.addEventListener('shown.bs.tab', function(e) {
