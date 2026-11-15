@@ -6,13 +6,13 @@ LEARN_MODULES = {
     'salesforce': {
         'id': 'salesforce',
         'title': 'Salesforce Complete Masterclass',
-        'subtitle': 'Zero to Hero: CRM Fundamentals, Admin Automation, Apex, LWC & Career Roadmap',
+        'subtitle': 'Zero to Hero: Admin, Apex, LWC, Integrations, DevOps CI/CD & Agentforce AI',
         'badge': 'Comprehensive Guide',
         'badge_color': 'primary',
         'icon': 'fa-cloud',
         'color': '#00a1e0',
-        'duration': '12 Modules • 45 Lessons',
-        'description': 'Master the world’s #1 CRM platform from scratch. Modular, easy-to-understand explanations covering Data Modeling, Security, Flow Automation, Apex Programming, LWC, Integrations, and Certification Career Roadmaps.'
+        'duration': '8 Sections • 60+ In-Depth Lessons',
+        'description': 'Master the world’s #1 enterprise cloud platform from scratch. Modular, child-friendly explanations covering Administrator Security, Flows, Apex, LWC, Enterprise Integrations, VS Code & CI/CD DevOps, and the revolutionary Agentforce AI platform.'
     },
     'html': {
         'id': 'html',
@@ -53,3 +53,4 @@ def learn_html():
 @learn_bp.route('/javascript')
 def learn_javascript():
     return render_template('learn/javascript.html', module=LEARN_MODULES['javascript'])
+
