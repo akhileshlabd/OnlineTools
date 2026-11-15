@@ -26,6 +26,32 @@
         font-size: 0.88rem;
         overflow-x: auto;
     }
+    .html-editor-textarea {
+        background-color: #1e1e2e;
+        color: #f8f9fa;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        border: 1px solid #313244;
+        border-radius: 0 0 8px 8px;
+        resize: vertical;
+        min-height: 380px;
+        width: 100%;
+        padding: 1rem;
+        outline: none;
+        tab-size: 2;
+    }
+    .html-editor-textarea:focus {
+        border-color: #e34f26;
+        box-shadow: 0 0 0 2px rgba(227, 79, 38, 0.25);
+    }
+    .preview-frame {
+        width: 100%;
+        min-height: 380px;
+        background-color: #ffffff;
+        border: 1px solid #dee2e6;
+        border-radius: 0 0 8px 8px;
+    }
     .badge-step {
         width: 32px;
         height: 32px;
@@ -87,14 +113,18 @@
                     <span>•</span>
                     <span><i class="fas fa-calendar me-1"></i> Updated for 2026/2027</span>
                     <span>•</span>
-                    <span><i class="fas fa-clock me-1"></i> 8 Interactive Chapters</span>
+                    <span><i class="fas fa-laptop-code me-1"></i> 9 Modules with Live Hands-On Lab</span>
                 </div>
             </div>
             <div class="col-lg-4 text-lg-end mt-4 mt-lg-0 btn-download">
-                <button onclick="window.print()" class="btn btn-light text-danger fw-bold px-4 py-2 rounded-pill shadow-sm">
-                    <i class="fas fa-file-pdf me-2 text-danger"></i> Download HTML5 Cheatsheet (PDF)
-                </button>
-                <p class="text-white-50 small mt-2 mb-0">Clean printable offline notes</p>
+                <div class="d-flex flex-column gap-2">
+                    <a href="#hands-on" class="btn btn-light text-danger fw-bold px-4 py-2 rounded-pill shadow-sm">
+                        <i class="fas fa-laptop-code me-2"></i> Launch Hands-On HTML Lab
+                    </a>
+                    <button onclick="window.print()" class="btn btn-outline-light px-4 py-2 rounded-pill shadow-sm small">
+                        <i class="fas fa-file-pdf me-2 text-danger"></i> Download Cheatsheet (PDF)
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -114,6 +144,7 @@
                     <a class="nav-link text-dark py-2 px-2" href="#h6"><i class="fas fa-photo-video me-2 text-danger"></i> 6. Images &amp; Media</a>
                     <a class="nav-link text-dark py-2 px-2" href="#h7"><i class="fas fa-universal-access me-2 text-danger"></i> 7. Accessibility &amp; SEO</a>
                     <a class="nav-link text-dark py-2 px-2" href="#h8"><i class="fas fa-clipboard-check me-2 text-danger"></i> 8. Quick Cheatsheet</a>
+                    <a class="nav-link text-danger fw-bold py-2 px-2 bg-white rounded-3 shadow-xs mt-2 border border-danger border-opacity-25" href="#hands-on"><i class="fas fa-laptop-code me-2 text-danger"></i> 9. Hands-On Lab &amp; Preview</a>
                 </div>
             </div>
         </div>
@@ -403,6 +434,83 @@
                 </div>
             </section>
 
+            <!-- Chapter 9: Hands-On Interactive HTML Lab -->
+            <section id="hands-on" class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4" style="border-top: 4px solid #e34f26 !important; background: linear-gradient(180deg, #fffcfb 0%, #ffffff 100%);">
+                <div class="d-flex align-items-center mb-3">
+                    <span class="badge-step bg-danger text-white me-3"><i class="fas fa-laptop-code"></i></span>
+                    <h2 class="h3 fw-bold mb-0">Module 9: Interactive Hands-On HTML Lab &amp; Live Browser Preview</h2>
+                </div>
+
+                <p class="text-muted">
+                    The best way to master HTML is by building real pages with your own hands. Use the interactive split-screen playground below: select a starter exercise or write your own custom markup. Your live web page renders immediately on the right!
+                </p>
+
+                <!-- Lab Controls Bar -->
+                <div class="card border bg-light p-3 rounded-3 mb-3 shadow-xs">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-md-5">
+                            <label for="exerciseSelect" class="form-label small fw-bold text-muted mb-1"><i class="fas fa-book-open me-1 text-danger"></i> Choose Hands-On Exercise:</label>
+                            <select id="exerciseSelect" class="form-select form-select-sm">
+                                <option value="profile">Exercise 1: Modern Profile Card (Images, Headings &amp; Badges)</option>
+                                <option value="semantic">Exercise 2: Complete Semantic Layout (Header, Nav, Article, Footer)</option>
+                                <option value="form">Exercise 3: Interactive Registration Form with Validation</option>
+                                <option value="pricing">Exercise 4: Responsive Pricing Card (Flexbox &amp; Buttons)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-7 text-md-end d-flex flex-wrap gap-2 justify-content-md-end align-items-center mt-3 mt-md-0">
+                            <div class="form-check form-switch me-2">
+                                <input class="form-check-input" type="checkbox" id="autoUpdateToggle" checked>
+                                <label class="form-check-label small fw-semibold" for="autoUpdateToggle">Auto-Update</label>
+                            </div>
+                            <button id="runHtmlBtn" class="btn btn-danger btn-sm rounded-pill px-3 fw-semibold">
+                                <i class="fas fa-play me-1"></i> Run Code
+                            </button>
+                            <button id="copyHtmlBtn" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+                                <i class="fas fa-copy me-1"></i> Copy
+                            </button>
+                            <button id="resetHtmlBtn" class="btn btn-outline-danger btn-sm rounded-pill px-3">
+                                <i class="fas fa-rotate-left me-1"></i> Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Split-Screen Editor & Preview -->
+                <div class="row g-3">
+                    <!-- Editor Left -->
+                    <div class="col-lg-6">
+                        <div class="card border rounded-3 overflow-hidden shadow-xs h-100 d-flex flex-column">
+                            <div class="bg-dark text-white px-3 py-2 d-flex justify-content-between align-items-center small font-monospace">
+                                <span><i class="fab fa-html5 text-danger me-2"></i>index.html (HTML + CSS Editor)</span>
+                                <span class="badge bg-secondary text-uppercase" style="font-size: 0.65rem;">Editable</span>
+                            </div>
+                            <textarea id="htmlEditor" class="html-editor-textarea flex-grow-1" spellcheck="false" placeholder="Write HTML and CSS here..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Live Preview Right -->
+                    <div class="col-lg-6">
+                        <div class="card border rounded-3 overflow-hidden shadow-xs h-100 d-flex flex-column">
+                            <div class="bg-light border-bottom px-3 py-2 d-flex justify-content-between align-items-center small">
+                                <span class="fw-bold text-dark"><i class="fas fa-desktop text-success me-2"></i>Live Browser Output Preview</span>
+                                <span class="badge bg-success bg-opacity-10 text-success small">Real-time Sandbox</span>
+                            </div>
+                            <iframe id="htmlPreview" class="preview-frame flex-grow-1" sandbox="allow-scripts allow-modals"></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hands-On Tips -->
+                <div class="mt-4 p-3 bg-light rounded-3 small text-muted">
+                    <h6 class="fw-bold text-dark mb-1"><i class="fas fa-lightbulb text-warning me-1"></i> Interactive Learning Challenges to Try:</h6>
+                    <ul class="mb-0 ps-3">
+                        <li><strong>Challenge 1:</strong> Change the background color, headline text, or button labels in the editor and watch the preview update instantly.</li>
+                        <li><strong>Challenge 2:</strong> In Exercise 3, try typing an invalid email into the form and click "Submit" to see native HTML5 validation popups in action.</li>
+                        <li><strong>Challenge 3:</strong> Press <code>Tab</code> inside the editor to cleanly indent your tags with 2 spaces!</li>
+                    </ul>
+                </div>
+            </section>
+
             <!-- Bottom Navigation -->
             <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
                 <a href="{{ url_for('learn.learn_salesforce') }}" class="btn btn-outline-secondary rounded-pill px-4">
@@ -415,5 +523,384 @@
         </div>
     </div>
 </div>
+
+{% block scripts %}
+<script>
+    // Starter Exercises Library
+    const exercises = {
+        profile: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .profile-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      max-width: 320px;
+      width: 100%;
+      text-align: center;
+      padding: 30px 20px;
+    }
+    .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: 4px solid #e34f26;
+      margin-bottom: 15px;
+      object-fit: cover;
+    }
+    h2 {
+      margin: 0 0 5px 0;
+      color: #2d3748;
+      font-size: 1.4rem;
+    }
+    .title {
+      color: #718096;
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+    }
+    .badge {
+      display: inline-block;
+      background: #fff5f2;
+      color: #e34f26;
+      font-size: 0.75rem;
+      font-weight: bold;
+      padding: 5px 12px;
+      border-radius: 50px;
+      margin-bottom: 15px;
+    }
+    p {
+      color: #4a5568;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+    .btn {
+      background: #e34f26;
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background: #c53813;
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-card">
+    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop" alt="Profile Avatar" class="avatar">
+    <h2>Sarah Jenkins</h2>
+    <div class="title">Frontend Web Developer</div>
+    <span class="badge">HTML5 &amp; CSS3 Expert</span>
+    <p>Building accessible, lightning-fast web experiences for modern browsers with clean semantic HTML.</p>
+    <a href="#" class="btn">Connect</a>
+  </div>
+</body>
+</html>`,
+
+        semantic: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+    body {
+      font-family: Georgia, serif;
+      margin: 0;
+      padding: 0;
+      background: #fafafa;
+      color: #222;
+      line-height: 1.6;
+    }
+    header {
+      background: #2b2d42;
+      color: white;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav a {
+      color: #edf2f4;
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 0.95rem;
+    }
+    nav a:hover { text-decoration: underline; }
+    main {
+      max-width: 750px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    article { padding: 30px 20px; }
+    h1 { font-size: 2rem; color: #111; margin-top: 0; }
+    .meta { font-size: 0.85rem; color: #888; margin-bottom: 25px; }
+    footer {
+      background: #edf2f4;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.85rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div style="font-weight:bold; font-size:1.3rem;">Free Qube Daily</div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Articles</a>
+      <a href="#">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <article>
+      <h1>Why Semantic HTML Still Matters in 2026</h1>
+      <div class="meta">Published on Nov 15, 2026 &bull; By Web Standards Team</div>
+      <p>Semantic tags like <code>&lt;article&gt;</code>, <code>&lt;nav&gt;</code>, and <code>&lt;main&gt;</code> provide structural meaning to screen readers and search engines, replacing generic unorganized div containers.</p>
+      <p>By writing clean semantic markup, your website becomes faster, accessible to visually impaired users, and ranks higher on Google Search.</p>
+    </article>
+  </main>
+
+  <footer>
+    &copy; 2026 Free Qube. All rights reserved.
+  </footer>
+</body>
+</html>`,
+
+        form: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f7fafc;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .form-container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+      max-width: 400px;
+      width: 100%;
+    }
+    h3 { margin-top: 0; color: #2d3748; }
+    .form-group { margin-bottom: 18px; }
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #4a5568;
+      margin-bottom: 6px;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e0;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      box-sizing: border-box;
+      outline: none;
+    }
+    input:focus, select:focus {
+      border-color: #e34f26;
+      box-shadow: 0 0 0 3px rgba(227, 79, 38, 0.15);
+    }
+    .btn-submit {
+      width: 100%;
+      background: #e34f26;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn-submit:hover { background: #c53813; }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h3>Sign Up for Tech Updates</h3>
+    <form onsubmit="alert('Success! Valid HTML5 form submitted.'); return false;">
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" required placeholder="Alex Turner">
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" required placeholder="alex@company.com">
+      </div>
+
+      <div class="form-group">
+        <label for="track">Primary Learning Track</label>
+        <select id="track">
+          <option value="html">Modern HTML5</option>
+          <option value="js">Modern JavaScript (ES6+)</option>
+          <option value="salesforce">Salesforce CRM &amp; Apex</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn-submit">Register Now</button>
+    </form>
+  </div>
+</body>
+</html>`,
+
+        pricing: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f8f9fa;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .pricing-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      border: 2px solid #e34f26;
+      padding: 35px 25px;
+      max-width: 320px;
+      text-align: center;
+    }
+    .plan-name { font-size: 1.1rem; font-weight: bold; color: #e34f26; text-transform: uppercase; }
+    .price { font-size: 2.5rem; font-weight: 800; color: #212529; margin: 15px 0; }
+    .price span { font-size: 1rem; color: #6c757d; font-weight: normal; }
+    ul { list-style: none; padding: 0; margin: 25px 0; text-align: left; }
+    li { padding: 8px 0; font-size: 0.9rem; color: #495057; }
+    li::before { content: "✓ "; color: #28a745; font-weight: bold; }
+    .btn-plan {
+      display: block;
+      background: #e34f26;
+      color: white;
+      text-decoration: none;
+      padding: 12px;
+      border-radius: 50px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="pricing-card">
+    <div class="plan-name">Free Qube Developer</div>
+    <div class="price">$0 <span>/ lifetime</span></div>
+    <p style="font-size: 0.85rem; color:#6c757d;">Everything you need to build and learn on modern web standards.</p>
+    <ul>
+      <li>100% In-Browser Execution</li>
+      <li>Zero Server Data Uploads</li>
+      <li>Full Access to Code Runner</li>
+      <li>Printable PDF Handbooks</li>
+    </ul>
+    <a href="#" class="btn-plan">Get Started Free</a>
+  </div>
+</body>
+</html>`
+    };
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const editor = document.getElementById("htmlEditor");
+        const preview = document.getElementById("htmlPreview");
+        const select = document.getElementById("exerciseSelect");
+        const autoToggle = document.getElementById("autoUpdateToggle");
+        const runBtn = document.getElementById("runHtmlBtn");
+        const resetBtn = document.getElementById("resetHtmlBtn");
+        const copyBtn = document.getElementById("copyHtmlBtn");
+
+        let updateTimer = null;
+
+        function updatePreview() {
+            if (!preview) return;
+            const code = editor.value;
+            preview.srcdoc = code;
+        }
+
+        function triggerDebouncedUpdate() {
+            if (!autoToggle.checked) return;
+            clearTimeout(updateTimer);
+            updateTimer = setTimeout(updatePreview, 250);
+        }
+
+        // Load Initial Exercise
+        editor.value = exercises.profile;
+        updatePreview();
+
+        // Exercise Switcher
+        select.addEventListener("change", function() {
+            const selectedKey = this.value;
+            if (exercises[selectedKey]) {
+                editor.value = exercises[selectedKey];
+                updatePreview();
+            }
+        });
+
+        // Input Listener
+        editor.addEventListener("input", triggerDebouncedUpdate);
+
+        // Run Button
+        runBtn.addEventListener("click", updatePreview);
+
+        // Reset Button
+        resetBtn.addEventListener("click", function() {
+            const selectedKey = select.value;
+            if (exercises[selectedKey]) {
+                editor.value = exercises[selectedKey];
+                updatePreview();
+            }
+        });
+
+        // Copy Button
+        copyBtn.addEventListener("click", function() {
+            navigator.clipboard.writeText(editor.value).then(() => {
+                const origText = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<i class="fas fa-check text-success me-1"></i> Copied!';
+                setTimeout(() => { copyBtn.innerHTML = origText; }, 2000);
+            });
+        });
+
+        // Tab Key Indentation Support
+        editor.addEventListener("keydown", function(e) {
+            if (e.key === "Tab") {
+                e.preventDefault();
+                const start = this.selectionStart;
+                const end = this.selectionEnd;
+                this.value = this.value.substring(0, start) + "  " + this.value.substring(end);
+                this.selectionStart = this.selectionEnd = start + 2;
+                triggerDebouncedUpdate();
+            }
+        });
+    });
+</script>
+{% endblock %}
 {% endblock %}
 

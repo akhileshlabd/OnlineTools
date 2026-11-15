@@ -17,13 +17,13 @@ LEARN_MODULES = {
     'html': {
         'id': 'html',
         'title': 'Modern HTML5 Fundamentals',
-        'subtitle': 'The Structural Foundation of the Web: Semantics, Forms, SEO & Accessibility',
-        'badge': 'Web Basics',
+        'subtitle': 'The Structural Foundation of the Web: Semantics, Forms, SEO & Interactive Hands-On Lab',
+        'badge': 'Live Hands-On Lab',
         'badge_color': 'danger',
         'icon': 'fa-html5',
         'color': '#e34f26',
-        'duration': '8 Modules • 28 Lessons',
-        'description': 'Learn HTML5 from the ground up with intuitive analogies. Master modern semantic markup, responsive multimedia, accessible forms, DOM architecture, and SEO best practices.'
+        'duration': '9 Modules • Live Sandbox Lab',
+        'description': 'Learn HTML5 from the ground up with intuitive analogies. Master modern semantic markup, responsive multimedia, accessible forms, DOM architecture, and practice with our interactive split-screen HTML lab.'
     },
     'javascript': {
         'id': 'javascript',
