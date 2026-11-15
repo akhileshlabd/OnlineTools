@@ -94,7 +94,13 @@
         <summary class="fw-bold" style="cursor:pointer;">Can I split password-protected PDFs?</summary>
         <p class="mt-2 text-muted">Encrypted documents must first be decrypted using our <a href="{{ url_for('pdf.unlock_pdf') }}">PDF Unlock tool</a> prior to page extraction.</p>
     </details>
+    <details class="mb-3">
+        <summary class="fw-bold" style="cursor:pointer;">Can I extract non-consecutive page ranges?</summary>
+        <p class="mt-2 text-muted">Yes, you can extract exact ranges or single key pages by defining target intervals, and re-run extraction as needed with zero limits.</p>
+    </details>
 </div>
+
+<div class="ad-slot-container ad-slot-responsive my-4"></div>
 {% endblock %}
 
 {% block scripts %}

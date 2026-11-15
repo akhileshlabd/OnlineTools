@@ -92,7 +92,14 @@
         <summary class="fw-bold" style="cursor:pointer;">Can I merge password-protected PDFs?</summary>
         <p class="mt-2 text-muted">Not directly. You would need to first unlock the PDF using our <a href="{{ url_for('pdf.unlock_pdf') }}">PDF Unlock tool</a>, and then merge the resulting unencrypted file.</p>
     </details>
+
+    <details class="mb-3">
+        <summary class="fw-bold" style="cursor:pointer;">Will merging PDFs degrade visual quality or vector elements?</summary>
+        <p class="mt-2 text-muted">No. Our client-side engine retains all vector graphics, embedded typography, form objects, and high-resolution images exactly as structured in the source documents.</p>
+    </details>
 </div>
+
+<div class="ad-slot-container ad-slot-responsive my-4"></div>
 {% endblock %}
 
 {% block scripts %}

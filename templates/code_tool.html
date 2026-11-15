@@ -462,6 +462,14 @@
         <summary class="fw-bold" style="cursor:pointer;">Can this tool format malformed or truncated JSON?</summary>
         <p class="mt-2 text-muted">If a syntax violation exists, the parser highlights the exact token and syntax error position to help you fix structural mistakes quickly.</p>
     </details>
+    <details class="mb-3">
+        <summary class="fw-bold" style="cursor:pointer;">Can I use these developer tools completely offline?</summary>
+        <p class="mt-2 text-muted">Yes. Our Service Worker caches the application assets. You can format code, generate hashes, and decode Base64 completely offline.</p>
+    </details>
+    <details class="mb-3">
+        <summary class="fw-bold" style="cursor:pointer;">What character encodings are supported?</summary>
+        <p class="mt-2 text-muted">All tools support full UTF-8 encoding, handling international character sets, emojis, and binary string conversions gracefully.</p>
+    </details>
     <h3 class="h5 fw-bold mt-4">Related Developer Tools</h3>
     <div class="row g-3 mt-1">
         <div class="col-md-3 col-6">
@@ -490,6 +498,8 @@
         </div>
     </div>
 </div>
+
+<div class="ad-slot-container ad-slot-responsive my-4"></div>
 {% endblock %}
 
 {% block scripts %}

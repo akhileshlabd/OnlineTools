@@ -70,7 +70,13 @@
         <summary class="fw-bold" style="cursor:pointer;">Can I remove the password later?</summary>
         <p class="mt-2 text-muted">Yes, if you possess the valid password, you can decrypt and remove protection using our <a href="{{ url_for('pdf.unlock_pdf') }}">PDF Unlock tool</a> at any time.</p>
     </details>
+    <details class="mb-3">
+        <summary class="fw-bold" style="cursor:pointer;">Does password encryption alter the internal PDF contents?</summary>
+        <p class="mt-2 text-muted">No. The internal vectors, typography, and page assets remain unchanged; they are simply enveloped in standard AES encryption streams.</p>
+    </details>
 </div>
+
+<div class="ad-slot-container ad-slot-responsive my-4"></div>
 {% endblock %}
 
 {% block scripts %}

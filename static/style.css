@@ -141,7 +141,9 @@ body {
 .ad-slot-container {
     display: block;
     width: 100%;
-    margin: 1.5rem auto;
+    margin-top: 35px; /* Minimum 30px+ separation from interactive tool buttons, canvas, and dropzones */
+    margin-bottom: 35px;
+    padding: 10px 0;
     text-align: center;
     overflow: hidden;
     contain: layout style;
@@ -155,15 +157,42 @@ body {
 .ad-slot-leaderboard {
     min-height: 90px;
     max-width: 970px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .ad-slot-rectangle {
     min-height: 250px;
     max-width: 336px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .ad-slot-responsive {
     min-height: 100px;
     max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 }
+
+/* Click-safety guarantee: prevent overlapping interactive controls */
+.tool-interface + .ad-slot-container,
+.drag-drop-area + .ad-slot-container,
+canvas + .ad-slot-container,
+button + .ad-slot-container {
+    margin-top: 40px !important;
+}
+
+/* Mobile viewport optimization: ensure flex stacking and never hide tools below fold */
+@media (max-width: 768px) {
+    .ad-slot-container {
+        margin-top: 25px;
+        margin-bottom: 25px;
+    }
+    .ad-slot-leaderboard {
+        min-height: 50px;
+        max-width: 320px;
+    }
+}
+
 
