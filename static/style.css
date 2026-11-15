@@ -92,32 +92,6 @@ body {
     margin-bottom: 0.5rem;
 }
 
-/* Ads Container */
-.ad-container {
-    min-height: 90px;
-    background-color: #f1f3f5;
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #adb5bd;
-    font-size: 0.9rem;
-    position: relative;
-}
-.ad-container::before {
-    content: "Advertisement";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 0;
-}
-.adsbygoogle {
-    z-index: 1;
-    position: relative;
-}
-
 /* 🌙 Dark Mode Overrides */
 [data-bs-theme="dark"] .tool-card {
     background: #1e1e24;
@@ -161,10 +135,4 @@ body {
 [data-bs-theme="dark"] .drag-drop-area:hover,
 [data-bs-theme="dark"] .drag-drop-area.dragover {
     background-color: #3f3f4e;
-}
-
-[data-bs-theme="dark"] .ad-container {
-    background-color: #2b2b36;
-    border-color: #3f3f4e;
-    color: #6c757d;
 }

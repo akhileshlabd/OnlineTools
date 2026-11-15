@@ -16,12 +16,11 @@
     "@type": "Offer",
     "price": "0",
     "priceCurrency": "USD"
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.8",
-      "ratingCount": "1250"
-    }
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "ratingCount": "1250"
   }
 }
 </script>
@@ -485,23 +484,6 @@
         </div>
     </div>
 </div>
-
-<!-- Structured Data (JSON-LD) for SoftwareApplication -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "{{ tool.name }}",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "All",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  },
-  "description": "{{ tool.desc }}"
-}
-</script>
 {% endblock %}
 
 {% block scripts %}
