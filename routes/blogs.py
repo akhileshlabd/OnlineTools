@@ -66,6 +66,10 @@ def view_blog(slug):
         c.execute("SELECT * FROM comments WHERE blog_id = ? ORDER BY created_at DESC", (blog['id'],))
         comments = c.fetchall()
     
+    # Fetch 3 related guides for editorial depth and internal linking
+    c.execute("SELECT id, title, slug, created_at, image_path FROM blogs WHERE is_hidden = 0 AND slug != ? ORDER BY created_at DESC LIMIT 3", (slug,))
+    related_blogs = c.fetchall()
+    
     conn.close()
     
-    return render_template('blog_post.html', blog=blog, comments=comments, comments_allowed=comments_allowed)
+    return render_template('blog_post.html', blog=blog, comments=comments, comments_allowed=comments_allowed, related_blogs=related_blogs)

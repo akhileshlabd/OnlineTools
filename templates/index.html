@@ -118,6 +118,41 @@
 
 </div>
 
+<!-- Latest Technical Guides & Curation Layer -->
+{% if latest_blogs %}
+<div class="my-5">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h2 class="fw-bold text-dark mb-1">Latest Engineering Guides &amp; Insights</h2>
+            <p class="text-muted mb-0">Deep dives into browser sandboxing, PDF cryptography, and client-side processing.</p>
+        </div>
+        <a href="/blog/" class="btn btn-outline-primary fw-semibold d-none d-md-inline-block">View All Articles <i class="fas fa-arrow-right ms-1"></i></a>
+    </div>
+
+    <div class="row g-4">
+        {% for blog in latest_blogs %}
+        <div class="col-md-4 d-flex">
+            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden w-100 d-flex flex-column" style="transition: transform 0.2s, box-shadow 0.2s;">
+                {% if blog.image_path %}
+                <img src="{{ blog.image_path }}" class="card-img-top" alt="{{ blog.title }}" style="height: 180px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body p-4 d-flex flex-column flex-grow-1">
+                    <div class="small text-muted fw-bold mb-2 text-uppercase" style="letter-spacing: 0.5px; font-size: 0.75rem;">
+                        <i class="far fa-calendar-alt me-1"></i> {{ blog.created_at.split(' ')[0] if blog.created_at else '' }} &bull; By Akhilesh D.
+                    </div>
+                    <h3 class="card-title h5 fw-bold text-dark mb-3" style="line-height: 1.4;">{{ blog.title }}</h3>
+                    <p class="card-text text-muted small flex-grow-1" style="line-height: 1.6;">{{ blog.excerpt | striptags | truncate(110) }}</p>
+                    <a href="/blog/{{ blog.slug }}" class="text-primary fw-bold text-decoration-none mt-3">Read Full Guide <i class="fas fa-arrow-right ms-1"></i></a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="text-center mt-3 d-md-none">
+        <a href="/blog/" class="btn btn-outline-primary fw-semibold w-100">View All Articles <i class="fas fa-arrow-right ms-1"></i></a>
+    </div>
+</div>
+{% endif %}
 
 <!-- Comprehensive Technical Specifications & Guide -->
 <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4 text-start">

@@ -69,6 +69,13 @@ app.register_blueprint(blogs_bp)
 # ---------------- Home ----------------
 @app.route('/')
 def home():
+    from routes.blogs import get_db_connection
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute("SELECT id, title, slug, created_at, image_path FROM blogs WHERE is_hidden = 0 ORDER BY created_at DESC LIMIT 3")
+    latest_blogs = c.fetchall()
+    conn.close()
+
     return render_template('index.html',
                            image_tools=IMAGE_TOOLS,
                            pdf_tools=PDF_TOOLS,
@@ -78,7 +85,8 @@ def home():
                            health_tools=HEALTH_TOOLS,
                            math_tools=MATH_TOOLS,
                            network_tools=NETWORK_TOOLS,
-                           video_tools=VIDEO_TOOLS)
+                           video_tools=VIDEO_TOOLS,
+                           latest_blogs=latest_blogs)
 
 # ---------------- Legal & Policy Pages ----------------
 @app.route('/contact')

@@ -1,16 +1,92 @@
 {% extends "base.html" %}
 
 {% block title %}{{ blog.title }} - Free Qube{% endblock %}
+{% block meta_desc %}{{ blog.content | striptags | truncate(155) }}{% endblock %}
+
+{% block schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{ blog.title }}",
+  "description": "{{ blog.content | striptags | truncate(155) }}",
+  {% if blog.image_path %}
+  "image": "{{ url_for('static', filename=blog.image_path.replace('/static/', ''), _external=True) if not blog.image_path.startswith('http') else blog.image_path }}",
+  {% endif %}
+  "datePublished": "{{ blog.created_at }}",
+  "dateModified": "{{ blog.created_at }}",
+  "author": {
+    "@type": "Person",
+    "name": "Akhilesh D.",
+    "jobTitle": "Lead Systems Architect & Security Researcher",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Free Qube"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Free Qube",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ url_for('static', filename='logo2.png', _external=True) }}"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ request.base_url }}"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "{{ url_for('home', _external=True) }}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "{{ url_for('blogs.index', _external=True) }}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "{{ blog.title }}",
+      "item": "{{ request.base_url }}"
+    }
+  ]
+}
+</script>
+{% endblock %}
 
 {% block head %}
 <style>
-    .post-container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+    .post-container { max-width: 820px; margin: 30px auto; padding: 0 20px; }
     .post-header { margin-bottom: 30px; }
-    .post-date { font-size: 0.9rem; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 15px; display: block; }
-    .post-title { font-size: 3rem; font-weight: 900; letter-spacing: -0.04em; color: #0f172a; margin-bottom: 25px; line-height: 1.1; }
+    .post-meta-bar { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
+    .author-badge { display: flex; align-items: center; gap: 10px; }
+    .author-avatar-sm { width: 44px; height: 44px; border-radius: 50%; background: #0d6efd; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; }
+    .post-title { font-size: 2.75rem; font-weight: 900; letter-spacing: -0.04em; color: #0f172a; margin-bottom: 25px; line-height: 1.15; }
     .post-image { width: 100%; border-radius: 16px; margin-bottom: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
-    .post-content { font-size: 1.125rem; line-height: 1.8; color: #334155; margin-bottom: 60px; white-space: pre-line; }
+    .post-content { font-size: 1.125rem; line-height: 1.8; color: #334155; margin-bottom: 50px; }
     
+    /* Author Box */
+    .author-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 25px; margin-bottom: 50px; display: flex; gap: 20px; align-items: center; }
+    .author-avatar-lg { width: 70px; height: 70px; border-radius: 50%; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.6rem; flex-shrink: 0; }
+
+    /* Related Guides */
+    .related-section { border-top: 2px solid #e2e8f0; padding-top: 40px; margin-bottom: 50px; }
+    .related-card { background: white; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; height: 100%; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
+    .related-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
+    .related-img { width: 100%; height: 130px; object-fit: cover; }
+
     /* Comments Section */
     .comments-section { border-top: 2px solid #e2e8f0; padding-top: 40px; margin-bottom: 60px; }
     .comments-title { font-size: 1.5rem; font-weight: 800; color: #0f172a; margin-bottom: 30px; }
@@ -31,17 +107,73 @@
 {% block content %}
 <div class="post-container">
     
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted"><i class="fas fa-home me-1"></i>Home</a></li>
+            <li class="breadcrumb-item"><a href="/blog/" class="text-decoration-none text-muted">Blog</a></li>
+            <li class="breadcrumb-item active text-truncate" aria-current="page" style="max-width: 350px;">{{ blog.title }}</li>
+        </ol>
+    </nav>
+
     <div class="post-header">
-        <span class="post-date">{{ blog.created_at.split(' ')[0] if blog.created_at else '' }} &bull; Free Qube</span>
         <h1 class="post-title">{{ blog.title }}</h1>
+        
+        <div class="post-meta-bar">
+            <div class="author-badge">
+                <div class="author-avatar-sm">AD</div>
+                <div>
+                    <div class="fw-bold text-dark" style="font-size: 0.95rem;">Akhilesh D. <i class="fas fa-check-circle text-primary small" title="Verified Contributor"></i></div>
+                    <div class="text-muted small">Lead Systems Architect &bull; Free Qube</div>
+                </div>
+            </div>
+            <div class="text-muted small ms-auto d-flex align-items-center gap-3">
+                <span><i class="far fa-calendar-alt me-1"></i> {{ blog.created_at.split(' ')[0] if blog.created_at else '2026' }}</span>
+                <span><i class="far fa-clock me-1"></i> 5 min read</span>
+                <span class="badge bg-light text-primary border">Technical Guide</span>
+            </div>
+        </div>
     </div>
     
     {% if blog.image_path %}
     <img src="{{ blog.image_path }}" class="post-image" alt="{{ blog.title }}">
     {% endif %}
     
-    <div class="post-content">{{ blog.content | safe }}</div>
+    <article class="post-content">{{ blog.content | safe }}</article>
     
+    <!-- Author Bio Box (E-E-A-T Credibility) -->
+    <div class="author-card">
+        <div class="author-avatar-lg">AD</div>
+        <div>
+            <h4 class="h5 fw-bold text-dark mb-1">About the Author: Akhilesh D.</h4>
+            <p class="text-muted small mb-2">Systems Engineer &bull; Specializing in WebAssembly, Cryptographic In-Browser Sandboxing &amp; Client-Side Computing</p>
+            <p class="text-secondary small mb-0" style="line-height: 1.5;">Akhilesh leads platform architecture and technical curation at Free Qube. His research focuses on eliminating cloud server data dependencies by executing complex document and media workflows directly within local browser memory spaces.</p>
+        </div>
+    </div>
+
+    <!-- Related Engineering Guides (Interlinking & Content Depth) -->
+    {% if related_blogs %}
+    <div class="related-section">
+        <h3 class="h4 fw-bold text-dark mb-4"><i class="fas fa-book-open text-primary me-2"></i>Recommended Technical Guides</h3>
+        <div class="row g-3">
+            {% for rel in related_blogs %}
+            <div class="col-md-4">
+                <a href="/blog/{{ rel.slug }}" class="related-card">
+                    {% if rel.image_path %}
+                    <img src="{{ rel.image_path }}" class="related-img" alt="{{ rel.title }}">
+                    {% endif %}
+                    <div class="p-3 d-flex flex-column flex-grow-1">
+                        <small class="text-muted mb-1">{{ rel.created_at.split(' ')[0] if rel.created_at else '' }}</small>
+                        <h4 class="h6 fw-bold text-dark mb-0" style="line-height: 1.4;">{{ rel.title }}</h4>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Discussion / Comments -->
     {% if comments_allowed %}
     <div class="comments-section">
         <h3 class="comments-title">Discussion ({{ comments|length }})</h3>
