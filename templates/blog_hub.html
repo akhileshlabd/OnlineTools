@@ -33,7 +33,7 @@
         <img src="{{ blog.image_path }}" class="blog-image" alt="{{ blog.title }}">
         {% endif %}
         <div class="blog-content">
-            <div class="blog-date"><i class="far fa-calendar-alt me-1"></i> {{ blog.created_at.split(' ')[0] if blog.created_at else '' }} &bull; By Akhilesh D. &bull; <span class="badge bg-light text-primary border ms-1">Technical Guide</span></div>
+            <div class="blog-date"><i class="far fa-calendar-alt me-1"></i> {{ blog.created_at.split(' ')[0] if blog.created_at else '' }} &bull; By Dhwani Akhilesh &bull; <span class="badge bg-light text-primary border ms-1">Technical Guide</span></div>
             <h2 class="blog-title">{{ blog.title }}</h2>
             <div class="blog-excerpt">{{ blog.content | striptags | truncate(150) }}</div>
         </div>

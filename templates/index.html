@@ -138,7 +138,7 @@
                 {% endif %}
                 <div class="card-body p-4 d-flex flex-column flex-grow-1">
                     <div class="small text-muted fw-bold mb-2 text-uppercase" style="letter-spacing: 0.5px; font-size: 0.75rem;">
-                        <i class="far fa-calendar-alt me-1"></i> {{ blog.created_at.split(' ')[0] if blog.created_at else '' }} &bull; By Akhilesh D.
+                        <i class="far fa-calendar-alt me-1"></i> {{ blog.created_at.split(' ')[0] if blog.created_at else '' }} &bull; By Dhwani Akhilesh
                     </div>
                     <h3 class="card-title h5 fw-bold text-dark mb-3" style="line-height: 1.4;">{{ blog.title }}</h3>
                     <p class="card-text text-muted small flex-grow-1" style="line-height: 1.6;">{{ blog.excerpt | striptags | truncate(110) }}</p>
