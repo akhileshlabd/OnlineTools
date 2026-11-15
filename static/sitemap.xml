@@ -53,6 +53,7 @@
     <url><loc>https://www.freeqube.com/finance/calculator/compound</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
     <!-- Developer & Code Tools -->
+    <url><loc>https://www.freeqube.com/dev/tool/js-runner</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
     <url><loc>https://www.freeqube.com/dev/tool/json-formatter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
     <url><loc>https://www.freeqube.com/dev/tool/code-diff</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
     <url><loc>https://www.freeqube.com/dev/tool/base64</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -94,6 +95,7 @@
 
     <!-- Editorial Blog Articles -->
     <url><loc>https://www.freeqube.com/blog/</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+    <url><loc>https://www.freeqube.com/blog/mastering-javascript-2026-in-browser-playground-guide</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
     <url><loc>https://www.freeqube.com/blog/rise-of-local-ai-2026-offline-web-apps-smartphones</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
     <url><loc>https://www.freeqube.com/blog/master-your-digital-workflow-free-qube-tools</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
     <url><loc>https://www.freeqube.com/blog/the-great-ai-pivot-why-tech-giants-are-abandoning-the-cloud-for-on-device-processing</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>

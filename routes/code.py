@@ -3,6 +3,14 @@ from flask import Blueprint, render_template
 code_bp = Blueprint('code', __name__, url_prefix='/dev')
 
 CODE_TOOLS = {
+    'js-runner': {
+        'id': 'js-runner',
+        'name': 'JavaScript Runner & Playground',
+        'desc': 'Interactive JavaScript execution environment. Run JS scripts with a live split-screen console and starter learning lessons.',
+        'icon': 'fa-play',
+        'seo_title': 'Online JavaScript Runner & Playground - Run JS Code Online',
+        'seo_desc': 'Free online JavaScript runner and learning playground. Execute JS code and files in real-time, inspect console.log outputs, and practice ECMAScript syntax with zero setup.'
+    },
     'json-formatter': {
         'id': 'json-formatter',
         'name': 'JSON Formatter & Validator',
@@ -98,6 +106,8 @@ def code_tool_page(tool_id):
     tool = CODE_TOOLS.get(tool_id)
     if not tool:
         return "Developer Tool not found", 404
+    if tool_id == 'js-runner':
+        return render_template('js_runner.html', tool=tool)
     return render_template('code_tool.html', tool=tool)
 
 @code_bp.route('/')

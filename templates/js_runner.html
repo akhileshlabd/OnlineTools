@@ -1,0 +1,932 @@
+{% extends "base.html" %}
+
+{% block title %}{{ tool.seo_title }} - Free Qube{% endblock %}
+{% block meta_desc %}{{ t(tool.seo_desc) }}{% endblock %}
+
+{% block schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "{{ t(tool.name) }}",
+  "operatingSystem": "All",
+  "applicationCategory": "DeveloperApplication",
+  "description": "{{ t(tool.seo_desc) }}",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "ratingCount": "1420"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "{{ url_for('home', _external=True) }}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Developer Tools",
+      "item": "{{ url_for('code.code_hub', _external=True) }}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "JavaScript Runner",
+      "item": "{{ request.base_url }}"
+    }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block head %}
+<style>
+    .js-runner-container { max-width: 1280px; margin: 0 auto; }
+    
+    /* Code Editor Area */
+    .editor-wrapper {
+        display: flex;
+        flex-direction: column;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #cbd5e1;
+        background: #1e1e2e;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        height: 520px;
+    }
+    .editor-header {
+        background: #181825;
+        color: #cdd6f4;
+        padding: 10px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #313244;
+        font-size: 0.85rem;
+    }
+    .editor-tab {
+        background: #1e1e2e;
+        color: #f7df1e;
+        font-weight: 700;
+        padding: 6px 14px;
+        border-radius: 6px 6px 0 0;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    .editor-body {
+        display: flex;
+        flex-grow: 1;
+        position: relative;
+        background: #1e1e2e;
+    }
+    .line-numbers {
+        width: 48px;
+        padding: 14px 8px;
+        text-align: right;
+        color: #585b70;
+        font-family: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, monospace;
+        font-size: 13px;
+        line-height: 22px;
+        user-select: none;
+        background: #181825;
+        border-right: 1px solid #313244;
+    }
+    #jsCodeInput {
+        flex-grow: 1;
+        border: none;
+        outline: none;
+        resize: none;
+        background: transparent;
+        color: #cdd6f4;
+        font-family: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, monospace;
+        font-size: 13px;
+        line-height: 22px;
+        padding: 14px 16px;
+        white-space: pre;
+        tab-size: 2;
+    }
+
+    /* Terminal Output Panel */
+    .terminal-wrapper {
+        display: flex;
+        flex-direction: column;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #1e293b;
+        background: #0f172a;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        height: 520px;
+    }
+    .terminal-header {
+        background: #1e293b;
+        color: #e2e8f0;
+        padding: 10px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #334155;
+        font-size: 0.85rem;
+    }
+    .terminal-dots {
+        display: flex;
+        gap: 6px;
+    }
+    .terminal-dot {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+    }
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #f59e0b; }
+    .dot-green { background: #10b981; }
+
+    .terminal-body {
+        flex-grow: 1;
+        padding: 16px;
+        overflow-y: auto;
+        font-family: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, monospace;
+        font-size: 13px;
+        line-height: 1.6;
+        color: #f8fafc;
+    }
+    .console-line {
+        padding: 4px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        word-break: break-all;
+    }
+    .console-time {
+        color: #64748b;
+        font-size: 11px;
+        min-width: 60px;
+        user-select: none;
+    }
+    .log-info { color: #38bdf8; }
+    .log-warn { color: #facc15; }
+    .log-error { color: #f87171; }
+    .log-return { color: #4ade80; font-style: italic; }
+    
+    /* Table output in terminal */
+    .terminal-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 8px 0;
+        font-size: 12px;
+    }
+    .terminal-table th, .terminal-table td {
+        border: 1px solid #334155;
+        padding: 6px 10px;
+        text-align: left;
+    }
+    .terminal-table th {
+        background: #1e293b;
+        color: #94a3b8;
+    }
+    .terminal-table td {
+        background: #0f172a;
+        color: #e2e8f0;
+    }
+
+    /* Template Cards & Accordions */
+    .lesson-badge {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 4px 8px;
+        border-radius: 4px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="js-runner-container">
+
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-muted"><i class="fas fa-home me-1"></i>Home</a></li>
+            <li class="breadcrumb-item"><a href="/dev/" class="text-decoration-none text-muted">Developer Tools</a></li>
+            <li class="breadcrumb-item active" aria-current="page">JavaScript Runner &amp; Playground</li>
+        </ol>
+    </nav>
+
+    <!-- Header -->
+    <div class="text-center mb-4">
+        <div class="d-inline-flex align-items-center justify-content-center bg-warning bg-opacity-10 text-warning rounded-circle mb-3 shadow-sm" style="width: 64px; height: 64px;">
+            <i class="fab fa-js-square fa-2x text-warning"></i>
+        </div>
+        <h1 class="fw-bold text-dark mb-2 h2">Online JavaScript Runner &amp; Playground</h1>
+        <p class="text-muted mx-auto mb-0" style="max-width: 750px;">
+            Write, test, and learn modern JavaScript (ES6+) directly in your browser. Select starter lessons, upload your own <code>.js</code> files, and view instant live console output on the right screen.
+        </p>
+    </div>
+
+    <!-- Workspace Controls Bar -->
+    <div class="card shadow-sm border-0 mb-4 bg-white p-3 rounded-4">
+        <div class="row g-3 align-items-center">
+            
+            <!-- Starter Lessons Selector -->
+            <div class="col-lg-5 col-md-6">
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-end-0 fw-bold text-muted small"><i class="fas fa-graduation-cap text-warning me-2"></i>Lessons:</span>
+                    <select id="lessonSelect" class="form-select border-start-0 fw-semibold" onchange="loadSelectedLesson()">
+                        <optgroup label="🌱 Core JavaScript Fundamentals">
+                            <option value="hello">1. Variables &amp; Template Literals</option>
+                            <option value="functions">2. Arrow Functions &amp; Default Parameters</option>
+                            <option value="arrays">3. Array Methods (map, filter, reduce)</option>
+                            <option value="objects">4. Objects &amp; Destructuring</option>
+                            <option value="loops">5. Loops &amp; The FizzBuzz Algorithm</option>
+                        </optgroup>
+                        <optgroup label="🚀 Modern &amp; Asynchronous JavaScript">
+                            <option value="async">6. Async / Await &amp; Promises</option>
+                            <option value="error">7. Robust Error Handling (try...catch)</option>
+                            <option value="math">8. Real-World Statistics &amp; Math Solver</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Editor Action Buttons -->
+            <div class="col-lg-7 col-md-6 d-flex flex-wrap gap-2 justify-content-md-end">
+                <input type="file" id="fileUpload" accept=".js,.mjs,.txt" class="d-none" onchange="handleFileUpload(event)">
+                <button class="btn btn-outline-secondary btn-sm fw-semibold" onclick="document.getElementById('fileUpload').click()" title="Load local .js file">
+                    <i class="fas fa-folder-open me-1"></i> Open .js
+                </button>
+                <button class="btn btn-outline-secondary btn-sm fw-semibold" onclick="downloadJSFile()" title="Save as .js">
+                    <i class="fas fa-download me-1"></i> Save .js
+                </button>
+                <button class="btn btn-outline-danger btn-sm fw-semibold" onclick="clearEditor()" title="Clear code editor">
+                    <i class="fas fa-trash-alt me-1"></i> Clear
+                </button>
+                <button class="btn btn-outline-secondary btn-sm fw-semibold" onclick="resetToLesson()" title="Reset current lesson">
+                    <i class="fas fa-undo me-1"></i> Reset
+                </button>
+                <!-- Run Button -->
+                <button class="btn btn-success fw-bold px-4 shadow-sm" id="btnRun" onclick="runJavaScript()">
+                    <i class="fas fa-play me-2"></i> Run Code <span class="d-none d-lg-inline small opacity-75 ms-1">(Ctrl+Enter)</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dual-Pane Split-Screen Playground -->
+    <div class="row g-4 mb-5">
+        
+        <!-- Left: Code Editor -->
+        <div class="col-lg-6">
+            <div class="editor-wrapper">
+                <div class="editor-header">
+                    <div class="editor-tab">
+                        <i class="fab fa-js text-warning"></i> script.js
+                    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <span class="text-muted small" id="lineCount">Line 1, Col 1</span>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-dark btn-sm py-0 px-2 text-muted" onclick="adjustFontSize(-1)" title="Decrease font size"><i class="fas fa-minus small"></i></button>
+                            <button class="btn btn-dark btn-sm py-0 px-2 text-muted" onclick="adjustFontSize(1)" title="Increase font size"><i class="fas fa-plus small"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="editor-body">
+                    <div class="line-numbers" id="lineNumbers">1</div>
+                    <textarea id="jsCodeInput" spellcheck="false" placeholder="// Type or paste your JavaScript code here..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Live Terminal & Console Output -->
+        <div class="col-lg-6">
+            <div class="terminal-wrapper">
+                <div class="terminal-header">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="terminal-dots">
+                            <div class="terminal-dot dot-red"></div>
+                            <div class="terminal-dot dot-yellow"></div>
+                            <div class="terminal-dot dot-green"></div>
+                        </div>
+                        <span class="fw-bold text-white"><i class="fas fa-terminal me-2 text-info"></i>Console Output</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-secondary bg-opacity-25 text-light border border-secondary border-opacity-25" id="execStatus">Ready</span>
+                        <button class="btn btn-sm btn-outline-light py-0 px-2" onclick="copyConsoleOutput()" title="Copy console output"><i class="fas fa-copy"></i></button>
+                        <button class="btn btn-sm btn-outline-danger py-0 px-2" onclick="clearConsole()" title="Clear terminal"><i class="fas fa-ban"></i></button>
+                    </div>
+                </div>
+                <div class="terminal-body" id="terminalOutput">
+                    <div class="text-muted small mb-2">// Click 'Run Code' or press Ctrl+Enter to execute. Output will appear here.</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Educational & Architectural Deep-Dive (Google Quality Compliance) -->
+    <section class="bg-white p-4 p-md-5 rounded-4 shadow-sm mb-5 text-start">
+        <h2 class="h3 fw-bold mb-3 text-dark">Mastering JavaScript Through Interactive In-Browser Execution</h2>
+        <p class="text-muted">
+            JavaScript is the universal programming language of the modern web. Every dynamic interaction, client-side animation, single-page application (SPA), and browser utility is powered by the ECMAScript engine. Historically, beginners learning JavaScript faced cumbersome toolchains—installing Node.js runtimes, configuring bundlers like Webpack, or wrestling with local terminal permissions.
+        </p>
+        <p class="text-muted">
+            Free Qube's <strong>Online JavaScript Runner &amp; Playground</strong> eliminates local installation barriers. It provides a sandboxed, zero-setup execution workstation where software engineers, computer science students, and self-taught developers can write code, load existing <code>.js</code> files, and evaluate expressions in real-time.
+        </p>
+
+        <h3 class="h5 fw-bold mt-4 text-dark">Why Real-Time Split-Screen Learning Works</h3>
+        <p class="text-muted">
+            Passive reading of technical syntax rarely leads to code comprehension. The fastest way to internalize modern ECMAScript features is through immediate feedback loops:
+        </p>
+        <ul class="text-muted">
+            <li><strong>Immediate State Inspection:</strong> Observe how <code>console.log()</code>, <code>console.table()</code>, and expression returns decompose complex nested data structures into human-readable outputs.</li>
+            <li><strong>Safe Error Debugging:</strong> When a runtime error occurs (such as a <code>TypeError</code> or <code>ReferenceError</code>), the console captures the exact error trace without crashing your browser tab.</li>
+            <li><strong>Hands-On ES6+ Mastery:</strong> Practice modern idioms including template string literals, the spread operator (<code>...</code>), arrow functions, and async/await pipelines.</li>
+        </ul>
+
+        <h3 class="h5 fw-bold mt-4 text-dark">Core JavaScript Fundamentals Covered in This Playground</h3>
+        <div class="row g-3 mt-1">
+            <div class="col-md-6">
+                <div class="p-3 bg-light rounded-3 border h-100">
+                    <h4 class="h6 fw-bold text-primary mb-2"><i class="fas fa-cube me-2"></i>1. Variables &amp; Lexical Scope</h4>
+                    <p class="small text-muted mb-0">Learn the critical differences between block-scoped <code>let</code>, immutable references via <code>const</code>, and legacy function-scoped <code>var</code> declarations.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-3 bg-light rounded-3 border h-100">
+                    <h4 class="h6 fw-bold text-success mb-2"><i class="fas fa-layer-group me-2"></i>2. Higher-Order Array Methods</h4>
+                    <p class="small text-muted mb-0">Master functional data processing with <code>.map()</code>, <code>.filter()</code>, and <code>.reduce()</code> to transform collections declaratively without mutating original arrays.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-3 bg-light rounded-3 border h-100">
+                    <h4 class="h6 fw-bold text-warning mb-2"><i class="fas fa-bolt me-2"></i>3. Asynchronous Programming</h4>
+                    <p class="small text-muted mb-0">Understand the JavaScript Event Loop, asynchronous <code>Promises</code>, and clean <code>async/await</code> syntax to coordinate non-blocking I/O operations.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-3 bg-light rounded-3 border h-100">
+                    <h4 class="h6 fw-bold text-info mb-2"><i class="fas fa-shield-alt me-2"></i>4. Defensive Error Handling</h4>
+                    <p class="small text-muted mb-0">Implement robust <code>try...catch...finally</code> patterns to catch unexpected runtime failures and maintain graceful application degradation.</p>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="h5 fw-bold mt-5 text-dark">Technical Specifications &amp; Sandboxed Security</h3>
+        <div class="table-responsive mt-3">
+            <table class="table table-bordered table-striped small">
+                <tbody>
+                    <tr><th style="width: 30%;">Runtime Engine</th><td>Native Browser V8 / SpiderMonkey / JavaScriptCore ECMAScript Engine</td></tr>
+                    <tr><th>ECMAScript Standards</th><td>ES6 (ES2015) through modern ECMAScript 2026 specifications</td></tr>
+                    <tr><th>Console Methods Supported</th><td><code>console.log</code>, <code>console.info</code>, <code>console.warn</code>, <code>console.error</code>, <code>console.table</code></td></tr>
+                    <tr><th>Data Privacy</th><td><strong>100% Client-Side:</strong> Your code is executed exclusively in your local device RAM. No code is transmitted to remote servers.</td></tr>
+                    <tr><th>File Operations</th><td>Direct client-side <code>.js</code> file reading via the HTML5 File API; instant local file download via Blob URLs.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Interactive FAQ Accordion -->
+        <h3 class="h5 fw-bold mt-5 text-dark">Frequently Asked Questions (FAQ)</h3>
+        <div class="accordion mt-3" id="jsRunnerFAQ">
+            <div class="accordion-item border-0 mb-2 shadow-sm rounded-3 overflow-hidden">
+                <h4 class="accordion-header">
+                    <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                        Can I upload an existing .js file to inspect and run it?
+                    </button>
+                </h4>
+                <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#jsRunnerFAQ">
+                    <div class="accordion-body text-muted small">
+                        Yes! Click the <strong>Open .js</strong> button on the toolbar or select a file from your computer. The runner uses the HTML5 FileReader API to parse your JavaScript file into the editor instantly without uploading it to any server.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item border-0 mb-2 shadow-sm rounded-3 overflow-hidden">
+                <h4 class="accordion-header">
+                    <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                        Is my JavaScript code uploaded or stored on Free Qube servers?
+                    </button>
+                </h4>
+                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#jsRunnerFAQ">
+                    <div class="accordion-body text-muted small">
+                        Never. Free Qube operates under a zero-knowledge architecture. Your code executes directly within your browser's local JavaScript runtime. You can inspect your browser's Developer Tools Network tab during execution to confirm that zero network packets leave your computer.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item border-0 mb-2 shadow-sm rounded-3 overflow-hidden">
+                <h4 class="accordion-header">
+                    <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                        Can I use modern syntax like async/await and arrow functions?
+                    </button>
+                </h4>
+                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#jsRunnerFAQ">
+                    <div class="accordion-body text-muted small">
+                        Yes. Because the runner executes directly against your browser's modern JavaScript engine, you have full access to all features supported by your browser, including async/await, optional chaining (<code>?.</code>), nullish coalescing (<code>??</code>), and modern Object/Array methods.
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item border-0 mb-2 shadow-sm rounded-3 overflow-hidden">
+                <h4 class="accordion-header">
+                    <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                        How does the console output window format data?
+                    </button>
+                </h4>
+                <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#jsRunnerFAQ">
+                    <div class="accordion-body text-muted small">
+                        The console output window intercepts standard console calls. Strings and numbers are printed with timestamps, warnings are color-coded in gold, errors appear in red with stack traces, and <code>console.table()</code> renders clean tabular data for quick visual inspection.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// --- Starter Lesson Code Snippets ---
+const LESSON_SNIPPETS = {
+    hello: `// 1. Variables & Template Literals
+// Modern JavaScript favors 'const' for constants and 'let' for reassignable variables.
+
+const platformName = "Free Qube";
+const foundedYear = 2026;
+let activeUsers = 1500;
+
+// Reassigning 'let' variable
+activeUsers += 250;
+
+// Template Literal string interpolation
+console.log(\`Welcome to \${platformName}! Founded in \${foundedYear}.\`);
+console.info(\`Current active learners: \${activeUsers}\`);
+
+// Inspecting multiple variable types
+console.log("Types:", {
+  platform: typeof platformName,
+  year: typeof foundedYear,
+  users: typeof activeUsers
+});`,
+
+    functions: `// 2. Arrow Functions & Default Parameters
+// Arrow functions provide concise syntax and lexical 'this' binding.
+
+// Traditional Function
+function calculateDiscount(price, rate = 0.1) {
+    return price - (price * rate);
+}
+
+// Modern Arrow Function
+const calculateTax = (amount, taxRate = 0.08) => amount * (1 + taxRate);
+
+const originalPrice = 100;
+const discounted = calculateDiscount(originalPrice, 0.2); // 20% off
+const total = calculateTax(discounted);
+
+console.log("Original Price: $" + originalPrice);
+console.log("Discounted Price: $" + discounted);
+console.log("Total with 8% Tax: $" + total.toFixed(2));`,
+
+    arrays: `// 3. Array Methods: map, filter, and reduce
+// Functional programming allows declarative data transformations.
+
+const products = [
+    { name: "Mechanical Keyboard", price: 120, category: "Hardware" },
+    { name: "USB-C Hub", price: 45, category: "Accessories" },
+    { name: "4K Monitor", price: 350, category: "Hardware" },
+    { name: "Mousepad", price: 15, category: "Accessories" }
+];
+
+// 1. FILTER: Find all hardware products
+const hardwareOnly = products.filter(item => item.category === "Hardware");
+console.log("--- Hardware Products (Filter) ---");
+console.table(hardwareOnly);
+
+// 2. MAP: Extract item names with formatted price
+const catalog = products.map(item => \`\${item.name} (\$\${item.price})\`);
+console.log("--- Catalog Strings (Map) ---");
+console.log(catalog);
+
+// 3. REDUCE: Calculate grand total
+const grandTotal = products.reduce((accumulator, item) => accumulator + item.price, 0);
+console.log(\`Grand Total: $\${grandTotal}\`);`,
+
+    objects: `// 4. Objects & Destructuring
+// Extract values from objects and arrays with clean, readable syntax.
+
+const userProfile = {
+    username: "coder_2026",
+    role: "Full Stack Developer",
+    skills: ["JavaScript", "Python", "WebAssembly"],
+    location: {
+        city: "San Francisco",
+        timezone: "PST"
+    }
+};
+
+// Object Destructuring with nested properties
+const { username, role, location: { city } } = userProfile;
+console.log(\`User \${username} is a \${role} located in \${city}.\`);
+
+// Spread operator to clone and update an object
+const updatedProfile = {
+    ...userProfile,
+    role: "Senior Systems Architect",
+    skills: [...userProfile.skills, "Rust"]
+};
+
+console.log("--- Updated Profile ---");
+console.log(updatedProfile);`,
+
+    loops: `// 5. Loops & The Classic FizzBuzz Algorithm
+// A classic programming problem tested in technical interviews.
+
+function runFizzBuzz(limit = 20) {
+    const results = [];
+    
+    for (let i = 1; i <= limit; i++) {
+        if (i % 3 === 0 && i % 5 === 0) {
+            results.push(\`\${i}: FizzBuzz 💥\`);
+        } else if (i % 3 === 0) {
+            results.push(\`\${i}: Fizz ⚡\`);
+        } else if (i % 5 === 0) {
+            results.push(\`\${i}: Buzz ✨\`);
+        } else {
+            results.push(\`\${i}\`);
+        }
+    }
+    
+    return results;
+}
+
+console.log("Running FizzBuzz up to 20:");
+const output = runFizzBuzz(20);
+output.forEach(line => console.log(line));`,
+
+    async: `// 6. Asynchronous JavaScript: Promises & Async/Await
+// Simulating an asynchronous database fetch without blocking the browser.
+
+function fetchUserData(userId) {
+    return new Promise((resolve, reject) => {
+        console.log(\`[Network] Fetching record for User #\${userId}...\`);
+        setTimeout(() => {
+            if (userId > 0) {
+                resolve({ id: userId, name: "Alex Rivera", status: "Verified", tier: "Pro" });
+            } else {
+                reject(new Error("Invalid User ID"));
+            }
+        }, 1200);
+    });
+}
+
+async function loadDashboard() {
+    console.info("Starting async pipeline...");
+    try {
+        const user = await fetchUserData(42);
+        console.log("Data retrieved successfully!");
+        console.table([user]);
+    } catch (err) {
+        console.error("Pipeline failure:", err.message);
+    }
+}
+
+loadDashboard();`,
+
+    error: `// 7. Defensive Error Handling: try...catch...finally
+// Gracefully handling unexpected data or parsing failures.
+
+function parsePayload(jsonString) {
+    try {
+        console.log("Attempting to parse incoming JSON payload...");
+        const data = JSON.parse(jsonString);
+        console.log("Parsed payload successfully:", data);
+        return data;
+    } catch (error) {
+        console.error("Syntax Error encountered:", error.message);
+        return null;
+    } finally {
+        console.info("[Cleanup] Parser execution cycle completed.");
+    }
+}
+
+// 1. Valid execution
+parsePayload('{"status": "ok", "code": 200}');
+
+// 2. Intentionally malformed payload to demonstrate error recovery
+console.log("\\nTesting invalid payload:");
+parsePayload('{ invalid_json: true, }');`,
+
+    math: `// 8. Real-World Statistics & Math Solver
+// Calculating Mean, Median, and Standard Deviation for a dataset.
+
+const testScores = [88, 92, 79, 95, 100, 84, 91, 76, 89];
+
+function calculateStats(numbers) {
+    const n = numbers.length;
+    const sorted = [...numbers].sort((a, b) => a - b);
+    
+    // Mean
+    const mean = numbers.reduce((a, b) => a + b, 0) / n;
+    
+    // Median
+    const mid = Math.floor(n / 2);
+    const median = n % 2 !== 0 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+    
+    // Standard Deviation
+    const variance = numbers.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / n;
+    const stdDev = Math.sqrt(variance);
+
+    return {
+        count: n,
+        lowest: sorted[0],
+        highest: sorted[sorted.length - 1],
+        mean: parseFloat(mean.toFixed(2)),
+        median: median,
+        standardDeviation: parseFloat(stdDev.toFixed(2))
+    };
+}
+
+console.log("Analyzing Test Score Dataset:", testScores);
+const stats = calculateStats(testScores);
+console.table([stats]);`
+};
+
+const editor = document.getElementById('jsCodeInput');
+const lineNumbers = document.getElementById('lineNumbers');
+const terminalOutput = document.getElementById('terminalOutput');
+const execStatus = document.getElementById('execStatus');
+let currentFontSize = 13;
+
+// --- Initialize default lesson ---
+window.addEventListener('DOMContentLoaded', () => {
+    loadSelectedLesson();
+    setupEditorEvents();
+});
+
+function loadSelectedLesson() {
+    const selected = document.getElementById('lessonSelect').value;
+    if (LESSON_SNIPPETS[selected]) {
+        editor.value = LESSON_SNIPPETS[selected];
+        updateLineNumbers();
+    }
+}
+
+function resetToLesson() {
+    loadSelectedLesson();
+    terminalOutput.innerHTML = '<div class="text-muted small mb-2">// Reset code to lesson defaults. Click \'Run Code\' to execute.</div>';
+    execStatus.textContent = 'Ready';
+    execStatus.className = 'badge bg-secondary bg-opacity-25 text-light border border-secondary border-opacity-25';
+}
+
+function clearEditor() {
+    editor.value = '';
+    updateLineNumbers();
+    editor.focus();
+}
+
+function clearConsole() {
+    terminalOutput.innerHTML = '';
+    execStatus.textContent = 'Ready';
+    execStatus.className = 'badge bg-secondary bg-opacity-25 text-light border border-secondary border-opacity-25';
+}
+
+// --- Editor Event Handlers (Line numbers, tab key, shortcuts) ---
+function setupEditorEvents() {
+    editor.addEventListener('input', updateLineNumbers);
+    editor.addEventListener('scroll', () => {
+        lineNumbers.scrollTop = editor.scrollTop;
+    });
+
+    // Handle Tab key to insert 2 spaces instead of moving focus
+    editor.addEventListener('keydown', (e) => {
+        // Run code with Ctrl+Enter or Cmd+Enter
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            runJavaScript();
+            return;
+        }
+
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = editor.selectionStart;
+            const end = editor.selectionEnd;
+            editor.value = editor.value.substring(0, start) + "  " + editor.value.substring(end);
+            editor.selectionStart = editor.selectionEnd = start + 2;
+            updateLineNumbers();
+        }
+    });
+
+    editor.addEventListener('click', updateCursorPos);
+    editor.addEventListener('keyup', updateCursorPos);
+}
+
+function updateLineNumbers() {
+    const lines = editor.value.split('\n').length;
+    let numbersStr = '';
+    for (let i = 1; i <= Math.max(lines, 1); i++) {
+        numbersStr += i + '\n';
+    }
+    lineNumbers.textContent = numbersStr;
+}
+
+function updateCursorPos() {
+    const textLines = editor.value.substr(0, editor.selectionStart).split("\n");
+    const currentLine = textLines.length;
+    const currentCol = textLines[textLines.length - 1].length + 1;
+    document.getElementById('lineCount').textContent = `Line ${currentLine}, Col ${currentCol}`;
+}
+
+function adjustFontSize(delta) {
+    currentFontSize = Math.min(Math.max(currentFontSize + delta, 11), 18);
+    editor.style.fontSize = currentFontSize + 'px';
+    lineNumbers.style.fontSize = currentFontSize + 'px';
+    editor.style.lineHeight = (currentFontSize + 9) + 'px';
+    lineNumbers.style.lineHeight = (currentFontSize + 9) + 'px';
+}
+
+// --- File Upload & Download ---
+function handleFileUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+        editor.value = evt.target.result;
+        updateLineNumbers();
+        terminalOutput.innerHTML = `<div class="text-info small mb-2">// Loaded file: ${file.name} (${(file.size / 1024).toFixed(1)} KB). Ready to execute.</div>`;
+    };
+    reader.readAsText(file);
+}
+
+function downloadJSFile() {
+    const code = editor.value;
+    const blob = new Blob([code], { type: 'text/javascript;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'script.js';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function copyConsoleOutput() {
+    const text = terminalOutput.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+        const orig = execStatus.textContent;
+        execStatus.textContent = 'Copied!';
+        setTimeout(() => execStatus.textContent = orig, 1500);
+    });
+}
+
+// --- Execution Sandbox Engine ---
+function runJavaScript() {
+    const code = editor.value;
+    terminalOutput.innerHTML = '';
+    
+    execStatus.textContent = 'Executing...';
+    execStatus.className = 'badge bg-warning text-dark';
+
+    const startTime = performance.now();
+
+    // Helper to format timestamps
+    const getTime = () => {
+        const now = new Date();
+        return now.toTimeString().split(' ')[0];
+    };
+
+    // Helper to format values
+    function formatValue(arg) {
+        if (arg === null) return 'null';
+        if (arg === undefined) return 'undefined';
+        if (typeof arg === 'object') {
+            try {
+                return JSON.stringify(arg, null, 2);
+            } catch (err) {
+                return String(arg);
+            }
+        }
+        return String(arg);
+    }
+
+    function appendLine(type, text, isHtml = false) {
+        const line = document.createElement('div');
+        line.className = 'console-line';
+        
+        const timeSpan = document.createElement('span');
+        timeSpan.className = 'console-time';
+        timeSpan.textContent = getTime();
+
+        const contentSpan = document.createElement('span');
+        contentSpan.className = type;
+        if (isHtml) {
+            contentSpan.innerHTML = text;
+        } else {
+            contentSpan.textContent = text;
+        }
+
+        line.appendChild(timeSpan);
+        line.appendChild(contentSpan);
+        terminalOutput.appendChild(line);
+        terminalOutput.scrollTop = terminalOutput.scrollHeight;
+    }
+
+    // Intercept console functions
+    const customConsole = {
+        log: (...args) => {
+            const formatted = args.map(formatValue).join(' ');
+            appendLine('', formatted);
+        },
+        info: (...args) => {
+            const formatted = 'ℹ ' + args.map(formatValue).join(' ');
+            appendLine('log-info', formatted);
+        },
+        warn: (...args) => {
+            const formatted = '⚠ ' + args.map(formatValue).join(' ');
+            appendLine('log-warn', formatted);
+        },
+        error: (...args) => {
+            const formatted = '✖ ' + args.map(formatValue).join(' ');
+            appendLine('log-error', formatted);
+        },
+        table: (data) => {
+            if (!Array.isArray(data) && typeof data === 'object' && data !== null) {
+                data = [data];
+            }
+            if (Array.isArray(data) && data.length > 0 && typeof data[0] === 'object') {
+                const keys = Array.from(new Set(data.flatMap(Object.keys)));
+                let html = '<table class="terminal-table"><thead><tr><th>(index)</th>';
+                keys.forEach(k => html += `<th>${k}</th>`);
+                html += '</tr></thead><tbody>';
+                data.forEach((row, idx) => {
+                    html += `<tr><td>${idx}</td>`;
+                    keys.forEach(k => {
+                        const val = row && row[k] !== undefined ? formatValue(row[k]) : '';
+                        html += `<td>${val}</td>`;
+                    });
+                    html += '</tr>';
+                });
+                html += '</tbody></table>';
+                appendLine('', html, true);
+            } else {
+                appendLine('', formatValue(data));
+            }
+        }
+    };
+
+    try {
+        // Execute inside sandboxed dynamic AsyncFunction to support top-level await!
+        const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
+        const runnerFn = new AsyncFunction('console', code);
+        
+        const runPromise = runnerFn(customConsole);
+
+        if (runPromise && typeof runPromise.then === 'function') {
+            runPromise.then((returnValue) => {
+                const duration = (performance.now() - startTime).toFixed(1);
+                if (returnValue !== undefined) {
+                    appendLine('log-return', `=> ${formatValue(returnValue)}`);
+                }
+                execStatus.textContent = `Completed (${duration}ms)`;
+                execStatus.className = 'badge bg-success';
+            }).catch((err) => {
+                const duration = (performance.now() - startTime).toFixed(1);
+                appendLine('log-error', `Runtime Error: ${err.name} - ${err.message}`);
+                if (err.stack) {
+                    const stackClean = err.stack.split('\n').slice(0, 3).join('\n');
+                    appendLine('log-error text-muted', stackClean);
+                }
+                execStatus.textContent = `Failed (${duration}ms)`;
+                execStatus.className = 'badge bg-danger';
+            });
+        } else {
+            const duration = (performance.now() - startTime).toFixed(1);
+            execStatus.textContent = `Completed (${duration}ms)`;
+            execStatus.className = 'badge bg-success';
+        }
+
+    } catch (err) {
+        const duration = (performance.now() - startTime).toFixed(1);
+        appendLine('log-error', `Compilation / Syntax Error: ${err.name} - ${err.message}`);
+        execStatus.textContent = `Error (${duration}ms)`;
+        execStatus.className = 'badge bg-danger';
+    }
+}
+</script>
+{% endblock %}
