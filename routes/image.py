@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect, url_for
 
 image_bp = Blueprint('image', __name__)
 
@@ -37,5 +37,18 @@ def qr_generator():
     return render_template('qr_generator.html')
 
 @image_bp.route('/image')
+@image_bp.route('/image/')
 def image_hub():
     return render_template('hub_image.html', image_tools=IMAGE_TOOLS)
+
+@image_bp.route('/image/<tool_id>')
+def alias_image_tool(tool_id):
+    if tool_id in IMAGE_TOOLS:
+        return redirect(url_for('image.dynamic_image_tool', tool_id=tool_id), code=301)
+    if tool_id == 'resizer':
+        return redirect(url_for('image.resizer'), code=301)
+    if tool_id == 'converter':
+        return redirect(url_for('image.image_converter_page'), code=301)
+    if tool_id == 'qr-generator':
+        return redirect(url_for('image.qr_generator'), code=301)
+    return redirect(url_for('image.image_hub'), code=301)
