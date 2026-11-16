@@ -1,15 +1,15 @@
 {
   "hero_title": {
-    "en": "100% Free & Secure. Zero Server Uploads.",
-    "es": "100% Gratis y Seguro. Cero Subidas al Servidor.",
-    "pt": "100% Grátis e Seguro. Zero Uploads para o Servidor.",
-    "hi": "100% मुफ़्त और सुरक्षित। कोई सर्वर अपलोड नहीं।"
+    "en": "Fast, Free & Private Online Utility Tools",
+    "es": "Herramientas Útiles Online Rápidas, Gratuitas y Privadas",
+    "pt": "Ferramentas Úteis Online Rápidas, Gratuitas e Privadas",
+    "hi": "तेज़, मुफ़्त और सुरक्षित ऑनलाइन टूल्स"
   },
   "hero_subtitle": {
-    "en": "Your privacy is our priority. Unlike competitors, our powerful PDF and Image tools process files locally in your browser. No data ever leaves your device.",
-    "es": "Tu privacidad es nuestra prioridad. A diferencia de los competidores, nuestras herramientas de PDF e Imágenes procesan los archivos localmente en tu navegador. Ningún dato sale de tu dispositivo.",
-    "pt": "Sua privacidade é nossa prioridade. Ao contrário dos concorrentes, nossas ferramentas de PDF e Imagem processam arquivos localmente em seu navegador. Nenhum dado sai do seu dispositivo.",
-    "hi": "आपकी निजता हमारी प्राथमिकता है। अन्य टूल के विपरीत, हमारे पीडीएफ और इमेज टूल सीधे आपके ब्राउज़र में काम करते हैं। आपका डेटा कभी भी आपके डिवाइस से बाहर नहीं जाता है।"
+    "en": "Client-Side First Privacy: Most tools run 100% locally in your browser using WebAssembly—your files stay on your device. For the few specialized features requiring server processing, files are encrypted via HTTPS and deleted immediately after conversion.",
+    "es": "Privacidad client-side primero: la mayoría de herramientas se ejecutan localmente en tu navegador con WebAssembly. Para las pocas funciones que requieren servidor, los archivos se cifran vía HTTPS y se eliminan inmediatamente tras la conversión.",
+    "pt": "Privacidade client-side em primeiro lugar: a maioria das ferramentas roda localmente no seu navegador com WebAssembly. Para os poucos recursos que exigem servidor, os arquivos são criptografados via HTTPS e excluídos imediatamente após a conversão.",
+    "hi": "क्लाइंट-साइड फर्स्ट गोपनीयता: अधिकांश टूल आपके ब्राउज़र में वेबअसेंबली के साथ स्थानीय रूप से चलते हैं। सर्वर की आवश्यकता वाले कुछ टूल्स के लिए फाइलें HTTPS से एन्क्रिप्ट होती हैं और तुरंत हटा दी जाती हैं।"
   },
   "nav_pdf": {
     "en": "PDF",

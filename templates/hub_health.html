@@ -23,21 +23,28 @@
 {% endfor %}
 </div>
 
-<!-- SEO & Comprehensive Educational Content -->
+<!-- Practical User Guide & Health Insights -->
 <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4 text-start">
-    <h2 class="h3 fw-bold mb-3">Precision Health &amp; Metabolic Planning: Scientific Calculators</h2>
-    <p class="text-muted">Proactive wellness, athletic performance conditioning, and nutritional planning require accurate physiological calculations. Free Qube's <strong>Health &amp; Fitness Calculators Suite</strong> delivers instant, scientifically validated computational models to help you understand your metabolic rate, body composition benchmarks, and gestational timelines.</p>
+    <h2 class="h3 fw-bold mb-3">Simple, Private Health &amp; Fitness Calculators for Daily Wellness</h2>
+    <p class="text-muted">Setting realistic wellness goals, planning daily nutrition, or preparing for a new baby starts with clear, reliable numbers. Free Qube's <strong>Health &amp; Fitness Calculators</strong> give you instant estimates for body composition, calorie expenditure, and key health milestones without requiring app downloads or account logins.</p>
 
-    <h3 class="h5 fw-bold mt-4">Scientific Formulas &amp; Physiological Models</h3>
+    <h3 class="h5 fw-bold mt-4">Practical Everyday Health Planning</h3>
     <ul class="text-muted">
-        <li><strong>Body Mass Index (BMI):</strong> Evaluates body mass relative to height using World Health Organization (WHO) classification standards: \(BMI = \frac{\text{weight (kg)}}{\text{height (m)}^2}\).</li>
-        <li><strong>Total Daily Energy Expenditure (TDEE):</strong> Combines Basal Metabolic Rate (BMR) derived from the Mifflin-St Jeor equation with validated physical activity multipliers to establish exact caloric equilibrium.</li>
-        <li><strong>Calorie Deficit &amp; Surplus Targets:</strong> Calculates sustainable caloric adjustments (typically 300–500 kcal/day) for fat loss or muscle hypertrophy without compromising metabolic health.</li>
-        <li><strong>Pregnancy Due Date Estimator:</strong> Implements Naegele’s rule based on the first day of the last menstrual period (LMP) with standard 280-day gestational pacing.</li>
+        <li><strong>Body Mass Index (BMI):</strong> Quickly check where your weight falls relative to your height using standardized World Health Organization (WHO) categories (underweight, normal weight, overweight, or obese).</li>
+        <li><strong>Daily Calorie Needs &amp; TDEE:</strong> Calculate your Total Daily Energy Expenditure (TDEE) based on your age, sex, height, weight, and activity level to build a sensible diet plan for weight loss, maintenance, or muscle gain.</li>
+        <li><strong>Calorie Deficit or Surplus:</strong> Estimate the right calorie adjustment (typically 300 to 500 calories a day) to lose fat gradually or build strength sustainably.</li>
+        <li><strong>Pregnancy Due Date Estimator:</strong> Estimate your baby's expected arrival date and track your current pregnancy trimester based on your last menstrual period.</li>
     </ul>
 
-    <h3 class="h5 fw-bold mt-4">100% In-Browser Privacy for Biometric Data</h3>
-    <p class="text-muted">Biometric metrics—including body weight, age, and pregnancy dates—are among the most sensitive personal data points you enter online. Unlike mobile apps that monetize health metrics through ad retargeting, Free Qube executes all physiological algorithms locally in your browser memory. Your biometrics are never saved, tracked, or sent across any network.</p>
+    <h3 class="h5 fw-bold mt-4">How to Use the Health Calculators (3 Easy Steps)</h3>
+    <ol class="text-muted">
+        <li><strong>Select Your Tool:</strong> Choose the calculator you need above (BMI, Calorie Tracker, TDEE, or Pregnancy Due Date).</li>
+        <li><strong>Input Your Details:</strong> Enter your basic measurements (such as height, weight, age, or date) using metric or imperial units.</li>
+        <li><strong>Review Your Personalized Results:</strong> Get an instant breakdown of your numbers along with practical guidelines to discuss with your doctor or trainer.</li>
+    </ol>
+
+    <h3 class="h5 fw-bold mt-4">Client-Side First Privacy</h3>
+    <p class="text-muted">Client-Side First Privacy: Most tools run 100% locally in your browser using WebAssembly—your files stay on your device. For the few specialized features requiring server processing, files are encrypted via HTTPS and deleted immediately after conversion. Because your health measurements, weight, and family dates are evaluated entirely inside your browser's local memory, your personal health information is never saved, tracked, or sold to advertising networks.</p>
 
     <h3 class="h5 fw-bold mt-4">Frequently Asked Questions (FAQ)</h3>
     <div class="accordion accordion-flush mt-3" id="healthFaqAccordion">
@@ -49,7 +56,7 @@
             </h2>
             <div id="healthCollapseOne" class="accordion-collapse collapse" aria-labelledby="healthHeadingOne" data-bs-parent="#healthFaqAccordion">
                 <div class="accordion-body text-muted">
-                    We use the official World Health Organization (WHO) formula: \(\text{Weight in kilograms} \div (\text{Height in meters})^2\). Results classify adults into Underweight, Normal Weight, Overweight, and Obese categories.
+                    We use the standard World Health Organization formula: weight in kilograms divided by height in meters squared. The result categorizes adult body mass into underweight (under 18.5), normal weight (18.5–24.9), overweight (25–29.9), and obese (30+).
                 </div>
             </div>
         </div>
@@ -61,19 +68,31 @@
             </h2>
             <div id="healthCollapseTwo" class="accordion-collapse collapse" aria-labelledby="healthHeadingTwo" data-bs-parent="#healthFaqAccordion">
                 <div class="accordion-body text-muted">
-                    TDEE is computed by first calculating your Basal Metabolic Rate (BMR) via the clinical Mifflin-St Jeor formula, then applying a scientifically backed physical activity multiplier ranging from Sedentary (1.2) to Extra Active (1.9).
+                    TDEE starts with your Basal Metabolic Rate (BMR)—the baseline energy your body burns at complete rest—and multiplies it by your daily movement and exercise level, from sedentary desk worker to intensely active athlete.
                 </div>
             </div>
         </div>
         <div class="accordion-item border-bottom">
             <h2 class="accordion-header" id="healthHeadingThree">
                 <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#healthCollapseThree" aria-expanded="false" aria-controls="healthCollapseThree">
-                    Can health calculator results replace medical advice?
+                    Can these calculator results replace professional medical advice?
                 </button>
             </h2>
             <div id="healthCollapseThree" class="accordion-collapse collapse" aria-labelledby="healthHeadingThree" data-bs-parent="#healthFaqAccordion">
                 <div class="accordion-body text-muted">
-                    No. Our health tools are for informational and educational fitness planning only. They do not constitute clinical diagnosis or tailored medical guidance. Always consult a licensed healthcare practitioner for medical advice.
+                    No. Our health tools are designed for informational and fitness planning purposes only. They do not diagnose conditions or replace personalized guidance from a doctor, registered dietitian, or obstetrician.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item border-bottom">
+            <h2 class="accordion-header" id="healthHeadingFour">
+                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#healthCollapseFour" aria-expanded="false" aria-controls="healthCollapseFour">
+                    Is my biometric data stored or shared with insurance or health apps?
+                </button>
+            </h2>
+            <div id="healthCollapseFour" class="accordion-collapse collapse" aria-labelledby="healthHeadingFour" data-bs-parent="#healthFaqAccordion">
+                <div class="accordion-body text-muted">
+                    Never. All health calculations are processed locally inside your web browser. No measurements or dates are sent to any server or recorded in any database.
                 </div>
             </div>
         </div>

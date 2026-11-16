@@ -23,57 +23,76 @@
 {% endfor %}
 </div>
 
-<!-- SEO & Comprehensive Educational Content -->
+<!-- Practical User Guide & Everyday Math Help -->
 <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4 text-start">
-    <h2 class="h3 fw-bold mb-3">Everyday Mathematical Modeling: Instant In-Browser Precision</h2>
-    <p class="text-muted">Navigating everyday commerce, consumer finances, and chronological calculations shouldn't require complex manual arithmetic. Free Qube's <strong>Everyday Math Calculators Suite</strong> delivers zero-latency, high-precision calculation tools that operate completely client-side in your web browser.</p>
+    <h2 class="h3 fw-bold mb-3">Fast, Practical Math Calculators for Daily Life</h2>
+    <p class="text-muted">Calculating sale discounts, figuring out percentage changes on bills, or finding someone's exact age shouldn't take complicated mental math. Free Qube's <strong>Everyday Math Calculators</strong> give you instant, accurate answers on your phone or laptop without annoying sign-ups or ads.</p>
 
-    <h3 class="h5 fw-bold mt-4">Everyday Math Solutions &amp; Formulations</h3>
+    <h3 class="h5 fw-bold mt-4">Practical Real-World Use Cases</h3>
     <ul class="text-muted">
-        <li><strong>Percentage Calculator:</strong> Calculates percentage increases, percentage decreases, margin differences, and proportional fractions (\(P = \frac{V_1}{V_2} \times 100\)) for retail pricing, taxes, and academic grading.</li>
-        <li><strong>Discount &amp; Sale Savings:</strong> Determines exact markdown savings and final checkout amounts when shopping sales, clearance promotions, or applying tiered coupon codes.</li>
-        <li><strong>Exact Chronological Age Calculator:</strong> Accounts for Gregorian calendar leap years to calculate age down to exact years, months, and days.</li>
-        <li><strong>Tip &amp; Bill Splitting:</strong> Easily splits restaurant checks and calculates gratuity across groups.</li>
+        <li><strong>Percentage Calculations:</strong> Quickly compute percentage increases or decreases, calculate price markups, determine tips on restaurant bills, or find grade percentages for school assignments.</li>
+        <li><strong>Shopping Discounts &amp; Final Sale Prices:</strong> Find out exactly how much you save on a clearance item before reaching the checkout counter, including extra coupons or tiered markdowns.</li>
+        <li><strong>Exact Chronological Age:</strong> Calculate your exact age in years, months, and days, accounting for leap years and different month lengths. Perfect for official forms, passport renewals, or birthday milestones.</li>
+        <li><strong>Bill &amp; Tip Splitting:</strong> Easily divide lunch or dinner bills evenly among friends, including appropriate gratuity.</li>
     </ul>
 
-    <h3 class="h5 fw-bold mt-4">Offline Reliability &amp; Instant Execution</h3>
-    <p class="text-muted">Because our mathematical calculators execute purely within your browser's JavaScript runtime, they require zero network bandwidth after page load. They deliver instant calculations without page reloads, even in low-connectivity or offline environments.</p>
+    <h3 class="h5 fw-bold mt-4">How to Use the Math Calculators (3 Easy Steps)</h3>
+    <ol class="text-muted">
+        <li><strong>Choose Your Calculator:</strong> Select Percentage, Discount, or Age Calculator from the grid above.</li>
+        <li><strong>Type Your Numbers or Dates:</strong> Enter your original price, discount rate, or date of birth.</li>
+        <li><strong>Get Instant Answers:</strong> View your final savings, percentage change, or chronological breakdown immediately without page reloads.</li>
+    </ol>
+
+    <h3 class="h5 fw-bold mt-4">Client-Side First Privacy</h3>
+    <p class="text-muted">Client-Side First Privacy: Most tools run 100% locally in your browser using WebAssembly—your files stay on your device. For the few specialized features requiring server processing, files are encrypted via HTTPS and deleted immediately after conversion. All mathematical operations execute in your browser's local memory. None of your prices, dates of birth, or calculations are logged or shared.</p>
 
     <h3 class="h5 fw-bold mt-4">Frequently Asked Questions (FAQ)</h3>
     <div class="accordion accordion-flush mt-3" id="mathFaqAccordion">
         <div class="accordion-item border-bottom">
             <h2 class="accordion-header" id="mathHeadingOne">
                 <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#mathCollapseOne" aria-expanded="false" aria-controls="mathCollapseOne">
-                    How does the Age Calculator handle leap years and different month lengths?
+                    How does the Age Calculator handle leap years and differing month lengths?
                 </button>
             </h2>
             <div id="mathCollapseOne" class="accordion-collapse collapse" aria-labelledby="mathHeadingOne" data-bs-parent="#mathFaqAccordion">
                 <div class="accordion-body text-muted">
-                    Our chronological date calculation engine accurately accounts for varying 28, 29, 30, and 31-day months as well as quadrennial leap year rules, providing an exact breakdown of total years, elapsed months, weeks, days, and hours lived.
+                    Our age calculator dynamically adjusts for 28, 29, 30, and 31-day months as well as February 29th leap years, giving you an exact breakdown of total years, elapsed months, weeks, and days lived.
                 </div>
             </div>
         </div>
         <div class="accordion-item border-bottom">
             <h2 class="accordion-header" id="mathHeadingTwo">
                 <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#mathCollapseTwo" aria-expanded="false" aria-controls="mathCollapseTwo">
-                    Can the Percentage Calculator handle compound percentage increases or discounts?
+                    Can the Percentage Calculator compute price increases and markups?
                 </button>
             </h2>
             <div id="mathCollapseTwo" class="accordion-collapse collapse" aria-labelledby="mathHeadingTwo" data-bs-parent="#mathFaqAccordion">
                 <div class="accordion-body text-muted">
-                    Yes. You can compute basic percentage proportions, percentage difference between two values, as well as multiple sequential markdowns and sales tax additions.
+                    Yes. You can compute basic percentages ("What is 15% of 80?"), percentage change ("What is the percentage increase from 50 to 75?"), and margin fractions for retail pricing.
                 </div>
             </div>
         </div>
         <div class="accordion-item border-bottom">
             <h2 class="accordion-header" id="mathHeadingThree">
                 <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#mathCollapseThree" aria-expanded="false" aria-controls="mathCollapseThree">
-                    Do I need an active internet connection to use the math calculators?
+                    Do I need an active internet connection to use these calculators?
                 </button>
             </h2>
             <div id="mathCollapseThree" class="accordion-collapse collapse" aria-labelledby="mathHeadingThree" data-bs-parent="#mathFaqAccordion">
                 <div class="accordion-body text-muted">
-                    No. The math calculators run 100% on client-side ECMAScript in your browser. Once cached by our Progressive Web App (PWA) service worker, you can use them completely offline.
+                    No. Once the web page is opened in your browser, the math runs completely client-side in JavaScript, so you can calculate discounts or percentages even in offline mode.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item border-bottom">
+            <h2 class="accordion-header" id="mathHeadingFour">
+                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#mathCollapseFour" aria-expanded="false" aria-controls="mathCollapseFour">
+                    Does the Discount Calculator calculate final sales tax as well?
+                </button>
+            </h2>
+            <div id="mathCollapseFour" class="accordion-collapse collapse" aria-labelledby="mathHeadingFour" data-bs-parent="#mathFaqAccordion">
+                <div class="accordion-body text-muted">
+                    Yes. You can enter an optional local sales tax percentage to see your total out-of-pocket cost at the register after the markdown is applied.
                 </div>
             </div>
         </div>

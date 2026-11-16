@@ -78,61 +78,73 @@
 {% endfor %}
 </div>
 
-<!-- Comprehensive Technical Guide & Editorial Content -->
+<!-- Helpful Guide & PDF Workflow Overview -->
 <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4 text-start">
-    <h2 class="h3 fw-bold mb-3">The Architecture of Client-Side PDF Processing</h2>
-    <p class="text-muted">The Portable Document Format (ISO 32000-1) is the global standard for electronic documentation, legal agreements, and academic publishing. Unlike editable text documents, a PDF is an immutable vector layout compiled into binary object streams, font descriptors, and cross-reference (XRef) tables. Free Qube's <strong>PDF Utilities Suite</strong> provides an enterprise-grade document manipulation toolkit engineered to run 100% locally within your web browser.</p>
+    <h2 class="h3 fw-bold mb-3">Free Online PDF Tools for Everyday Work and Study</h2>
+    <p class="text-muted">PDFs are the standard format for resumes, legal agreements, tax forms, and school assignments because they keep the same layout on any screen. Free Qube provides simple, fast tools to organize, convert, and protect your PDF documents without installing software or paying monthly subscriptions.</p>
 
-    <h3 class="h5 fw-bold mt-4">Why Local In-Browser Processing Matters for Document Security</h3>
-    <p class="text-muted">Traditional cloud-based PDF conversion portals require uploading complete documents—often containing financial statements, proprietary source code, medical histories, or signed contracts—to third-party remote servers. Free Qube eliminates this critical data privacy risk. By executing PDF operations locally via client-side JavaScript (<code>pdf-lib</code>) and WebAssembly, your documents never cross an external network or get saved to remote storage disks.</p>
+    <h3 class="h5 fw-bold mt-4">Client-Side First Privacy Architecture</h3>
+    <p class="text-muted">Client-Side First Privacy: Most tools run 100% locally in your browser using WebAssembly—your files stay on your device. For the few specialized features requiring server processing, files are encrypted via HTTPS and deleted immediately after conversion. We never store, read, or inspect your documents.</p>
 
-    <h3 class="h5 fw-bold mt-4">Core Document Capabilities</h3>
+    <h3 class="h5 fw-bold mt-4">Practical Real-World Uses</h3>
     <ul class="text-muted">
-        <li><strong>PDF Merging &amp; Aggregation:</strong> Combines multiple disparate PDF files into an organized, single volume while reconstructing cross-reference tables and preserving high-resolution vector assets.</li>
-        <li><strong>Page Extraction &amp; Splitting:</strong> Parses internal page trees to isolate, extract, or excise individual page intervals into lightweight standalone documents.</li>
-        <li><strong>AES Encryption &amp; Security:</strong> Applies standard 128-bit and 256-bit AES encryption to lock confidential files with owner and user passwords directly on your CPU.</li>
-        <li><strong>Document Decryption &amp; Permissions:</strong> Strips password restrictions and print limits from authorized documents using in-memory cryptographic key verification.</li>
-        <li><strong>Office Document Conversion:</strong> Converts Word (DOCX) and Excel (XLSX) sheets into standardized, print-ready PDF formats without layout degradation.</li>
+        <li><strong>Merge Documents for Email:</strong> Combine multiple scanned receipts, invoices, or cover letters into one neat PDF attachment instead of sending separate files.</li>
+        <li><strong>Extract &amp; Split Pages:</strong> Pull out only the relevant pages from a long handbook or contract to share just what is needed.</li>
+        <li><strong>Password Protection:</strong> Lock sensitive financial statements or medical forms with strong password encryption before sending them.</li>
+        <li><strong>Convert Office Files:</strong> Turn Microsoft Word (.docx) or Excel (.xlsx) spreadsheets into clean, print-ready PDFs that anyone can open.</li>
+        <li><strong>Image to PDF:</strong> Pack several photos or receipt snapshots into a single tidy PDF file in seconds.</li>
     </ul>
 
-    <h3 class="h5 fw-bold mt-4">Zero Watermarks, No Quotas, Enterprise Performance</h3>
-    <p class="text-muted mb-3">Free Qube places no artificial limits on document page counts, file sizes, or daily processing volume. We never inject watermarks, branding stamps, or promotional overlays into your exported files. For a deeper look into PDF document privacy, explore our guide on <a href="/blog/the-complete-guide-to-merging-large-pdfs-locally-in-your-browser" class="text-primary fw-semibold">The Complete Guide to Merging Large PDFs Locally in Your Browser</a>.</p>
+    <h3 class="h5 fw-bold mt-4">No Watermarks &amp; No Hidden Fees</h3>
+    <p class="text-muted mb-3">All tools on Free Qube are completely free to use. We never stamp watermarks onto your finished files, and there are no daily limits or sign-up walls. For practical tips on keeping file sizes small, read our guide on <a href="/blog/the-complete-guide-to-merging-large-pdfs-locally-in-your-browser" class="text-primary fw-semibold">Merging Large PDFs Quickly in Your Browser</a>.</p>
 
     <h3 class="h5 fw-bold mt-4">Frequently Asked Questions (FAQ)</h3>
     <div class="accordion accordion-flush mt-3" id="pdfFaqAccordion">
         <div class="accordion-item border-bottom">
             <h2 class="accordion-header" id="pdfHeadingOne">
                 <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#pdfCollapseOne" aria-expanded="false" aria-controls="pdfCollapseOne">
-                    Are my uploaded PDF documents saved on Free Qube servers?
+                    Are my uploaded PDF documents saved on your servers?
                 </button>
             </h2>
             <div id="pdfCollapseOne" class="accordion-collapse collapse" aria-labelledby="pdfHeadingOne" data-bs-parent="#pdfFaqAccordion">
                 <div class="accordion-body text-muted">
-                    No. Core PDF operations (merging, splitting, encryption, image extraction) execute locally in your web browser via WebAssembly and JavaScript (<code>pdf-lib</code>). For operations requiring server assistance (such as complex office conversions), files are processed in encrypted temporary storage and deleted automatically immediately following conversion.
+                    No. Core PDF tools (merging, splitting, locking, image-to-pdf) process your files locally in your browser using WebAssembly and JavaScript. If a specific tool requires server-side processing, the file is transferred over encrypted HTTPS and deleted immediately after conversion.
                 </div>
             </div>
         </div>
         <div class="accordion-item border-bottom">
             <h2 class="accordion-header" id="pdfHeadingTwo">
                 <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#pdfCollapseTwo" aria-expanded="false" aria-controls="pdfCollapseTwo">
-                    Does Free Qube add any watermarks or branding to my PDFs?
+                    Does Free Qube add any watermarks to downloaded PDFs?
                 </button>
             </h2>
             <div id="pdfCollapseTwo" class="accordion-collapse collapse" aria-labelledby="pdfHeadingTwo" data-bs-parent="#pdfFaqAccordion">
                 <div class="accordion-body text-muted">
-                    Never. All exported documents retain 100% of their original visual styling, vectors, and layouts without any watermarks, company stamps, or promotional logos.
+                    No. Your exported files look completely clean and professional, exactly as you formatted them, with zero logos or watermark stamps added.
                 </div>
             </div>
         </div>
         <div class="accordion-item border-bottom">
             <h2 class="accordion-header" id="pdfHeadingThree">
                 <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#pdfCollapseThree" aria-expanded="false" aria-controls="pdfCollapseThree">
-                    Is there a file size or page count limit for merging or splitting?
+                    Is there a file size or page count limit when merging?
                 </button>
             </h2>
             <div id="pdfCollapseThree" class="accordion-collapse collapse" aria-labelledby="pdfHeadingThree" data-bs-parent="#pdfFaqAccordion">
                 <div class="accordion-body text-muted">
-                    Since documents are parsed directly on your device CPU, you can process documents containing hundreds of pages without subscription tiers, daily quotas, or queue throttling.
+                    Because processing happens directly on your device, you can merge large documents with dozens of pages without artificial server restrictions or upgrade prompts.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item border-bottom">
+            <h2 class="accordion-header" id="pdfHeadingFour">
+                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#pdfCollapseFour" aria-expanded="false" aria-controls="pdfCollapseFour">
+                    Will merging or splitting reduce the visual quality of my PDF?
+                </button>
+            </h2>
+            <div id="pdfCollapseFour" class="accordion-collapse collapse" aria-labelledby="pdfHeadingFour" data-bs-parent="#pdfFaqAccordion">
+                <div class="accordion-body text-muted">
+                    No. Vector shapes, typography, and embedded images are transferred losslessly without re-compressing or degrading the original quality.
                 </div>
             </div>
         </div>

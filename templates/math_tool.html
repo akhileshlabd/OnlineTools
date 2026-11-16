@@ -210,209 +210,147 @@
     {% endif %}
 </div>
 
-<!-- Mathematical Formulas & Practical Calculation Guide -->
+<!-- Practical User Guide & Helpful Instructions -->
 <article class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4 text-start">
     {% if tool.id == 'percentage' %}
-    <h2 class="fw-bold mb-3">Mastering Percentage Calculations: Mathematical Principles & Applications</h2>
-    <p>Percentages represent proportional fractions of 100 and serve as fundamental building blocks in corporate accounting, financial analysis, retail discounts, and scientific data measurement. Our <strong>Free Online Percentage Calculator</strong> handles multi-variate percentage calculations instantly with zero server latency.</p>
+    <h2 class="fw-bold mb-3">Online Percentage Calculator: Practical Guide &amp; Uses</h2>
+    <p class="text-muted">Percentages are part of everyday life—from calculating sales tax and shopping discounts to figuring out test scores, restaurant tips, and profit margins. Our <strong>Free Online Percentage Calculator</strong> gives you fast, accurate answers in real time without complicated mental math.</p>
 
-    <h3 class="h5 fw-bold mt-4">1. How It Works: Core Mathematical Formulas</h3>
-    <p>Our client-side engine executes exact floating-point arithmetic across the three standard commercial percentage calculations:</p>
-    <ul>
-        <li><strong>Finding X% of Y:</strong> Computes the fractional share:
-            <div class="bg-light p-2 rounded font-monospace my-2 text-center border">Result = \frac{X}{100} \times Y</div>
-        </li>
-        <li><strong>Finding What % X is of Y:</strong> Computes the ratio of the part to the whole:
-            <div class="bg-light p-2 rounded font-monospace my-2 text-center border">\text{Percentage} = \left(\frac{X}{Y}\right) \times 100</div>
-        </li>
-        <li><strong>Percentage Increase or Decrease:</strong> Computes relative delta change between periods:
-            <div class="bg-light p-2 rounded font-monospace my-2 text-center border">\Delta\% = \left(\frac{V_{new} - V_{old}}{V_{old}}\right) \times 100</div>
-        </li>
+    <h3 class="h5 fw-bold mt-4">Practical Real-World Uses</h3>
+    <ul class="text-muted">
+        <li><strong>What is X% of Y?</strong> Quickly calculate sales tax, discounts, or tips (e.g., finding a 15% tip on a $60 dinner bill).</li>
+        <li><strong>What percentage is X of Y?</strong> Calculate academic test scores (e.g., scoring 42 out of 50 is 84%) or determine completion progress on a project.</li>
+        <li><strong>Percentage Increase or Decrease:</strong> Track price changes, salary raises, inflation, or weight changes over time.</li>
     </ul>
 
-    <h3 class="h5 fw-bold mt-4">2. Step-by-Step Tutorial</h3>
-    <ol class="mb-4">
-        <li><strong>Select Calculation Mode:</strong> Identify whether you need to find a percentage value, determine a ratio, or calculate growth/decline.</li>
-        <li><strong>Enter Numbers:</strong> Type your input values into the designated numeric boxes.</li>
-        <li><strong>Instant Reactive Output:</strong> Results update in real-time as you type without pressing submit.</li>
-        <li><strong>Copy Result:</strong> Highlight and copy the verified mathematical output for spreadsheets or invoices.</li>
+    <h3 class="h5 fw-bold mt-4">How to Use (3 Easy Steps)</h3>
+    <ol class="text-muted mb-4">
+        <li><strong>Choose Your Calculation:</strong> Find the formula box that matches your question (e.g., finding a percentage or percentage change).</li>
+        <li><strong>Type Your Numbers:</strong> Enter your values into the input boxes.</li>
+        <li><strong>Read Your Instant Answer:</strong> The result updates immediately on your screen as you type.</li>
     </ol>
 
-    <h3 class="h5 fw-bold mt-4">3. Technical Specifications</h3>
-    <div class="table-responsive my-3">
-        <table class="table table-bordered table-striped small">
-            <tbody>
-                <tr><th>Numeric Precision</th><td>Double-precision 64-bit IEEE 754 floating point</td></tr>
-                <tr><th>Rounding Behavior</th><td>Rounded cleanly to 2 to 4 decimal places where applicable</td></tr>
-                <tr><th>Negative Number Support</th><td>Fully supported for negative margins, losses, and negative base numbers</td></tr>
-                <tr><th>Zero Division Protection</th><td>Catches division-by-zero errors gracefully</td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <h3 class="h5 fw-bold mt-4">4. Frequently Asked Questions (FAQ)</h3>
+    <h3 class="h5 fw-bold mt-4">Frequently Asked Questions (FAQ)</h3>
     <div class="accordion my-3">
         <details class="p-3 bg-light rounded border mb-2">
-            <summary class="fw-bold cursor-pointer">How do I calculate a markup percentage versus a discount?</summary>
-            <p class="mt-2 text-muted mb-0">Use the third calculator (Percentage Change). Enter your original cost in the first box and the final selling price in the second box. A positive result reflects the exact markup percentage.</p>
+            <summary class="fw-bold cursor-pointer">How do I calculate a price markup versus a discount?</summary>
+            <p class="mt-2 text-muted mb-0">Use the third calculator (Percentage Change). Enter your original cost in the first box and the selling price in the second box. A positive answer gives your exact markup percentage.</p>
         </details>
         <details class="p-3 bg-light rounded border mb-2">
             <summary class="fw-bold cursor-pointer">Does this calculator round numbers automatically?</summary>
-            <p class="mt-2 text-muted mb-0">Calculations are performed with full double precision and formatted cleanly to eliminate recurring binary floating point quirks (such as 0.30000000000000004).</p>
+            <p class="mt-2 text-muted mb-0">Results are cleanly rounded to 2 to 4 decimal places for clarity, avoiding awkward floating-point computer decimals.</p>
         </details>
         <details class="p-3 bg-light rounded border mb-2">
             <summary class="fw-bold cursor-pointer">Are my calculations stored or shared?</summary>
-            <p class="mt-2 text-muted mb-0">No. All calculations are executed locally in your browser sandbox using JavaScript. No numbers are logged or sent to any server.</p>
+            <p class="mt-2 text-muted mb-0">No. All calculations are executed locally in your browser using JavaScript. No numbers are logged or sent to any server.</p>
         </details>
     </div>
 
     {% elif tool.id == 'age' %}
-    <h2 class="fw-bold mb-3">Chronological Age & Gregorian Calendar Math: Technical Guide</h2>
-    <p>Accurate age calculation is far more complex than subtracting two calendar years. Because Gregorian calendar months vary in duration (28, 29, 30, and 31 days) and quadrennial leap years introduce extra calendar days, our <strong>Age Calculator</strong> executes precise temporal math.</p>
+    <h2 class="fw-bold mb-3">Chronological Age Calculator: Accurate Age &amp; Milestone Guide</h2>
+    <p class="text-muted">Finding your exact age in years, months, and days requires accounting for varying month lengths and leap years. Our <strong>Age Calculator</strong> gives you a detailed breakdown of your age right down to the day and hour.</p>
 
-    <h3 class="h5 fw-bold mt-4">1. How It Works: Leap Year & Day Delta Algorithm</h3>
-    <p>Our algorithm compares two UTC timestamps, dynamically determining borrow days from the preceding month when the target day is less than the birth day. It applies the Gregorian leap year rule:</p>
-    <div class="bg-light p-3 rounded font-monospace my-3 text-center border">
-        \text{Leap Year} = (Year \pmod 4 == 0 \land Year \pmod{100} \neq 0) \lor (Year \pmod{400} == 0)
-    </div>
-    <p>This ensures 100% astronomical accuracy whether calculating age on February 29th or projecting milestones centuries apart.</p>
+    <h3 class="h5 fw-bold mt-4">Practical Real-World Uses</h3>
+    <ul class="text-muted">
+        <li><strong>Official Government &amp; Visa Forms:</strong> Accurately fill out passport, visa, or school enrollment applications that ask for exact years and months.</li>
+        <li><strong>Milestone Birthdays:</strong> See upcoming birthday countdowns and find out which day of the week your next birthday falls on.</li>
+        <li><strong>Baby &amp; Child Milestones:</strong> Track infant and toddler growth in exact weeks and months for doctor visits and vaccinations.</li>
+    </ul>
 
-    <h3 class="h5 fw-bold mt-4">2. Step-by-Step Tutorial</h3>
-    <ol class="mb-4">
-        <li><strong>Choose Date of Birth:</strong> Select your birth date from the interactive calendar picker.</li>
-        <li><strong>Set Reference Date:</strong> Keep the default current date or choose any future or historical date.</li>
-        <li><strong>Review Breakdown:</strong> View your exact age in years, months, and days, along with total hours and days lived.</li>
-        <li><strong>Save Results:</strong> Note upcoming birthday countdowns and official retirement milestone dates.</li>
+    <h3 class="h5 fw-bold mt-4">How to Use (3 Easy Steps)</h3>
+    <ol class="text-muted mb-4">
+        <li><strong>Select Date of Birth:</strong> Choose your birth day, month, and year from the date picker.</li>
+        <li><strong>Choose Target Date:</strong> Keep the default current date or select a future or past date.</li>
+        <li><strong>View Your Age:</strong> See your age broken down into years, months, weeks, days, and total hours lived.</li>
     </ol>
 
-    <h3 class="h5 fw-bold mt-4">3. Technical Specifications</h3>
-    <div class="table-responsive my-3">
-        <table class="table table-bordered table-striped small">
-            <tbody>
-                <tr><th>Calendar Standard</th><td>Proleptic Gregorian Calendar (ISO 8601 compliant)</td></tr>
-                <tr><th>Timezone Handling</th><td>Normalized to local client device time (zero drift)</td></tr>
-                <tr><th>Sub-Year Metrics</th><td>Calculates total days, weeks, months, and hours elapsed</td></tr>
-                <tr><th>Range Limits</th><td>Supports historical dates from Year 100 to Year 9999</td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <h3 class="h5 fw-bold mt-4">4. Frequently Asked Questions (FAQ)</h3>
+    <h3 class="h5 fw-bold mt-4">Frequently Asked Questions (FAQ)</h3>
     <div class="accordion my-3">
         <details class="p-3 bg-light rounded border mb-2">
-            <summary class="fw-bold cursor-pointer">How does this handle leap year birthdays (Feb 29)?</summary>
-            <p class="mt-2 text-muted mb-0">For non-leap years, the calculator recognizes common legal standards where milestone age increments occur either on February 28 or March 1 depending on jurisdiction.</p>
+            <summary class="fw-bold cursor-pointer">How does this calculator handle leap year birthdays (February 29)?</summary>
+            <p class="mt-2 text-muted mb-0">For non-leap years, the calculator recognizes February 28 or March 1 based on common legal standards, keeping day counts accurate.</p>
         </details>
         <details class="p-3 bg-light rounded border mb-2">
-            <summary class="fw-bold cursor-pointer">Can I calculate my age on a specific future date?</summary>
-            <p class="mt-2 text-muted mb-0">Yes. Simply modify the "Age at the Date of" field to any future date to preview exactly how old you will be on that day.</p>
+            <summary class="fw-bold cursor-pointer">Can I find out how old I will be on a future date?</summary>
+            <p class="mt-2 text-muted mb-0">Yes. Simply change the "Calculate age at" field to any future date to preview your exact age on that date.</p>
         </details>
         <details class="p-3 bg-light rounded border mb-2">
-            <summary class="fw-bold cursor-pointer">Is my birthday recorded in your database?</summary>
-            <p class="mt-2 text-muted mb-0">Never. Your birth date is processed strictly inside your device's memory and is discarded the moment you close the tab.</p>
+            <summary class="fw-bold cursor-pointer">Is my date of birth saved in any database?</summary>
+            <p class="mt-2 text-muted mb-0">Never. All calculations happen inside your device's memory and are discarded as soon as you close the page.</p>
         </details>
     </div>
 
     {% elif tool.id == 'discount' %}
-    <h2 class="fw-bold mb-3">Retail Markdown & Sales Tax Math: Shopping Guide</h2>
-    <p>Retail sales frequently advertise complex multi-tiered discounts (e.g., "40% off with additional 10% member coupon"). Our <strong>Free Discount & Sale Price Calculator</strong> calculates real net savings, final out-of-pocket costs, and applicable taxes before you reach checkout.</p>
+    <h2 class="fw-bold mb-3">Shopping Discount &amp; Sale Price Calculator</h2>
+    <p class="text-muted">Stores often advertise markdowns like "35% off" or "Save 20% today". Our <strong>Free Discount Calculator</strong> tells you the final sale price and exactly how much cash you save before heading to checkout.</p>
 
-    <h3 class="h5 fw-bold mt-4">1. How It Works: Compound Markdown Equations</h3>
-    <p>The mathematical deduction calculates the gross promotional discount against the original Manufacturer's Suggested Retail Price (MSRP):</p>
-    <div class="bg-light p-3 rounded font-monospace my-3 text-center border">
-        \text{Savings} = \text{Original Price} \times \left(\frac{\text{Discount Rate}}{100}\right)
-    </div>
-    <div class="bg-light p-3 rounded font-monospace my-3 text-center border">
-        \text{Final Price} = \text{Original Price} - \text{Savings}
-    </div>
-    <p>By simulating multiple promotional tiers, you can instantly confirm whether advertised "Buy 1 Get 1 50% Off" or percentage markdowns offer greater value per dollar.</p>
+    <h3 class="h5 fw-bold mt-4">Practical Real-World Uses</h3>
+    <ul class="text-muted">
+        <li><strong>Retail Sales &amp; Clearance Racks:</strong> Check real dollar savings on clothing, electronics, and home goods during Black Friday, holiday, or clearance events.</li>
+        <li><strong>Comparing Deals:</strong> Quickly compare whether a fixed dollar discount or a percentage markdown offers better value on high-ticket purchases.</li>
+        <li><strong>Budgeting Before the Register:</strong> Calculate your exact checkout total so you avoid checkout surprises.</li>
+    </ul>
 
-    <h3 class="h5 fw-bold mt-4">2. Step-by-Step Tutorial</h3>
-    <ol class="mb-4">
-        <li><strong>Enter Original Price:</strong> Type the sticker price of the product or service.</li>
-        <li><strong>Set Discount Rate:</strong> Input the percentage markdown or slide to the advertised rate.</li>
-        <li><strong>View Total Savings:</strong> Inspect both the total currency saved and the final payment total.</li>
-        <li><strong>Compare Options:</strong> Quickly test different discount rates to budget your retail purchases.</li>
+    <h3 class="h5 fw-bold mt-4">How to Use (3 Easy Steps)</h3>
+    <ol class="text-muted mb-4">
+        <li><strong>Enter Original Price:</strong> Type the sticker price on the item's tag.</li>
+        <li><strong>Set Discount Rate:</strong> Input the advertised discount percentage or move the slider.</li>
+        <li><strong>See Your Savings:</strong> View your final sale price and the exact amount of money you save immediately.</li>
     </ol>
 
-    <h3 class="h5 fw-bold mt-4">3. Technical Specifications</h3>
-    <div class="table-responsive my-3">
-        <table class="table table-bordered table-striped small">
-            <tbody>
-                <tr><th>Currency Support</th><td>Universal (works across USD, EUR, GBP, INR, JPY, etc.)</td></tr>
-                <tr><th>Precision Model</th><td>Rounded to 2 decimal places to match standard banking currencies</td></tr>
-                <tr><th>Discount Limits</th><td>0% to 100% full clearance markdown</td></tr>
-                <tr><th>Execution</th><td>Instantaneous client-side computation</td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <h3 class="h5 fw-bold mt-4">4. Frequently Asked Questions (FAQ)</h3>
+    <h3 class="h5 fw-bold mt-4">Frequently Asked Questions (FAQ)</h3>
     <div class="accordion my-3">
         <details class="p-3 bg-light rounded border mb-2">
-            <summary class="fw-bold cursor-pointer">How do stacked discounts (e.g., 20% + 10%) work?</summary>
-            <p class="mt-2 text-muted mb-0">Stacked discounts do not simply add to 30%. The second discount applies to the already reduced subtotal ($100 \to \$80 \to \$72$, which equals a 28% total discount).</p>
+            <summary class="fw-bold cursor-pointer">How do stacked discounts (e.g. 20% off plus an extra 10%) work?</summary>
+            <p class="mt-2 text-muted mb-0">Stacked discounts apply sequentially. The second discount is taken off the already reduced price (a $100 item becomes $80, then 10% off $80 brings it to $72, saving 28% total).</p>
         </details>
         <details class="p-3 bg-light rounded border mb-2">
-            <summary class="fw-bold cursor-pointer">Does this calculator work offline?</summary>
-            <p class="mt-2 text-muted mb-0">Yes! Because all logic is packaged into lightweight client-side scripts, you can use it on mobile phones while shopping in stores without cellular coverage.</p>
+            <summary class="fw-bold cursor-pointer">Does this calculator work while shopping in stores offline?</summary>
+            <p class="mt-2 text-muted mb-0">Yes. The tool runs client-side in your mobile browser, so you can check discounts even in store aisles with poor cellular reception.</p>
         </details>
         <details class="p-3 bg-light rounded border mb-2">
-            <summary class="fw-bold cursor-pointer">Can I calculate clearance sale prices?</summary>
-            <p class="mt-2 text-muted mb-0">Yes. Simply enter the clearance tag price and the promotional percentage to verify the register total.</p>
+            <summary class="fw-bold cursor-pointer">Can I calculate savings on clearance items?</summary>
+            <p class="mt-2 text-muted mb-0">Yes. Enter the clearance tag price and the promotional markdown to calculate your final register total.</p>
         </details>
     </div>
 
     {% elif tool.id == 'unit' %}
-    <h2 class="fw-bold mb-3">Universal Unit Conversion: Metric & Imperial Engineering</h2>
-    <p>Converting physical measurements between the International System of Units (SI Metric) and United States Customary Units (Imperial) is vital across civil engineering, culinary arts, scientific research, and logistics. Our <strong>Universal Unit Converter</strong> provides high-precision conversion factors.</p>
+    <h2 class="fw-bold mb-3">Unit Converter: Metric &amp; Imperial Measurements</h2>
+    <p class="text-muted">Converting measurements between metric and imperial units is essential for cooking recipes, travel, home improvement projects, and science homework. Our <strong>Unit Converter</strong> delivers fast, reliable conversions across length, weight, area, and temperature.</p>
 
-    <h3 class="h5 fw-bold mt-4">1. How It Works: Base Unit Normalization Matrix</h3>
-    <p>To ensure consistency across multiple units without compounding rounding errors, our engine normalizes each input measurement into an SI base unit (e.g., meters for length, kilograms for mass) before scaling to the target unit:</p>
-    <div class="bg-light p-3 rounded font-monospace my-3 text-center border">
-        V_{target} = \frac{V_{input} \times \text{Factor}_{from}}{\text{Factor}_{to}}
-    </div>
-    <p>For thermodynamic temperature, exact offset formulas are applied ($T_K = T_C + 273.15$, $T_F = \frac{9}{5}T_C + 32$) to eliminate calibration errors.</p>
+    <h3 class="h5 fw-bold mt-4">Practical Real-World Uses</h3>
+    <ul class="text-muted">
+        <li><strong>Cooking &amp; Baking:</strong> Convert recipe measurements between grams, ounces, kilograms, and pounds effortlessly.</li>
+        <li><strong>Home Improvement &amp; DIY:</strong> Translate room dimensions and furniture specs between inches, feet, meters, and centimeters.</li>
+        <li><strong>Weather &amp; Travel:</strong> Convert temperatures between Celsius and Fahrenheit when packing for trips or reading international forecasts.</li>
+    </ul>
 
-    <h3 class="h5 fw-bold mt-4">2. Step-by-Step Tutorial</h3>
-    <ol class="mb-4">
-        <li><strong>Select Category:</strong> Choose Length, Weight/Mass, Area, or Temperature from the dropdown.</li>
-        <li><strong>Pick Units:</strong> Select your source unit (e.g., Inches) and target unit (e.g., Centimeters).</li>
-        <li><strong>Input Value:</strong> Type any positive or negative number into the input field.</li>
-        <li><strong>Read Output:</strong> Inspect the converted result with high-precision significant figures.</li>
+    <h3 class="h5 fw-bold mt-4">How to Use (3 Easy Steps)</h3>
+    <ol class="text-muted mb-4">
+        <li><strong>Choose Measurement Category:</strong> Select Length, Weight/Mass, Area, or Temperature from the dropdown.</li>
+        <li><strong>Pick Units:</strong> Select your source unit (e.g. Inches) and your target unit (e.g. Centimeters).</li>
+        <li><strong>Enter Value:</strong> Type your number to see the converted measurement instantly.</li>
     </ol>
 
-    <h3 class="h5 fw-bold mt-4">3. Technical Specifications</h3>
-    <div class="table-responsive my-3">
-        <table class="table table-bordered table-striped small">
-            <tbody>
-                <tr><th>Standardization</th><td>NIST (National Institute of Standards and Technology) conversion factors</td></tr>
-                <tr><th>Significant Digits</th><td>Outputs up to 10 significant digits without exponential distortion</td></tr>
-                <tr><th>Supported Categories</th><td>Length, Weight/Mass, Area, Temperature, Volume</td></tr>
-                <tr><th>Privacy Guarantee</th><td>100% Local processing; zero telemetry or cookies collected</td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <h3 class="h5 fw-bold mt-4">4. Frequently Asked Questions (FAQ)</h3>
+    <h3 class="h5 fw-bold mt-4">Frequently Asked Questions (FAQ)</h3>
     <div class="accordion my-3">
         <details class="p-3 bg-light rounded border mb-2">
             <summary class="fw-bold cursor-pointer">What is the exact conversion between inches and centimeters?</summary>
-            <p class="mt-2 text-muted mb-0">By international agreement (1959), 1 inch is defined as exactly 25.4 millimeters, which equals 2.54 centimeters.</p>
+            <p class="mt-2 text-muted mb-0">By international standard, 1 inch equals exactly 2.54 centimeters (or 25.4 millimeters).</p>
         </details>
         <details class="p-3 bg-light rounded border mb-2">
             <summary class="fw-bold cursor-pointer">Why are temperature conversions different from length or weight?</summary>
-            <p class="mt-2 text-muted mb-0">Length and weight use proportional ratios starting at zero, whereas Celsius and Fahrenheit have different zero points (0°C = 32°F) and require an additive offset.</p>
+            <p class="mt-2 text-muted mb-0">Length and weight use direct proportional ratios starting at zero, while Celsius and Fahrenheit have different zero points (0°C equals 32°F), requiring a temperature offset formula.</p>
         </details>
         <details class="p-3 bg-light rounded border mb-2">
-            <summary class="fw-bold cursor-pointer">Are scientific and engineering units supported?</summary>
-            <p class="mt-2 text-muted mb-0">Yes. The engine supports metric prefixes from millimeters to kilometers, and mass conversions up to metric tonnes.</p>
+            <summary class="fw-bold cursor-pointer">Can I convert negative temperatures?</summary>
+            <p class="mt-2 text-muted mb-0">Yes. Both Celsius and Fahrenheit support negative temperature inputs for sub-zero weather conditions.</p>
         </details>
     </div>
     {% endif %}
 
     <div class="border-top pt-3 mt-4 text-muted small">
-        <p class="mb-0"><i class="fas fa-calculator text-primary me-1"></i> <strong>Mathematically Verified:</strong> All formulas are grounded in standardized IEEE floating-point arithmetic and tested against benchmark data tables.</p>
+        <p class="mb-0"><i class="fas fa-lock text-success me-1"></i> <strong>Client-Side First Privacy:</strong> Most tools run 100% locally in your browser using WebAssembly—your files stay on your device. For the few specialized features requiring server processing, files are encrypted via HTTPS and deleted immediately after conversion.</p>
     </div>
 </article>
 

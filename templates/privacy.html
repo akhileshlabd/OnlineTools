@@ -12,12 +12,17 @@
 
         <p>At Free Qube (accessible from <strong>freeqube.com</strong>), one of our main priorities is the privacy of our visitors. This Privacy Policy document describes the types of information that is collected and recorded by Free Qube and how we use it. If you have additional questions or require more information about our Privacy Policy, do not hesitate to <a href="/contact">contact us</a>.</p>
         
-        <h3 class="mt-4">1. File Processing &amp; Document Privacy</h3>
-        <p>We understand that the files you process using our PDF, Image, and other tools may contain sensitive personal or business information. Free Qube is designed with your privacy in mind:</p>
+        <h3 class="mt-4">1. Client-Side First Processing &amp; File Privacy</h3>
+        <p>At Free Qube, we operate with a <strong>Client-Side First Privacy</strong> standard: Most tools run 100% locally in your browser using WebAssembly—your files stay on your device. For the few specialized features requiring server processing, files are encrypted via HTTPS and deleted immediately after conversion.</p>
         <ul>
-            <li><strong>Browser-Side Processing:</strong> Whenever possible, our tools process your files locally within your web browser using JavaScript and WebAssembly. In these cases, your files are never uploaded to our servers.</li>
-            <li><strong>Server-Side Processing:</strong> For certain complex operations that require server resources (such as PDF unlocking or text-to-speech conversion), your files are securely transmitted to our servers via encrypted HTTPS connections.</li>
-            <li><strong>Automatic Deletion:</strong> Any files uploaded to our servers for processing are temporary. They are strictly used to fulfill your requested task and are automatically and permanently deleted from our servers shortly after processing is complete. We do not keep backups, and we do not view, analyze, or share the contents of your files.</li>
+            <li><strong>Browser-Side Processing (Majority of Tools):</strong> Tools such as PDF Merging, PDF Splitting, Image Resizing, Image Format Conversion (JPG/PNG/WebP), Background Removal, QR Code Generation, JSON Formatting, Code Diffing, and all Financial, Math, and Health calculators execute entirely on your device using JavaScript, WebAssembly, and HTML5 Canvas. Your documents and images are never uploaded to any external server.</li>
+            <li><strong>Ephemeral Server-Side Processing (Exceptions):</strong> A small subset of features requires server-side assistance to complete your request:
+                <ul>
+                    <li><em>Text-to-Speech MP3 Generation:</em> Converts text into spoken audio streams over an encrypted HTTPS connection.</li>
+                    <li><em>Server-Assisted Conversions (e.g. Office DOCX/XLSX to PDF):</em> Transmits the document via TLS/HTTPS for format conversion when browser-native engines require supplementary rendering.</li>
+                </ul>
+            </li>
+            <li><strong>Zero Storage &amp; Automatic Deletion:</strong> Any file data sent to our servers for the above exceptions is held only in volatile memory during active processing, is never permanently saved to disk, is never logged or inspected, and is permanently deleted immediately upon task completion. We maintain no backups, archives, or copies of your files.</li>
         </ul>
 
         <h3 class="mt-4">2. Log Files</h3>

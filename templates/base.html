@@ -19,18 +19,22 @@
     <meta name="description" content="{% block meta_desc %}Free Qube offers powerful, secure, and completely free online utility tools. Convert, merge, split, and compress PDF files and images instantly in your browser without watermarks.{% endblock %}" />
     <meta name="keywords" content="{% block meta_keywords %}PDF tools, online PDF editor, image converter, merge PDF, split PDF, compress PDF, compress image, resize image, free pdf tools, no watermark{% endblock %}" />
     <meta name="author" content="Free Qube" />
+    {% if current_lang and current_lang != 'en' %}
+    <meta name="robots" content="noindex, follow" />
+    {% else %}
     <meta name="robots" content="index, follow" />
+    {% endif %}
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="{% block og_type %}website{% endblock %}" />
-    <meta property="og:url" content="{{ request.url }}" />
+    <meta property="og:url" content="https://www.freeqube.com{{ request.path }}" />
     <meta property="og:title" content="{{ self.title() }}" />
     <meta property="og:description" content="{{ self.meta_desc() if self.meta_desc else 'Free Qube offers powerful, secure, and completely free online utility tools. Convert, merge, and compress PDFs and images instantly.' }}" />
     <meta property="og:image" content="{{ url_for('static', filename='logo2.png', _external=True) }}" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="{{ request.url }}" />
+    <meta property="twitter:url" content="https://www.freeqube.com{{ request.path }}" />
     <meta property="twitter:title" content="{{ self.title() }}" />
     <meta property="twitter:description" content="{{ self.meta_desc() if self.meta_desc else 'Free Qube offers powerful, secure, and completely free online utility tools.' }}" />
     <meta property="twitter:image" content="{{ url_for('static', filename='logo2.png', _external=True) }}" />
@@ -44,7 +48,7 @@
 
     <!-- Canonical Link Block for SEO (Clean URL, no duplicate parameter indexing) -->
     {% block canonical %}
-    <link rel="canonical" href="{{ request.base_url }}">
+    <link rel="canonical" href="https://www.freeqube.com{{ request.path }}">
     {% endblock %}
 
     <!-- Favicon -->
@@ -171,8 +175,7 @@
                 <a href="/terms" class="text-decoration-none text-muted mx-2">{{ t('footer_terms') }}</a> | 
                 <a href="/disclaimer" class="text-decoration-none text-muted mx-2">{{ t('footer_disclaimer') }}</a> | 
                 <a href="/contact" class="text-decoration-none text-muted mx-2">{{ t('footer_contact') }}</a> | 
-                <a href="/blog/" class="text-decoration-none text-muted mx-2">Blog</a> | 
-                <a href="{{ url_for('learn.learn_hub') }}" class="text-decoration-none text-primary fw-semibold mx-2"><i class="fas fa-graduation-cap me-1"></i>Learn</a>
+                <a href="/blog/" class="text-decoration-none text-muted mx-2">Blog</a>
             </p>
         </div>
     </footer>

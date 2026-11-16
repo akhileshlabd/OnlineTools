@@ -96,46 +96,41 @@
     </div>
 </div>
 
-<!-- Comprehensive Technical Specifications & Guide -->
+<!-- Practical Financial Guide & Helpful Information -->
 <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
-    <h2 class="h3 fw-bold mb-3">Comprehensive Guide to the {{ t(tool.name) }}</h2>
-    <p>Our <strong>{{ t(tool.name) }}</strong> provides individuals, investors, and business professionals with instantaneous, bank-grade mathematical modeling for strategic capital planning. Whether you are forecasting long-term wealth accumulation through systematic investment plans (SIPs), evaluating compound interest trajectories across multiple compounding intervals, or calculating exact debt amortizations (EMI), this interactive interface eliminates manual computation errors.</p>
+    <h2 class="h3 fw-bold mb-3">How to Use the {{ t(tool.name) }}</h2>
+    <p class="text-muted">The <strong>{{ t(tool.name) }}</strong> is an interactive financial planning tool designed to help you calculate projections, analyze repayment schedules, and make smarter money decisions with ease. Whether you are mapping out monthly savings, comparing home loan offers, or exploring compound growth over time, this calculator gives you fast, transparent numbers in seconds.</p>
 
-    <h3 class="h5 fw-bold mt-4">Mathematical Foundations &amp; Formula Architecture</h3>
-    <p>Financial decisions rely on precise compound interest mathematics. For periodic recurring investments, the future value \(M\) is computed using the annuity formula \(M = P \times \frac{(1 + i)^n - 1}{i} \times (1 + i)\), where \(P\) represents regular periodic deposits, \(i\) is the periodic interest rate, and \(n\) is total compounding periods. For loan amortization (EMI), the monthly debt payment is determined by \(E = \frac{P \times r \times (1+r)^n}{(1+r)^n - 1}\), precisely separating interest amortization from principal reduction. All math executes locally via double-precision 64-bit IEEE 754 floating-point operations in your browser, ensuring zero data leakage.</p>
+    <h3 class="h5 fw-bold mt-4">Understanding the Calculation</h3>
+    <p class="text-muted">Every calculation is performed instantly in your browser using standard financial compounding and amortization equations. For periodic investments like SIPs, the projection evaluates the growth of regular recurring deposits compounded across your chosen timeframe. For loans, it calculates your monthly EMI payment and breaks down the exact split between paying down principal balance and paying interest. All numbers calculate right on your device, ensuring complete privacy.</p>
 
-    <h3 class="h5 fw-bold mt-4">Step-by-Step Usage Tutorial</h3>
-    <ol>
-        <li><strong>Enter Principal / Base Amount:</strong> Adjust the top slider or type directly into the input field to specify your initial capital or loan amount.</li>
-        <li><strong>Set Anticipated Interest Rate (%):</strong> Input the annual percentage rate (APR) or projected annualized rate of return.</li>
-        <li><strong>Select Time Horizon:</strong> Specify tenure in years. The dynamic visualization updates simultaneously.</li>
-        <li><strong>Analyze Visual Distribution:</strong> Review the donut distribution chart distinguishing your principal stake from total accrued returns or interest costs.</li>
+    <h3 class="h5 fw-bold mt-4">Step-by-Step Usage Guide</h3>
+    <ol class="text-muted">
+        <li><strong>Enter Your Principal or Base Amount:</strong> Move the slider or type your starting investment amount, loan balance, or monthly contribution.</li>
+        <li><strong>Set the Interest Rate (%):</strong> Enter the annual interest rate or expected annual return on your investment.</li>
+        <li><strong>Choose the Time Period:</strong> Select your investment or loan duration in years.</li>
+        <li><strong>Review Your Breakdown:</strong> Check the real-time summary cards and the visual chart to see your total invested amount, total interest, and final maturity value.</li>
     </ol>
 
-    <h3 class="h5 fw-bold mt-4">Technical Specifications</h3>
-    <ul>
-        <li><strong>Precision:</strong> Real-time Chart.js hardware-accelerated canvas visualizer updating at 60 FPS.</li>
-        <li><strong>Formulas Covered:</strong> Annuity SIP, Lumpsum CAGR, Compounding Frequencies (Annual, Semi-annual, Quarterly, Monthly), and Equated Monthly Installment (EMI).</li>
-        <li><strong>Localization:</strong> Formatted with high-precision internationalized number formatting (supports Western and South Asian comma intervals).</li>
-        <li><strong>Data Isolation:</strong> 100% Client-side JavaScript. No account creation, authentication, or remote logging needed.</li>
-    </ul>
+    <h3 class="h5 fw-bold mt-4">Client-Side First Privacy</h3>
+    <p class="text-muted">Client-Side First Privacy: Most tools run 100% locally in your browser using WebAssembly—your files stay on your device. For the few specialized features requiring server processing, files are encrypted via HTTPS and deleted immediately after conversion. All financial calculations occur locally in your browser's memory without sending your financial data across any network.</p>
 
     <h3 class="h5 fw-bold mt-4">Frequently Asked Questions</h3>
     <details class="mb-3">
-        <summary class="fw-bold" style="cursor:pointer;">How does compounding frequency affect total return?</summary>
-        <p class="mt-2 text-muted">More frequent compounding periods (such as monthly or daily versus annual) generate higher total yields over identical time horizons because interest earns interest sooner.</p>
+        <summary class="fw-bold" style="cursor:pointer;">How does compounding frequency affect total returns?</summary>
+        <p class="mt-2 text-muted">More frequent compounding (such as monthly or quarterly versus yearly) means earned interest is reinvested sooner, leading to higher overall returns over long investment horizons.</p>
     </details>
     <details class="mb-3">
-        <summary class="fw-bold" style="cursor:pointer;">Are inflation or taxes accounted for in this projection?</summary>
-        <p class="mt-2 text-muted">The calculator reflects nominal returns. To estimate real purchasing power, subtract your local average annualized inflation rate from your nominal percentage return.</p>
+        <summary class="fw-bold" style="cursor:pointer;">Are taxes or inflation included in the projections?</summary>
+        <p class="mt-2 text-muted">The calculator displays nominal estimates before taxes and inflation. To gauge real purchasing power, consider subtracting your expected average inflation rate from your nominal return rate.</p>
     </details>
     <details class="mb-3">
-        <summary class="fw-bold" style="cursor:pointer;">Are my financial amounts or loan inquiries logged?</summary>
-        <p class="mt-2 text-muted">Never. All calculations run strictly in your web browser. Free Qube does not track, save, or share your portfolio figures.</p>
+        <summary class="fw-bold" style="cursor:pointer;">Are my loan amounts or salary details saved anywhere?</summary>
+        <p class="mt-2 text-muted">No. Every number you enter is processed purely inside your web browser. Free Qube never logs, stores, or sells your financial figures.</p>
     </details>
     <details class="mb-3">
-        <summary class="fw-bold" style="cursor:pointer;">Can I export or print the amortization and investment breakdown?</summary>
-        <p class="mt-2 text-muted">Yes. You can use your browser's Print feature (Ctrl+P or Cmd+P) to save a clean, high-resolution PDF report of your calculations and charts.</p>
+        <summary class="fw-bold" style="cursor:pointer;">Can I print or save my calculation results?</summary>
+        <p class="mt-2 text-muted">Yes. You can press Ctrl+P (or Cmd+P on Mac) to print or export a clean PDF copy of your results and breakdown chart for your personal records.</p>
     </details>
     <h3 class="h5 fw-bold mt-4">Related Financial Planners</h3>
     <div class="row g-3 mt-1">
