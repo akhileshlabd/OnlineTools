@@ -108,6 +108,15 @@ def redirect_privacy_policy():
 def redirect_removed_pdf_pw_blog():
     return redirect('/blog/', code=301)
 
+@app.route('/pdf')
+def redirect_pdf_shorthand():
+    return redirect('/pdf/', code=301)
+
+@app.route('/mobiles')
+@app.route('/mobiles/')
+def redirect_mobiles():
+    return redirect('/', code=301)
+
 # Shorthand & legacy redirects
 @app.route('/code')
 @app.route('/code/<path:subpath>')

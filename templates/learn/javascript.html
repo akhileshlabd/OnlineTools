@@ -344,7 +344,7 @@ button.addEventListener(<span class="text-success">"click"</span>, () =&gt; {
 <span class="text-warning">async function</span> fetchUserProfile(userId) {
     <span class="text-warning">try</span> {
         <span class="text-muted">// Wait for server response without blocking the UI</span>
-        <span class="text-warning">const</span> response = <span class="text-warning">await</span> fetch(<span class="text-success">`https://api.example.com/users/${userId}`</span>);
+        <span class="text-warning">const</span> response = <span class="text-warning">await</span> fetch(<span class="text-success">`https://api.github.com/users/${userId}`</span>);
         
         <span class="text-warning">if</span> (!response.ok) {
             <span class="text-warning">throw new</span> Error(<span class="text-success">`HTTP Error: ${response.status}`</span>);

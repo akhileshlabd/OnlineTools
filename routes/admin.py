@@ -23,7 +23,6 @@ FEATURE_GROUPS = [
             {"key": "feature_pdf_excel_to_pdf", "label": "Excel to PDF"},
             {"key": "feature_pdf_image_to_pdf", "label": "Image to PDF"},
             {"key": "feature_pdf_lock", "label": "Lock PDF"},
-            {"key": "feature_pdf_unlock", "label": "Unlock PDF"},
             {"key": "feature_pdf_rotate_pdf", "label": "Rotate PDF"},
             {"key": "feature_pdf_remove_page", "label": "Remove Page"},
             {"key": "feature_pdf_add_blank", "label": "Add Blank Page"},

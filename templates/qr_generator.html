@@ -31,7 +31,7 @@
 <div class="tool-interface" style="max-width: 900px;">
     <div class="text-center mb-4">
         <div class="icon-wrapper img-icon mx-auto mb-3"><i class="fas fa-qrcode"></i></div>
-        <h2 class="fw-bold">Advanced QR Code Generator</h2>
+        <h1 class="fw-bold h2">Advanced QR Code Generator</h1>
         <p class="text-muted">Create custom QR codes instantly. Works 100% locally in your browser.</p>
     </div>
 
@@ -55,7 +55,7 @@
                     <!-- Dynamic Input Containers -->
                     <div id="input-url" class="qr-input-group">
                         <label class="form-label fw-semibold">Website URL</label>
-                        <input type="url" class="form-control qr-data-trigger" id="urlInput" placeholder="https://example.com" value="https://freeqube.com">
+                        <input type="url" class="form-control qr-data-trigger" id="urlInput" placeholder="https://www.freeqube.com" value="https://www.freeqube.com">
                     </div>
 
                     <div id="input-text" class="qr-input-group" style="display: none;">
@@ -66,7 +66,7 @@
                     <div id="input-email" class="qr-input-group" style="display: none;">
                         <div class="mb-2">
                             <label class="form-label fw-semibold">Email Address</label>
-                            <input type="email" class="form-control qr-data-trigger" id="emailInput" placeholder="hello@example.com">
+                            <input type="email" class="form-control qr-data-trigger" id="emailInput" placeholder="support@freeqube.com">
                         </div>
                         <div class="mb-2">
                             <label class="form-label fw-semibold">Subject</label>
@@ -206,7 +206,7 @@
         } else if (type === 'text') {
             return document.getElementById('textInput').value || 'Hello World!';
         } else if (type === 'email') {
-            const email = document.getElementById('emailInput').value || 'hello@example.com';
+            const email = document.getElementById('emailInput').value || 'support@freeqube.com';
             const sub = document.getElementById('emailSubject').value;
             const body = document.getElementById('emailBody').value;
             return `mailto:${email}?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`;

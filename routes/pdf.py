@@ -32,6 +32,18 @@ def image_to_pdf():
 def lock_pdf():
     return render_template('lock_pdf.html')
 
+@pdf_bp.route('/merge', methods=['GET'])
+def alias_merge():
+    return redirect(url_for('pdf.pdf_merger'), code=301)
+
+@pdf_bp.route('/split', methods=['GET'])
+def alias_split():
+    return redirect(url_for('pdf.pdf_splitter'), code=301)
+
+@pdf_bp.route('/lock', methods=['GET'])
+def alias_lock():
+    return redirect(url_for('pdf.lock_pdf'), code=301)
+
 @pdf_bp.route('/unlock', methods=['GET'])
 @pdf_bp.route('/unlock-pdf', methods=['GET'])
 @pdf_bp.route('/api/unlock', methods=['GET', 'POST'])

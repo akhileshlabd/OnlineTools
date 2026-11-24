@@ -80,9 +80,20 @@
     </div>
 
     <div class="mt-5 text-start bg-light p-4 rounded border">
-        <h3 class="h5 fw-bold">Our Support Policy</h3>
-        <p>At Free Qube, we pride ourselves on delivering 100% free, client-side utility tools. Because our tools process files locally on your device (without uploading to our servers), we do not have access to your documents or data. Therefore, if you experience an issue with a specific file, please ensure your browser is up to date.</p>
-        <p>For business inquiries, advertising opportunities, or feature requests, our team aims to respond to all inquiries within 48 business hours. We value your feedback and are constantly working to improve our privacy-first platform.</p>
+        <h3 class="h5 fw-bold mb-3">Our Support Policy &amp; SLA Commitment</h3>
+        <p>At Free Qube, we pride ourselves on delivering 100% free, client-side utility tools. Because all tools process files locally within your device's memory using modern WebAssembly and JavaScript runtimes (without uploading document bytes to our servers), our team does not have access to your private files, spreadsheets, or images.</p>
+        
+        <h4 class="h6 fw-bold mt-3">Troubleshooting Client-Side Processing Issues</h4>
+        <p>If you experience an issue or memory error with a specific file, please follow these standard troubleshooting guidelines before contacting support:</p>
+        <ul>
+            <li><strong>Browser Compatibility:</strong> Ensure you are using the latest version of Google Chrome, Mozilla Firefox, Apple Safari, or Microsoft Edge with WebAssembly and JavaScript enabled.</li>
+            <li><strong>Memory Allocation:</strong> Large multimedia files or massive spreadsheets require sufficient device RAM. If a tab crashes during conversion, close background applications or split large files.</li>
+            <li><strong>Hardware Acceleration:</strong> For video and image processing tools utilizing WebGL or Canvas, ensure hardware acceleration is toggled on in your browser settings.</li>
+        </ul>
+
+        <h4 class="h6 fw-bold mt-3">Business Inquiries, Editorial Feedback &amp; Bug Reporting</h4>
+        <p>For business inquiries, advertising partnerships, educational curriculum feedback, or security disclosure reports, our team aims to respond to all inquiries within <strong>24 to 48 business hours</strong>. You can reach our engineering desk directly at <a href="mailto:support@freeqube.com" class="text-primary fw-semibold">support@freeqube.com</a>.</p>
+        <p class="mb-0 text-muted small">We value your feedback and are constantly working to improve our privacy-first platform, educational academies, and open-source tooling.</p>
     </div>
 </div>
 {% endblock %}
