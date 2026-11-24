@@ -19,11 +19,7 @@
     <meta name="description" content="{% block meta_desc %}Free Qube offers powerful, secure, and completely free online utility tools. Convert, merge, split, and compress PDF files and images instantly in your browser without watermarks.{% endblock %}" />
     <meta name="keywords" content="{% block meta_keywords %}PDF tools, online PDF editor, image converter, merge PDF, split PDF, compress PDF, compress image, resize image, free pdf tools, no watermark{% endblock %}" />
     <meta name="author" content="Free Qube" />
-    {% if current_lang and current_lang != 'en' %}
-    <meta name="robots" content="noindex, follow" />
-    {% else %}
     <meta name="robots" content="index, follow" />
-    {% endif %}
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="{% block og_type %}website{% endblock %}" />
@@ -104,48 +100,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto fs-6">
-                    {% if features['feature_nav_pdf'] %}
-<li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('pdf.pdf_hub') }}"><i class="fas fa-file-pdf text-danger me-1"></i> {{ t('nav_pdf') }}</a></li>
-{% endif %}
-                    {% if features['feature_nav_image'] %}
-<li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('image.image_hub') }}"><i class="fas fa-image text-success me-1"></i> {{ t('nav_image') }}</a></li>
-{% endif %}
-                    {% if features['feature_nav_finance'] %}
-<li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('finance.finance_hub') }}"><i class="fas fa-calculator text-primary me-1"></i> {{ t('nav_finance') }}</a></li>
-{% endif %}
-                    {% if features['feature_nav_text'] %}
-<li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('text.text_hub') }}"><i class="fas fa-font text-info me-1"></i> {{ t('nav_text') }}</a></li>
-{% endif %}
-                    {% if features['feature_nav_health'] %}
-<li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('health.health_hub') }}"><i class="fas fa-heartbeat text-danger me-1"></i> {{ t('nav_health') }}</a></li>
-{% endif %}
-                    {% if features['feature_nav_math'] %}
-<li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('math.math_hub') }}"><i class="fas fa-calculator text-warning me-1"></i> {{ t('nav_math') }}</a></li>
-{% endif %}
-                    {% if features['feature_nav_network'] %}
-<li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('network.network_hub') }}"><i class="fas fa-network-wired text-secondary me-1"></i> {{ t('nav_network') }}</a></li>
-{% endif %}
-                    {% if features['feature_nav_dev'] %}
-<li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('code.code_hub') }}"><i class="fas fa-code text-dark me-1"></i> {{ t('nav_dev') }}</a></li>
-{% endif %}
-                    {% if features['feature_nav_video'] %}
-<li class="nav-item"><a class="nav-link fw-semibold px-2" style="color: #6f42c1;" href="{{ url_for('video.video_hub') }}"><i class="fas fa-video me-1"></i> Video</a></li>
-{% endif %}
-                    {% if features['feature_nav_learn'] %}
-<li class="nav-item"><a class="nav-link fw-semibold px-2 text-primary" href="{{ url_for('learn.learn_hub') }}"><i class="fas fa-graduation-cap me-1"></i> {{ t('nav_learn') }}</a></li>
-{% endif %}
-                    
-                    <!-- Language Switcher -->
-                    <li class="nav-item dropdown ms-2 border-start ps-2">
-                        <a class="nav-link dropdown-toggle fw-bold" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-globe text-secondary me-1"></i> {{ current_lang | upper }}
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0" aria-labelledby="langDropdown">
-                            {% for lang_code, lang_name in supported_langs.items() %}
-                            <li><a class="dropdown-item {% if lang_code == current_lang %}active{% endif %}" href="#" onclick="switchLang('{{ lang_code }}'); return false;">{{ lang_name }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </li>
+                    <li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('pdf.pdf_hub') }}"><i class="fas fa-file-pdf text-danger me-1"></i> PDF Tools</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('image.image_hub') }}"><i class="fas fa-image text-success me-1"></i> Image Tools</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold px-2" style="color: #6f42c1;" href="{{ url_for('video.video_hub') }}"><i class="fas fa-video me-1"></i> Video &amp; Audio</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold px-2" href="{{ url_for('code.code_hub') }}"><i class="fas fa-code text-dark me-1"></i> Developer Tools</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold px-2 text-primary" href="{{ url_for('learn.learn_hub') }}"><i class="fas fa-graduation-cap me-1"></i> Learn</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold px-2" href="/blog/"><i class="fas fa-book-open text-secondary me-1"></i> Blog</a></li>
                 </ul>
                 <div class="d-flex align-items-center ms-lg-3 mt-3 mt-lg-0">
                     <button id="darkModeToggle" class="btn btn-outline-secondary rounded-circle" style="width:40px; height:40px;" aria-label="Toggle Dark Mode">
@@ -255,15 +215,7 @@
       }
     </script>
 
-    <!-- Language Switcher Script -->
-    <script>
-        function switchLang(lang) {
-            document.cookie = "lang=" + lang + "; path=/; max-age=31536000";
-            let url = new URL(window.location.href);
-            url.searchParams.set("lang", lang);
-            window.location.href = url.toString();
-        }
-    </script>
+
 
 </body>
 </html>

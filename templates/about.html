@@ -1,44 +1,46 @@
 {% extends "base.html" %}
 
 {% block title %}About Us - Free Qube{% endblock %}
-{% block description %}Discover Free Qube – free online tools for PDF management, image conversion, finance calculations, text processing, health calculators, math utilities, network tests, and developer code formatting, all privacy‑focused and browser‑based.{% endblock %}
+{% block meta_desc %}Learn about Free Qube, our mission to build client-side, privacy-first web utilities using WebAssembly, and our dedicated engineering team led by Dhwani Akhilesh.{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-md-9 col-lg-8 bg-white p-4 p-md-5 rounded shadow-sm">
+    <div class="col-md-9 col-lg-8 bg-white p-4 p-md-5 rounded shadow-sm text-start">
         <h1 class="fw-bold mb-4">About Free Qube</h1>
         
-        <p class="lead text-muted">Free Qube is a clean, practical web utility platform built to provide fast, privacy-focused online tools for everyday document, image, audio, and calculation tasks.</p>
+        <p class="lead text-muted">Free Qube is an independent, engineer-driven digital platform dedicated to building high-performance, privacy-first web utilities, interactive coding playgrounds, and in-depth technical guides for modern professionals, developers, and students.</p>
         
-        <h2 class="h4 fw-bold mt-4">Our Mission: Client-Side First Privacy</h2>
-        <p>In modern digital workflows, everyday operations—such as combining PDF contracts, resizing photos, formatting JSON payloads, or running loan calculations—should not require handing over personal documents to unknown remote servers. Traditional web converters upload your files to remote cloud storage where they can linger in temporary caches.</p>
-        <p>Free Qube takes a client-side first approach. Most tools run 100% locally in your browser using modern WebAssembly, HTML5 Canvas, and Web Workers—meaning your files stay on your device for immediate, private processing. For the few specialized features requiring server processing (such as text-to-speech audio rendering or complex document conversions), files are encrypted via HTTPS and deleted immediately after conversion.</p>
+        <h2 class="h4 fw-bold mt-4">Our Engineering Mission: Client-Side First Architecture</h2>
+        <p>In modern digital workflows, everyday computing tasks—such as combining PDF contracts, redacting confidential documents, resizing high-resolution photos, formatting nested JSON payloads, or trimming video audio tracks—should never require handing over sensitive personal files to remote third-party cloud servers.</p>
+        <p>Historically, web users were faced with an unfortunate compromise: either install expensive, heavyweight desktop software suites or upload private files to cloud-based converter websites where documents linger in temporary storage buckets, vulnerable to data leaks and third-party scraping. Free Qube was founded to solve this dilemma through modern browser-native computing.</p>
+        <p>By leveraging <strong>WebAssembly (Wasm), HTML5 Canvas 2D contexts, Web Workers, and the native Web Cryptography API</strong>, our core tools execute computational workloads directly inside your browser's private sandbox memory. Your files, photos, code snippets, and media remain on your device's RAM. They never cross an external network, providing immediate processing speeds, zero bandwidth delays, and complete data confidentiality.</p>
         
-        <h2 class="h4 fw-bold mt-4">Core Utility Categories</h2>
-        <p>Our platform provides straightforward, browser-executed utilities across essential categories:</p>
+        <h2 class="h4 fw-bold mt-4">Our Core Pillars</h2>
+        <p>Free Qube organizes its software architecture into six distinct, high-value pillars designed to serve daily digital needs:</p>
         <ul>
-            <li><strong>PDF Tools:</strong> Merge multiple PDFs into one organized document, extract or split pages, and secure files with passwords locally in your browser.</li>
-            <li><strong>Image Optimization:</strong> Resize photos for web forms, convert between JPG, PNG, and WebP, remove photo backgrounds, and generate QR codes.</li>
-            <li><strong>Financial Calculators:</strong> Plan your finances with clear, interactive calculators for SIP mutual fund growth, loan EMI amortizations, and compound interest.</li>
-            <li><strong>Developer Utilities:</strong> Format and validate JSON, check code differences, encode or decode Base64, and generate MD5 or SHA cryptographic hashes safely.</li>
-            <li><strong>Everyday Math &amp; Health:</strong> Calculate percentages, sales discounts, chronological age, daily caloric intake, and Body Mass Index (BMI).</li>
-            <li><strong>Network Diagnostics:</strong> Check your public IP address, test your download speed, and view basic browser and device information.</li>
+            <li><strong>Flagship PDF Engineering Suite:</strong> High-speed document compilation, vector parsing, page-level extraction, rotation, blank page insertion, text watermarking, and AES encryption powered by client-side <code>pdf-lib</code> and WebAssembly runtimes.</li>
+            <li><strong>Client-Side Image Manipulation Engine:</strong> Browser-accelerated raster processing using HTML5 2D Canvas contexts and Google MediaPipe on-device machine learning for AI background removal, pixel-perfect passport photo generation, lossless format transcoding (WebP, PNG, JPG), and vector QR code synthesis.</li>
+            <li><strong>Browser-Compiled Multimedia (FFmpeg.wasm):</strong> Desktop-grade media manipulation brought to the web browser. Users can mute videos without re-encoding and extract high-bitrate MP3/WAV audio tracks from video files locally using compiled FFmpeg WebAssembly binaries.</li>
+            <li><strong>Developer Utilities &amp; Live JavaScript Sandbox:</strong> A full-featured in-browser code editor and JavaScript runner with a live split-screen terminal, alongside privacy-safe JSON syntax formatters, text/code diff analyzers, Base64 converters, and cryptographic digest generators (MD5, SHA-1, SHA-256).</li>
+            <li><strong>Free Qube Learning Academy:</strong> End-to-end, modular educational masterclasses covering Salesforce CRM &amp; Agentforce autonomous AI, modern semantic HTML5 architecture, and modern JavaScript (ES6+), complete with interactive playgrounds and downloadable study guides.</li>
+            <li><strong>Engineering Guides &amp; Research Blog:</strong> Authoritative, long-form technical articles covering browser sandboxing, PDF cryptography, cost averaging economics, and client-side data privacy best practices.</li>
         </ul>
         
         <h2 class="h4 fw-bold mt-4">Our Commitment to User Privacy</h2>
-        <p>Privacy is central to how we design every tool at Free Qube:</p>
+        <p>Privacy is not an afterthought at Free Qube; it is the fundamental architectural constraint that guides every line of code we ship:</p>
         <ul>
-            <li><strong>Client-Side First Processing:</strong> Most tools process files directly inside your browser memory using WebAssembly. Your files stay on your device. For tools that require server processing, files are transferred over secure HTTPS connections and deleted immediately after processing.</li>
-            <li><strong>Zero Registration Barriers:</strong> No accounts, no email capture, and no phone verification. Every utility is immediately accessible to everyone.</li>
-            <li><strong>Clean, Unwatermarked Outputs:</strong> We never inject watermarks, branding stamps, or promotional overlays into your exported documents or images.</li>
+            <li><strong>Local Device Execution:</strong> All primary tools process documents, media, and code strictly within your local browser runtime. Zero bytes of your uploaded files are sent to our servers.</li>
+            <li><strong>Ephemeral Handling for Specialized Exceptions:</strong> For the rare server-assisted tasks requiring supplementary conversion, files are encrypted via TLS/HTTPS, processed strictly in volatile memory, never written to persistent disk storage or inspected, and deleted immediately upon task completion.</li>
+            <li><strong>Zero Registration Barriers:</strong> We do not require accounts, logins, email submissions, or phone verification to use any of our tools or educational modules.</li>
+            <li><strong>Clean, Unwatermarked Deliverables:</strong> We believe essential digital utilities should remain clean and professional. We never inject watermarks, branding stamps, or promotional overlays into your exported files.</li>
         </ul>
         
-        <h2 class="h4 fw-bold mt-4">Editorial Integrity &amp; Transparency</h2>
-        <p>Beyond our interactive utilities, our editorial blog publishes deeply researched, educational guides on data privacy, consumer technology, and web standards. We are dedicated to providing transparent, authentic information to empower users in their digital lives.</p>
+        <h2 class="h4 fw-bold mt-4">Editorial Ownership &amp; Leadership</h2>
+        <p>Free Qube was founded and is led by <strong>Dhwani Akhilesh</strong>, a software engineer and digital privacy advocate with over a decade of enterprise software and web development experience. Dhwani oversees technical direction, code curation, and educational curriculum design across the platform.</p>
+        <p>Our editorial content, technical tutorials, and educational curriculum are authored and peer-reviewed by Dhwani and a collaborative team of full-stack engineers and security researchers committed to publishing accurate, transparent, and actionable technical guides.</p>
 
-        <h2 class="h4 fw-bold mt-4">Contact &amp; Operations</h2>
-        <p>Free Qube was founded by Dhwani Akhilesh and is maintained by an international remote team of full-stack engineers and tech contributors. If you have feature suggestions, bug reports, or partnership inquiries, reach out to our team at <a href="mailto:support@freeqube.com" class="text-primary fw-semibold">support@freeqube.com</a> or submit a message via our <a href="/contact" class="text-primary fw-semibold">Contact Page</a>.</p>
+        <h2 class="h4 fw-bold mt-4">Operations &amp; Contact Information</h2>
+        <p>Free Qube operates globally with a remote engineering team. We welcome feature requests, technical feedback, bug reports, and academic inquiries. Reach out to our team directly via email at <a href="mailto:support@freeqube.com" class="text-primary fw-semibold">support@freeqube.com</a> or submit an inquiry through our dedicated <a href="/contact" class="text-primary fw-semibold">Contact Page</a>.</p>
     </div>
 </div>
 {% endblock %}
-

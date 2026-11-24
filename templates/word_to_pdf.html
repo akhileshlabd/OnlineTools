@@ -47,49 +47,82 @@
 
 <!-- Comprehensive Technical Specifications & Guide -->
 <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
-    <h2 class="h3 fw-bold mb-3">Best Free Word to PDF Converter Online</h2>
-    <p>Looking for a reliable, fast, and secure way to convert Microsoft Word documents to PDF? The <strong>Free Qube Word to PDF Converter</strong> is the ultimate solution for students, professionals, and businesses. With just one click, transform your DOCX files into universally accessible PDF formats without compromising on formatting, fonts, or layout.</p>
+    <h2 class="h3 fw-bold mb-3">Professional Word to PDF Conversion Engine (DOCX to PDF)</h2>
+    <p>Document portability, integrity, and cross-platform fidelity are critical when distributing contracts, resumes, academic research, and business proposals. The <strong>Free Qube Word to PDF Converter</strong> delivers an enterprise-grade, client-side document transformation pipeline directly in your web browser. Built on modern WebAssembly and JavaScript document parsers, our engine compiles Microsoft Word (.docx) files into clean, vector-rendered Adobe PDF (ISO 32000-1) streams without requiring desktop office suites or transmitting confidential files to cloud conversion servers.</p>
     
-    <h3 class="h5 fw-bold mt-4">Why Use Our DOCX to PDF Converter?</h3>
-    <ul class="mb-4">
-        <li><strong>100% Client-Side Privacy:</strong> Unlike other converters that upload your sensitive documents to remote cloud servers, our tool processes everything directly inside your web browser. Your personal essays, legal contracts, and financial reports never leave your device.</li>
-        <li><strong>No Watermarks:</strong> We believe free should mean free. We never stamp annoying watermarks or branding on your exported PDF files.</li>
-        <li><strong>Lightning Fast:</strong> Because there are no upload or download queues to wait for, your file is converted instantly.</li>
-        <li><strong>No Registration Required:</strong> Forget about signing up for accounts or handing over your email address. Just drag, drop, and download.</li>
+    <h3 class="h5 fw-bold mt-4">The Architecture: How In-Browser DOCX to PDF Works</h3>
+    <p>Traditional online file converters force users to upload their documents to centralized conversion clusters running headless LibreOffice or Microsoft Word instances. This legacy paradigm exposes corporate secrets, introduces network latency, and risks permanent data leaks on untrusted remote machines. Free Qube eliminates this risk through client-side sandbox execution:</p>
+    <ul>
+        <li><strong>OpenXML Container Extraction:</strong> A modern <code>.docx</code> document is a compressed ZIP archive containing XML markup (ECMA-376 and ISO/IEC 29500 standards), embedded media assets, and stylesheet definitions. Our in-memory decompressor reads the package structure directly from your device's memory.</li>
+        <li><strong>DOM Hierarchy &amp; Style Mapping:</strong> The parsing engine traverses the <code>document.xml</code> hierarchy, mapping WordProcessingML nodes (paragraphs, runs, tables, borders, margins, and inline lists) into an isolated HTML5 DOM tree while resolving inherited paragraph styles and typeface metrics.</li>
+        <li><strong>Font Kerning &amp; Layout Compilation:</strong> Standard system fonts (Calibri, Arial, Times New Roman, Roboto) are mapped to matching web-safe vector glyphs to prevent unwanted line wrapping or orphan headers.</li>
+        <li><strong>Vector PDF Rasterization &amp; Pagination:</strong> The rendered DOM layout is projected onto standard PDF page geometry (Letter or A4 dimensions) with precise DPI scaling, generating vector paths for text and high-resolution embeds for raster graphics.</li>
     </ul>
 
-    <h3 class="h5 fw-bold mt-4">How to Convert Word to PDF Free — Step by Step</h3>
-    <ol>
-        <li><strong>Select Document:</strong> Click the upload box or drag and drop your Microsoft Word (.docx) file into the designated area.</li>
-        <li><strong>Local Processing:</strong> Our in-browser JavaScript engine parses XML document schemas, stylesheets, and embedded media assets.</li>
-        <li><strong>Render &amp; Compile:</strong> The document layout is compiled into vector-accurate printable canvas streams.</li>
-        <li><strong>Instant Download:</strong> Your browser prompts you to save the generated PDF file directly onto your local drive.</li>
+    <h3 class="h5 fw-bold mt-4">Why Engineering Teams &amp; Legal Professionals Choose Free Qube</h3>
+    <div class="row g-4 my-2">
+        <div class="col-md-6">
+            <div class="p-3 border rounded h-100 bg-light">
+                <h4 class="h6 fw-bold text-dark mb-2"><i class="fas fa-user-shield text-primary me-2"></i>Zero Server Uploads</h4>
+                <p class="small text-muted mb-0">Confidential non-disclosure agreements, customer contracts, and tax filings remain strictly confidential. Every byte is evaluated in your local browser sandbox with zero network telemetry.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-3 border rounded h-100 bg-light">
+                <h4 class="h6 fw-bold text-dark mb-2"><i class="fas fa-stamp text-danger me-2"></i>Clean Exports Without Watermarks</h4>
+                <p class="small text-muted mb-0">Unlike freemium converters that insert intrusive brand watermarks or restrict file downloads, Free Qube exports pristine, professional PDF documents ready for official submission.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-3 border rounded h-100 bg-light">
+                <h4 class="h6 fw-bold text-dark mb-2"><i class="fas fa-bolt text-warning me-2"></i>Near-Zero Latency Execution</h4>
+                <p class="small text-muted mb-0">Eliminate server queue wait times. Because files process on your local CPU cores, multi-page documents compile into downloadable PDFs in fractions of a second.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-3 border rounded h-100 bg-light">
+                <h4 class="h6 fw-bold text-dark mb-2"><i class="fas fa-infinity text-success me-2"></i>Unrestricted Document Usage</h4>
+                <p class="small text-muted mb-0">No monthly page caps, no account sign-ups, and no paywalls. Convert as many files as you need for personal, educational, or commercial projects.</p>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="h5 fw-bold mt-4">Step-by-Step Conversion Workflow</h3>
+    <ol class="mb-4">
+        <li><strong>Select or Drag Document:</strong> Click the file selection area or drag your <code>.docx</code> document directly into the browser window.</li>
+        <li><strong>Automated Document Inspection:</strong> The client-side validator verifies the OpenXML header signature to ensure the file is an authentic, uncorrupted Word document.</li>
+        <li><strong>In-Memory Compilation:</strong> The client engine interprets paragraph styles, headers, footers, and table structures, assembling the printable canvas buffer.</li>
+        <li><strong>Save Printable PDF:</strong> Once compilation completes, click download to immediately write the finalized PDF directly to your device storage.</li>
     </ol>
     
-    <h3 class="h5 fw-bold mt-4">Technical Specifications</h3>
+    <h3 class="h5 fw-bold mt-4">Edge Cases, Document Compatibility &amp; Best Practices</h3>
+    <p>While modern DOCX structures convert seamlessly, optimizing your original document ensures the highest visual fidelity:</p>
     <ul>
-        <li><strong>Supported Input:</strong> Office Open XML documents (.docx standards conforming to ECMA-376 / ISO/IEC 29500).</li>
-        <li><strong>Output Standard:</strong> Adobe PDF 1.7 vector layout compliant.</li>
-        <li><strong>Rendering Architecture:</strong> Client-side DOM parsing and html2pdf / pdf-lib compilation.</li>
-        <li><strong>Data Protection:</strong> Zero server transmission; fully sandboxed within your browser.</li>
+        <li><strong>Legacy .DOC Files:</strong> Binary Word 97-2003 formats (<code>.doc</code>) utilize proprietary binary streams rather than XML. For optimal results, open legacy files in any modern word processor and save as <code>.docx</code> prior to conversion.</li>
+        <li><strong>Complex Floating Shapes:</strong> Text boxes configured with arbitrary z-index floating positions may reflow into inline document flow. Utilizing native table cells or standard alignment margins guarantees pixel-perfect positioning.</li>
+        <li><strong>Custom Non-System Fonts:</strong> If your document uses niche third-party typography, our parser automatically substitutes metrics from standard font fallbacks. To preserve exact branding, use standard web fonts such as Inter, Roboto, Arial, or Times New Roman.</li>
     </ul>
 
     <h3 class="h5 fw-bold mt-4">Frequently Asked Questions</h3>
     <details class="mb-3">
-        <summary class="fw-bold" style="cursor:pointer;">Is this Word to PDF converter truly free?</summary>
-        <p class="mt-2 text-muted">Yes, it is completely free with no hidden limits, subscription paywalls, or document quotas.</p>
+        <summary class="fw-bold" style="cursor:pointer;">Is this Word to PDF converter truly 100% free?</summary>
+        <p class="mt-2 text-muted">Yes. Free Qube is an open-access engineering platform supported by non-intrusive advertising. There are no subscriptions, hidden trials, credit card forms, or conversion limits.</p>
     </details>
     <details class="mb-3">
-        <summary class="fw-bold" style="cursor:pointer;">Are my personal documents uploaded or stored?</summary>
-        <p class="mt-2 text-muted">Absolutely not. Since the conversion happens locally on your computer's RAM, no files are transmitted over any external network.</p>
+        <summary class="fw-bold" style="cursor:pointer;">Are my personal documents uploaded or stored on any server?</summary>
+        <p class="mt-2 text-muted">No. The entire conversion sequence executes locally within your browser's V8 or JavaScriptCore runtime engine. Your files never cross an external network or touch remote disks.</p>
     </details>
     <details class="mb-3">
-        <summary class="fw-bold" style="cursor:pointer;">Does it work across macOS, Windows, and mobile devices?</summary>
-        <p class="mt-2 text-muted">Yes, our browser-based utility is fully compatible with Windows, macOS, Linux, iOS, and Android web browsers.</p>
+        <summary class="fw-bold" style="cursor:pointer;">Can I convert password-protected Word documents?</summary>
+        <p class="mt-2 text-muted">Protected Word documents use proprietary Microsoft Office encryption envelopes. You must remove the password within Microsoft Word or LibreOffice before processing with our client-side parser.</p>
     </details>
     <details class="mb-3">
-        <summary class="fw-bold" style="cursor:pointer;">Will embedded fonts, bullet points, and tables look identical?</summary>
-        <p class="mt-2 text-muted">Yes. Our DOM parsing engine maps DOCX styling tables, paragraph alignments, and font families to preserve your original document formatting.</p>
+        <summary class="fw-bold" style="cursor:pointer;">Does this tool work offline without an active internet connection?</summary>
+        <p class="mt-2 text-muted">Yes. Once the page and runtime scripts are loaded into your browser's service worker cache, you can disconnect from the internet and convert DOCX documents entirely offline.</p>
+    </details>
+    <details class="mb-3">
+        <summary class="fw-bold" style="cursor:pointer;">What is the maximum file size supported?</summary>
+        <p class="mt-2 text-muted">Because processing uses your computer's RAM rather than cloud hosting quotas, our tool comfortably processes large multi-megabyte documents containing dozens of pages and embedded illustrations.</p>
     </details>
 </div>
 

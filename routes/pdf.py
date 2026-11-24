@@ -33,60 +33,10 @@ def lock_pdf():
     return render_template('lock_pdf.html')
 
 @pdf_bp.route('/unlock', methods=['GET'])
-def alias_unlock():
-    return redirect(url_for('pdf.unlock_pdf'), code=301)
-
 @pdf_bp.route('/unlock-pdf', methods=['GET'])
-def unlock_pdf():
-    return render_template('unlock_pdf.html')
-
-@pdf_bp.route('/api/unlock', methods=['POST'])
-def api_unlock():
-    file = request.files.get('file')
-    password = request.form.get('password', '')
-    if not file or not file.filename:
-        return jsonify({'error': 'Please select a PDF file to unlock.'}), 400
-    if not password:
-        return jsonify({'error': 'Please enter the password for this PDF.'}), 400
-    
-    try:
-        reader = PdfReader(file.stream)
-        if not reader.is_encrypted:
-            file.stream.seek(0)
-            clean_name = file.filename.replace('unlocked_', '')
-            return send_file(
-                file.stream,
-                mimetype='application/pdf',
-                as_attachment=True,
-                download_name=f"unlocked_{clean_name}"
-            )
-        
-        decrypt_res = reader.decrypt(password)
-        if decrypt_res == 0:
-            return jsonify({'error': 'Incorrect password. Please verify the password and try again.'}), 400
-        
-        try:
-            writer = PdfWriter(clone_from=reader)
-        except Exception:
-            writer = PdfWriter()
-            for page in reader.pages:
-                writer.add_page(page)
-            
-        output = io.BytesIO()
-        writer.write(output)
-        output.seek(0)
-        clean_name = file.filename.replace('unlocked_', '')
-        return send_file(
-            output,
-            mimetype='application/pdf',
-            as_attachment=True,
-            download_name=f"unlocked_{clean_name}"
-        )
-    except Exception as e:
-        err_msg = str(e)
-        if 'password' in err_msg.lower():
-            return jsonify({'error': 'Incorrect password. Please verify the password and try again.'}), 400
-        return jsonify({'error': f'Could not decrypt PDF: {err_msg}'}), 400
+@pdf_bp.route('/api/unlock', methods=['GET', 'POST'])
+def alias_unlock():
+    return redirect('/blog/how-to-remove-pdf-owner-passwords-safely-for-editing-printing', code=301)
 
 
 PDF_TOOLS = {

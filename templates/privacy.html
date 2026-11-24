@@ -12,17 +12,12 @@
 
         <p>At Free Qube (accessible from <strong>freeqube.com</strong>), one of our main priorities is the privacy of our visitors. This Privacy Policy document describes the types of information that is collected and recorded by Free Qube and how we use it. If you have additional questions or require more information about our Privacy Policy, do not hesitate to <a href="/contact">contact us</a>.</p>
         
-        <h3 class="mt-4">1. Client-Side First Processing &amp; File Privacy</h3>
-        <p>At Free Qube, we operate with a <strong>Client-Side First Privacy</strong> standard: Most tools run 100% locally in your browser using WebAssembly—your files stay on your device. For the few specialized features requiring server processing, files are encrypted via HTTPS and deleted immediately after conversion.</p>
+        <h3 class="mt-4">1. 100% Client-Side WebAssembly Architecture &amp; File Privacy</h3>
+        <p>At Free Qube, our engineering architecture is built on a <strong>100% Client-Side Processing</strong> paradigm. All utility tools—including PDF Merging, PDF Splitting, PDF Locking, Word to PDF, Excel to PDF, Image-to-PDF, Image Resizing, Image Format Conversion (JPG/PNG/WebP), Background Removal, MediaPipe AI Segmentation, Video/Audio Processing (via FFmpeg.wasm), Developer Utilities (JSON Formatter, Diff Checker, Hash Generator, Base64 Converter), and interactive coding playgrounds—execute entirely within your web browser using WebAssembly (Wasm), JavaScript, and HTML5 Canvas.</p>
         <ul>
-            <li><strong>Browser-Side Processing (Majority of Tools):</strong> Tools such as PDF Merging, PDF Splitting, Image Resizing, Image Format Conversion (JPG/PNG/WebP), Background Removal, QR Code Generation, JSON Formatting, Code Diffing, and all Financial, Math, and Health calculators execute entirely on your device using JavaScript, WebAssembly, and HTML5 Canvas. Your documents and images are never uploaded to any external server.</li>
-            <li><strong>Ephemeral Server-Side Processing (Exceptions):</strong> A small subset of features requires server-side assistance to complete your request:
-                <ul>
-                    <li><em>Text-to-Speech MP3 Generation:</em> Converts text into spoken audio streams over an encrypted HTTPS connection.</li>
-                    <li><em>Server-Assisted Conversions (e.g. Office DOCX/XLSX to PDF):</em> Transmits the document via TLS/HTTPS for format conversion when browser-native engines require supplementary rendering.</li>
-                </ul>
-            </li>
-            <li><strong>Zero Storage &amp; Automatic Deletion:</strong> Any file data sent to our servers for the above exceptions is held only in volatile memory during active processing, is never permanently saved to disk, is never logged or inspected, and is permanently deleted immediately upon task completion. We maintain no backups, archives, or copies of your files.</li>
+            <li><strong>Zero Server Uploads:</strong> Your documents, spreadsheets, videos, images, and code snippets are never transmitted to Free Qube servers or any external third-party cloud infrastructure. All data parsing, manipulation, and rendering occur in your local device's memory pool.</li>
+            <li><strong>Ephemeral Memory Execution:</strong> Once you close or reload the browser tab, all allocated buffers, canvas objects, and temporary memory blocks are immediately reclaimed by your operating system. We do not maintain or possess the technical capability to log, view, inspect, or retain your files.</li>
+            <li><strong>Offline-Ready Processing:</strong> Because core utilities run on client-side WebAssembly binaries, once the page assets are loaded, many tools can continue processing your files even when disconnected from the internet.</li>
         </ul>
 
         <h3 class="mt-4">2. Log Files</h3>

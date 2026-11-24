@@ -59,13 +59,7 @@
         <p>Secure your PDF documents by adding strong password protection.</p>
     </a>
 {% endif %}
-    {% if features['feature_pdf_unlock'] %}
-<a href="{{ url_for('pdf.unlock_pdf') }}" class="tool-card">
-        <div class="icon-wrapper pdf-icon"><i class="fas fa-unlock"></i></div>
-        <h3>Unlock PDF</h3>
-        <p>Remove passwords and encryption from protected PDF files.</p>
-    </a>
-{% endif %}
+
 
     {% for key, tool in pdf_tools.items() %}
 {% if features['feature_pdf_' ~ tool.id] %}

@@ -90,7 +90,7 @@
 
     <details class="mb-3">
         <summary class="fw-bold" style="cursor:pointer;">Can I merge password-protected PDFs?</summary>
-        <p class="mt-2 text-muted">Not directly. You would need to first unlock the PDF using our <a href="{{ url_for('pdf.unlock_pdf') }}">PDF Unlock tool</a>, and then merge the resulting unencrypted file.</p>
+        <p class="mt-2 text-muted">Not directly. You would need to first decrypt any password-protected PDF using its authorized password, and then merge the resulting unencrypted file.</p>
     </details>
 
     <details class="mb-3">

@@ -1,16 +1,10 @@
 from flask import Flask, render_template, send_from_directory, request, g, make_response, redirect, url_for
 import json
-
 import os
 
 from routes.pdf import pdf_bp, PDF_TOOLS
 from routes.image import image_bp, IMAGE_TOOLS
-from routes.finance import finance_bp, FINANCE_TOOLS
 from routes.code import code_bp, CODE_TOOLS
-from routes.text import text_bp, TEXT_TOOLS
-from routes.health import health_bp, HEALTH_TOOLS
-from routes.math import math_bp, MATH_TOOLS
-from routes.network import network_bp, NETWORK_TOOLS
 from routes.video import video_bp, VIDEO_TOOLS
 from routes.admin import admin_bp
 from routes.blogs import blogs_bp
@@ -24,49 +18,85 @@ app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg'}
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024 # 50 MB max file size limit to protect the server
 
-# --- MULTI-LANGUAGE SEO ENGINE ---
+# --- AUTHORITATIVE ENGLISH ENGINE (MULTI-LANG CONSOLIDATED) ---
 try:
     with open('translations.json', 'r', encoding='utf-8') as f:
         TRANSLATIONS = json.load(f)
 except Exception as e:
     TRANSLATIONS = {}
 
-SUPPORTED_LANGUAGES = {'en': 'English', 'es': 'Español', 'pt': 'Português', 'hi': 'हिन्दी'}
+SUPPORTED_LANGUAGES = {'en': 'English'}
 
 @app.before_request
-def set_language():
-    lang = request.args.get('lang')
-    if lang in SUPPORTED_LANGUAGES:
-        g.lang = lang
-    else:
-        g.lang = request.cookies.get('lang', 'en')
-        if g.lang not in SUPPORTED_LANGUAGES:
-            g.lang = 'en'
+def handle_language_and_redirects():
+    # If any query parameter lang= is requested, redirect 301 to the clean canonical path
+    if request.args.get('lang'):
+        return redirect(request.path, code=301)
+    g.lang = 'en'
 
 @app.context_processor
 def inject_translations():
     def t(key):
-        if key in TRANSLATIONS and g.lang in TRANSLATIONS[key]:
-            return TRANSLATIONS[key][g.lang]
         if key in TRANSLATIONS and 'en' in TRANSLATIONS[key]:
             return TRANSLATIONS[key]['en']
         return key
-    return dict(t=t, current_lang=g.lang, supported_langs=SUPPORTED_LANGUAGES, year=2026)
-# ---------------------------------
+    return dict(t=t, current_lang='en', supported_langs=SUPPORTED_LANGUAGES, year=2026)
+# -------------------------------------------------------------
 
-# Register Blueprints
+# Register Surviving Core Blueprints
 app.register_blueprint(pdf_bp)
 app.register_blueprint(image_bp)
-app.register_blueprint(finance_bp)
 app.register_blueprint(code_bp)
-app.register_blueprint(text_bp)
-app.register_blueprint(health_bp)
-app.register_blueprint(math_bp)
-app.register_blueprint(network_bp)
 app.register_blueprint(video_bp)
 app.register_blueprint(admin_bp)
 app.register_blueprint(blogs_bp)
 app.register_blueprint(learn_bp)
+
+# --- 301 PERMANENT REDIRECTS FOR PRUNED THIN PAGES ---
+@app.route('/finance')
+@app.route('/finance/')
+@app.route('/finance/<path:subpath>')
+def redirect_finance(subpath=None):
+    return redirect('/blog/how-sip-returns-are-calculated-formula-real-examples', code=301)
+
+@app.route('/text')
+@app.route('/text/')
+@app.route('/text/<path:subpath>')
+def redirect_text(subpath=None):
+    return redirect('/dev/', code=301)
+
+@app.route('/network')
+@app.route('/network/')
+@app.route('/network/<path:subpath>')
+def redirect_network(subpath=None):
+    return redirect('/dev/', code=301)
+
+@app.route('/math')
+@app.route('/math/')
+@app.route('/math/<path:subpath>')
+def redirect_math(subpath=None):
+    return redirect('/', code=301)
+
+@app.route('/health')
+@app.route('/health/')
+@app.route('/health/<path:subpath>')
+def redirect_health(subpath=None):
+    return redirect('/', code=301)
+
+@app.route('/es')
+@app.route('/es/<path:subpath>')
+@app.route('/pt')
+@app.route('/pt/<path:subpath>')
+@app.route('/hi')
+@app.route('/hi/<path:subpath>')
+def redirect_multilang(subpath=None):
+    if subpath:
+        return redirect(f'/{subpath}', code=301)
+    return redirect('/', code=301)
+
+@app.route('/privacy-policy')
+def redirect_privacy_policy():
+    return redirect('/privacy', code=301)
 
 # Shorthand & legacy redirects
 @app.route('/code')
@@ -89,12 +119,7 @@ def home():
     return render_template('index.html',
                            image_tools=IMAGE_TOOLS,
                            pdf_tools=PDF_TOOLS,
-                           finance_tools=FINANCE_TOOLS,
                            code_tools=CODE_TOOLS,
-                           text_tools=TEXT_TOOLS,
-                           health_tools=HEALTH_TOOLS,
-                           math_tools=MATH_TOOLS,
-                           network_tools=NETWORK_TOOLS,
                            video_tools=VIDEO_TOOLS,
                            latest_blogs=latest_blogs)
 
@@ -110,19 +135,14 @@ def sitemap():
     # Fetch active blogs for sitemap
     conn = get_db_connection()
     c = conn.cursor()
-    c.execute("SELECT slug, created_at FROM blogs WHERE is_hidden = 0")
+    c.execute("SELECT slug, created_at FROM blogs WHERE is_hidden = 0 ORDER BY created_at DESC")
     blogs = c.fetchall()
     conn.close()
 
     template = render_template('sitemap.xml',
                                pdf_tools=PDF_TOOLS,
                                image_tools=IMAGE_TOOLS,
-                               finance_tools=FINANCE_TOOLS,
                                code_tools=CODE_TOOLS,
-                               text_tools=TEXT_TOOLS,
-                               health_tools=HEALTH_TOOLS,
-                               math_tools=MATH_TOOLS,
-                               network_tools=NETWORK_TOOLS,
                                video_tools=VIDEO_TOOLS,
                                blogs=blogs)
     response = make_response(template)

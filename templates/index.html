@@ -17,104 +17,41 @@
 <!-- Main Categories Grid -->
 <div class="row g-4 justify-content-center mb-5">
     
-    <!-- PDF -->
-    {% if features['feature_nav_pdf'] %}
-<div class="col-md-6 col-lg-4 d-flex">
-        <a href="{{ url_for('pdf.pdf_hub') }}" class="tool-card w-100 p-4 shadow-sm">
+    <!-- PDF Tools -->
+    <div class="col-md-6 col-lg-3 d-flex">
+        <a href="{{ url_for('pdf.pdf_hub') }}" class="tool-card w-100 p-4 shadow-sm text-center">
             <div class="icon-wrapper mx-auto mb-3 text-danger" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-file-pdf"></i></div>
-            <h3 class="fw-bold text-dark fs-4">{{ t('nav_pdf') }} {{ t('nav_tools') }}</h3>
-            <p class="text-muted mb-0">{{ t('desc_pdf') }}</p>
+            <h3 class="fw-bold text-dark fs-4">PDF Tools</h3>
+            <p class="text-muted mb-0">Merge, split, rotate, watermark, and convert PDF documents in your browser.</p>
         </a>
     </div>
-{% endif %}
 
-    <!-- Image -->
-    {% if features['feature_nav_image'] %}
-<div class="col-md-6 col-lg-4 d-flex">
-        <a href="{{ url_for('image.image_hub') }}" class="tool-card w-100 p-4 shadow-sm">
+    <!-- Image Tools -->
+    <div class="col-md-6 col-lg-3 d-flex">
+        <a href="{{ url_for('image.image_hub') }}" class="tool-card w-100 p-4 shadow-sm text-center">
             <div class="icon-wrapper mx-auto mb-3 text-success" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-image"></i></div>
-            <h3 class="fw-bold text-dark fs-4">{{ t('nav_image') }} {{ t('nav_tools') }}</h3>
-            <p class="text-muted mb-0">{{ t('desc_image') }}</p>
+            <h3 class="fw-bold text-dark fs-4">Image Tools</h3>
+            <p class="text-muted mb-0">Remove backgrounds with AI, resize, convert to WebP, and generate QR codes.</p>
         </a>
     </div>
-{% endif %}
 
-    <!-- Finance -->
-    {% if features['feature_nav_finance'] %}
-<div class="col-md-6 col-lg-4 d-flex">
-        <a href="{{ url_for('finance.finance_hub') }}" class="tool-card w-100 p-4 shadow-sm">
-            <div class="icon-wrapper mx-auto mb-3 text-primary" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-calculator"></i></div>
-            <h3 class="fw-bold text-dark fs-4">{{ t('nav_finance') }} {{ t('nav_tools') }}</h3>
-            <p class="text-muted mb-0">{{ t('desc_finance') }}</p>
-        </a>
-    </div>
-{% endif %}
-
-    <!-- Text & SEO -->
-    {% if features['feature_nav_text'] %}
-<div class="col-md-6 col-lg-4 d-flex">
-        <a href="{{ url_for('text.text_hub') }}" class="tool-card w-100 p-4 shadow-sm">
-            <div class="icon-wrapper mx-auto mb-3 text-info" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-font"></i></div>
-            <h3 class="fw-bold text-dark fs-4">{{ t('title_text') }}</h3>
-            <p class="text-muted mb-0">{{ t('desc_text') }}</p>
-        </a>
-    </div>
-{% endif %}
-
-    <!-- Health -->
-    {% if features['feature_nav_health'] %}
-<div class="col-md-6 col-lg-4 d-flex">
-        <a href="{{ url_for('health.health_hub') }}" class="tool-card w-100 p-4 shadow-sm">
-            <div class="icon-wrapper mx-auto mb-3 text-danger" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-heartbeat"></i></div>
-            <h3 class="fw-bold text-dark fs-4">{{ t('title_health') }}</h3>
-            <p class="text-muted mb-0">{{ t('desc_health') }}</p>
-        </a>
-    </div>
-{% endif %}
-
-    <!-- Network -->
-    {% if features['feature_nav_network'] %}
-<div class="col-md-6 col-lg-4 d-flex">
-        <a href="{{ url_for('network.network_hub') }}" class="tool-card w-100 p-4 shadow-sm">
-            <div class="icon-wrapper mx-auto mb-3 text-secondary" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-network-wired"></i></div>
-            <h3 class="fw-bold text-dark fs-4">{{ t('title_network') }}</h3>
-            <p class="text-muted mb-0">{{ t('desc_network') }}</p>
-        </a>
-    </div>
-{% endif %}
-
-    <!-- Math -->
-    {% if features['feature_nav_math'] %}
-<div class="col-md-6 col-lg-4 d-flex">
-        <a href="{{ url_for('math.math_hub') }}" class="tool-card w-100 p-4 shadow-sm">
-            <div class="icon-wrapper mx-auto mb-3 text-warning" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-calculator"></i></div>
-            <h3 class="fw-bold text-dark fs-4">{{ t('title_math') }}</h3>
-            <p class="text-muted mb-0">{{ t('desc_math') }}</p>
-        </a>
-    </div>
-{% endif %}
-
-    <!-- Code / Dev -->
-    {% if features['feature_nav_dev'] %}
-<div class="col-md-6 col-lg-4 d-flex">
-        <a href="{{ url_for('code.code_hub') }}" class="tool-card w-100 p-4 shadow-sm">
-            <div class="icon-wrapper mx-auto mb-3 text-dark" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-code"></i></div>
-            <h3 class="fw-bold text-dark fs-4">{{ t('title_dev') }}</h3>
-            <p class="text-muted mb-0">{{ t('desc_dev') }}</p>
-        </a>
-    </div>
-{% endif %}
-
-    <!-- Video -->
-    {% if features['feature_nav_video'] %}
-<div class="col-md-6 col-lg-4 d-flex">
-        <a href="{{ url_for('video.video_hub') }}" class="tool-card w-100 p-4 shadow-sm">
+    <!-- Video & Audio Tools -->
+    <div class="col-md-6 col-lg-3 d-flex">
+        <a href="{{ url_for('video.video_hub') }}" class="tool-card w-100 p-4 shadow-sm text-center">
             <div class="icon-wrapper mx-auto mb-3" style="width: 70px; height: 70px; font-size: 2rem; color: #6f42c1;"><i class="fas fa-video"></i></div>
-            <h3 class="fw-bold text-dark fs-4">Video Tools</h3>
-            <p class="text-muted mb-0">Client-side tools to mute video and extract audio. 100% private.</p>
+            <h3 class="fw-bold text-dark fs-4">Video &amp; Audio</h3>
+            <p class="text-muted mb-0">Mute video clips and extract high-bitrate MP3 audio with client-side FFmpeg.wasm.</p>
         </a>
     </div>
-{% endif %}
+
+    <!-- Developer Tools -->
+    <div class="col-md-6 col-lg-3 d-flex">
+        <a href="{{ url_for('code.code_hub') }}" class="tool-card w-100 p-4 shadow-sm text-center">
+            <div class="icon-wrapper mx-auto mb-3 text-dark" style="width: 70px; height: 70px; font-size: 2rem;"><i class="fas fa-code"></i></div>
+            <h3 class="fw-bold text-dark fs-4">Developer Tools</h3>
+            <p class="text-muted mb-0">Interactive JS Runner sandbox, JSON formatters, code diffs, Base64, and hashes.</p>
+        </a>
+    </div>
 
 </div>
 

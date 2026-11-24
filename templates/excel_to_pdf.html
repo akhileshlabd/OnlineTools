@@ -53,49 +53,82 @@
 
 <!-- Comprehensive Technical Specifications & Guide -->
 <div class="container bg-white p-4 p-md-5 rounded shadow-sm mt-5 mb-4">
-    <h2 class="h3 fw-bold mb-3">Fast &amp; Free Excel to PDF Converter Online</h2>
-    <p>Sharing raw Excel spreadsheets often introduces formatting discrepancies across distinct spreadsheet viewers, missing font kerning, or unintentional formula tampering. Converting your <strong>Excel (.xlsx) files to PDF</strong> preserves table structures, alignment borders, and data matrices across every desktop and mobile device without dependency on installed office software.</p>
+    <h2 class="h3 fw-bold mb-3">Enterprise Excel to PDF Conversion Engine (XLSX &amp; XLS to PDF)</h2>
+    <p>Distributing financial statements, invoices, data models, and inventory logs as raw spreadsheets frequently leads to compromised layouts, broken formulas, and missing cell borders when viewed across different operating systems. The <strong>Free Qube Excel to PDF Converter</strong> solves this challenge by compiling complex workbooks directly into crisp, immutable, vector-rendered Adobe PDF documents. Engineered with client-side WebAssembly and modern JavaScript spreadsheet engines, our tool processes every row and column directly within your local browser sandbox—guaranteeing 100% data confidentiality and zero server latency.</p>
     
-    <h3 class="h5 fw-bold mt-4">Key Features of Our XLSX to PDF Engine</h3>
-    <ul class="mb-4">
-        <li><strong>Zero Data Uploads:</strong> Financial data, P&amp;L ledgers, and employee payrolls demand strict privacy. Our tool parses spreadsheet rows locally using client-side JavaScript. Your data is never uploaded to any remote server.</li>
-        <li><strong>Maintains Tabular Formatting:</strong> Cell widths, table borders, and alphanumeric entries are converted into vector-clean, print-ready PDF tables.</li>
-        <li><strong>Completely Free &amp; Unwatermarked:</strong> Export clean, professional documents suitable for corporate reports without banner branding.</li>
-        <li><strong>High-Speed Client Execution:</strong> Bypass network upload delays. Documents compile directly within your web browser in fractions of a second.</li>
+    <h3 class="h5 fw-bold mt-4">The Architecture: How In-Browser Spreadsheet Compilation Works</h3>
+    <p>Converting tabular spreadsheets into fixed-geometry PDF pages requires sophisticated mathematical layout mapping. While cloud converters upload your confidential ledgers to remote servers, Free Qube executes the entire transformation chain in your local memory:</p>
+    <ul>
+        <li><strong>OpenXML Workbook Decompression:</strong> XLSX files are compressed ZIP packages containing XML data sheets, shared string tables, and style definitions conforming to ECMA-376 standards. Our in-browser parser decompresses and reads workbook parts without transferring data across an external network.</li>
+        <li><strong>Calculated Value Extraction:</strong> Cells containing formulas (such as <code>VLOOKUP</code>, <code>INDEX/MATCH</code>, or complex mathematical expressions) are resolved to their evaluated display outputs, preventing formula syntax leakage while preserving clean tabular presentation.</li>
+        <li><strong>Grid Alignment &amp; Column Metrics:</strong> Dynamic column widths, cell padding, row spans, text alignments, and border styles are mapped to an optimized HTML5 DOM matrix designed for print media rendering.</li>
+        <li><strong>Vector PDF Rasterization &amp; Pagination:</strong> The matrix is compiled using high-resolution vector canvas drawing routines, ensuring numbers, currencies, dates, and column headers remain sharp at any zoom level or on high-DPI physical printers.</li>
     </ul>
 
-    <h3 class="h5 fw-bold mt-4">Step-by-Step Conversion Guide</h3>
-    <ol>
-        <li><strong>Choose Spreadsheet:</strong> Drag and drop your .xlsx or .xls workbook into the drop zone, or browse your local file system.</li>
-        <li><strong>Automated In-Memory Parsing:</strong> The SheetJS engine reads active worksheet rows, cell coordinates, and value types in browser RAM.</li>
-        <li><strong>Vector Layout Generation:</strong> The active worksheet table is stylized with uniform padding, font scaling, and border rules.</li>
-        <li><strong>Download PDF:</strong> Save your finalized PDF document directly to your device.</li>
-    </ol>
+    <h3 class="h5 fw-bold mt-4">Core Advantages for Financial Analysts, Accountants &amp; Engineers</h3>
+    <div class="row g-4 my-2">
+        <div class="col-md-6">
+            <div class="p-3 border rounded h-100 bg-light">
+                <h4 class="h6 fw-bold text-dark mb-2"><i class="fas fa-lock text-primary me-2"></i>100% Client-Side Financial Privacy</h4>
+                <p class="small text-muted mb-0">Financial balance sheets, executive payroll records, and proprietary sales pipelines never leave your workstation. Zero bytes are uploaded to remote servers, ensuring compliance with strict enterprise data governance.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-3 border rounded h-100 bg-light">
+                <h4 class="h6 fw-bold text-dark mb-2"><i class="fas fa-table text-success me-2"></i>Accurate Tabular Grid Preservation</h4>
+                <p class="small text-muted mb-0">Grid lines, cell fills, header formatting, and currency symbols are rendered with precision, avoiding the misaligned columns or chopped tables common with generic converters.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-3 border rounded h-100 bg-light">
+                <h4 class="h6 fw-bold text-dark mb-2"><i class="fas fa-ban text-danger me-2"></i>Zero Watermarks &amp; Branding</h4>
+                <p class="small text-muted mb-0">Export pristine, unbranded PDF documents suitable for board presentations, external auditors, investors, or tax authorities without unsightly promotional watermarks.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-3 border rounded h-100 bg-light">
+                <h4 class="h6 fw-bold text-dark mb-2"><i class="fas fa-bolt text-warning me-2"></i>Instant Browser Processing</h4>
+                <p class="small text-muted mb-0">Bypass slow network queues and remote server backlogs. Large spreadsheets convert directly using your computer's native CPU cores in fractions of a second.</p>
+            </div>
+        </div>
+    </div>
 
-    <h3 class="h5 fw-bold mt-4">Technical Specifications</h3>
+    <h3 class="h5 fw-bold mt-4">Step-by-Step Conversion Guide</h3>
+    <ol class="mb-4">
+        <li><strong>Select or Drag Spreadsheet:</strong> Click the upload box or drag your Microsoft Excel file (<code>.xlsx</code> or <code>.xls</code>) directly into the designated drop zone.</li>
+        <li><strong>Automated Worksheet Parsing:</strong> Our client-side parser inspects the active workbook, reading cell coordinates, numbers, formatted text strings, and table dimensions.</li>
+        <li><strong>Vector Grid Layout Generation:</strong> The active sheet is structured into a clean, printable tabular format with uniform margins, typography, and borders.</li>
+        <li><strong>Instant PDF Download:</strong> Click download to immediately save the newly compiled PDF document to your local storage.</li>
+    </ol>
+    
+    <h3 class="h5 fw-bold mt-4">Formatting Tips &amp; Best Practices for Perfect PDF Output</h3>
+    <p>To achieve the cleanest presentation when exporting Excel workbooks to PDF, keep the following guidelines in mind:</p>
     <ul>
-        <li><strong>Supported Input Formats:</strong> Microsoft Excel OpenXML (.xlsx), Legacy Excel (.xls).</li>
-        <li><strong>Parsing Library:</strong> SheetJS / xlsx client runtime.</li>
-        <li><strong>Rendering Architecture:</strong> Responsive HTML5 canvas/print vector compilation.</li>
-        <li><strong>Confidentiality:</strong> Zero cloud storage, telemetry, or server retention.</li>
+        <li><strong>Active Worksheet Selection:</strong> The converter focuses on the primary active sheet in your workbook. Before uploading, open your spreadsheet and ensure the sheet you wish to convert is the selected active tab upon saving.</li>
+        <li><strong>Column Width Management:</strong> Spreadsheets containing 15+ wide columns will scale down to fit standard page widths. If you have an exceptionally wide dataset, consider breaking it into multiple tables or setting appropriate print breaks.</li>
+        <li><strong>Formula Integrity:</strong> Always save your workbook after calculating formulas so that pre-computed cached values are stored within the OpenXML package.</li>
     </ul>
 
     <h3 class="h5 fw-bold mt-4">Frequently Asked Questions</h3>
     <details class="mb-3">
-        <summary class="fw-bold" style="cursor:pointer;">Are complex mathematical formulas evaluated during conversion?</summary>
-        <p class="mt-2 text-muted">Yes. The engine exports the evaluated cell values and calculated numerical outputs rather than uncalculated formula strings.</p>
+        <summary class="fw-bold" style="cursor:pointer;">Is this Excel to PDF converter completely free?</summary>
+        <p class="mt-2 text-muted">Yes. Free Qube provides full, unrestricted access to all document and developer tools at no charge, with no subscriptions, trials, or account registrations required.</p>
     </details>
     <details class="mb-3">
-        <summary class="fw-bold" style="cursor:pointer;">Can I convert multi-sheet workbooks?</summary>
-        <p class="mt-2 text-muted">The converter prioritizes the primary active worksheet. Ensure your target summary or data table is active prior to saving your spreadsheet.</p>
+        <summary class="fw-bold" style="cursor:pointer;">Are my confidential financial records uploaded to your servers?</summary>
+        <p class="mt-2 text-muted">Never. The parsing and PDF generation happen 100% inside your web browser's local sandbox memory. No file data is ever transmitted across an external network.</p>
     </details>
     <details class="mb-3">
-        <summary class="fw-bold" style="cursor:pointer;">Is there an upper file size limit?</summary>
-        <p class="mt-2 text-muted">Because conversion takes place entirely on your device, size limits are bound only by your browser's allocated memory pool.</p>
+        <summary class="fw-bold" style="cursor:pointer;">Can I convert legacy .XLS files (Excel 97-2003)?</summary>
+        <p class="mt-2 text-muted">Yes. Our parser supports both modern OpenXML (.xlsx) workbooks and legacy binary (.xls) spreadsheets.</p>
     </details>
     <details class="mb-3">
-        <summary class="fw-bold" style="cursor:pointer;">Will column borders and headers be preserved in the exported PDF?</summary>
-        <p class="mt-2 text-muted">Yes. Our styling engine translates grid lines and cell headers into crisp vector table borders suited for print or digital sharing.</p>
+        <summary class="fw-bold" style="cursor:pointer;">Does this tool work on mobile devices and tablets?</summary>
+        <p class="mt-2 text-muted">Yes. Our responsive client-side interface runs seamlessly on any modern mobile or desktop web browser, including Safari on iOS, Chrome on Android, and all major desktop browsers.</p>
+    </details>
+    <details class="mb-3">
+        <summary class="fw-bold" style="cursor:pointer;">Can I use this tool offline?</summary>
+        <p class="mt-2 text-muted">Yes. Once loaded in your browser, the client-side parsing libraries remain cached in browser memory, allowing you to convert spreadsheets without an internet connection.</p>
     </details>
 </div>
 
