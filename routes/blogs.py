@@ -10,9 +10,19 @@ def get_db_connection():
 
 @blogs_bp.route('/', methods=['GET'])
 def index():
-    page = request.args.get('page', 1, type=int)
+    raw_page = request.args.get('page')
+    if raw_page is not None:
+        try:
+            p_val = int(raw_page)
+            if p_val <= 1:
+                return redirect('/blog/', code=301)
+        except (ValueError, TypeError):
+            return redirect('/blog/', code=301)
+        page = p_val
+    else:
+        page = 1
+
     per_page = 6
-    offset = (page - 1) * per_page
     
     conn = get_db_connection()
     c = conn.cursor()
@@ -20,7 +30,13 @@ def index():
     # Get total count
     c.execute("SELECT COUNT(*) as count FROM blogs WHERE is_hidden = 0")
     total_blogs = c.fetchone()['count']
-    total_pages = (total_blogs + per_page - 1) // per_page
+    total_pages = max(1, (total_blogs + per_page - 1) // per_page)
+    
+    if raw_page is not None and page > total_pages:
+        conn.close()
+        return redirect(f'/blog/?page={total_pages}' if total_pages > 1 else '/blog/', code=301)
+
+    offset = (page - 1) * per_page
     
     # Get paginated blogs
     c.execute("SELECT * FROM blogs WHERE is_hidden = 0 ORDER BY created_at DESC LIMIT ? OFFSET ?", (per_page, offset))
@@ -35,6 +51,8 @@ def redirect_removed_pdf_pw_blog():
 
 @blogs_bp.route('/<slug>', methods=['GET', 'POST'])
 def view_blog(slug):
+    if slug == 'how-to-remove-pdf-owner-passwords-safely-for-editing-printing':
+        return redirect('/blog/', code=301)
     conn = get_db_connection()
     c = conn.cursor()
     
