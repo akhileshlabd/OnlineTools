@@ -29,6 +29,8 @@ SUPPORTED_LANGUAGES = {'en': 'English'}
 
 @app.before_request
 def handle_language_and_redirects():
+    if request.path == '/health':
+        return None
     # If any query parameter lang= is requested, redirect 301 to the clean canonical path
     if request.args.get('lang'):
         return redirect(request.path, code=301)
@@ -78,6 +80,10 @@ def redirect_math(subpath=None):
     return redirect('/', code=301)
 
 @app.route('/health')
+def health_check():
+    from flask import jsonify
+    return jsonify({"status": "ok"}), 200
+
 @app.route('/health/')
 @app.route('/health/<path:subpath>')
 def redirect_health(subpath=None):
@@ -97,6 +103,10 @@ def redirect_multilang(subpath=None):
 @app.route('/privacy-policy')
 def redirect_privacy_policy():
     return redirect('/privacy', code=301)
+
+@app.route('/blog/how-to-remove-pdf-owner-passwords-safely-for-editing-printing')
+def redirect_removed_pdf_pw_blog():
+    return redirect('/blog/', code=301)
 
 # Shorthand & legacy redirects
 @app.route('/code')
@@ -168,7 +178,19 @@ def disclaimer():
 # ---------------- SEO & Webmaster Endpoints ----------------
 @app.route('/ads.txt')
 def ads_txt():
-    return send_from_directory(app.static_folder, 'ads.txt')
+    ads_content = os.environ.get('ADS_TXT_CONTENT')
+    if not ads_content:
+        ads_path = os.path.join(app.static_folder, 'ads.txt')
+        if os.path.exists(ads_path):
+            try:
+                with open(ads_path, 'r', encoding='utf-8') as f:
+                    ads_content = f.read()
+            except Exception:
+                ads_content = "google.com, pub-7852131472234228, DIRECT, f08c47fec0942fa0\n"
+        else:
+            ads_content = "google.com, pub-7852131472234228, DIRECT, f08c47fec0942fa0\n"
+    from flask import Response
+    return Response(ads_content, status=200, mimetype='text/plain')
 
 @app.route('/robots.txt')
 def robots_txt():

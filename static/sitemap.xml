@@ -1,108 +1,225 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <!-- Static Pages -->
-    <url><loc>https://www.freeqube.com/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
-    <url><loc>https://www.freeqube.com/about</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-    <url><loc>https://www.freeqube.com/privacy</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-    <url><loc>https://www.freeqube.com/terms</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-    <url><loc>https://www.freeqube.com/contact</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+    <!-- Static Trust & Compliance Pages -->
+    <url>
+        <loc>http://localhost/</loc>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>http://localhost/about</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>http://localhost/privacy</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>http://localhost/terms</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>http://localhost/disclaimer</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>http://localhost/contact</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
 
-    <!-- Category Hubs -->
-    <url><loc>https://www.freeqube.com/pdf/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-    <url><loc>https://www.freeqube.com/image</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-    <url><loc>https://www.freeqube.com/finance/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-    <url><loc>https://www.freeqube.com/dev/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-    <url><loc>https://www.freeqube.com/text/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-    <url><loc>https://www.freeqube.com/health/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-    <url><loc>https://www.freeqube.com/math/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-    <url><loc>https://www.freeqube.com/network/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-    <url><loc>https://www.freeqube.com/video/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <!-- Core Surviving Category Hubs -->
+    <url><loc>http://localhost/pdf/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>http://localhost/image/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>http://localhost/video/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>http://localhost/dev/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
 
-    <!-- PDF Tools -->
-    <url><loc>https://www.freeqube.com/pdf/pdf-merger</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/pdf/pdf-splitter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/pdf/word-to-pdf</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/pdf/excel-to-pdf</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/pdf/image-to-pdf</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/pdf/lock-pdf</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/pdf/unlock-pdf</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/pdf/pdf-tool/rotate_pdf</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/pdf/pdf-tool/remove_page</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/pdf/pdf-tool/add_blank</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/pdf/pdf-tool/watermark</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <!-- Learning Academy Hub & Masterclasses -->
+    <url><loc>http://localhost/learn/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>http://localhost/learn/salesforce</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>http://localhost/learn/html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+    <url><loc>http://localhost/learn/javascript</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
 
-    <!-- Image Tools -->
-    <url><loc>https://www.freeqube.com/resizer</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/converter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/qr-generator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/image-tool/passport_maker</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/image-tool/bg_remover</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/image-tool/grayscale</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/image-tool/blur</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/image-tool/flip_h</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/image-tool/flip_v</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/image-tool/rotate_tool</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/image-tool/brightness</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/image-tool/contrast</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <!-- Flagship PDF Tools -->
+    <url><loc>http://localhost/pdf/pdf-merger</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>http://localhost/pdf/pdf-splitter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>http://localhost/pdf/word-to-pdf</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>http://localhost/pdf/excel-to-pdf</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>http://localhost/pdf/image-to-pdf</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>http://localhost/pdf/lock-pdf</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
-    <!-- Finance Tools -->
-    <url><loc>https://www.freeqube.com/finance/calculator/sip</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/finance/calculator/lumpsum</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/finance/calculator/emi</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/finance/calculator/fd</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/finance/calculator/compound</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <!-- Dynamic Client-Side PDF Tools -->
+    
+    <url><loc>http://localhost/pdf/pdf-tool/rotate_pdf</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
+    <url><loc>http://localhost/pdf/pdf-tool/remove_page</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
+    <url><loc>http://localhost/pdf/pdf-tool/add_blank</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
+    <url><loc>http://localhost/pdf/pdf-tool/watermark</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
 
-    <!-- Developer & Code Tools -->
-    <url><loc>https://www.freeqube.com/dev/tool/js-runner</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/dev/tool/json-formatter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/dev/tool/code-diff</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/dev/tool/base64</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/dev/tool/hash-generator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/dev/tool/jwt-decoder</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/dev/tool/url-encode-decode</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/dev/tool/uuid-generator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/dev/tool/color-converter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/dev/tool/box-shadow-generator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/dev/tool/markdown-editor</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/dev/tool/html-entities</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <!-- Flagship Image Tools -->
+    <url><loc>http://localhost/resizer</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>http://localhost/converter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>http://localhost/qr-generator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
-    <!-- Text Tools -->
-    <url><loc>https://www.freeqube.com/text/tool/tts-converter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/text/tool/word-counter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/text/tool/case-converter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/text/tool/lorem-ipsum</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <!-- Dynamic Client-Side Image Tools -->
+    
+    <url><loc>http://localhost/image-tool/passport_maker</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
+    <url><loc>http://localhost/image-tool/bg_remover</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
+    <url><loc>http://localhost/image-tool/grayscale</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
+    <url><loc>http://localhost/image-tool/blur</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
+    <url><loc>http://localhost/image-tool/flip_h</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
+    <url><loc>http://localhost/image-tool/flip_v</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
+    <url><loc>http://localhost/image-tool/rotate_tool</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
+    <url><loc>http://localhost/image-tool/brightness</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
+    <url><loc>http://localhost/image-tool/contrast</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
 
-    <!-- Health Tools -->
-    <url><loc>https://www.freeqube.com/health/tool/bmi</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/health/tool/calorie</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/health/tool/due-date</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <!-- Video & Audio WebAssembly Tools -->
+    <url><loc>http://localhost/video/mute-video</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <url><loc>http://localhost/video/extract-audio</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
 
-    <!-- Math Tools -->
-    <url><loc>https://www.freeqube.com/math/tool/percentage</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/math/tool/age</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/math/tool/discount</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/math/tool/unit</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <!-- Core Developer Tools -->
+    
+    <url><loc>http://localhost/dev/tool/js-runner</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
+    <url><loc>http://localhost/dev/tool/json-formatter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
+    <url><loc>http://localhost/dev/tool/code-diff</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
+    <url><loc>http://localhost/dev/tool/base64</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
+    <url><loc>http://localhost/dev/tool/hash-generator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
+    <url><loc>http://localhost/dev/tool/jwt-decoder</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
+    <url><loc>http://localhost/dev/tool/url-encode-decode</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
+    <url><loc>http://localhost/dev/tool/uuid-generator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
+    <url><loc>http://localhost/dev/tool/color-converter</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
+    <url><loc>http://localhost/dev/tool/box-shadow-generator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
+    <url><loc>http://localhost/dev/tool/markdown-editor</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
+    <url><loc>http://localhost/dev/tool/html-entities</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    
 
-    <!-- Network Tools -->
-    <url><loc>https://www.freeqube.com/network/tool/what-is-my-ip</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/network/tool/speed-test</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/network/tool/dns-lookup</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/network/tool/browser-info</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <!-- Blog & Engineering Guides Hub -->
+    <url>
+        <loc>http://localhost/blog/</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
 
-    <!-- Video Tools -->
-    <url><loc>https://www.freeqube.com/video/mute-video</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/video/extract-audio</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-
-    <!-- Editorial Blog Articles -->
-    <url><loc>https://www.freeqube.com/blog/</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
-    <url><loc>https://www.freeqube.com/blog/mastering-javascript-2026-in-browser-playground-guide</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/blog/rise-of-local-ai-2026-offline-web-apps-smartphones</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/blog/master-your-digital-workflow-free-qube-tools</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/blog/the-great-ai-pivot-why-tech-giants-are-abandoning-the-cloud-for-on-device-processing</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/blog/the-complete-guide-to-merging-large-pdfs-locally-in-your-browser</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/blog/how-to-safely-extract-split-pdf-pages-without-uploading-to-cloud-servers</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/blog/word-to-pdf-formatting-best-practices-preserving-layouts-fonts</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/blog/how-to-convert-complex-excel-spreadsheets-to-clean-pdf-reports</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/blog/pdf-password-protection-101-aes-encryption-vs-standard-security</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-    <url><loc>https://www.freeqube.com/blog/how-to-remove-pdf-owner-passwords-safely-for-editing-printing</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+    <!-- Active High-Value Engineering Guides -->
+    
+    
+    <url>
+        <loc>http://localhost/blog/mastering-javascript-2026-in-browser-playground-guide</loc>
+        <lastmod>2026-11-15</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://localhost/blog/how-to-format-validate-debug-json-safely-online</loc>
+        <lastmod>2026-11-14</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://localhost/blog/how-sip-returns-are-calculated-formula-real-examples</loc>
+        <lastmod>2026-11-11</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://localhost/blog/client-side-vs-cloud-pdf-converters-webassembly-privacy</loc>
+        <lastmod>2026-11-08</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://localhost/blog/how-to-compress-pdf-under-100kb-200kb-text-clarity</loc>
+        <lastmod>2026-11-05</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://localhost/blog/pdf-password-protection-101-aes-encryption-vs-standard-security</loc>
+        <lastmod>2026-10-29</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://localhost/blog/how-to-convert-complex-excel-spreadsheets-to-clean-pdf-reports</loc>
+        <lastmod>2026-10-24</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://localhost/blog/word-to-pdf-formatting-best-practices-preserving-layouts-fonts</loc>
+        <lastmod>2026-10-18</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://localhost/blog/how-to-safely-extract-split-pdf-pages-without-uploading-to-cloud-servers</loc>
+        <lastmod>2026-10-12</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://localhost/blog/the-complete-guide-to-merging-large-pdfs-locally-in-your-browser</loc>
+        <lastmod>2026-10-06</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://localhost/blog/the-great-ai-pivot-why-tech-giants-are-abandoning-the-cloud-for-on-device-processing</loc>
+        <lastmod>2026-09-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://localhost/blog/master-your-digital-workflow-free-qube-tools</loc>
+        <lastmod>2026-09-24</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>http://localhost/blog/rise-of-local-ai-2026-offline-web-apps-smartphones</loc>
+        <lastmod>2026-09-18</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    
 </urlset>

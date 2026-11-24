@@ -36,7 +36,7 @@ def lock_pdf():
 @pdf_bp.route('/unlock-pdf', methods=['GET'])
 @pdf_bp.route('/api/unlock', methods=['GET', 'POST'])
 def alias_unlock():
-    return redirect('/blog/how-to-remove-pdf-owner-passwords-safely-for-editing-printing', code=301)
+    return redirect('/pdf/lock-pdf', code=301)
 
 
 PDF_TOOLS = {

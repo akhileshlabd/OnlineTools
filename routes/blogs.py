@@ -29,6 +29,10 @@ def index():
     
     return render_template('blog_hub.html', blogs=blogs, page=page, total_pages=total_pages)
 
+@blogs_bp.route('/how-to-remove-pdf-owner-passwords-safely-for-editing-printing')
+def redirect_removed_pdf_pw_blog():
+    return redirect('/blog/', code=301)
+
 @blogs_bp.route('/<slug>', methods=['GET', 'POST'])
 def view_blog(slug):
     conn = get_db_connection()
